@@ -1,7 +1,8 @@
 {
+ "id": "./?app=eonjena",
  "name": "언제나 음악학원",
  "short_name": "언제나 음악학원",
- "start_url": "./",
+ "start_url": "./?app=eonjena",
  "scope": "./",
  "display": "standalone",
  "orientation": "portrait",
