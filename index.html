@@ -1314,8 +1314,8 @@ P.rosterTeacherRows=function(){
  return P.table(['이름','수업 분류','전화번호','시급','로그인 계정','상태','관리'],list.map(t=>{const p=prof(t.id);return row([`<strong>${e(t.name)}</strong>${sample(t)}`,p.instruments.length?p.instruments.map(x=>`<span class="inst-pill">${e(x)}</span>`).join(' '):'—',e(p.phone||'—'),p.hourlyPay?`<span class="time">${won(p.hourlyPay)}</span>`:'—',t.account?`${e(t.account.username)}${t.account.status==='active'?'':' <span class="sub">중지</span>'}`:'<span class="att-need">계정 없음</span>',P.badge(t.status==='active'?'활동 중':'비활성',t.status==='active'?'green':'outline'),`<button class="btn" data-roster-teacher="${e(t.id)}">수정</button> <button class="btn danger-link" data-del="teacher" data-id="${e(t.id)}">삭제</button>`]);}),'조건에 맞는 강사가 없습니다.');
 };
 P.rosterTeachersPage=function(){
- const inst=P.data.instruments||[],profs=P.data.teacherProfiles||[],count=x=>profs.filter(p=>p.instruments.includes(x)).length;
- return `<div class="toolbar">${rosterSearch('강사 이름 검색')}<button class="btn primary" data-roster-teacher="">${ic('plus')}강사 추가</button></div>${filterTabs('data-roster-inst',P.rosterInst,[['all','전체',P.data.teachers.length],...inst.map(x=>[x,x,count(x)])])}<div class="section-spacer small"></div>${P.card('강사 목록',`<div id="roster-results">${P.rosterTeacherRows()}</div>`,'','행을 누르면 강사 정보와 로그인 계정을 함께 수정해요. 시급은 원장 화면에만 보여요.')}`;
+ const inst=P.data.instruments||[],profs=P.data.teacherProfiles||[],ins=id=>(profs.find(p=>p.id===id)||{instruments:[]}).instruments,count=x=>P.data.teachers.filter(t=>ins(t.id).includes(x)).length;
+ return `<div class="toolbar">${rosterSearch('강사 이름 검색')}<button class="btn primary" data-roster-teacher="">${ic('plus')}강사 추가</button></div>${filterTabs('data-roster-inst',P.rosterInst,[['all','전체',P.data.teachers.length],...inst.filter(x=>count(x)).map(x=>[x,x,count(x)])])}<div class="section-spacer small"></div>${P.card('강사 목록',`<div id="roster-results">${P.rosterTeacherRows()}</div>`,'','행을 누르면 강사 정보와 로그인 계정을 함께 수정해요. 시급은 원장 화면에만 보여요.')}`;
 };
 P.rosterStudentForm=function(s){
  const prof=P.data.studentProfiles||{},cat=s?prof[s.id]||'elementary':'elementary';
@@ -1919,6 +1919,14 @@ P.confirmDelete=function(title,note,run){
  o.addEventListener('click',async ev=>{ev.stopPropagation();if(box.getAttribute('aria-busy')==='true')return;if(ev.target===o||ev.target.closest('[data-del-no]')){o.remove();return;}if(!ev.target.closest('[data-del-yes]'))return;
   box.setAttribute('aria-busy','true');o.querySelector('.form-error').textContent='';try{await run();o.remove();}catch(error){box.removeAttribute('aria-busy');o.querySelector('.form-error').textContent=error.message;}});
 };
+// 팝업이 떠 있는 동안 뒤 화면 고정 (휴대폰 손가락 드래그 포함): 화면을 그 자리에 붙잡고, 팝업 밖을 끄는 동작은 막아요.
+{let locked=false,y=0;const open=()=>document.querySelector('#detail-dialog[open],.del-confirm,.wq-pop');
+ const sync=()=>{const on=!!open();if(on===locked)return;locked=on;const b=document.body;
+  if(on){y=scrollY;Object.assign(b.style,{position:'fixed',top:-y+'px',left:'0',right:'0',width:'100%'});}
+  else{Object.assign(b.style,{position:'',top:'',left:'',right:'',width:''});scrollTo(0,y);}};
+ new MutationObserver(sync).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['open']});
+ document.addEventListener('touchmove',e=>{const p=open();if(!p)return;const d=document.getElementById('detail-dialog'),t=e.target;
+  const inside=(d?.open&&t!==d&&d.contains(t))||t.closest?.('.del-box,.wq-pop');if(!inside)e.preventDefault();},{passive:false});}
 // Slide the new content in from the side it came from (dir > 0 = next).
 P.slide=(el,dir)=>{if(!el||!dir)return;el.classList.remove('slide-l','slide-r');void el.offsetWidth;el.classList.add(dir>0?'slide-r':'slide-l');};
 // Phone swipe on [data-swipe]: left = next, right = previous (weekday tabs, makeup month, absence week).
