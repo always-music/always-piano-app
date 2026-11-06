@@ -1721,7 +1721,7 @@ const dataSignature=d=>JSON.stringify({...d,serverTime:0});
 P.syncData=async function(minAge=0){
  if(!P.live||!P.user||syncing||P.pendingSaves>0||Date.now()-lastSync<minAge)return;syncing=true;
  try{const before=dataSignature(P.data);await P.refreshData();document.querySelectorAll('[data-sync-time]').forEach(el=>{el.textContent=P.syncTime();});if(dataSignature(P.data)===before)return;
-  if(document.querySelector('.memo-card.editing,#detail-dialog[open],.teacher-filter[open],.user-menu[open],#app-loading.show')||document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))return;
+  if(document.querySelector('.memo-card.editing,#detail-dialog[open],.teacher-filter[open],.user-menu[open],#app-loading.show,.sidebar.open,.wq-pop,.del-confirm')||document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))return;
   P.refreshApp();}
  catch{}finally{syncing=false;}
 };
