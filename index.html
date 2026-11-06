@@ -924,6 +924,11 @@ html:has(#detail-dialog[open]) .main-wrap,html:has(#detail-dialog[open]) .conten
 .vice-pick{display:flex;align-items:center;gap:8px;margin:4px 0 2px;padding:10px 12px;border:1px solid #E6DCCD;border-radius:10px;background:#FBF8F3;font-size:14px;cursor:pointer}
 .vice-pick input{width:18px;height:18px;accent-color:#3D2B1F}
 .role-pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#F1EEEA;color:#6B6058;border:1px solid #E4DED6}.role-pill.vice{background:#3D2B1F;color:#FFF8EE;border-color:#3D2B1F}
+/* 캘린더 칸: 왼쪽 보강 · 오른쪽 결석 각각 한 줄(세로)씩 */
+.cal-cols{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:2px}
+.cal-col{display:flex;flex-direction:column;min-width:0}
+.cal-col .cal-mk,.cal-col .cal-abs,.cal-col .cal-more{padding:1px 4px!important;text-align:center;font-size:10.5px!important}
+.cal-col .cal-mk,.cal-col .cal-abs,.cal-col .cal-more{padding:1px 1px!important;letter-spacing:-.06em;text-overflow:clip!important;font-size:clamp(9.5px,.7vw,11px)!important}.cal-cols{gap:2px}
 </style>
 
 </head>
@@ -1414,8 +1419,8 @@ P.calendar=function(state,big=false,kind='regular'){
    if(!day)return '<div class="big-day empty"></div>';
    // Up to 3 chips fit the fixed cell; with more, show 2 and leave room for the "+N건 더" line.
    const cap=P.compactCalendar?2:3,shown=list.slice().sort(P.lessonOrder),fit=shown.length>cap?cap-1:cap;
-   if(P.compactCalendar){const abs=P.ac().attendance.filter(a=>a.date===date&&(a.status==='planned'||a.status==='absent')),chips=shown.map(l=>`<button type="button" class="cal-mk${l.pending?' pending':''}" data-mk-open="${e(l.id)}" title="보강 ${e(l.time)}">${e(nameOf(l.studentId))}</button>`).concat(abs.map(a=>`<button type="button" class="cal-abs${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}">${e(nameOf(a.studentId))}</button>`)),max=Math.ceil(cells.length/7)>5?1:2;
-    return `<div class="big-day ${today?'today':''}${date>=P.data.date?' can-add':''}" data-day-add="${date}" title="눌러서 보강·결석 입력"><span class="big-day-num">${day}</span>${chips.slice(0,max).join('')}${chips.length>max?`<button type="button" class="cal-more" data-day-list="${date}">+${chips.length-max}명</button>`:''}</div>`;}
+   if(P.compactCalendar){const abs=P.ac().attendance.filter(a=>a.date===date&&(a.status==='planned'||a.status==='absent')),mkc=shown.map(l=>`<button type="button" class="cal-mk${l.pending?' pending':''}" data-mk-open="${e(l.id)}" title="보강 ${e(l.time)}">${e(nameOf(l.studentId))}</button>`),abc=abs.map(a=>`<button type="button" class="cal-abs${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}">${e(nameOf(a.studentId))}</button>`),max=Math.ceil(cells.length/7)>5?2:3,col=(list,cls)=>{const fit=list.length>max?max-1:max;return `<div class="cal-col ${cls}">${list.slice(0,fit).join('')}${list.length>fit?`<button type="button" class="cal-more" data-day-list="${date}">+${list.length-fit}</button>`:''}</div>`;};
+    return `<div class="big-day ${today?'today':''}${date>=P.data.date?' can-add':''}" data-day-add="${date}" title="눌러서 보강·결석 입력"><span class="big-day-num">${day}</span>${mkc.length||abc.length?`<div class="cal-cols">${col(mkc,'mk')}${col(abc,'abs')}</div>`:''}</div>`;}
    return `<div class="big-day ${today?'today':''}" data-day-add="${date}" title="빈 곳을 눌러 이 날짜에 수업 등록"><span class="big-day-num">${day}</span>${shown.slice(0,fit).map(P.lessonChip).join('')}${shown.length>fit?`<button class="calendar-more" data-day-more="${date}">+${shown.length-fit}건 더</button>`:''}</div>`;
   }
   if(!day)return '<div class="day empty"></div>';
