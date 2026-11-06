@@ -1871,12 +1871,10 @@ P.bgSave=function(action,values,form){
   const next={studentId:values.studentId,weekday:Number(values.weekday),time:values.time,duration:Number(values.duration)};
   P.bgRun(action,values,()=>{const before={studentId:w.studentId,weekday:w.weekday,time:w.time,duration:w.duration};Object.assign(w,next,{pending:true});P._opt.moves[w.id]=next;return ()=>{delete P._opt.moves[w.id];Object.assign(w,before);delete w.pending;};},
    r=>{delete P._opt.moves[w.id];const cur=P.data.weekly.find(x=>x.id===w.id)||w;if(r&&r.version)cur.version=r.version;delete cur.pending;});return true;}
- if(action==='roster.student'||action==='roster.teacher'){close();const list=action==='roster.student'?'students':'teachers';
-  P.bgRun(action,values,()=>{const d=P.data,keep={[list]:d[list].map(x=>({...x})),roster:(d.roster||[]).map(x=>({...x}))};
-   const cur=values.id?d[list].find(x=>x.id===values.id):null,patch={name:values.name,status:values.status||'active'};if(list==='students')patch.phone=values.phone||'';
-   if(cur)Object.assign(cur,patch);else d[list].push({id:'tmp-'+crypto.randomUUID(),version:0,...patch});
-   if(list==='students'&&cur){const ro=(d.roster||[]).find(x=>x.id===cur.id);if(ro)ro.name=values.name;}
-   return ()=>{d[list]=keep[list];d.roster=keep.roster;};},null,true);return true;}
+ // 학생·강사 저장: 서버 확인(아이디 중복·형식 등)이 끝날 때까지 창을 열어 두고(저장 중 표시), 성공하면 닫고 목록은 뒤에서 새로고침.
+ // 실패하면 창이 그대로 남아 입력한 내용과 오류 문구가 보여요.
+ if(action==='roster.student'||action==='roster.teacher'){
+  return P.api(action,values,form.dataset.requestId).then(()=>{close();P.saving('저장됨','done');P.pendingSaves=(P.pendingSaves||0)+1;P.refreshData().catch(()=>{}).finally(()=>{P.pendingSaves--;P.refreshApp();});return true;});}
  return false;};
 // 주간 결석 예정: 요일 칸 → 이름 입력 팝업 → 화면에 먼저 표시하고 뒤에서 저장.
 P.absQuick=function(anchor,date){document.querySelector('.wq-pop')?.remove();const r=anchor.getBoundingClientRect(),pop=document.createElement('form');pop.className='wq-pop';pop.dataset.absDate=date;pop.dataset.date=date;pop.dataset.mode='absent';pop.innerHTML=P.dayForm(date,'absent');document.body.appendChild(pop);P.histPush?.('pop');
@@ -2066,7 +2064,7 @@ app().addEventListener('submit',async event=>{
    if(action==='roster.teacher'){values.instruments=new FormData(form).getAll('instrument');values.vice=!!form.querySelector('[name=vice]')?.checked;delete values.instrument;values.hourlyPay=Number(values.hourlyPay);if(!values.instruments.length)throw new Error('수업 분류(악기)를 하나 이상 선택해 주세요.');}
    if(action==='weekly.quick'){values.duration=Number(values.duration||50);values.picks=Object.fromEntries([...form.querySelectorAll('[data-wq-pick]')].map(s=>[s.dataset.wqPick,s.value]));}
    if(action==='lessons.repeat'||action==='weekly.quick'||action==='weekly.save'&&!values.id){values.weekdays=new FormData(form).getAll('weekday').map(Number);delete values.weekday;if(!values.weekdays.length)throw new Error('반복할 요일을 하나 이상 선택해 주세요.');}
-   if(P.bgSave(action,values,form))return;
+   const bg=P.bgSave(action,values,form);if(bg){await bg;return;}
    const result=await P.api(action,values,form.dataset.requestId);
    form.dataset.saved='true';
    const skippedText=list=>list.length?` 이 학생의 다른 수업과 겹친 ${list.length}건(${list.map(d=>Number(d.slice(5,7))+'/'+Number(d.slice(8))).join(', ')})은 건너뛰었습니다.`:'';
