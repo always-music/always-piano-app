@@ -929,6 +929,7 @@ html:has(#detail-dialog[open]) .main-wrap,html:has(#detail-dialog[open]) .conten
 .cal-col{display:flex;flex-direction:column;min-width:0}
 .cal-col .cal-mk,.cal-col .cal-abs,.cal-col .cal-more{padding:1px 4px!important;text-align:center;font-size:10.5px!important}
 .cal-col .cal-mk,.cal-col .cal-abs,.cal-col .cal-more{padding:1px 1px!important;letter-spacing:-.06em;text-overflow:clip!important;font-size:clamp(9.5px,.7vw,11px)!important}.cal-cols{gap:2px}
+html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!important}
 </style>
 
 </head>
@@ -1937,6 +1938,9 @@ P.confirmDelete=function(title,note,run){
  new MutationObserver(sync).observe(document.body,{subtree:true,childList:true,attributes:true,attributeFilter:['open']});
  document.addEventListener('touchmove',e=>{const p=open();if(!p)return;const d=document.getElementById('detail-dialog'),t=e.target;
   const inside=(d?.open&&t!==d&&d.contains(t))||t.closest?.('.del-box,.wq-pop');if(!inside)e.preventDefault();},{passive:false});}
+// 마우스·손가락으로 쓸 때는 클릭 뒤 남는 초점 테두리를 숨기고, 키보드(Tab)로 움직일 때만 보여요.
+addEventListener('pointerdown',()=>document.documentElement.classList.add('using-pointer'),true);
+addEventListener('keydown',e=>{if(e.key==='Tab'||e.key.startsWith('Arrow'))document.documentElement.classList.remove('using-pointer');},true);
 // Slide the new content in from the side it came from (dir > 0 = next).
 P.slide=(el,dir)=>{if(!el||!dir)return;el.classList.remove('slide-l','slide-r');void el.offsetWidth;el.classList.add(dir>0?'slide-r':'slide-l');};
 // Phone swipe on [data-swipe]: left = next, right = previous (weekday tabs, makeup month, absence week).
