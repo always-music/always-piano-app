@@ -1710,7 +1710,7 @@ function acceptSession(session){token=session.token;P.user=session.user;persist=
 function rpc(name,arg){return new Promise((resolve,reject)=>{
  google.script.run.withSuccessHandler(response=>{if(response&&response.ok)resolve(response.data);else{const error=new Error(response?.error?.message||'서버 응답을 확인할 수 없습니다.');error.code=response?.error?.code||'INTERNAL';reject(error);}}).withFailureHandler(()=>reject(new Error('서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.')))[name](arg);
 });}
-P.api=async function(action,payload={},requestId){try{return await rpc('academyApi',P.viewAs?{token,action,payload,requestId,actAs:P.viewAs}:{token,action,payload,requestId});}catch(error){if(error.code==='UNAUTHENTICATED'){clearSession();loginScreen(error.message);}else if(error.code==='PASSWORD_CHANGE_REQUIRED')passwordScreen();throw error;}};
+P.api=async function(action,payload={},requestId){try{return await rpc('academyApi',P.viewAs?{token,action,payload,requestId,actAs:P.viewAs}:{token,action,payload,requestId});}catch(error){if(error.code==='UNAUTHENTICATED'){clearSession();loginScreen(error.message);}else if(error.code==='PASSWORD_CHANGE_REQUIRED'&&!document.getElementById('password-form'))passwordScreen();throw error;}};
 P.refreshData=async function(){P.data=await P.api('bootstrap');P.user=P.data.user;lastSync=Date.now();P.applyOpt();};
 // Saves still in flight stay on screen even if fresh data arrives meanwhile (no vanish-and-reappear).
 P._opt={weekly:[],roster:[],moves:{}};
@@ -1720,7 +1720,7 @@ P.applyOpt=()=>{const o=P._opt,d=P.data;if(!d||!d.weekly)return;d.roster=d.roste
 var lastSync=Date.now(),syncing=false;
 const dataSignature=d=>JSON.stringify({...d,serverTime:0});
 P.syncData=async function(minAge=0){
- if(!P.live||!P.user||syncing||P.pendingSaves>0||Date.now()-lastSync<minAge)return;syncing=true;
+ if(!P.live||!P.user||P.user.mustChangePassword||document.getElementById('password-form')||document.getElementById('login-form')||syncing||P.pendingSaves>0||Date.now()-lastSync<minAge)return;syncing=true;
  try{const before=dataSignature(P.data);await P.refreshData();document.querySelectorAll('[data-sync-time]').forEach(el=>{el.textContent=P.syncTime();});if(dataSignature(P.data)===before)return;
   if(document.querySelector('.memo-card.editing,#detail-dialog[open],.teacher-filter[open],.user-menu[open],#app-loading.show,.sidebar.open,.wq-pop,.del-confirm')||document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))return;
   P.refreshApp();}
