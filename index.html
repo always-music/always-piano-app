@@ -1743,6 +1743,7 @@ const app=()=>document.getElementById('app'),esc=P.escape,key='always-piano.sess
 function storage(name,operation,value){try{const s=window[name];if(operation==='get')return s.getItem(key);if(operation==='set')s.setItem(key,value);else s.removeItem(key);}catch{}return null;}
 const dataKey='always-piano.data.v1';let savedData='';
 function saveData(){if(P.viewAs||!P.data||!P.data.user)return;try{const s=JSON.stringify(P.data);if(s!==savedData){localStorage.setItem(dataKey,s);savedData=s;}}catch{}}
+addEventListener('pagehide',saveData);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveData();});
 function loadData(){try{return JSON.parse(localStorage.getItem(dataKey)||'null');}catch{return null;}}
 function clearSession(){try{localStorage.removeItem(dataKey);}catch{}savedData='';P.clearViewState?.();P.viewAs=null;P.realSession=null;token='';P.user=null;P.data={students:[],teachers:[],lessons:[],journals:[],tasks:[],notices:[],date:''};storage('localStorage','remove');storage('sessionStorage','remove');}
 function acceptSession(session){token=session.token;P.user=session.user;persist=true;storage('sessionStorage','remove');storage('localStorage','set',JSON.stringify({token,expiresAt:session.expiresAt}));}
@@ -1834,8 +1835,8 @@ P.authBoot=async function(){
  if(!s||!s.token){clearSession();loginScreen();return;}
  token=s.token;
  const cached=loadData();
- if(cached&&cached.user&&!cached.user.mustChangePassword){P.data=cached;P.user=cached.user;P.applyOpt();P.startApp();
-  P.refreshData().then(()=>{if(P.user&&!document.querySelector('.memo-card.editing,#detail-dialog[open],.wq-pop,.del-confirm')&&!document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))P.refreshApp();}).catch(()=>{});return;}
+ if(cached&&cached.user&&!cached.user.mustChangePassword)try{P.data=cached;P.user=cached.user;P.applyOpt();P.startApp();
+  P.refreshData().then(()=>{if(P.user&&!document.querySelector('.memo-card.editing,#detail-dialog[open],.wq-pop,.del-confirm')&&!document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))P.refreshApp();}).catch(()=>{});return;}catch{try{localStorage.removeItem(dataKey);}catch{}}
  for(let tries=0;;tries++){try{P.setData(await rpc('academyApi',{token,action:'bootstrap',payload:{}}));P.startApp();return;}
   catch(error){if(error.code==='UNAUTHENTICATED'||error.code==='FORBIDDEN'){clearSession();loginScreen(error.message);return;}if(error.code==='PASSWORD_CHANGE_REQUIRED'){try{P.user=await rpc('authResume',token);}catch{}if(P.user){passwordScreen();return;}}
    if(tries<2){await new Promise(r=>setTimeout(r,1200*(tries+1)));continue;}
