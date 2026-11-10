@@ -1,7 +1,10 @@
-const CACHE='ap-202611101517',SHELL=['./','index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png'];
-self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting()));});
+const CACHE='ap-shell',SHELL=['index.html','manifest.webmanifest','icon-192.png','icon-512.png','apple-touch-icon.png'];
+const build=t=>Number((/name="app-build" content="(\d+)"/.exec(t)||[])[1]||0);
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.match('index.html').then(hit=>hit?null:c.addAll(SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting())));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==CACHE).map(x=>caches.delete(x)))).then(()=>self.clients.claim()));});
-// 저장된 화면을 바로 띄우고(폰이 막 켜져 통신이 느려도 즉시), 새 버전은 뒤에서 받아 다음 실행 때 적용.
+async function refreshShell(c){try{const r=await fetch('index.html',{cache:'no-cache'});if(!r.ok)return;const t=await r.clone().text(),hit=await c.match('index.html'),old=hit?build(await hit.text()):0;
+ if(build(t)>old){await c.put('index.html',r);(await self.clients.matchAll()).forEach(x=>x.postMessage('app-updated'));}}catch(_e){}}
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==location.origin)return;
- const key=e.request.mode==='navigate'?'index.html':e.request;
- e.respondWith(caches.open(CACHE).then(c=>c.match(key).then(hit=>{const net=fetch(e.request.url,{cache:'no-cache'}).then(r=>{if(r.ok)c.put(key,r.clone());return r;});if(hit){e.waitUntil(net.catch(()=>{}));return hit;}return net.catch(()=>c.match('index.html'));})));});
+ if(e.request.mode==='navigate'){e.respondWith(caches.open(CACHE).then(c=>c.match('index.html').then(hit=>{if(hit){e.waitUntil(refreshShell(c));return hit;}return fetch(e.request).then(r=>{if(r.ok)c.put('index.html',r.clone());return r;});})));return;}
+ e.respondWith(caches.open(CACHE).then(c=>c.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok)c.put(e.request,r.clone());return r;}))));});
+self.addEventListener('message',e=>{if(e.data==='check')e.waitUntil(caches.open(CACHE).then(refreshShell));});

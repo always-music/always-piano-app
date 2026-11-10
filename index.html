@@ -11,6 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
+  <meta name="app-build" content="202611101521">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2490,6 +2491,6 @@ P.authBoot();
 })(Piano);
 </script>
 
-<script>if('serviceWorker'in navigator){const had=!!navigator.serviceWorker.controller;let done=false;const go=()=>{if(done)return;if(document.querySelector('dialog[open],.wq-pop,.del-confirm,.memo-card.editing')||document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]')){setTimeout(go,1500);return;}done=true;location.reload();};navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)go();});addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update().catch(()=>{});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')r.update().catch(()=>{});});}).catch(()=>{}));}</script>
+<script>if('serviceWorker'in navigator){const had=!!navigator.serviceWorker.controller;let done=false;const go=()=>{if(done)return;if(document.querySelector('dialog[open],.wq-pop,.del-confirm,.memo-card.editing')||(t=>t&&t.matches?.('input,textarea')&&!t.closest('#login-form')&&t.value)(document.activeElement)||document.activeElement?.isContentEditable){setTimeout(go,1500);return;}done=true;location.reload();};navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)go();});navigator.serviceWorker.addEventListener('message',e=>{if(e.data==='app-updated')go();});addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update().catch(()=>{});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){r.update().catch(()=>{});navigator.serviceWorker.controller?.postMessage('check');}});}).catch(()=>{}));}</script>
 </body>
 </html>
