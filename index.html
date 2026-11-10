@@ -1741,13 +1741,17 @@ P.user=null;P.data={students:[],teachers:[],lessons:[],journals:[],tasks:[],noti
 let token='',persist=false;
 const app=()=>document.getElementById('app'),esc=P.escape,key='always-piano.session.v1';
 function storage(name,operation,value){try{const s=window[name];if(operation==='get')return s.getItem(key);if(operation==='set')s.setItem(key,value);else s.removeItem(key);}catch{}return null;}
-function clearSession(){P.clearViewState?.();P.viewAs=null;P.realSession=null;token='';P.user=null;P.data={students:[],teachers:[],lessons:[],journals:[],tasks:[],notices:[],date:''};storage('localStorage','remove');storage('sessionStorage','remove');}
-function acceptSession(session){token=session.token;P.user=session.user;persist=session.remember===true;storage('localStorage','remove');storage('sessionStorage','remove');storage(persist?'localStorage':'sessionStorage','set',JSON.stringify({token,expiresAt:session.expiresAt}));}
+const dataKey='always-piano.data.v1';let savedData='';
+function saveData(){if(P.viewAs||!P.data||!P.data.user)return;try{const s=JSON.stringify(P.data);if(s!==savedData){localStorage.setItem(dataKey,s);savedData=s;}}catch{}}
+function loadData(){try{return JSON.parse(localStorage.getItem(dataKey)||'null');}catch{return null;}}
+function clearSession(){try{localStorage.removeItem(dataKey);}catch{}savedData='';P.clearViewState?.();P.viewAs=null;P.realSession=null;token='';P.user=null;P.data={students:[],teachers:[],lessons:[],journals:[],tasks:[],notices:[],date:''};storage('localStorage','remove');storage('sessionStorage','remove');}
+function acceptSession(session){token=session.token;P.user=session.user;persist=true;storage('sessionStorage','remove');storage('localStorage','set',JSON.stringify({token,expiresAt:session.expiresAt}));}
 function rpc(name,arg){return new Promise((resolve,reject)=>{
  google.script.run.withSuccessHandler(response=>{if(response&&response.ok)resolve(response.data);else{const error=new Error(response?.error?.message||'서버 응답을 확인할 수 없습니다.');error.code=response?.error?.code||'INTERNAL';reject(error);}}).withFailureHandler(()=>reject(new Error('서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.')))[name](arg);
 });}
 P.api=async function(action,payload={},requestId){try{return await rpc('academyApi',P.viewAs?{token,action,payload,requestId,actAs:P.viewAs}:{token,action,payload,requestId});}catch(error){if(error.code==='UNAUTHENTICATED'){clearSession();loginScreen(error.message);}else if(error.code==='PASSWORD_CHANGE_REQUIRED'&&!document.getElementById('password-form'))passwordScreen();throw error;}};
-P.refreshData=async function(){P.data=await P.api('bootstrap');P.user=P.data.user;lastSync=Date.now();P.applyOpt();};
+P.setData=function(d){P.data=d;P.user=P.data.user;lastSync=Date.now();P.applyOpt();saveData();};
+P.refreshData=async function(){P.setData(await P.api('bootstrap'));};
 // Saves still in flight stay on screen even if fresh data arrives meanwhile (no vanish-and-reappear).
 P._opt={weekly:[],roster:[],moves:{}};
 P.applyOpt=()=>{const o=P._opt,d=P.data;if(!d||!d.weekly)return;d.roster=d.roster||[];o.roster.forEach(r=>{if(!d.roster.some(x=>x.id===r.id))d.roster.push(r);});o.weekly.forEach(w=>{if(!d.weekly.some(x=>x.id===w.id))d.weekly.push(w);});Object.entries(o.moves).forEach(([id,m])=>{const w=d.weekly.find(x=>x.id===id);if(w)Object.assign(w,m,{pending:true});});};
@@ -1827,10 +1831,13 @@ P.authBoot=async function(){
  if(!stored){loginScreen();return;}
  // 저장된 로그인은 '로그인 만료·계정 변경'일 때만 지워요. 휴대폰 통신이 잠깐 끊기거나 서버가 늦어도 다시 시도하고, 로그인 정보는 그대로 둡니다.
  let s;try{s=JSON.parse(stored);}catch{clearSession();loginScreen();return;}
- if(!s||!s.token||Date.parse(s.expiresAt)<=Date.now()){clearSession();loginScreen('로그인이 만료되었습니다. 다시 로그인해 주세요.');return;}
+ if(!s||!s.token){clearSession();loginScreen();return;}
  token=s.token;
- for(let tries=0;;tries++){try{P.user=await rpc('authResume',token);if(P.user.mustChangePassword){passwordScreen();return;}await P.refreshData();P.startApp();return;}
-  catch(error){if(error.code==='UNAUTHENTICATED'||error.code==='FORBIDDEN'){clearSession();loginScreen(error.message);return;}if(error.code==='PASSWORD_CHANGE_REQUIRED'){passwordScreen();return;}
+ const cached=loadData();
+ if(cached&&cached.user&&!cached.user.mustChangePassword){P.data=cached;P.user=cached.user;P.applyOpt();P.startApp();
+  P.refreshData().then(()=>{if(P.user&&!document.querySelector('.memo-card.editing,#detail-dialog[open],.wq-pop,.del-confirm')&&!document.activeElement?.matches?.('input,select,textarea,[contenteditable="true"]'))P.refreshApp();}).catch(()=>{});return;}
+ for(let tries=0;;tries++){try{P.setData(await rpc('academyApi',{token,action:'bootstrap',payload:{}}));P.startApp();return;}
+  catch(error){if(error.code==='UNAUTHENTICATED'||error.code==='FORBIDDEN'){clearSession();loginScreen(error.message);return;}if(error.code==='PASSWORD_CHANGE_REQUIRED'){try{P.user=await rpc('authResume',token);}catch{}if(P.user){passwordScreen();return;}}
    if(tries<2){await new Promise(r=>setTimeout(r,1200*(tries+1)));continue;}
    app().innerHTML=`<div class="auth-shell"><div class="auth-card"><p role="alert">${esc(error.message||'서버에 연결하지 못했습니다.')}</p><button class="btn primary" type="button" data-resume-retry>다시 시도</button></div></div>`;app().querySelector('[data-resume-retry]').onclick=()=>P.authBoot();return;}}
 };
@@ -1838,7 +1845,7 @@ function authHeader(title,subtitle){return `<div class="auth-brand">${document.g
 function loginScreen(message=''){
  document.title='로그인 · Always Piano';document.body.style.overflow='';
  let username='';try{username=localStorage.getItem('always-piano.saved-id')||'';}catch{}
- app().innerHTML=`<main class="auth-shell"><section class="auth-card">${authHeader('함께 만드는 좋은 배움','원장·강사 계정으로 로그인해 주세요.')}<form id="login-form" class="auth-form"><label class="field">아이디<input name="username" autocomplete="username" maxlength="32" required value="${esc(username)}" placeholder="아이디"></label><label class="field">비밀번호<input name="password" type="password" autocomplete="current-password" maxlength="128" required placeholder="비밀번호"></label><div class="auth-options"><label><input type="checkbox" name="saveId" ${username?'checked':''}>아이디 저장</label><label><input type="checkbox" name="remember" ${window.APP_MODE?'checked':''}>로그인 유지 (14일)</label></div><p class="auth-help">공용 PC에서는 로그인 유지를 선택하지 마세요.</p><p class="form-error" role="alert">${esc(message)}</p><button class="btn primary auth-submit" type="submit">로그인</button><p class="auth-foot">Always Piano Academy · 개발용 워크스페이스</p></form></section></main>`;
+ app().innerHTML=`<main class="auth-shell"><section class="auth-card">${authHeader('함께 만드는 좋은 배움','원장·강사 계정으로 로그인해 주세요.')}<form id="login-form" class="auth-form"><label class="field">아이디<input name="username" autocomplete="username" maxlength="32" required value="${esc(username)}" placeholder="아이디"></label><label class="field">비밀번호<input name="password" type="password" autocomplete="current-password" maxlength="128" required placeholder="비밀번호"></label><div class="auth-options"><label><input type="checkbox" name="saveId" ${username?'checked':''}>아이디 저장</label></div><p class="auth-help">한 번 로그인하면 로그아웃할 때까지 유지돼요.</p><p class="form-error" role="alert">${esc(message)}</p><button class="btn primary auth-submit" type="submit">로그인</button><p class="auth-foot">Always Piano Academy · 개발용 워크스페이스</p></form></section></main>`;
  app().querySelector('[name="username"]').focus();
 }
 function passwordForm(forced){return `<form id="password-form" class="auth-form"><p class="subtitle">${forced?'처음 로그인하셨습니다. 초기 비밀번호를 변경해 주세요.':'비밀번호를 변경하면 다른 기기의 로그인도 만료됩니다.'}</p><label class="field">현재 비밀번호<input type="password" name="currentPassword" autocomplete="current-password" maxlength="128" required></label><label class="field">새 비밀번호<input type="password" name="newPassword" autocomplete="new-password" minlength="8" maxlength="128" required><small>8~128자로 입력해 주세요.</small></label><label class="field">새 비밀번호 확인<input type="password" name="confirmPassword" autocomplete="new-password" minlength="8" maxlength="128" required></label><p class="form-error" role="alert"></p><button type="submit" class="btn primary auth-submit">비밀번호 변경</button></form>`;}
@@ -2100,7 +2107,7 @@ app().addEventListener('submit',async event=>{
  try{
   if(form.id==='login-form'){
    try{if(values.saveId)localStorage.setItem('always-piano.saved-id',values.username);else localStorage.removeItem('always-piano.saved-id');}catch{}
-   const session=await rpc('authLogin',{username:values.username,password:values.password,remember:values.remember==='on'});acceptSession(session);if(P.user.mustChangePassword){passwordScreen();return;}await P.refreshData();P.startApp();return;
+   const session=await rpc('authLogin',{username:values.username,password:values.password,remember:true});acceptSession(session);if(P.user.mustChangePassword){passwordScreen();return;}if(session.data)P.setData(session.data);else await P.refreshData();P.startApp();return;
   }
   if(form.id==='password-form'){
    if(values.newPassword!==values.confirmPassword)throw new Error('새 비밀번호 확인이 일치하지 않습니다.');
