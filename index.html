@@ -2490,6 +2490,6 @@ P.authBoot();
 })(Piano);
 </script>
 
-<script>if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));</script>
+<script>if('serviceWorker'in navigator){const had=!!navigator.serviceWorker.controller;let done=false;const go=()=>{if(done)return;if(document.querySelector('dialog[open],.wq-pop,.del-confirm,.memo-card.editing')||document.activeElement?.matches?.('input,textarea,select,[contenteditable="true"]')){setTimeout(go,1500);return;}done=true;location.reload();};navigator.serviceWorker.addEventListener('controllerchange',()=>{if(had)go();});addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update().catch(()=>{});document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')r.update().catch(()=>{});});}).catch(()=>{}));}</script>
 </body>
 </html>
