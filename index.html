@@ -996,6 +996,22 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 @media (prefers-reduced-motion:reduce){.wq-pop,.wq-pop.closing,.wq-pop .dq-in,.del-confirm,.del-confirm .del-box{animation:none}}
 #dialog-content.dc-swap{animation:dqIn .24s ease-out}
 @media (prefers-reduced-motion:reduce){#dialog-content.dc-swap{animation:none}}
+/* 상담·메모 팝업 윗선 + 메모 진하게 */
+.wq-pop:has(.dq-opt.cs.on){border-top:3px solid #2E9A62}
+.wq-pop:has(.dq-opt.memo.on){border-top:3px solid #F0A500}
+.wq-pop{transition:border-top-color .25s ease}
+.dq-opt.memo.on{color:#8A5300}
+.big-day-head .cal-memo{background:#F5B700;color:#2B1B00;font-weight:800}
+.abs-memo{background:#F5B700;color:#2B1B00;font-weight:700}
+.mk-legend .lg-memo{background:#F5B700}
+.dl-memo{background:#FFF3C4;border-color:#F0C24B}
+.dl-h.memo{color:#8A5300}
+.dm-btn{border-color:#E9C766;color:#5C3D00}
+.dm-btn:hover{background:#FFE9A3;border-color:#D9A82E}
+.mk-legend{white-space:nowrap;flex-wrap:wrap;row-gap:2px}
+.mk-legend{gap:2px 10px}
+.mk-legend>span{display:inline-flex;align-items:center;gap:4px}
+.mk-legend>span>i{margin-left:0!important}
 </style>
 
 </head>
@@ -1677,7 +1693,7 @@ P.markNow=function(){const now=new Date(),wd=now.getDay(),mins=now.getHours()*60
  const live=new Set((P.data.weekly||[]).filter(w=>w.weekday===wd&&(t=>t<=mins&&mins<t+(w.duration||50))(Number(w.time.slice(0,2))*60+Number(w.time.slice(3,5)))).map(w=>w.id));
  document.querySelectorAll('.wk-cell .weekly-chip,.wkm-names .weekly-chip').forEach(c=>{if(live.has(c.dataset.weeklyEdit))c.classList.add('live');});};
 setInterval(()=>P.markNow&&P.markNow(),30000);
-P.mkLegend=()=>'<span class="mk-legend"><i class="lg-mk"></i>보강<i class="lg-abs"></i>결석<i class="lg-cs"></i>상담</span>';
+P.mkLegend=()=>'<span class="mk-legend"><span><i class="lg-mk"></i>보강</span><span><i class="lg-abs"></i>결석</span><span><i class="lg-cs"></i>상담</span><span><i class="lg-memo"></i>메모</span></span>';
 P.dayMemo=date=>(P.data.dayMemos||{})[date]||null;
 P.dayMemoForm=date=>{const m=P.dayMemo(date);return `<form class="auth-form" data-dm-form="${e(date)}"><label class="field">${e(P.dayLabel(date))} 메모<textarea name="text" maxlength="300" rows="3" placeholder="예: 휴원, 발표회 리허설">${e(m?.text||'')}</textarea></label><p class="att-note">모든 선생님께 보여요.</p><p class="form-error" role="alert"></p>${m?`<button type="button" class="btn danger-link" data-dm-delete="${e(date)}">메모 삭제</button>`:''}<div class="form-actions"><button type="button" class="btn" data-action="close-dialog">취소</button><button type="submit" class="btn primary">저장</button></div></form>`;};
 P.consultsOn=date=>(P.data.consults||[]).filter(c=>c.date===date).sort((a,b)=>String(a.time).localeCompare(String(b.time))||a.name.localeCompare(b.name,'ko'));
