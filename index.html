@@ -958,6 +958,44 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 .dl-chip.cs{background:#E3F3EA;color:#1F6B47;border-color:#9FD3B6}
 .day-list .dl-h{margin:14px 0 0;font-size:14px}
 .day-list .dl-h:first-child{margin-top:0}
+/* 날짜 메모 (노랑) */
+.big-day-head .cal-memo{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 6px;border-radius:6px;background:#FFF4C9;color:#7A5A00;font-size:10.5px;font-weight:700;line-height:1.6}
+.big-day-head .cal-memo-gap{flex:1}
+.abs-memo{margin:2px 0 4px;padding:3px 8px;border-radius:6px;background:#FFF4C9;color:#7A5A00;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl-memo{margin-bottom:14px;padding:10px 12px;border-radius:10px;background:#FFFBEA;border:1px solid #F1E2A6}
+.dl-memo-h{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dl-memo-h .btn{min-height:30px;padding:4px 10px;font-size:13px}
+.dl-h.memo{color:#7A5A00;margin:0!important}
+.dl-memo-t{margin-top:6px;white-space:pre-wrap;font-size:14px;line-height:1.5}
+.wq-pop textarea[name=daymemo]{width:100%;box-sizing:border-box;border:1px solid #E4DED6;border-radius:10px;padding:8px 10px;font:inherit;font-size:14px;resize:vertical;margin-top:6px}
+.dq-seg[style]{grid-template-columns:repeat(var(--n),1fr)!important}
+.dq-seg[style] .dq-thumb{width:calc((100% - 6px) / var(--n))!important;transform:translateX(calc(var(--i) * 100%))!important}
+.dq-opt.memo.on{color:#7A5A00}
+.dl-memo-h .btn.danger-link{margin-left:6px}
+.dl-memo-h>div,.dl-memo-h{gap:6px}
+.dl-memo-act{display:flex;gap:6px}.dl-memo-act .btn{min-height:30px;padding:4px 10px;font-size:13px}
+/* 날짜 메모 버튼: 같은 크기·같은 모양 */
+.dl-memo{padding:12px 14px}
+.dl-memo-act{display:flex;gap:6px}
+.dm-btn{all:unset;box-sizing:border-box;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;height:30px;min-width:52px;padding:0 12px;border-radius:999px;border:1px solid #E6D8A8;background:#fff;color:#5C4A1E;font-size:13px;font-weight:600;line-height:1;transition:background .15s,border-color .15s,color .15s}
+.dm-btn:hover{background:#FFF4C9;border-color:#D9C277}
+.dm-btn.del{color:#B3261E;border-color:#F0C9C4}
+.dm-btn.del:hover{background:#FDECEA;border-color:#E6A49C}
+.dm-btn:focus-visible{outline:2px solid #3D2B1F;outline-offset:2px}
+/* 팝업 열기·닫기·탭 전환 부드럽게 */
+.wq-pop{animation:wqIn .2s cubic-bezier(.2,.8,.3,1);transform-origin:top center}
+.wq-pop.closing{animation:wqOut .17s ease-in forwards;pointer-events:none}
+@keyframes wqIn{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes wqOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-4px) scale(.97)}}
+.wq-pop .dq-in{animation:dqIn .24s ease-out}
+@keyframes dqIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.dq-thumb{transition:transform .3s cubic-bezier(.2,.75,.25,1),background-color .2s!important}
+.dq-opt{transition:color .25s ease!important}
+.del-confirm{animation:fade-in .18s ease-out}
+.del-confirm .del-box{animation:wqIn .22s cubic-bezier(.2,.8,.3,1)}
+@media (prefers-reduced-motion:reduce){.wq-pop,.wq-pop.closing,.wq-pop .dq-in,.del-confirm,.del-confirm .del-box{animation:none}}
+#dialog-content.dc-swap{animation:dqIn .24s ease-out}
+@media (prefers-reduced-motion:reduce){#dialog-content.dc-swap{animation:none}}
 </style>
 
 </head>
@@ -1449,7 +1487,7 @@ P.calendar=function(state,big=false,kind='regular'){
    // Up to 3 chips fit the fixed cell; with more, show 2 and leave room for the "+N건 더" line.
    const cap=P.compactCalendar?2:3,shown=list.slice().sort(P.lessonOrder),fit=shown.length>cap?cap-1:cap;
    if(P.compactCalendar){const abs=P.ac().attendance.filter(a=>a.date===date&&(a.status==='planned'||a.status==='absent')),mkc=shown.map(l=>`<button type="button" class="cal-mk${l.pending?' pending':''}" data-mk-open="${e(l.id)}" title="보강 ${e(l.time)}">${e(nameOf(l.studentId))}</button>`),abc=abs.map(a=>`<button type="button" class="cal-abs${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}">${e(nameOf(a.studentId))}</button>`),max=Math.ceil(cells.length/7)>5?2:3,col=(list,cls)=>{const fit=list.length>max?max-1:max;return `<div class="cal-col ${cls}">${list.slice(0,fit).join('')}${list.length>fit?`<button type="button" class="cal-more" data-day-list="${date}">+${list.length-fit}</button>`:''}</div>`;};
-    return `<div class="big-day ${today?'today':''}${date>=P.data.date?' can-add':''}" data-day-add="${date}" title="눌러서 보강·결석·상담 입력"><button type="button" class="big-day-head" data-day-list="${date}" title="이날 일정 보기"><span class="big-day-num">${day}</span>${(n=>n?`<span class="cal-cs">상담 ${n}</span>`:'')(P.consultsOn(date).length)}</button>${mkc.length||abc.length?`<div class="cal-cols">${col(mkc,'mk')}${col(abc,'abs')}</div>`:''}</div>`;}
+    return `<div class="big-day ${today?'today':''}${date>=P.data.date?' can-add':''}" data-day-add="${date}" title="눌러서 보강·결석·상담 입력"><button type="button" class="big-day-head" data-day-list="${date}" title="이날 일정 보기"><span class="big-day-num">${day}</span>${(m=>m?`<span class="cal-memo">${e(m.text)}</span>`:'<span class="cal-memo-gap"></span>')(P.dayMemo(date))}${(n=>n?`<span class="cal-cs">상담 ${n}</span>`:'')(P.consultsOn(date).length)}</button>${mkc.length||abc.length?`<div class="cal-cols">${col(mkc,'mk')}${col(abc,'abs')}</div>`:''}</div>`;}
    return `<div class="big-day ${today?'today':''}" data-day-add="${date}" title="빈 곳을 눌러 이 날짜에 수업 등록"><span class="big-day-num">${day}</span>${shown.slice(0,fit).map(P.lessonChip).join('')}${shown.length>fit?`<button class="calendar-more" data-day-more="${date}">+${shown.length-fit}건 더</button>`:''}</div>`;
   }
   if(!day)return '<div class="day empty"></div>';
@@ -1594,7 +1632,7 @@ P.absenceBoard=function(){
  const list=P.ac().attendance.filter(a=>(a.status==='planned'||a.status==='absent')&&a.date>=mon&&a.date<=sat);
  const nav=`<div class="abs-nav"><button class="icon-btn" data-abs-week="-7" aria-label="이전 주">‹</button><strong>${mon.slice(0,4)}.${mdOf(mon)} ~ ${mdOf(sat)}</strong><button class="icon-btn" data-abs-week="7" aria-label="다음 주">›</button><button class="btn" data-abs-week="0">이번 주</button></div>`;
  const cols=[0,1,2,3,4,5].map(i=>{const d=shiftDay(mon,i),items=list.filter(a=>a.date===d).sort((x,y)=>x.time.localeCompare(y.time)||nameOf(x.studentId).localeCompare(nameOf(y.studentId),'ko'));
-  return `<div class="abs-col${d===today?' today':''}${d>=today?' can-add':''}" data-abs-add="${d}" title="${d>=today?'눌러서 결석 학생 이름 입력':''}"><div class="abs-day">${WD[wdOf(d)]} <span>${mdOf(d)}</span></div>${(mks=>mks.length||items.length||P.consultsOn(d).length?P.consultsOn(d).map(c=>`<button type="button" class="abs-item cs" data-cs-open="${e(c.id)}" title="상담"><i>${e(c.time||'상담')}</i>${e(c.name)}</button>`).join('')+mks.map(l=>`<button type="button" class="abs-item mk${l.pending?' pending':''}" data-mk-open="${e(l.id)}" title="보강 ${e(l.time)}"><i>${e(l.time)}</i>${e(nameOf(l.studentId))}</button>`).join('')+items.map(a=>`<button type="button" class="abs-item ${a.status}" data-abs-open="${e(a.id)}" title="${e(a.reason||'결석')}">${e(nameOf(a.studentId))}</button>`).join(''):'<p class="abs-none">일정 없음</p>')(P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status!=='cancelled'&&l.date===d).sort((x,y)=>x.time.localeCompare(y.time)))}</div>`;}).join('');
+  return `<div class="abs-col${d===today?' today':''}${d>=today?' can-add':''}" data-abs-add="${d}" title="${d>=today?'눌러서 결석 학생 이름 입력':''}"><div class="abs-day">${WD[wdOf(d)]} <span>${mdOf(d)}</span></div>${(m=>m?`<p class="abs-memo" title="${e(m.text)}">${e(m.text)}</p>`:'')(P.dayMemo(d))}${(mks=>mks.length||items.length||P.consultsOn(d).length||P.dayMemo(d)?P.consultsOn(d).map(c=>`<button type="button" class="abs-item cs" data-cs-open="${e(c.id)}" title="상담"><i>${e(c.time||'상담')}</i>${e(c.name)}</button>`).join('')+mks.map(l=>`<button type="button" class="abs-item mk${l.pending?' pending':''}" data-mk-open="${e(l.id)}" title="보강 ${e(l.time)}"><i>${e(l.time)}</i>${e(nameOf(l.studentId))}</button>`).join('')+items.map(a=>`<button type="button" class="abs-item ${a.status}" data-abs-open="${e(a.id)}" title="${e(a.reason||'결석')}">${e(nameOf(a.studentId))}</button>`).join(''):'<p class="abs-none">일정 없음</p>')(P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status!=='cancelled'&&l.date===d).sort((x,y)=>x.time.localeCompare(y.time)))}</div>`;}).join('');
  return P.card(`주간 보강·결석 ${P.mkLegend()}`,`<div class="abs-grid">${cols}</div>`,nav);
 };
 P.absenceDetail=function(id){
@@ -1614,8 +1652,9 @@ P.absAddForm=date=>{const ss=P.absDaySessions(date),names=[...new Set(ss.map(s=>
  return `<p class="wq-title">${e(P.dayLabel(date))} <span>· 결석 예정 등록</span></p><input name="names" list="abs-names" autocomplete="off" placeholder="예: 김하린, 이서준" data-abs-names><datalist id="abs-names">${names.map(n=>`<option value="${e(n)}">`).join('')}</datalist><div class="wq-hint"></div><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`;};
 // 날짜 하루 목록 (캘린더 칸에 다 안 들어갈 때): 보강(시간순) + 결석, 누르면 각각 상세.
 P.dayList=function(date){const mk=P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status!=='cancelled'&&l.date===date).sort((a,b)=>a.time.localeCompare(b.time)),abs=P.ac().attendance.filter(a=>a.date===date&&(a.status==='planned'||a.status==='absent')),cs=P.consultsOn(date);
- if(!mk.length&&!abs.length&&!cs.length)return '<p class="empty-cell">이날 보강·결석·상담 일정이 없어요.</p>';
- return `<div class="day-list">${mk.length?`<p class="dl-h mk">보강 ${mk.length}명</p><div class="dl-chips">${mk.map(l=>`<button type="button" class="dl-chip mk" data-mk-open="${e(l.id)}"><i>${e(l.time)}</i>${e(nameOf(l.studentId))}</button>`).join('')}</div>`:''}${abs.length?`<p class="dl-h abs">결석 ${abs.length}명</p><div class="dl-chips">${abs.map(a=>`<button type="button" class="dl-chip abs${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}"><i>${e(a.time)}</i>${e(nameOf(a.studentId))}</button>`).join('')}</div>`:''}${cs.length?`<p class="dl-h cs">상담 ${cs.length}건</p><div class="dl-chips">${cs.map(c=>`<button type="button" class="dl-chip cs" data-cs-open="${e(c.id)}"><i>${e(c.time||'시간 미정')}</i>${e(c.name)}</button>`).join('')}</div>`:''}</div>`;};
+ const dm=P.dayMemo(date),memo=`<div class="dl-memo"><div class="dl-memo-h"><p class="dl-h memo">메모</p><div class="dl-memo-act"><button type="button" class="dm-btn" data-dm-edit="${date}">${dm?'수정':'메모 쓰기'}</button>${dm?`<button type="button" class="dm-btn del" data-dm-delete="${date}">삭제</button>`:''}</div></div>${dm?`<p class="dl-memo-t">${e(dm.text)}</p>`:''}</div>`;
+ if(!mk.length&&!abs.length&&!cs.length)return memo+'<p class="empty-cell">이날 보강·결석·상담 일정이 없어요.</p>';
+ return memo+`<div class="day-list">${mk.length?`<p class="dl-h mk">보강 ${mk.length}명</p><div class="dl-chips">${mk.map(l=>`<button type="button" class="dl-chip mk" data-mk-open="${e(l.id)}"><i>${e(l.time)}</i>${e(nameOf(l.studentId))}</button>`).join('')}</div>`:''}${abs.length?`<p class="dl-h abs">결석 ${abs.length}명</p><div class="dl-chips">${abs.map(a=>`<button type="button" class="dl-chip abs${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}"><i>${e(a.time)}</i>${e(nameOf(a.studentId))}</button>`).join('')}</div>`:''}${cs.length?`<p class="dl-h cs">상담 ${cs.length}건</p><div class="dl-chips">${cs.map(c=>`<button type="button" class="dl-chip cs" data-cs-open="${e(c.id)}"><i>${e(c.time||'시간 미정')}</i>${e(c.name)}</button>`).join('')}</div>`:''}</div>`;};
 // 보강 상세 (주간·월간 공용): 날짜·시간 수정, 삭제. 결석 상세와 같은 모양.
 P.makeupDetail=function(id){const l=P.scheduleLessons().find(x=>x.id===id);if(!l)return '<p class="empty-cell">보강을 찾을 수 없습니다.</p>';
  return `<form class="auth-form mk-detail" data-mk-form="${e(l.id)}"><p class="att-line"><strong>${e(nameOf(l.studentId))}</strong> · 보강</p><p>${P.badge('보강 예정','blue')}</p>
@@ -1639,6 +1678,8 @@ P.markNow=function(){const now=new Date(),wd=now.getDay(),mins=now.getHours()*60
  document.querySelectorAll('.wk-cell .weekly-chip,.wkm-names .weekly-chip').forEach(c=>{if(live.has(c.dataset.weeklyEdit))c.classList.add('live');});};
 setInterval(()=>P.markNow&&P.markNow(),30000);
 P.mkLegend=()=>'<span class="mk-legend"><i class="lg-mk"></i>보강<i class="lg-abs"></i>결석<i class="lg-cs"></i>상담</span>';
+P.dayMemo=date=>(P.data.dayMemos||{})[date]||null;
+P.dayMemoForm=date=>{const m=P.dayMemo(date);return `<form class="auth-form" data-dm-form="${e(date)}"><label class="field">${e(P.dayLabel(date))} 메모<textarea name="text" maxlength="300" rows="3" placeholder="예: 휴원, 발표회 리허설">${e(m?.text||'')}</textarea></label><p class="att-note">모든 선생님께 보여요.</p><p class="form-error" role="alert"></p>${m?`<button type="button" class="btn danger-link" data-dm-delete="${e(date)}">메모 삭제</button>`:''}<div class="form-actions"><button type="button" class="btn" data-action="close-dialog">취소</button><button type="submit" class="btn primary">저장</button></div></form>`;};
 P.consultsOn=date=>(P.data.consults||[]).filter(c=>c.date===date).sort((a,b)=>String(a.time).localeCompare(String(b.time))||a.name.localeCompare(b.name,'ko'));
 P.csTimes=()=>{const r=[];for(let m=9*60;m<=21*60;m+=30)r.push(String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'));return r;};
 P.csFields=(c,date)=>`<div class="live-form-grid"><label class="field">상담일<input type="date" name="date" value="${e(c?.date||date)}" required></label><label class="field">시간<select name="time"><option value="">시간 미정</option>${P.csTimes().map(t=>`<option ${t===(c?c.time:'15:00')?'selected':''}>${t}</option>`).join('')}</select></label></div><label class="field">이름<input name="name" maxlength="80" required value="${e(c?.name||'')}" placeholder="예: 김하린 어머님, 신규 문의"></label><label class="field">메모 <span class="optional">(선택 · 원장·부원장만 보여요)</span><textarea name="memo" maxlength="500" rows="3">${e(c?.memo||'')}</textarea></label>`;
@@ -1649,8 +1690,8 @@ P.consultDetail=function(id){const c=(P.data.consults||[]).find(x=>x.id===id);if
 // 날짜 칸 팝업 (월간 캘린더·주간 보드 공용): 결석 / 보강 선택. 보강은 시작 시간과 (원장은) 강사를 고름.
 P.dayForm=function(date,mode){const ss=P.absDaySessions(date),absNames=[...new Set(ss.map(s=>nameOf(s.studentId)))].sort((a,b)=>a.localeCompare(b,'ko')),all=[...new Set((P.data.roster||[]).map(s=>s.name))].sort((a,b)=>a.localeCompare(b,'ko'));
  const slots=P.slotTimes(date)||[],teachers=(P.data.teachers||[]).filter(t=>t.status==='active');
- return `<p class="wq-title">${e(P.dayLabel(date))}</p><div class="dq-seg" role="tablist"><button type="button" class="dq-opt abs${mode==='absent'?' on':''}" data-dq-mode="absent" aria-pressed="${mode==='absent'}">결석</button><button type="button" class="dq-opt mk${mode==='makeup'?' on':''}" data-dq-mode="makeup" aria-pressed="${mode==='makeup'}">보강</button>${P.user.role==='director'?`<button type="button" class="dq-opt cs${mode==='consult'?' on':''}" data-dq-mode="consult" aria-pressed="${mode==='consult'}">상담</button>`:''}<span class="dq-thumb"></span></div>
- ${mode==='consult'?`<input name="csname" maxlength="80" autocomplete="off" placeholder="상담 대상 (예: 김하린 어머님, 신규 문의)"><div class="dq-row"><select name="time" class="wq-time" aria-label="상담 시간"><option value="">시간 미정</option>${P.csTimes().map(t=>`<option ${t==='15:00'?'selected':''}>${t}</option>`).join('')}</select></div><textarea name="memo" maxlength="500" rows="2" placeholder="메모 (선택)"></textarea><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`:`<input name="names" list="dq-names" autocomplete="off" placeholder="${mode==='absent'?'결석할 학생 (예: 김하린, 이서준)':'보강할 학생 (예: 김하린)'}" data-abs-names><datalist id="dq-names">${(mode==='absent'?absNames:all).map(n=>`<option value="${e(n)}">`).join('')}</datalist>
+ return `<p class="wq-title">${e(P.dayLabel(date))}</p><div class="dq-seg" role="tablist" style="--n:${P.user.role==='director'?4:3};--i:${({absent:0,makeup:1,consult:2,memo:P.user.role==='director'?3:2})[mode]||0}"><button type="button" class="dq-opt abs${mode==='absent'?' on':''}" data-dq-mode="absent" aria-pressed="${mode==='absent'}">결석</button><button type="button" class="dq-opt mk${mode==='makeup'?' on':''}" data-dq-mode="makeup" aria-pressed="${mode==='makeup'}">보강</button>${P.user.role==='director'?`<button type="button" class="dq-opt cs${mode==='consult'?' on':''}" data-dq-mode="consult" aria-pressed="${mode==='consult'}">상담</button>`:''}<button type="button" class="dq-opt memo${mode==='memo'?' on':''}" data-dq-mode="memo" aria-pressed="${mode==='memo'}">메모</button><span class="dq-thumb"></span></div>
+ ${mode==='memo'?`<textarea name="daymemo" maxlength="300" rows="3" placeholder="예: 휴원, 발표회 리허설 (모두에게 보여요)">${e(P.dayMemo(date)?.text||'')}</textarea><p class="form-error" role="alert"></p><div class="wq-act">${P.dayMemo(date)?`<button type="button" class="btn danger-link" data-dm-delete="${e(date)}" style="margin-right:auto">삭제</button>`:''}<button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">저장</button></div>`:mode==='consult'?`<input name="csname" maxlength="80" autocomplete="off" placeholder="상담 대상 (예: 김하린 어머님, 신규 문의)"><div class="dq-row"><select name="time" class="wq-time" aria-label="상담 시간"><option value="">시간 미정</option>${P.csTimes().map(t=>`<option ${t==='15:00'?'selected':''}>${t}</option>`).join('')}</select></div><textarea name="memo" maxlength="500" rows="2" placeholder="메모 (선택)"></textarea><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`:`<input name="names" list="dq-names" autocomplete="off" placeholder="${mode==='absent'?'결석할 학생 (예: 김하린, 이서준)':'보강할 학생 (예: 김하린)'}" data-abs-names><datalist id="dq-names">${(mode==='absent'?absNames:all).map(n=>`<option value="${e(n)}">`).join('')}</datalist>
  ${mode==='makeup'?`<div class="dq-row"><select name="time" class="wq-time" aria-label="보강 시작 시간">${slots.map(t=>`<option>${t}</option>`).join('')}</select></div>`:''}
  <div class="wq-hint"></div><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`}`;};
 P.absSel=P.absSel||new Map();
@@ -1868,10 +1909,10 @@ P.quickAdd=function(anchor,day,time){
 };
 document.addEventListener('input',event=>{if(event.target.matches('[data-abs-names]'))P.absAddHint(event.target);if(event.target.matches('[data-wq-names]'))P.wqHint(event.target);if(event.target.matches('[data-wk-search]')){P.wkQ=event.target.value.trim();P.wkApplySearch();}});
 document.addEventListener('click',event=>{if(event.target.closest('[data-wk-clear]')){P.wkQ='';P.wkApplySearch();const i=event.target.closest('.wk-search')?.querySelector('input');if(i){i.value='';i.focus();}}});
-document.addEventListener('keydown',event=>{if(event.key==='Escape')document.querySelector('.wq-pop')?.remove();});
-document.addEventListener('mousedown',event=>{const p=document.querySelector('.wq-pop');if(p&&!p.contains(event.target)&&!event.target.closest('[data-weekly-add],[data-wq],[data-abs-add],[data-day-add]'))p.remove();});
-document.addEventListener('click',event=>{const m=event.target.closest('[data-dq-mode]');if(!m)return;const pop=m.closest('.wq-pop'),v=pop.querySelector('[data-abs-names]')?.value||'';pop.dataset.mode=m.dataset.dqMode;pop.innerHTML=P.dayForm(pop.dataset.absDate,pop.dataset.mode);const i=pop.querySelector('[data-abs-names]');if(i){i.value=v;i.focus();P.absAddHint(i);}else pop.querySelector('[name=csname]')?.focus();});
-document.addEventListener('click',event=>{if(event.target.closest('[data-wq-close]'))event.target.closest('.wq-pop')?.remove();const dy=event.target.closest('[data-wq-day]');if(dy){if(dy.hasAttribute('data-single'))dy.parentElement.querySelectorAll('.wq-day').forEach(b=>b.classList.toggle('on',b===dy));else dy.classList.toggle('on');}});
+document.addEventListener('keydown',event=>{if(event.key==='Escape')P.popClose(document.querySelector('.wq-pop:not(.closing)'));});
+document.addEventListener('mousedown',event=>{const p=document.querySelector('.wq-pop:not(.closing)');if(p&&!p.contains(event.target)&&!event.target.closest('[data-weekly-add],[data-wq],[data-abs-add],[data-day-add]'))P.popClose(p);});
+document.addEventListener('click',event=>{const m=event.target.closest('[data-dq-mode]');if(!m)return;const pop=m.closest('.wq-pop'),v=pop.querySelector('[data-abs-names]')?.value||'';if(pop.dataset.mode===m.dataset.dqMode)return;pop.dataset.mode=m.dataset.dqMode;P.swapDayForm(pop);const i=pop.querySelector('[data-abs-names]');if(i){i.value=v;i.focus();P.absAddHint(i);}else (pop.querySelector('[name=csname]')||pop.querySelector('[name=daymemo]'))?.focus();});
+document.addEventListener('click',event=>{if(event.target.closest('[data-wq-close]'))P.popClose(event.target.closest('.wq-pop'));const dy=event.target.closest('[data-wq-day]');if(dy){if(dy.hasAttribute('data-single'))dy.parentElement.querySelectorAll('.wq-day').forEach(b=>b.classList.toggle('on',b===dy));else dy.classList.toggle('on');}});
 document.addEventListener('submit',event=>{const f=event.target.closest('form[data-mk-form]');if(!f)return;event.preventDefault();event.stopPropagation();
  const l=P.scheduleLessons().find(x=>x.id===f.dataset.mkForm);if(!l)return;const date=f.querySelector('[name=date]').value,time=f.querySelector('[name=time]').value;f.closest('dialog')?.close();
  P.bgRun('lessons.save',{id:l.id,version:l.version,studentId:l.studentId,teacherId:l.teacherId||'',date,time,duration:l.duration||50,kind:'makeup',allowNoTeacher:true},()=>{const before={date:l.date,time:l.time};Object.assign(l,{date,time,pending:true});return ()=>{Object.assign(l,before);delete l.pending;};},()=>{delete l.pending;},true);},true);
@@ -1886,9 +1927,9 @@ document.addEventListener('submit',async event=>{
  const pop=event.target.closest('.wq-pop');if(!pop)return;event.preventDefault();event.stopPropagation();if(pop.getAttribute('aria-busy')==='true')return;
  if(pop.dataset.absDate){P.absQuickSave(pop);return;}
  const err=pop.querySelector('.form-error'),days=[...pop.querySelectorAll('.wq-day.on')].map(b=>Number(b.dataset.wqDay));if(!days.length){err.textContent='요일을 하나 이상 골라 주세요.';return;}
- if(pop.dataset.move){pop.remove();P.moveWeekly(pop.dataset.move,days[0],pop.querySelector('[name=time]').value);return;}
+ if(pop.dataset.move){P.popClose(pop);P.moveWeekly(pop.dataset.move,days[0],pop.querySelector('[name=time]').value);return;}
  const names=pop.querySelector('[data-wq-names]').value;if(!names.trim()){err.textContent='학생 이름을 입력해 주세요.';return;}
- pop.remove();P.quickSave(names,days,pop.dataset.time,50,Object.fromEntries([...pop.querySelectorAll('[data-wq-pick]')].map(x=>[x.dataset.wqPick,x.value])));
+ P.popClose(pop);P.quickSave(names,days,pop.dataset.time,50,Object.fromEntries([...pop.querySelectorAll('[data-wq-pick]')].map(x=>[x.dataset.wqPick,x.value])));
 },true);
 // 이름 바로 입력 저장 (빈칸 팝업 · + 수업 창 공용): 화면에 먼저 표시 → 서버 저장 → 저장된 줄로 교체, 실패하면 되돌림.
 P.quickSave=async function(names,days,time,duration,picks){
@@ -1921,13 +1962,24 @@ P.bgSave=function(action,values,form){
   return P.api(action,values,form.dataset.requestId).then(()=>{close();P.saving('저장됨','done');P.pendingSaves=(P.pendingSaves||0)+1;P.refreshData().catch(()=>{}).finally(()=>{P.pendingSaves--;P.refreshApp();});return true;});}
  return false;};
 // 주간 결석 예정: 요일 칸 → 이름 입력 팝업 → 화면에 먼저 표시하고 뒤에서 저장.
+// 팝업 닫기 애니메이션 + 날짜 팝업 탭 전환(선택 표시는 그대로 두고 움직이게, 아래 내용만 바꾸며 높이 부드럽게).
+P.popClose=p=>{if(!p||p.classList.contains('closing'))return;p.classList.add('closing');setTimeout(()=>p.remove(),170);};
+P.swapDayForm=function(pop){const tmp=document.createElement('div');tmp.innerHTML=P.dayForm(pop.dataset.absDate,pop.dataset.mode);
+ const seg=pop.querySelector('.dq-seg'),nseg=tmp.querySelector('.dq-seg');if(!seg||!nseg){pop.innerHTML=tmp.innerHTML;return;}
+ seg.setAttribute('style',nseg.getAttribute('style')||'');seg.querySelectorAll('.dq-opt').forEach(b=>{const on=b.dataset.dqMode===pop.dataset.mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
+ const h0=pop.offsetHeight;[...pop.children].forEach(c=>{if(c!==seg&&!c.classList.contains('wq-title'))c.remove();});
+ [...tmp.children].forEach(c=>{if(!c.classList.contains('dq-seg')&&!c.classList.contains('wq-title')){c.classList.add('dq-in');pop.appendChild(c);}});
+ const h1=pop.offsetHeight;if(Math.abs(h1-h0)<2)return;const top=parseFloat(pop.style.top)||0,r=pop.getBoundingClientRect();
+ if(r.top+h1>innerHeight-8)pop.style.top=Math.max(8,innerHeight-8-h1)+'px';
+ pop.style.height=h0+'px';pop.style.overflow='hidden';pop.offsetHeight;pop.style.transition='height .26s cubic-bezier(.2,.75,.25,1),top .26s cubic-bezier(.2,.75,.25,1)';pop.style.height=h1+'px';
+ clearTimeout(pop._ht);pop._ht=setTimeout(()=>{pop.style.height='';pop.style.overflow='';pop.style.transition='';},280);};
 P.absQuick=function(anchor,date){document.querySelector('.wq-pop')?.remove();const r=anchor.getBoundingClientRect(),pop=document.createElement('form');pop.className='wq-pop';pop.dataset.absDate=date;pop.dataset.date=date;pop.dataset.mode='absent';pop.innerHTML=P.dayForm(date,'absent');document.body.appendChild(pop);P.histPush?.('pop');
  const w=Math.min(300,innerWidth-24);pop.style.width=w+'px';pop.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';const h=pop.offsetHeight;pop.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-6):Math.min(r.top+34,innerHeight-h-8))+'px';pop.querySelector('input').focus();};
-P.absQuickSave=async function(pop){if(pop.dataset.mode==='makeup')return P.makeupQuickSave(pop);if(pop.dataset.mode==='consult')return P.consultQuickSave(pop);const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))];
+P.absQuickSave=async function(pop){if(pop.dataset.mode==='makeup')return P.makeupQuickSave(pop);if(pop.dataset.mode==='consult')return P.consultQuickSave(pop);if(pop.dataset.mode==='memo'){const t=pop.querySelector('[name=daymemo]').value.trim(),d=pop.dataset.absDate;P.popClose(pop);return P.dayMemoSave(d,t);}const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))];
  if(!names.length){err.textContent='학생 이름을 입력해 주세요.';return;}const ss=P.absDaySessions(date),nm=id=>P.rosterName(id),bad=names.filter(n=>!ss.some(s=>nm(s.studentId)===n));
  if(bad.length){err.textContent=bad.join(', ')+': 이날 수업이 없거나 이미 결석 예정이에요.';return;}
  const items=ss.filter(s=>names.includes(nm(s.studentId))).map(s=>{const link=s.lessonId&&P.ac().makeupLinks[s.lessonId];return {source:s.source,date,courseId:s.courses.length===1?s.courses[0].courseId:link?.courseId||''};});
- pop.remove();const att=P.ac().attendance,tmp=items.map(it=>{const s=ss.find(x=>x.source===it.source);return {id:'tmp-'+crypto.randomUUID(),courseId:it.courseId,studentId:s.studentId,source:it.source,kind:s.kind,date,time:s.time,status:'planned',deduct:'',reason:'',history:'',version:0,pending:true};});
+ P.popClose(pop);const att=P.ac().attendance,tmp=items.map(it=>{const s=ss.find(x=>x.source===it.source);return {id:'tmp-'+crypto.randomUUID(),courseId:it.courseId,studentId:s.studentId,source:it.source,kind:s.kind,date,time:s.time,status:'planned',deduct:'',reason:'',history:'',version:0,pending:true};});
  att.push(...tmp);const redraw=()=>P.redrawDays();redraw();P.saveStart();
  try{await P.api('absence.plan',{op:'create',items},crypto.randomUUID());await P.refreshData();P.refreshApp();P.saveEnd();}
  catch(error){const a=P.ac().attendance;tmp.forEach(t=>{const i=a.indexOf(t);if(i>=0)a.splice(i,1);});redraw();P.saveEnd(error.message);}};
@@ -1936,19 +1988,27 @@ P.consultSave=async function(values,apply){const undo=apply();P.redrawDays();P.s
  try{await P.api(values.id&&values.del?'consults.delete':'consults.save',values,crypto.randomUUID());await P.refreshData();P.refreshApp();P.saveEnd();}
  catch(error){undo();P.redrawDays();P.saveEnd(error.message);}};
 P.consultQuickSave=function(pop){const name=pop.querySelector('[name=csname]').value.trim(),err=pop.querySelector('.form-error');if(!name){err.textContent='상담 대상 이름을 입력해 주세요.';return;}
- const v={date:pop.dataset.absDate,time:pop.querySelector('[name=time]').value,name,memo:pop.querySelector('[name=memo]').value.trim()};pop.remove();P.data.consults=P.data.consults||[];
+ const v={date:pop.dataset.absDate,time:pop.querySelector('[name=time]').value,name,memo:pop.querySelector('[name=memo]').value.trim()};P.popClose(pop);P.data.consults=P.data.consults||[];
  P.consultSave(v,()=>{const t={id:'tmp-'+crypto.randomUUID(),...v,version:0,pending:true};P.data.consults.push(t);return ()=>{const i=P.data.consults.indexOf(t);if(i>=0)P.data.consults.splice(i,1);};});};
-document.addEventListener('click',event=>{const o=event.target.closest('[data-cs-open]');if(o){event.stopPropagation();if(String(o.dataset.csOpen).startsWith('tmp-'))return;document.getElementById('detail-dialog')?.open&&document.getElementById('detail-dialog').close();P.modal('상담 일정',P.consultDetail(o.dataset.csOpen),'view');return;}
+document.addEventListener('click',event=>{const o=event.target.closest('[data-cs-open]');if(o){event.stopPropagation();if(String(o.dataset.csOpen).startsWith('tmp-'))return;P.modal('상담 일정',P.consultDetail(o.dataset.csOpen),'view');return;}
  const d=event.target.closest('[data-cs-delete]');if(d){event.stopPropagation();const c=(P.data.consults||[]).find(x=>x.id===d.dataset.csDelete);if(!c)return;P.confirmDelete(c.name+' 상담 일정을 삭제할까요?','',run);
   function run(){d.closest('dialog')?.close();P.consultSave({id:c.id,version:c.version,del:true},()=>{const i=P.data.consults.indexOf(c);P.data.consults.splice(i,1);return ()=>P.data.consults.splice(i,0,c);});}}},true);
 document.addEventListener('submit',event=>{const f=event.target.closest('form[data-cs-form]');if(!f)return;event.preventDefault();event.stopPropagation();const c=(P.data.consults||[]).find(x=>x.id===f.dataset.csForm);if(!c)return;
  const v={id:c.id,version:c.version,date:f.querySelector('[name=date]').value,time:f.querySelector('[name=time]').value,name:f.querySelector('[name=name]').value.trim(),memo:f.querySelector('[name=memo]').value.trim()};
  if(!v.name||!v.date){f.querySelector('.form-error').textContent='날짜와 이름을 입력해 주세요.';return;}f.closest('dialog')?.close();
  P.consultSave(v,()=>{const before={...c};Object.assign(c,v,{pending:true});return ()=>{Object.assign(c,before);delete c.pending;};});},true);
+// 날짜 메모: 화면에 먼저 반영, 뒤에서 저장, 실패하면 되돌림.
+P.dayMemoSave=async function(date,text){P.data.dayMemos=P.data.dayMemos||{};const prior=P.data.dayMemos[date]||null;if((prior?.text||'')===text)return;
+ if(text)P.data.dayMemos[date]={text,version:prior?prior.version:0,pending:true};else delete P.data.dayMemos[date];P.redrawDays();P.saveStart();
+ try{await P.api('daymemo.save',{date,text,version:prior?prior.version:0},crypto.randomUUID());await P.refreshData();P.refreshApp();P.saveEnd();}
+ catch(error){if(prior)P.data.dayMemos[date]=prior;else delete P.data.dayMemos[date];P.redrawDays();P.saveEnd(error.message);}};
+document.addEventListener('click',event=>{const x=event.target.closest('[data-dm-delete]');if(x){event.stopPropagation();const d=x.dataset.dmDelete;P.confirmDelete('이날 메모를 삭제할까요?','',()=>{x.closest('dialog')?.close();P.popClose(x.closest('.wq-pop'));P.dayMemoSave(d,'');});return;}},true);
+document.addEventListener('click',event=>{const b=event.target.closest('[data-dm-edit]');if(!b)return;event.stopPropagation();P.modal('날짜 메모',P.dayMemoForm(b.dataset.dmEdit));},true);
+document.addEventListener('submit',event=>{const f=event.target.closest('form[data-dm-form]');if(!f)return;event.preventDefault();event.stopPropagation();const t=f.querySelector('[name=text]').value.trim();f.closest('dialog')?.close();P.dayMemoSave(f.dataset.dmForm,t);},true);
 P.redrawDays=()=>{const b=document.getElementById('abs-board');if(b)b.innerHTML=P.absenceBoard();const c=document.getElementById('calendar-panel');if(c&&P.state.group==='home')c.innerHTML=P.homeMakeup(P.state);};
 P.makeupQuickSave=async function(pop){const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))],time=pop.querySelector('[name=time]')?.value,teacherId='';
  if(!names.length){err.textContent='학생 이름을 입력해 주세요.';return;}const ro=P.data.roster||[],bad=names.filter(n=>!ro.some(s=>s.name===n));if(bad.length){err.textContent=bad.join(', ')+': 등록된 학생이 아니에요.';return;}
- pop.remove();const box=P.data.schedule||P.data.lessons,tmp=names.map(n=>{const s=ro.find(x=>x.name===n);return {id:'tmp-'+crypto.randomUUID(),studentId:s.id,teacherId:teacherId||(P.data.students||[]).find(x=>x.id===s.id)?.teacherId||P.user.teacherId||'',date,time,duration:50,kind:'makeup',status:'scheduled',attendance:'pending',version:1,pending:true};});
+ P.popClose(pop);const box=P.data.schedule||P.data.lessons,tmp=names.map(n=>{const s=ro.find(x=>x.name===n);return {id:'tmp-'+crypto.randomUUID(),studentId:s.id,teacherId:teacherId||(P.data.students||[]).find(x=>x.id===s.id)?.teacherId||P.user.teacherId||'',date,time,duration:50,kind:'makeup',status:'scheduled',attendance:'pending',version:1,pending:true};});
  box.push(...tmp);P.redrawDays();P.saveStart();
  const drop=()=>{const b=P.data.schedule||P.data.lessons;tmp.forEach(t=>{const i=b.indexOf(t);if(i>=0)b.splice(i,1);});};
  try{const r=await P.api('makeup.quick',{names:names.join(','),date,time,duration:50,teacherId},crypto.randomUUID());drop();await P.refreshData();P.refreshApp();P.saveEnd();}
@@ -2295,7 +2355,7 @@ function openDialog(title,body,mode='view'){
  const d=document.getElementById('detail-dialog');if(!d.open){P.histPush('modal');dialogOpener=document.activeElement;const menu=dialogOpener?.closest('.user-menu');if(menu)dialogOpener=menu.querySelector('summary');}
  document.querySelector('.user-menu')?.removeAttribute('open');
  document.getElementById('dialog-title').textContent=title;
- document.getElementById('dialog-content').innerHTML=body;
+ const dcEl=document.getElementById('dialog-content');dcEl.innerHTML=body;if(d.open){dcEl.classList.remove('dc-swap');void dcEl.offsetWidth;dcEl.classList.add('dc-swap');}
  d.dataset.mode=mode;d.querySelector('.dialog-foot>span').textContent=mode==='edit'?(P.live?'저장 버튼을 눌러 변경사항을 반영하세요.':'가상 데이터 · 실제 저장되지 않습니다.'):'읽기 전용';
  d._initial=JSON.stringify([...new FormData(d.querySelector('form')||document.createElement('form'))]);
  d.showModal();
@@ -2386,7 +2446,7 @@ window.addEventListener('hashchange',route);
 (function(){
  const gh=window.google&&google.script&&google.script.history;let skip=false;
  P.histPush=kind=>{const h=location.hash||'#home/overview';try{if(gh)gh.push({k:kind,h},null,h.slice(1));else history.pushState({k:kind,h},'',h);}catch(_e){}};
- const closeTop=()=>{const dc=document.querySelector('.del-confirm');if(dc){dc.remove();return true;}const pop=document.querySelector('.wq-pop');if(pop){pop.remove();return true;}
+ const closeTop=()=>{const dc=document.querySelector('.del-confirm');if(dc){dc.remove();return true;}const pop=document.querySelector('.wq-pop:not(.closing)');if(pop){P.popClose(pop);return true;}
   const d=document.getElementById('detail-dialog');if(d?.open){requestClose();return true;}if(state.drawer){state.drawer=false;updateDrawer();return true;}const um=document.querySelector('.user-menu[open]');if(um){um.open=false;return true;}return false;};
  const back=target=>{if(closeTop())return;if(target&&target!==location.hash){skip=true;location.hash=target;}};
  window.addEventListener('hashchange',()=>{if(skip){skip=false;return;}if(gh)P.histPush('route');});
