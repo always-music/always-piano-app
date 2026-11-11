@@ -11,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611111206">
+  <meta name="app-build" content="202611111237">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2076,7 +2076,7 @@ P.push={
   if(sub&&!P.push.same(sub,P.data.pushKey)){await sub.unsubscribe();sub=null;}if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:P.push.key(P.data.pushKey)});
   let last='';try{last=localStorage.getItem('always-piano.push-endpoint')||'';}catch{}if(last!==sub.endpoint)await P.push.save(sub);}catch{}}
 };
-P.pushPanel=function(){const intro='<p class="push-intro">내 담당 학생의 <b>결석 예정</b>·<b>보강</b>이 등록되면 이 휴대폰으로 알려 드려요.</p>';
+P.pushPanel=function(){const intro='<p class="push-intro"><b>결석</b>·<b>보강</b>·<b>상담</b> 등록과 <b>날짜 메모</b> 작성을 이 휴대폰으로 알려 드려요.</p>';
  if(!window.APP_MODE)return intro+'<p class="push-note">알림은 휴대폰 앱(홈 화면에 추가한 언제나 음악학원)에서 켤 수 있어요.</p>';
  if(!P.push.supported())return intro+(P.push.ios&&!P.push.standalone()?'<p class="push-note">아이폰은 Safari에서 <b>공유 → 홈 화면에 추가</b>로 설치한 앱에서 켤 수 있어요.</p>':'<p class="push-note">이 기기는 앱 알림을 지원하지 않아요. 아이폰은 iOS 16.4 이상에서 돼요.</p>');
  if(Notification.permission==='denied')return intro+'<p class="push-note warn">알림이 차단돼 있어요. 휴대폰 <b>설정 → 알림</b>에서 언제나 음악학원을 허용한 뒤 다시 열어 주세요.</p>';
