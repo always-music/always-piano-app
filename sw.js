@@ -8,3 +8,6 @@ self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.me
  if(e.request.mode==='navigate'){e.respondWith(caches.open(CACHE).then(c=>c.match('index.html').then(hit=>{if(hit){e.waitUntil(refreshShell(c));return hit;}return fetch(e.request).then(r=>{if(r.ok)c.put('index.html',r.clone());return r;});})));return;}
  e.respondWith(caches.open(CACHE).then(c=>c.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok)c.put(e.request,r.clone());return r;}))));});
 self.addEventListener('message',e=>{if(e.data==='check')e.waitUntil(caches.open(CACHE).then(refreshShell));});
+self.addEventListener('push',e=>{let d={};try{d=e.data?e.data.json():{};}catch(_e){d={body:e.data&&e.data.text()};}
+ e.waitUntil(self.registration.showNotification(d.title||'언제나 음악학원',{body:d.body||'',tag:d.tag||undefined,icon:'icon-192.png',badge:'icon-192.png',data:{url:d.url||'./'}}));});
+self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>{const c=cs.find(x=>'focus'in x);if(c)return c.focus();return self.clients.openWindow(e.notification.data&&e.notification.data.url||'./');}));});

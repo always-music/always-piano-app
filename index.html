@@ -11,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611101521">
+  <meta name="app-build" content="202611111122">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1025,6 +1025,22 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 }
 @media (max-width:600px){.big-day-head{flex-wrap:wrap;row-gap:2px}.big-day-head .cal-memo{order:3;flex:1 0 100%;border-radius:4px;text-overflow:clip;text-align:center;letter-spacing:-.05em}.big-day-head .cal-memo-gap{flex:1}}
 @media (max-width:600px){.cal-col .cal-mk,.cal-col .cal-abs,.cal-col .cal-more{font-size:9.5px!important;letter-spacing:-.08em!important;padding:1px 0!important}}
+/* 앱 알림 */
+.push-intro{font-size:14px;line-height:1.6;color:#3D2B1F;margin:0 0 12px}
+.push-note{font-size:13.5px;line-height:1.6;padding:12px 14px;border-radius:12px;background:#F6F1E9;color:#5C4A3A}
+.push-note.warn{background:#FDECEA;color:#8A2A22}
+.push-box{display:flex;flex-direction:column;gap:12px;padding:14px;border:1px solid #E6DCCD;border-radius:14px;background:#FFFDF9}
+.push-state{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;color:#3D2B1F;margin:0}
+.push-dot{width:9px;height:9px;border-radius:50%;background:#2E9A62;box-shadow:0 0 0 4px rgba(46,154,98,.15)}
+.push-dot.off{background:#B9AEA2;box-shadow:0 0 0 4px rgba(185,174,162,.2)}
+.push-act{display:flex;gap:8px}
+.push-on{align-self:flex-start}
+.push-nudge{display:flex;align-items:center;gap:10px;margin:12px 0 0;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #E6D3A8;animation:wqIn .3s cubic-bezier(.2,.8,.3,1)}
+.push-nudge-ic{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#3D2B1F;color:#E6C27A;flex-shrink:0}
+.push-nudge-ic .icon{width:16px;height:16px}
+.push-nudge-t{flex:1;font-size:13.5px;font-weight:600;color:#3D2B1F;line-height:1.4}
+.push-nudge-on{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;background:#3D2B1F;color:#FFF8EE;font-size:13px;font-weight:700}
+.push-nudge-x{all:unset;cursor:pointer;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;color:#8A7A6C;font-size:18px}
 </style>
 
 </head>
@@ -1571,7 +1587,7 @@ P.liveDashboard=function(state){
  const active=P.data.students.filter(s=>s.status==='active').length;
  // Home: greeting lives in the sidebar; top row = two narrow metric cards · 할 일 (with alerts + 등록) · 메모, all on one top line.
  const alerts=P.taskAlert()+(P.user.role==='director'?P.payAlert():'');
- return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side"><div class="home-memo">${P.memoCard()}</div><div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
+ return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}${P.pushNudge()}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side"><div class="home-memo">${P.memoCard()}</div><div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
 };
 P.page=function(state){
  if(!P.live)return oldPage(state);
@@ -1821,7 +1837,7 @@ function rpc(name,arg){return new Promise((resolve,reject)=>{
  google.script.run.withSuccessHandler(response=>{if(response&&response.ok)resolve(response.data);else{const error=new Error(response?.error?.message||'서버 응답을 확인할 수 없습니다.');error.code=response?.error?.code||'INTERNAL';reject(error);}}).withFailureHandler(()=>reject(new Error('서버에 연결하지 못했습니다. 잠시 후 다시 시도해 주세요.')))[name](arg);
 });}
 P.api=async function(action,payload={},requestId){try{return await rpc('academyApi',P.viewAs?{token,action,payload,requestId,actAs:P.viewAs}:{token,action,payload,requestId});}catch(error){if(error.code==='UNAUTHENTICATED'){clearSession();loginScreen(error.message);}else if(error.code==='PASSWORD_CHANGE_REQUIRED'&&!document.getElementById('password-form'))passwordScreen();throw error;}};
-P.setData=function(d){P.data=d;P.user=P.data.user;lastSync=Date.now();P.applyOpt();saveData();};
+P.setData=function(d){P.data=d;P.user=P.data.user;lastSync=Date.now();P.applyOpt();saveData();if(!P._pushSynced&&P.push){P._pushSynced=true;setTimeout(()=>P.push.sync(),1500);}};
 P.refreshData=async function(){P.setData(await P.api('bootstrap'));};
 // Saves still in flight stay on screen even if fresh data arrives meanwhile (no vanish-and-reappear).
 P._opt={weekly:[],roster:[],moves:{}};
@@ -2034,6 +2050,44 @@ P.dayMemoSave=async function(date,text){P.data.dayMemos=P.data.dayMemos||{};cons
 document.addEventListener('click',event=>{const x=event.target.closest('[data-dm-delete]');if(x){event.stopPropagation();const d=x.dataset.dmDelete;P.confirmDelete('이날 메모를 삭제할까요?','',()=>{x.closest('dialog')?.close();P.popClose(x.closest('.wq-pop'));P.dayMemoSave(d,'');});return;}},true);
 document.addEventListener('click',event=>{const b=event.target.closest('[data-dm-edit]');if(!b)return;event.stopPropagation();P.modal('날짜 메모',P.dayMemoForm(b.dataset.dmEdit));},true);
 document.addEventListener('submit',event=>{const f=event.target.closest('form[data-dm-form]');if(!f)return;event.preventDefault();event.stopPropagation();const t=f.querySelector('[name=text]').value.trim();f.closest('dialog')?.close();P.dayMemoSave(f.dataset.dmForm,t);},true);
+// ── 앱 알림 ──
+// 휴대폰 앱(홈 화면에 설치)에서만 켤 수 있어요. 켜면 이 기기 구독 정보를 서버에 저장하고, 서버가 알림을 보내요.
+P.push={
+ ios:/iP(hone|ad|od)/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1,
+ standalone:()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true,
+ supported:()=>!!(window.APP_MODE&&'serviceWorker'in navigator&&'PushManager'in window&&'Notification'in window),
+ key:b64=>{const s=atob(b64.replace(/-/g,'+').replace(/_/g,'/')+'==='.slice((b64.length+3)%4));return Uint8Array.from(s,c=>c.charCodeAt(0));},
+ sub:async()=>{const reg=await navigator.serviceWorker.ready;return {reg,sub:await reg.pushManager.getSubscription()};},
+ same:(sub,key)=>{try{const a=new Uint8Array(sub.options.applicationServerKey),b=P.push.key(key);return a.length===b.length&&a.every((x,i)=>x===b[i]);}catch{return false;}},
+ save:async sub=>{const j=sub.toJSON();await P.api('push.subscribe',{endpoint:j.endpoint,p256dh:j.keys.p256dh,auth:j.keys.auth,device:(navigator.userAgent.match(/\(([^)]+)\)/)?.[1]||'').slice(0,80)},crypto.randomUUID());try{localStorage.setItem('always-piano.push-endpoint',j.endpoint);}catch{}},
+ on:async()=>{const key=P.data.pushKey;if(!key)throw new Error('서버 알림 준비가 아직 안 됐어요. 잠시 후 다시 시도해 주세요.');
+  const perm=await Notification.requestPermission();if(perm!=='granted')throw new Error(perm==='denied'?'알림이 차단돼 있어요. 휴대폰 설정에서 이 앱의 알림을 허용해 주세요.':'알림 허용을 눌러 주세요.');
+  let {reg,sub}=await P.push.sub();if(sub&&!P.push.same(sub,key)){await sub.unsubscribe();sub=null;}
+  if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:P.push.key(key)});await P.push.save(sub);},
+ off:async()=>{const {sub}=await P.push.sub();if(sub){const ep=sub.endpoint;await sub.unsubscribe().catch(()=>{});await P.api('push.unsubscribe',{endpoint:ep},crypto.randomUUID()).catch(()=>{});}try{localStorage.removeItem('always-piano.push-endpoint');}catch{}},
+ // 앱 열 때: 허용돼 있으면 구독이 살아 있는지 확인하고, 바뀌었을 때만 서버에 다시 저장
+ sync:async()=>{if(!P.push.supported()||Notification.permission!=='granted'||!P.data.pushKey)return;try{let {reg,sub}=await P.push.sub();
+  if(sub&&!P.push.same(sub,P.data.pushKey)){await sub.unsubscribe();sub=null;}if(!sub)sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:P.push.key(P.data.pushKey)});
+  let last='';try{last=localStorage.getItem('always-piano.push-endpoint')||'';}catch{}if(last!==sub.endpoint)await P.push.save(sub);}catch{}}
+};
+P.pushPanel=function(){const intro='<p class="push-intro">내 담당 학생의 <b>결석 예정</b>·<b>보강</b>이 등록되면 이 휴대폰으로 알려 드려요.</p>';
+ if(!window.APP_MODE)return intro+'<p class="push-note">알림은 휴대폰 앱(홈 화면에 추가한 언제나 음악학원)에서 켤 수 있어요.</p>';
+ if(!P.push.supported())return intro+(P.push.ios&&!P.push.standalone()?'<p class="push-note">아이폰은 Safari에서 <b>공유 → 홈 화면에 추가</b>로 설치한 앱에서 켤 수 있어요.</p>':'<p class="push-note">이 기기는 앱 알림을 지원하지 않아요. 아이폰은 iOS 16.4 이상에서 돼요.</p>');
+ if(Notification.permission==='denied')return intro+'<p class="push-note warn">알림이 차단돼 있어요. 휴대폰 <b>설정 → 알림</b>에서 언제나 음악학원을 허용한 뒤 다시 열어 주세요.</p>';
+ return intro+'<div class="push-box" data-push-box><p class="push-state">확인 중…</p></div><p class="form-error" role="alert"></p>';};
+P.pushRefresh=async function(){const box=document.querySelector('[data-push-box]');if(!box)return;let on=false;try{const {sub}=await P.push.sub();on=!!sub&&Notification.permission==='granted';}catch{}
+ box.innerHTML=on?'<p class="push-state on"><span class="push-dot"></span>이 기기로 알림을 받고 있어요</p><div class="push-act"><button type="button" class="btn" data-push="test">테스트 알림</button><button type="button" class="btn danger-link" data-push="off">알림 끄기</button></div>':'<p class="push-state"><span class="push-dot off"></span>알림이 꺼져 있어요</p><button type="button" class="btn primary push-on" data-push="on">알림 켜기</button>';};
+P.pushNudge=()=>{if(!P.push.supported()||Notification.permission!=='default')return '';try{if(localStorage.getItem('always-piano.push-nudge'))return '';}catch{}
+ return '<div class="push-nudge"><span class="push-nudge-ic">'+P.icon('bell')+'</span><span class="push-nudge-t">결석·보강 알림을 휴대폰으로 받아 보세요</span><button type="button" class="push-nudge-on" data-push="on">켜기</button><button type="button" class="push-nudge-x" data-push="later" aria-label="나중에">×</button></div>';};
+document.addEventListener('click',async event=>{const b=event.target.closest('[data-push]');if(!b)return;const act=b.dataset.push,err=b.closest('.dialog-content,#dialog-content')?.querySelector('.form-error');
+ if(act==='later'){try{localStorage.setItem('always-piano.push-nudge','1');}catch{}b.closest('.push-nudge')?.remove();return;}
+ b.disabled=true;if(err)err.textContent='';
+ try{if(act==='on'){await P.push.on();try{localStorage.setItem('always-piano.push-nudge','1');}catch{}document.querySelector('.push-nudge')?.remove();P.saving('알림을 켰어요','done');}
+  if(act==='off'){await P.push.off();P.saving('알림을 껐어요','done');}
+  if(act==='test'){const r=await P.api('push.test',{});P.saving(r.sent?'테스트 알림을 보냈어요':r.error?'보내지 못했어요: 서버 알림 권한 승인이 필요해요':'보낼 기기가 없어요. 알림을 다시 켜 주세요',r.sent?'done':'error');}}
+ catch(error){if(err)err.textContent=error.message;else P.saving(error.message,'error');}
+ finally{if(b.isConnected)b.disabled=false;P.pushRefresh();}});
+new MutationObserver(()=>{const box=document.querySelector('[data-push-box]');if(box&&!box.dataset.ready){box.dataset.ready='1';P.pushRefresh();}}).observe(document.documentElement,{childList:true,subtree:true});
 P.redrawDays=()=>{const b=document.getElementById('abs-board');if(b)b.innerHTML=P.absenceBoard();const c=document.getElementById('calendar-panel');if(c&&P.state.group==='home')c.innerHTML=P.homeMakeup(P.state);};
 P.makeupQuickSave=async function(pop){const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))],time=pop.querySelector('[name=time]')?.value,teacherId='';
  if(!names.length){err.textContent='학생 이름을 입력해 주세요.';return;}const ro=P.data.roster||[],bad=names.filter(n=>!ro.some(s=>s.name===n));if(bad.length){err.textContent=bad.join(', ')+': 등록된 학생이 아니에요.';return;}
@@ -2290,7 +2344,7 @@ app().addEventListener('click',async event=>{
  if(tf){P.taskFilter=tf.dataset.taskFilter;document.querySelectorAll('.task-panel').forEach(panel=>{panel.outerHTML=P.liveTasks();});document.querySelector(`[data-task-filter="${P.taskFilter}"]`)?.focus();return;}
  const b=event.target.closest('[data-live-action]');if(!b)return;
  const action=b.dataset.liveAction;
- if(action==='logout'){await logout();return;}if(action==='password'){P.openPassword();return;}
+ if(action==='logout'){await logout();return;}if(action==='password'){P.openPassword();return;}if(action==='push'){P.modal('알림 설정',P.pushPanel(),'view');return;}
  if(action==='refresh'){b.disabled=true;P.notify('최신 데이터를 불러오는 중입니다…');try{await P.refreshData();P.refreshApp();P.notify('최신 데이터를 불러왔습니다.');}catch(error){P.notify(error.message);}finally{if(b.isConnected)b.disabled=false;}return;}
  if(action==='student'||action==='teacher'||action==='lesson'||action==='series'){P.presetDate=b.dataset.date||'';P.presetTime=b.dataset.time||'';P.presetStudent=b.dataset.student||'';P.presetKind=b.dataset.kind||'';P.formOpen(action,b.dataset.id);return;}
  if(action==='record'){P.recordOpen(b.dataset.id);return;}
@@ -2356,8 +2410,8 @@ function render(){
  const current=g.id===state.group,active=g.id===state.navGroup;
  if(g.id==='home')return `<a class="nav-item ${active?'active':''}" data-nav-group="home" href="#home/overview" ${current?'aria-current="page"':''}>${ic(g.icon)}<span>${g.label}</span>${active?'<span class="nav-dot"></span>':''}</a>`;
  return `<details class="nav-group" name="sidebar-navigation" ${active?'open':''}><summary class="nav-item ${active?'active':''}" data-nav-group="${g.id}">${ic(g.icon)}<span>${g.label}</span>${ic('chevron','nav-chevron')}</summary><div class="nav-submenu">${g.pages.filter(p=>!p[2]||p[2]===state.role).map(p=>`<a class="nav-subitem ${current&&p[0]===state.page?'active':''}" href="#${g.id}/${p[0]}" ${current&&p[0]===state.page?'aria-current="page"':''}>${e(p[1])}${P.readyPages.includes(g.id+'/'+p[0])?'':'<span class="nav-badge">준비</span>'}</a>`).join('')}</div></details>`;
- }).join('')}</nav><div class="sidebar-bottom">${P.live&&(P.realSession||P.user).role==='director'&&!(P.realSession||P.user).vice?`<button type="button" class="view-as-trigger" data-view-as-open aria-haspopup="dialog"><span class="view-as-icon">${ic('students')}</span><span class="view-as-text"><strong>강사 화면 보기</strong><small>지금 · ${P.viewAs?e(P.user.name)+' '+P.honor():'원장 화면'}</small></span>${ic('chevron','view-as-chev')}</button>`:''}${P.live&&P.user?(()=>{const me=(P.realSession||{}).user||P.user;return `<div class="side-user"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><span class="side-user-text"><strong>${e(me.name)}</strong><small>${me.role==='director'?'원장':'강사'}</small></span><div class="side-user-actions"><button type="button" data-live-action="password">비밀번호 변경</button><button type="button" data-live-action="logout">로그아웃</button></div></div>`;})():`<div class="workspace-status"><strong><span class="status-dot"></span>함께 만드는 좋은 배움</strong>Always Piano Academy<br>UI 미리보기</div>`}<div class="sidebar-footer">© ALWAYS PIANO ACADEMY</div></div></aside>
- <div class="main-wrap"><header class="topbar"><button class="mobile-menu" data-action="open-menu" aria-label="메뉴 열기" aria-controls="sidebar" aria-expanded="false">${ic('menu')}</button><span class="tb-aurora" aria-hidden="true"></span>${(()=>{const src=document.getElementById('brand-template')?.content.querySelector('img')?.getAttribute('src');return src?`<a class="tb-logo-link" href="#home/overview" aria-label="홈으로"><img class="tb-logo" src="${src}" alt="Always Piano Academy"></a>`:'';})()}${P.live&&state.group==='home'?(()=>{const d=new Date((P.data.date||'')+'T12:00:00Z');return `<div class="tb-hello"><span>${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${'일월화수목금토'[d.getUTCDay()]}요일</span><strong>${e(P.user.name)} ${P.honor()}, 반가워요</strong></div>`;})():''}<div class="breadcrumb"><span>워크스페이스</span>${ic('chevron')}<strong>${group.label} / ${page[1]}</strong></div><div class="top-actions">${P.live?`<details class="user-menu"><summary aria-label="사용자 메뉴"><span class="avatar">${e(P.user.name.slice(0,1))}</span><span class="user-label">${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</span>${ic('chevron')}</summary><div class="user-menu-panel"><p>${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</p><button data-action="notices">${ic('bell')}학원 소식</button><button data-live-action="password">비밀번호 변경</button><button data-live-action="logout">로그아웃</button></div></details>`:`<label class="role-picker"><span>화면 미리보기</span><select id="role-select" aria-label="역할별 화면 미리보기 (실제 로그인 아님)"><option value="director" ${director?'selected':''}>원장 화면</option><option value="teacher" ${!director?'selected':''}>강사 화면</option></select></label><button class="icon-btn" data-action="notices" aria-label="알림 미리보기">${ic('bell')}</button>`}</div></header>
+ }).join('')}</nav><div class="sidebar-bottom">${P.live&&(P.realSession||P.user).role==='director'&&!(P.realSession||P.user).vice?`<button type="button" class="view-as-trigger" data-view-as-open aria-haspopup="dialog"><span class="view-as-icon">${ic('students')}</span><span class="view-as-text"><strong>강사 화면 보기</strong><small>지금 · ${P.viewAs?e(P.user.name)+' '+P.honor():'원장 화면'}</small></span>${ic('chevron','view-as-chev')}</button>`:''}${P.live&&P.user?(()=>{const me=(P.realSession||{}).user||P.user;return `<div class="side-user"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><span class="side-user-text"><strong>${e(me.name)}</strong><small>${me.role==='director'?'원장':'강사'}</small></span><div class="side-user-actions"><button type="button" data-live-action="push">알림 설정</button><button type="button" data-live-action="password">비밀번호 변경</button><button type="button" data-live-action="logout">로그아웃</button></div></div>`;})():`<div class="workspace-status"><strong><span class="status-dot"></span>함께 만드는 좋은 배움</strong>Always Piano Academy<br>UI 미리보기</div>`}<div class="sidebar-footer">© ALWAYS PIANO ACADEMY</div></div></aside>
+ <div class="main-wrap"><header class="topbar"><button class="mobile-menu" data-action="open-menu" aria-label="메뉴 열기" aria-controls="sidebar" aria-expanded="false">${ic('menu')}</button><span class="tb-aurora" aria-hidden="true"></span>${(()=>{const src=document.getElementById('brand-template')?.content.querySelector('img')?.getAttribute('src');return src?`<a class="tb-logo-link" href="#home/overview" aria-label="홈으로"><img class="tb-logo" src="${src}" alt="Always Piano Academy"></a>`:'';})()}${P.live&&state.group==='home'?(()=>{const d=new Date((P.data.date||'')+'T12:00:00Z');return `<div class="tb-hello"><span>${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${'일월화수목금토'[d.getUTCDay()]}요일</span><strong>${e(P.user.name)} ${P.honor()}, 반가워요</strong></div>`;})():''}<div class="breadcrumb"><span>워크스페이스</span>${ic('chevron')}<strong>${group.label} / ${page[1]}</strong></div><div class="top-actions">${P.live?`<details class="user-menu"><summary aria-label="사용자 메뉴"><span class="avatar">${e(P.user.name.slice(0,1))}</span><span class="user-label">${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</span>${ic('chevron')}</summary><div class="user-menu-panel"><p>${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</p><button data-action="notices">${ic('bell')}학원 소식</button><button data-live-action="push">${ic('bell')}알림 설정</button><button data-live-action="password">비밀번호 변경</button><button data-live-action="logout">로그아웃</button></div></details>`:`<label class="role-picker"><span>화면 미리보기</span><select id="role-select" aria-label="역할별 화면 미리보기 (실제 로그인 아님)"><option value="director" ${director?'selected':''}>원장 화면</option><option value="teacher" ${!director?'selected':''}>강사 화면</option></select></label><button class="icon-btn" data-action="notices" aria-label="알림 미리보기">${ic('bell')}</button>`}</div></header>
  <main class="content" id="main" tabindex="-1">${P.viewAs?`<div class="view-as-banner" role="status"><span>${ic('teacher')}<strong>${e(P.user.name)} ${P.honor()}</strong> 계정으로 작업 중이에요 · 등록·수정은 원장 이름으로 기록돼요</span><button class="btn" data-view-as-exit>원장 화면으로 돌아가기</button></div>`:''}${P.live?'':'<div class="demo-banner"><span><strong>DEMO WORKSPACE</strong>오프라인 가상 데이터 미리보기 · 저장되지 않음</span><span>기준일 2026.10.26</span></div>'}<p id="live-status" class="live-status" role="status" aria-live="polite"></p>${P.page(state)}<footer class="footer"><span>ALWAYS PIANO ACADEMY · EVERY LITTLE NOTE COUNTS.</span><span>${P.live?'DEVELOPMENT WORKSPACE':'UI PROTOTYPE'} · ${(P.user?.vice?'부원장':director?'원장':'강사')} 화면</span></footer></main></div>
  <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title"></h2><button class="icon-btn" data-action="close-dialog" aria-label="상세 창 닫기">${ic('close')}</button></div><div class="dialog-content" id="dialog-content"></div><div class="dialog-foot"><span></span><button class="btn" data-action="close-dialog">닫기</button></div></dialog>`;
  document.title=page[1]+' · Always Piano';
