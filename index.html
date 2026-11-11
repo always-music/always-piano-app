@@ -11,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611111122">
+  <meta name="app-build" content="202611111128">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1041,6 +1041,12 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 .push-nudge-t{flex:1;font-size:13.5px;font-weight:600;color:#3D2B1F;line-height:1.4}
 .push-nudge-on{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;background:#3D2B1F;color:#FFF8EE;font-size:13px;font-weight:700}
 .push-nudge-x{all:unset;cursor:pointer;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;color:#8A7A6C;font-size:18px}
+/* 알림 안내: 위 갈색 카드 안에 */
+.m-hero .push-nudge{position:relative;z-index:2;margin:14px 0 0;padding:8px 8px 8px 10px;background:rgba(255,248,238,.08);border:1px solid rgba(230,194,122,.35);border-radius:14px}
+.m-hero .push-nudge-ic{width:28px;height:28px;background:rgba(230,194,122,.18);color:#E6C27A}
+.m-hero .push-nudge-t{color:#FFF8EE;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m-hero .push-nudge-on{background:#E6C27A;color:#2B1B10;padding:6px 16px}
+.m-hero .push-nudge-x{color:#CDB9A4}
 </style>
 
 </head>
@@ -1335,7 +1341,7 @@ P.mobileHero=function(todayCount){
  const stat=(label,n,i)=>`<div class="mh-stat" style="--i:${i}"><span>${label}</span><b data-count="${n}">${n}</b></div>`;
  const _n='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M9 18V5l11-2v13"/><ellipse cx="6" cy="18" rx="3" ry="2.2"/><ellipse cx="17" cy="16" rx="3" ry="2.2"/></svg>';
  return `<section class="m-hero${first?' anim':''}" aria-label="오늘 요약"><span class="mh-aurora" aria-hidden="true"></span><p class="mh-date">${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${WD[d.getUTCDay()]||'일'}요일</p><p class="mh-hello" aria-hidden="true"><strong>${e(P.user.name)}</strong> ${P.honor()}, 반가워요</p>
- <div class="mh-stats">${stat('오늘 수업',todayCount,0)}${stat('오늘 결석',absent,1)}${stat('오늘 보강',makeup,2)}</div><span class="mh-shine" aria-hidden="true"></span></section>`;
+ <div class="mh-stats">${stat('오늘 수업',todayCount,0)}${stat('오늘 결석',absent,1)}${stat('오늘 보강',makeup,2)}</div>${P.pushNudge()}<span class="mh-shine" aria-hidden="true"></span></section>`;
 };
 P.wkDay=P.wkDay||0;
 P.weeklyMobile=function(){
@@ -1587,7 +1593,7 @@ P.liveDashboard=function(state){
  const active=P.data.students.filter(s=>s.status==='active').length;
  // Home: greeting lives in the sidebar; top row = two narrow metric cards · 할 일 (with alerts + 등록) · 메모, all on one top line.
  const alerts=P.taskAlert()+(P.user.role==='director'?P.payAlert():'');
- return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}${P.pushNudge()}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side"><div class="home-memo">${P.memoCard()}</div><div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
+ return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side"><div class="home-memo">${P.memoCard()}</div><div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
 };
 P.page=function(state){
  if(!P.live)return oldPage(state);
@@ -2078,7 +2084,7 @@ P.pushPanel=function(){const intro='<p class="push-intro">내 담당 학생의 <
 P.pushRefresh=async function(){const box=document.querySelector('[data-push-box]');if(!box)return;let on=false;try{const {sub}=await P.push.sub();on=!!sub&&Notification.permission==='granted';}catch{}
  box.innerHTML=on?'<p class="push-state on"><span class="push-dot"></span>이 기기로 알림을 받고 있어요</p><div class="push-act"><button type="button" class="btn" data-push="test">테스트 알림</button><button type="button" class="btn danger-link" data-push="off">알림 끄기</button></div>':'<p class="push-state"><span class="push-dot off"></span>알림이 꺼져 있어요</p><button type="button" class="btn primary push-on" data-push="on">알림 켜기</button>';};
 P.pushNudge=()=>{if(!P.push.supported()||Notification.permission!=='default')return '';try{if(localStorage.getItem('always-piano.push-nudge'))return '';}catch{}
- return '<div class="push-nudge"><span class="push-nudge-ic">'+P.icon('bell')+'</span><span class="push-nudge-t">결석·보강 알림을 휴대폰으로 받아 보세요</span><button type="button" class="push-nudge-on" data-push="on">켜기</button><button type="button" class="push-nudge-x" data-push="later" aria-label="나중에">×</button></div>';};
+ return '<div class="push-nudge"><span class="push-nudge-ic">'+P.icon('bell')+'</span><span class="push-nudge-t">결석·보강 알림 받기</span><button type="button" class="push-nudge-on" data-push="on">켜기</button><button type="button" class="push-nudge-x" data-push="later" aria-label="나중에">×</button></div>';};
 document.addEventListener('click',async event=>{const b=event.target.closest('[data-push]');if(!b)return;const act=b.dataset.push,err=b.closest('.dialog-content,#dialog-content')?.querySelector('.form-error');
  if(act==='later'){try{localStorage.setItem('always-piano.push-nudge','1');}catch{}b.closest('.push-nudge')?.remove();return;}
  b.disabled=true;if(err)err.textContent='';
