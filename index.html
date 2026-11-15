@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151516">
+  <meta name="app-build" content="202611151520">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3128,7 +3128,7 @@ window.addEventListener('hashchange',route);
    if(closeTop()){viaHistory?guard():arm();return;}
    if((location.hash||HOME)!==HOME){if(viaHistory)guard(HOME);else history.replaceState({k:'root',h:HOME},'',HOME);route();if(!viaHistory)arm();return;}
    if(waitExit)return;
-   P.notify('한 번 더 누르면 종료돼요');
+   P.notify('한 번 더 누르면 종료됩니다');
    waitExit=setTimeout(()=>{waitExit=null;if(atRoot())arm();},2000);
   };
   try{history.replaceState({k:'root',h:location.hash||HOME},'',location.hash||HOME);}catch(_e){}
