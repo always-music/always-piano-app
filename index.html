@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151441">
+  <meta name="app-build" content="202611151451">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1345,6 +1345,13 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp-sendb .btn.kakao{min-height:44px;height:44px;font-size:14.5px}
 .rp-sendb .rp-linkline{font-size:11.5px;word-break:break-all}
 .rp-imgfallback[hidden],.rp-del[hidden]{display:none!important}
+/* 알림은 맨 위 층(popover) — 브라우저 기본 popover 모양을 지움 */
+#save-toast[popover]{margin:0;overflow:visible;width:auto;height:auto;inset:auto;left:50%;top:18px}
+@media (max-width:760px){#save-toast[popover]{top:auto;bottom:calc(84px + env(safe-area-inset-bottom))}}
+/* 버튼 처리 중 (P.btnBusy): 글자 바뀜 + 바닥 흐르는 선 + 잠김(흐리지 않음) */
+.btn.r-ing{position:relative;overflow:hidden;opacity:1!important;cursor:progress}
+.btn.r-ing::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:40%;background:currentColor;opacity:.55;animation:rRun 1.1s cubic-bezier(.45,0,.25,1) infinite}
+.btn.primary.r-ing::after{background:rgba(255,255,255,.8);opacity:1}
 
 </style>
 
@@ -2222,16 +2229,16 @@ document.addEventListener('change',ev=>{const t=ev.target;
  else if(t.closest('form[data-rp-form]'))P.rpPreview();
  if(t.matches('[data-rp-video]'))P.rpMark({videoSent:t.checked});
 });
-document.addEventListener('click',ev=>{const t=ev.target,f=t.closest('form[data-rp-form]');if(!f)return;
+document.addEventListener('click',async ev=>{const t=ev.target,f=t.closest('form[data-rp-form]');if(!f)return;
  if(t.closest('[data-rp-song-add]')){const box=document.getElementById('rp-songs');box.insertAdjacentHTML('beforeend',songRow());box.lastElementChild.querySelector('input').focus();return;}
  if(t.closest('[data-rp-song-del]')){t.closest('.rp-song').remove();P.rpPreview();return;}
  const chip=t.closest('[data-rp-chip]');if(chip){const ta=document.getElementById(chip.parentElement.dataset.rpTarget);if(ta.id==='rp-scene')ta.value=chip.dataset.rpChip;else ta.value=(ta.value.trim()?ta.value.trim()+' ':'')+chip.dataset.rpChip;ta.focus();P.rpPreview();return;}
  if(t.closest('[data-rp-auto]')){const x=formData(f),ta=document.getElementById('rp-msg'),q=a=>a.map(s=>`'${s.title}'`).join(', '),done=x.songs.filter(s=>s.state==='done'),nw=x.songs.filter(s=>s.state==='new'),ing=x.songs.filter(s=>s.state==='ing');
   const out=[done.length?`\uc624\ub298 ${obj(q(done),'\uc740','\ub294')} \ub9c8\ubb34\ub9ac\ud588\uc5b4\uc694.`:'',nw.length?`\uc0c8 \uace1\uc73c\ub85c ${obj(q(nw),'\uc744','\ub97c')} \uc2dc\uc791\ud588\uc5b4\uc694.`:'',ing.length?`${obj(q(ing),'\uc740','\ub294')} \uacc4\uc18d \uc5f0\uc2b5\ud558\uace0 \uc788\uc5b4\uc694.`:'',x.theory?`\uc774\ub860\uc740 ${x.theory} \ud588\uc5b4\uc694.`:''].filter(String).join(' ');
   if(out){ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+out;P.rpPreview();}return;}
- if(t.closest('[data-rp-unsend]')){P.rpMark({sent:false});return;}
+ if(t.closest('[data-rp-unsend]')){const done=P.btnBusy(t.closest('[data-rp-unsend]'),'\ucde8\uc18c \uc911');try{await P.rpMark({sent:false});}catch(err){done();}return;}
 });
-P.rpMark=async function(change){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;if(change.sent===false)P.rpForm();P.loadReports();if(change.imageUrl===undefined)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
+P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;if(change.sent===false)P.rpForm();P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
 document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[data-rp-form]');if(!f)return;ev.preventDefault();ev.stopPropagation();if(f.getAttribute('aria-busy')==='true')return;
  const go=ev.submitter?.value||'save',x=formData(f),line=f.querySelector('.rp-msgline'),cur=P.rpCur,r=cur.g.report;
  if(!x.scene){line.textContent='"\uc624\ub298\uc758 \ud55c \uc7a5\uba74"\uc744 \ud55c \uc904 \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-scene').focus();return;}
@@ -2252,7 +2259,7 @@ P.rpPrepareSend=async function(){
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p><span class="r-run" style="width:100%"></span></div></div>`;
  const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
  const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
- P.rpDone=async()=>{await P.rpMark({sent:true});box.innerHTML='';P.requestDialogClose?.(true);P.saving(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694 \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
+ P.rpDone=async()=>{await P.rpMark({sent:true},true);box.innerHTML='';P.requestDialogClose?.(true);P.saving(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694 \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
  let html='',kakaoOk=false;
  if(window.APP_MODE&&window.KAKAO_KEY){try{const K=await loadKakao();if(!K.isInitialized())K.init(window.KAKAO_KEY);const up=await K.Share.uploadImage({file:[file]});const img=String(up.infos.original.url).replace(/^http:/,'https:');P.rpKakao={K,img,title,desc,link,call};P.rpMark({imageUrl:img}).catch(()=>{});kakaoOk=true;
    html=`<p><b>\uce74\ub4dc\uac00 \uc900\ube44\ub410\uc5b4\uc694.</b> \ubc84\ud2bc\uc744 \ub204\ub974\uba74 \uce74\ud1a1\uc774 \uc5f4\ub824\uc694. ${e(given(s.name))} ${e(r.recipient)} \ub300\ud654\ubc29\uc744 \uace8\ub77c \uc8fc\uc138\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn kakao" data-rp-kakao>\uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</button></div>`;}catch(err){html=`<p class="muted">${e(err.message||'\uce74\uce74\uc624 \uce74\ub4dc\ub97c \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694.')} \uc544\ub798 \ubc29\ubc95\uc73c\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</p>`;}}
@@ -2268,7 +2275,7 @@ document.addEventListener('click',async ev=>{const t=ev.target;
  if(t.closest('[data-rp-share]')){try{await navigator.share({files:[P.rpFile.file],text:P.rpFile.text});await P.rpDone();}catch(err){if(err?.name!=='AbortError')P.saving('\uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. \ub9c1\ud06c \ubcf5\uc0ac\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.','error');}return;}
  if(t.closest('[data-rp-copyimg]')){try{await navigator.clipboard.write([new ClipboardItem({'image/png':P.rpFile.png})]);P.saving('\uce74\ub4dc \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694. \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uc5b4 \uc8fc\uc138\uc694','done');}catch{const fb=document.querySelector('.rp-imgfallback');if(fb)fb.hidden=false;P.saving('\uc624\ub978\ucabd \ud074\ub9ad\uc73c\ub85c \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
  if(t.closest('[data-rp-copy]')){try{await navigator.clipboard.writeText(P.rpFile.link);P.saving('\ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694','done');}catch{const l=document.querySelector('.rp-linkline');if(l){const rg=document.createRange();rg.selectNodeContents(l);getSelection().removeAllRanges();getSelection().addRange(rg);}P.saving('\uc120\ud0dd\ub41c \ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
- if(t.closest('[data-rp-mark]')){await P.rpDone();return;}
+ if(t.closest('[data-rp-mark]')){const done=P.btnBusy(t.closest('[data-rp-mark]'),'\ud45c\uc2dc \uc911');try{await P.rpDone();}catch(err){done();}return;}
  if(t.closest('[data-rp-next]')){const order=[...document.querySelectorAll('[data-rp-open]')].map(b=>b.dataset.rpOpen).filter(id=>id!==P.rpCur.s.id);const next=order.find(id=>!(P.rp.list||[]).some(r=>r.studentId===id&&r.sentAt));if(next)P.rpOpen(next);else document.getElementById('detail-dialog').close();}
 });
 
@@ -2600,9 +2607,9 @@ P.saveStart=()=>{P.pendingSaves=(P.pendingSaves||0)+1;P.saving(P.pendingSaves>1?
 P.saveEnd=err=>{P.pendingSaves=Math.max((P.pendingSaves||1)-1,0);if(err){P.saving(err,'error');return;}
  if(P.pendingSaves)P.saving(`저장 중… ${P.pendingSaves}건`);else{P.saving('모두 저장됨','done');clearTimeout(P._reconcile);P._reconcile=setTimeout(()=>P.syncData(0),4000);}};
 // 화면 아래 저장 상태 알림 (저장 중 → 저장됨 / 오류)
-P.saving=function(text,state='busy'){const ls=document.getElementById('live-status');if(ls&&state!=='info')ls.textContent=text;let t=document.getElementById('save-toast');if(!t){t=document.createElement('div');t.id='save-toast';t.setAttribute('role','status');t.setAttribute('aria-live','polite');document.body.appendChild(t);}
- clearTimeout(t._h);clearTimeout(t._b);const paint=()=>{const on=t.classList.contains('show');t.className=state+(on?' show':'');t.innerHTML=(state==='busy'?'<i class="st-spin"></i>':state==='done'?'<i class="st-ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>':state==='info'?'':'<i class="st-err">!</i>')+'<span></span>';t.querySelector('span').textContent=text;void t.offsetWidth;t.classList.add('show');};
- if(state==='busy'){t._b=setTimeout(paint,300);return;}paint();t._h=setTimeout(()=>t.classList.remove('show'),state==='error'?3200:2500);};
+P.saving=function(text,state='busy'){const ls=document.getElementById('live-status');if(ls&&state!=='info')ls.textContent=text;let t=document.getElementById('save-toast');if(!t){t=document.createElement('div');t.id='save-toast';t.setAttribute('role','status');t.setAttribute('aria-live','polite');t.setAttribute('popover','manual');document.body.appendChild(t);}
+ clearTimeout(t._h);clearTimeout(t._b);const paint=()=>{const on=t.classList.contains('show');t.className=state+(on?' show':'');t.innerHTML=(state==='busy'?'<i class="st-spin"></i>':state==='done'?'<i class="st-ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>':state==='info'?'':'<i class="st-err">!</i>')+'<span></span>';t.querySelector('span').textContent=text;clearTimeout(t._x);try{if(t.matches(':popover-open'))t.hidePopover();t.showPopover();}catch(e){}void t.offsetWidth;t.classList.add('show');};
+ if(state==='busy'){t._b=setTimeout(paint,300);return;}paint();t._h=setTimeout(()=>{t.classList.remove('show');t._x=setTimeout(()=>{try{if(!t.classList.contains('show'))t.hidePopover();}catch(e){}},320);},state==='error'?3200:2500);};
 document.addEventListener('dragstart',event=>{const c=event.target.closest?.('.wk-cell .weekly-chip');if(!c)return;event.dataTransfer.setData('text/plain',c.dataset.weeklyEdit);event.dataTransfer.effectAllowed='move';c.classList.add('dragging');});
 document.addEventListener('dragend',event=>{event.target.classList?.remove('dragging');document.querySelectorAll('.drop-on').forEach(x=>x.classList.remove('drop-on'));});
 document.addEventListener('dragover',event=>{const cell=event.target.closest?.('[data-weekly-add]');if(!cell)return;event.preventDefault();document.querySelectorAll('.drop-on').forEach(x=>x!==cell&&x.classList.remove('drop-on'));cell.classList.add('drop-on');});
@@ -2883,6 +2890,9 @@ app().addEventListener('change',async event=>{
 
 // 저장 안 한 변경 표시 (이디야 규칙): 팝업 입력이 처음과 달라지면 저장 버튼 왼쪽에 "저장 안 됨" 칩
 document.addEventListener("input",ev=>{const d=ev.target.closest?.("#detail-dialog");if(!d)return;const f=ev.target.closest("form");if(!f)return;const act=f.querySelector(".form-actions");const sub=act&&act.querySelector("[type=submit]");if(!sub)return;const dirty=JSON.stringify([...new FormData(f)])!==d._initial;let c=act.querySelector(".r-dirty");if(dirty&&!c){act.insertAdjacentHTML("afterbegin","<span class=\"r-dirty\" role=\"status\">저장 안 됨</span>");}else if(!dirty&&c)c.remove();},true);
+
+// 버튼 처리 중 표시 (이디야 규칙): P.btnBusy(버튼,'저장 중') → 끝나면 돌려받은 함수 호출
+window.Piano.btnBusy=function(b,text){if(!b||b.classList.contains('r-ing'))return ()=>{};const w=Math.ceil(b.getBoundingClientRect().width)+'px',old=b.innerHTML;b.style.minWidth=w;b.classList.add('r-ing');if(text)b.textContent=text;b.disabled=true;b.setAttribute('aria-busy','true');return ()=>{if(!b.isConnected)return;b.classList.remove('r-ing');b.style.minWidth='';b.innerHTML=old;b.disabled=false;b.removeAttribute('aria-busy');};};
 </script>
 
   <script>
