@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151420">
+  <meta name="app-build" content="202611151423">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1322,6 +1322,10 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 /* 왼쪽 아래 계정 버튼 3개: 글자가 두 줄로 꺾이지 않게 */
 .side-user-actions{gap:4px}
 .side-user-actions button{flex:1 1 auto;min-width:0;padding:0 4px;white-space:nowrap;font-size:11.5px;letter-spacing:-.02em}
+/* 페이지 들어올 때 화면 전체가 움직이지 않음(이디야 최종) · 주간 이동은 미끄러짐 대신 살짝 흐렸다 선명해짐 */
+.view-enter{animation:none!important}
+.slide-r,.slide-l{animation:rSoft .24s ease-out!important}
+@keyframes rSoft{from{opacity:.35}to{opacity:1}}
 
 </style>
 
@@ -2849,8 +2853,8 @@ app().addEventListener('change',async event=>{
   el.innerHTML='<span class="r-run"></span>'+(pop?prow(90,150)+prow(70,190)+prow(110,120):ROWS.map(row).join(''))+'<small>자료가 많아 조금 걸려요</small>';};
  const scan=n=>{if(n.nodeType!==1)return;if(n.matches('.empty-cell'))up(n);else if(n.firstElementChild)n.querySelectorAll('.empty-cell').forEach(up);};
  const OUT=new WeakMap();
- const skin=(host,n)=>{if(n.nodeType!==1||n.matches('script,style,template,.r-skel'))return;const i=host._skN=(host._skN||0)+1;n.classList.add('r-skin');n.style.animationDelay=Math.min(i-1,5)*40+'ms';setTimeout(()=>{n.classList.remove('r-skin');n.style.animationDelay='';},600);};
- new MutationObserver(ms=>{for(const m of ms){const tg=m.target;for(const r of m.removedNodes)if(r.nodeType===1&&(r.dataset?.sk||r.querySelector?.('[data-sk]'))){OUT.set(tg,performance.now());tg._skN=0;}
+ const skin=(host,n)=>{if(n.nodeType!==1||n.matches('script,style,template,.r-skel,.page-heading,aside,.sidebar')||!n.closest('main'))return;const i=host._skN=(host._skN||0)+1;n.classList.add('r-skin');n.style.animationDelay=Math.min(i-1,5)*40+'ms';setTimeout(()=>{n.classList.remove('r-skin');n.style.animationDelay='';},600);};
+ new MutationObserver(ms=>{for(const m of ms){const tg=m.target;if(tg.nodeType===1&&tg.closest?.('main'))for(const r of m.removedNodes)if(r.nodeType===1&&r.dataset?.sk){OUT.set(tg,performance.now());tg._skN=0;}
   const out=OUT.get(tg);for(const n of m.addedNodes){scan(n);if(out&&performance.now()-out<500&&!(n.nodeType===1&&n.dataset?.sk))skin(tg,n);}}}).observe(document.body,{childList:true,subtree:true});
  scan(document.body);}
 
