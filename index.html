@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <script>window.__errs=[];addEventListener('error',function(e){window.__errs.push((e.message||'오류')+' (줄 '+e.lineno+':'+e.colno+')');});</script>
+  <script>window.__errs=[];addEventListener('error',function(e){window.__errs.push((e.message||'오류')+' (줄 '+e.lineno+':'+e.colno+')');});addEventListener('load',function(){setTimeout(function(){var a=document.getElementById('app');if(a&&!a.innerHTML.trim()){var d=document.createElement('pre');d.style.cssText='position:fixed;left:16px;right:16px;top:16px;z-index:99999;white-space:pre-wrap;background:#fff;border:1px solid #BE4436;color:#BE4436;padding:12px;font:12px monospace';d.textContent='진단: app='+(a?a.innerHTML.length:'없음')+' Piano='+typeof window.Piano+' boot='+typeof (window.Piano&&window.Piano.authBoot)+' scripts='+document.scripts.length+' / '+window.__errs.join(' / ');document.body.appendChild(d);}},1500);});</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#3D2B1F">
   <link rel="manifest" href="manifest.webmanifest">
@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151344">
+  <meta name="app-build" content="202611151356">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1153,10 +1153,10 @@ tbody tr:hover>td:first-child{box-shadow:inset 2px 0 0 var(--r-choc)}
 /* ── 5. 팝업 (배경 페이드 · 창 6px 떠오름 0.2초 / 닫힘 0.14초 · 흐림 없음) ── */
 dialog{border:1px solid var(--r-line);border-radius:14px;box-shadow:0 24px 60px rgba(30,20,12,.22);opacity:0;transform:translateY(6px);transition:opacity .14s ease-in,transform .14s ease-in,overlay .14s allow-discrete,display .14s allow-discrete}
 dialog[open]{opacity:1;transform:none;transition:opacity .2s ease-out,transform .2s ease-out,overlay .2s allow-discrete,display .2s allow-discrete}
-@starting-style{dialog[open]{opacity:0;transform:translateY(6px)}}
+dialog[open]{animation:rPop .2s ease-out}
 dialog::backdrop{background:rgba(24,16,10,0);transition:background-color .14s ease-in,overlay .14s allow-discrete,display .14s allow-discrete}
 dialog[open]::backdrop{background:rgba(24,16,10,.36);transition:background-color .16s ease-out,overlay .2s allow-discrete,display .2s allow-discrete}
-@starting-style{dialog[open]::backdrop{background:rgba(24,16,10,0)}}
+dialog[open]::backdrop{animation:rFade .16s ease-out}
 .dialog-heading{padding-bottom:14px;margin-bottom:18px;border-bottom:1px solid #EFEBE6}
 .dialog-heading h2{font-size:17px;font-weight:700;letter-spacing:-.01em}
 .form-actions{border-top:1px solid #EFEBE6}
@@ -2524,7 +2524,7 @@ P.slide=(el,dir)=>{if(!el||!dir)return;el.classList.remove('slide-l','slide-r');
   const btn=kind==='wk'?document.querySelector('[data-wk-day="'+(Number(document.querySelector('.wkm-tab.on')?.dataset.wkDay||1)+(next?1:-1))+'"]'):kind==='month'?box.querySelector('[data-month="'+(next?1:-1)+'"]'):box.querySelector('[data-abs-week="'+(next?7:-7)+'"]');
   btn?.click();},{passive:true});}
 // 엑셀 일괄 등록 (학생 목록): SheetJS is loaded only when these buttons are used.
-P.xlsx=()=>window.XLSX?Promise.resolve(window.XLSX):new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=()=>ok(window.XLSX);s.onerror=()=>no(new Error('엑셀 기능을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.'));document.head.appendChild(s);});
+P.xlsx=()=>window.XLSX?Promise.resolve(window.XLSX):new Promise((ok,no)=>{const s=document.createElement('script');s.src='https:'+'\/\/cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';s.onload=()=>ok(window.XLSX);s.onerror=()=>no(new Error('엑셀 기능을 불러오지 못했어요. 인터넷 연결을 확인해 주세요.'));document.head.appendChild(s);});
 P.xlsxTemplate=async function(){
  const X=await P.xlsx(),wb=X.utils.book_new(),ws=X.utils.aoa_to_sheet([['학생 이름','구분','학부모 연락처']]);ws['!cols']=[{wch:14},{wch:10},{wch:18}];X.utils.book_append_sheet(wb,ws,'학생 등록');
  const help=X.utils.aoa_to_sheet([['작성 방법'],['· "학생 등록" 시트의 첫 줄(제목)은 그대로 두고, 둘째 줄부터 한 줄에 한 명씩 적어 주세요.'],['· 학생 이름: 꼭 적어 주세요.'],['· 구분: 초등 / 유아 / 기타 중 하나 (비우면 기타)'],['· 학부모 연락처: 예) 010-1234-5678 (선택)'],['· 이미 등록된 이름은 건너뛰어요. 수업 요일·수강 조건은 등록 후 따로 설정해요.'],[],['예시','학생 이름','구분','학부모 연락처'],['','김하린','초등','010-1234-5678'],['','이서준','유아','']]);
