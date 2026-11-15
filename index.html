@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151451">
+  <meta name="app-build" content="202611151459">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1353,6 +1353,22 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .btn.r-ing::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:40%;background:currentColor;opacity:.55;animation:rRun 1.1s cubic-bezier(.45,0,.25,1) infinite}
 .btn.primary.r-ing::after{background:rgba(255,255,255,.8);opacity:1}
 
+/* ── 24. 보낸 리포트 확인 화면(고칠 수 없음) ── */
+.rp-view .rp-sentbar{margin-bottom:16px}
+.rp-dl{display:grid;grid-template-columns:96px minmax(0,1fr);gap:0;margin:0;border-top:1px solid #EFEBE6}
+.rp-dl dt,.rp-dl dd{margin:0;padding:12px 0;border-bottom:1px solid #EFEBE6;font-size:13.5px;line-height:1.6}
+.rp-dl dt{color:var(--r-muted);font-weight:600;font-size:12.5px}
+.rp-dl dd{color:var(--r-ink);word-break:keep-all}
+.rp-letter{white-space:pre-line}
+.rp-songlist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.rp-songlist li{display:flex;align-items:center;gap:8px}
+.rp-songst{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;font-size:11.5px;font-weight:700;background:#F3EFE9;color:#6E5A44}
+.rp-songst.st-done{background:#E9F3EC;color:#2F7A4E}.rp-songst.st-new{background:#FBF1E2;color:#9A6418}
+.rp-lock{margin:14px 0 0;padding:10px 12px;border-radius:8px;background:#FAF8F5;font-size:12.5px;color:var(--r-muted)}
+.rp-view .rp-actions{margin-top:18px}
+#detail-dialog:has(.rp-view) .dialog-foot{display:none}
+#detail-dialog:has(.rp-view){width:min(960px,calc(100vw - 24px));max-width:none}
+
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -2195,7 +2211,7 @@ P.rpOpen=async function(sid){
  try{const g=await P.api('reports.get',{studentId:sid,week:P.rp.week});P.rpCur={s,g};P.rpForm();}catch(err){document.getElementById('dialog-content').innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}
 };
 P.rpForm=function(){
- const {s,g}=P.rpCur,r=g.report,last=g.last,carry=!r&&last;
+ const {s,g}=P.rpCur,r=g.report,last=g.last,carry=!r&&last;if(r&&r.sentAt)return P.rpView();
  const songs=r?r.songs:carry?last.songs.filter(x=>x.state!=='done').map(x=>({title:x.title,state:'ing'})):[];
  const rec=r?r.recipient:last?last.recipient:'\uc5b4\uba38\ub2d8',call=callName(s.name),sent=r&&r.sentAt;
  document.getElementById('dialog-content').innerHTML=`<form class="rp-form" data-rp-form="${e(s.id)}">
@@ -2222,6 +2238,28 @@ P.rpForm=function(){
 };
 function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({title:row.querySelector('[name=songTitle]').value.trim(),state:row.querySelector('input[type=radio]:checked')?.value||'ing'})).filter(x=>x.title);
  const v=n=>f.querySelector(`[name=${n}]`)?.value.trim()||'';return {songs,lessonDate:v('lessonDate'),theory:v('theory'),scene:v('scene'),message:v('message'),videoUrl:v('videoUrl'),recipient:f.querySelector('[name=recipient]:checked')?.value||'\uc5b4\uba38\ub2d8'};}
+
+// \ubcf4\ub0b8 \ub9ac\ud3ec\ud2b8: \uace0\uce60 \uc218 \uc5c6\uace0 \ud655\uc778\ub9cc (\uace0\uce58\ub824\uba74 \ubcf4\ub0c4 \ucde8\uc18c). \ub2e4\uc2dc \ubcf4\ub0b4\uae30\u00b7\ub9ac\ud3ec\ud2b8 \ubcf4\uae30\u00b7\uc601\uc0c1\ub3c4 \ubcf4\ub0c4 \ud45c\uc2dc\ub9cc \uac00\ub2a5
+P.rpView=function(){
+ const {s,g}=P.rpCur,r=g.report,link=P.reportLink(r.token);
+ const dl=x=>{if(!x)return '';const d=new Date(x+'T12:00:00');return (d.getMonth()+1)+'\uc6d4 '+d.getDate()+'\uc77c '+'\uc77c\uc6d4\ud654\uc218\ubaa9\uae08\ud1a0'[d.getDay()]+'\uc694\uc77c';};
+ const ST={done:'\uc644\uc131',new:'\uc0c8 \uace1',ing:'\uc5f0\uc2b5 \uc911'};
+ const songs=(r.songs||[]).filter(x=>x&&x.title).map(x=>'<li><span class="rp-songst st-'+e(x.state||'ing')+'">'+e(ST[x.state]||ST.ing)+'</span>'+e(x.title)+'</li>').join('');
+ const row=(k,v)=>v?'<dt>'+k+'</dt><dd>'+v+'</dd>':'';
+ document.getElementById('dialog-content').innerHTML=`<div class="rp-view" data-rp-view="${e(s.id)}">
+ <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span><label class="rp-chk"><input type="checkbox" data-rp-video ${r.videoSent?'checked':''}> \uc601\uc0c1\ub3c4 \ubcf4\ub0c4</label></div>
+ <div class="rp-grid"><div class="rp-fields"><dl class="rp-dl">
+  ${row('\ub808\uc2a8\uc77c',e(dl(r.lessonDate)))}${row('\ubc1b\ub294 \ubd84',e(given(s.name)+' '+r.recipient))}
+  ${row('\uc774\ubc88 \uc8fc \uace1',songs?'<ul class="rp-songlist">'+songs+'</ul>':'')}${row('\uc774\ub860\u00b7\uc219\uc81c',e(r.theory||''))}
+  ${row('\uc624\ub298\uc758 \ud55c \uc7a5\uba74',e(r.scene||''))}${row('\ud3b8\uc9c0',r.message?'<div class="rp-letter">'+e(r.message)+'</div>':'')}
+  ${row('\uc5f0\uc8fc \uc601\uc0c1',r.videoUrl?'<a class="text-link" href="'+e(r.videoUrl)+'" target="_blank" rel="noopener">\uc601\uc0c1 \uc5f4\uae30 \u2197</a>':'')}
+ </dl><p class="rp-lock">\ubcf4\ub0b8 \ub9ac\ud3ec\ud2b8\ub294 \uace0\uce60 \uc218 \uc5c6\uc5b4\uc694. \uace0\uce58\ub824\uba74 [\ubcf4\ub0c4 \ucde8\uc18c]\ub97c \ub204\ub978 \ub4a4 \ub2e4\uc2dc \uc368 \uc8fc\uc138\uc694.</p></div>
+ <div class="rp-previewcol"><div class="rp-lab">\ubcf4\ub0b8 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\ubcf4\ub0b8 \uce74\ub4dc"></canvas></div></div>
+ <div class="rp-actions"><button type="button" class="btn danger-link" data-rp-unsend>\ubcf4\ub0c4 \ucde8\uc18c</button><span class="muted rp-msgline" role="status"></span><a class="btn" href="${e(link)}" target="_blank" rel="noopener">\ub9ac\ud3ec\ud2b8 \ubcf4\uae30 \u2197</a><button type="button" class="btn primary" data-rp-resend>\ub2e4\uc2dc \ubcf4\ub0b4\uae30</button></div>
+ <div id="rp-sendbox"></div></div>`;
+ const d=document.getElementById('detail-dialog');d._initial=null;
+ P.rpDraw(document.getElementById('rp-canvas'),Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
+};
 let pvTimer=0;P.rpPreview=function(){clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
 document.addEventListener('input',ev=>{if(ev.target.closest('form[data-rp-form]'))P.rpPreview();});
 document.addEventListener('change',ev=>{const t=ev.target;
@@ -2229,16 +2267,16 @@ document.addEventListener('change',ev=>{const t=ev.target;
  else if(t.closest('form[data-rp-form]'))P.rpPreview();
  if(t.matches('[data-rp-video]'))P.rpMark({videoSent:t.checked});
 });
-document.addEventListener('click',async ev=>{const t=ev.target,f=t.closest('form[data-rp-form]');if(!f)return;
+document.addEventListener('click',async ev=>{const t=ev.target,f=t.closest('form[data-rp-form]');if(!f){if(t.closest('.rp-view [data-rp-unsend]')){const done=P.btnBusy(t.closest('[data-rp-unsend]'),'\ucde8\uc18c \uc911');try{await P.rpMark({sent:false});P.requestDialogClose?.(true);}catch(err){done();}}return;}
  if(t.closest('[data-rp-song-add]')){const box=document.getElementById('rp-songs');box.insertAdjacentHTML('beforeend',songRow());box.lastElementChild.querySelector('input').focus();return;}
  if(t.closest('[data-rp-song-del]')){t.closest('.rp-song').remove();P.rpPreview();return;}
  const chip=t.closest('[data-rp-chip]');if(chip){const ta=document.getElementById(chip.parentElement.dataset.rpTarget);if(ta.id==='rp-scene')ta.value=chip.dataset.rpChip;else ta.value=(ta.value.trim()?ta.value.trim()+' ':'')+chip.dataset.rpChip;ta.focus();P.rpPreview();return;}
  if(t.closest('[data-rp-auto]')){const x=formData(f),ta=document.getElementById('rp-msg'),q=a=>a.map(s=>`'${s.title}'`).join(', '),done=x.songs.filter(s=>s.state==='done'),nw=x.songs.filter(s=>s.state==='new'),ing=x.songs.filter(s=>s.state==='ing');
   const out=[done.length?`\uc624\ub298 ${obj(q(done),'\uc740','\ub294')} \ub9c8\ubb34\ub9ac\ud588\uc5b4\uc694.`:'',nw.length?`\uc0c8 \uace1\uc73c\ub85c ${obj(q(nw),'\uc744','\ub97c')} \uc2dc\uc791\ud588\uc5b4\uc694.`:'',ing.length?`${obj(q(ing),'\uc740','\ub294')} \uacc4\uc18d \uc5f0\uc2b5\ud558\uace0 \uc788\uc5b4\uc694.`:'',x.theory?`\uc774\ub860\uc740 ${x.theory} \ud588\uc5b4\uc694.`:''].filter(String).join(' ');
   if(out){ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+out;P.rpPreview();}return;}
- if(t.closest('[data-rp-unsend]')){const done=P.btnBusy(t.closest('[data-rp-unsend]'),'\ucde8\uc18c \uc911');try{await P.rpMark({sent:false});}catch(err){done();}return;}
+ if(t.closest('[data-rp-unsend]')){const done=P.btnBusy(t.closest('[data-rp-unsend]'),'\ucde8\uc18c \uc911');try{await P.rpMark({sent:false});P.requestDialogClose?.(true);}catch(err){done();}return;}
 });
-P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;if(change.sent===false)P.rpForm();P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
+P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
 document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[data-rp-form]');if(!f)return;ev.preventDefault();ev.stopPropagation();if(f.getAttribute('aria-busy')==='true')return;
  const go=ev.submitter?.value||'save',x=formData(f),line=f.querySelector('.rp-msgline'),cur=P.rpCur,r=cur.g.report;
  if(!x.scene){line.textContent='"\uc624\ub298\uc758 \ud55c \uc7a5\uba74"\uc744 \ud55c \uc904 \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-scene').focus();return;}
@@ -2246,7 +2284,7 @@ document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[da
  try{const res=await P.api('reports.save',Object.assign({},x,{studentId:cur.s.id},r?{id:r.id,version:r.version}:{}),crypto.randomUUID());
   cur.g.report=Object.assign(r||{sentAt:'',views:0,videoSent:false},x,{id:res.id,version:res.version,token:res.token,week:res.week});
   document.getElementById('detail-dialog')._initial=JSON.stringify([...new FormData(f)]);const del=f.querySelector('[data-rp-delete]');if(del)del.hidden=false;line.textContent='\uc800\uc7a5\ud588\uc5b4\uc694';P.loadReports();
-  if(go==='send')await P.rpPrepareSend();else P.saving('\uc800\uc7a5\ud588\uc5b4\uc694','done');
+  if(go==='send')await P.rpPrepareSend();else{P.requestDialogClose?.(true);P.saving('\uc800\uc7a5\ud588\uc5b4\uc694','done');}
  }catch(err){line.textContent=err.message;}finally{f.removeAttribute('aria-busy');}
 },true);
 
@@ -2269,6 +2307,7 @@ P.rpPrepareSend=async function(){
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><img class="rp-sendimg" src="${c.toDataURL('image/jpeg',.85)}" alt="">${html}</div></div>`;box.querySelector('[data-rp-kakao],.btn.primary')?.focus();
 };
 document.addEventListener('click',async ev=>{const t=ev.target;
+ if(t.closest('[data-rp-resend]')){const done=P.btnBusy(t.closest('[data-rp-resend]'),'\uc900\ube44 \uc911');try{await P.rpPrepareSend();}finally{done();}return;}
  if(t.closest('[data-rp-sendclose]')||t.id==='rp-sendbox'){const b=document.getElementById('rp-sendbox');if(b)b.innerHTML='';return;}
  if(t.closest('[data-rp-delete]')){const cur=P.rpCur,r=cur&&cur.g.report;if(!r)return;P.confirmDelete(e(given(cur.s.name))+' \ud559\uc0dd\uc758 \uc774\ubc88 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud560\uae4c\uc694?','\uc774\ubbf8 \ubcf4\ub0b8 \uce74\ud1a1 \uce74\ub4dc\uc758 \ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub3c4 \ub354 \uc774\uc0c1 \uc5f4\ub9ac\uc9c0 \uc54a\uc544\uc694.',async()=>{await P.api('reports.delete',{id:r.id,version:r.version},crypto.randomUUID());const d=document.getElementById('detail-dialog');if(d)d._initial=null;P.requestDialogClose?.(true);P.saving('\ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud588\uc5b4\uc694','done');P.loadReports();});return;}
  if(t.closest('[data-rp-kakao]')){const k=P.rpKakao;try{k.K.Share.sendDefault({objectType:'feed',content:{title:k.title,description:k.desc,imageUrl:k.img,imageWidth:800,imageHeight:800,link:{mobileWebUrl:k.link,webUrl:k.link}},buttons:[{title:`${k.call} \ub9ac\ud3ec\ud2b8 \ubcf4\uae30`,link:{mobileWebUrl:k.link,webUrl:k.link}}]});const sb=document.querySelector('#rp-sendbox .rp-sendb');if(sb){const img=sb.querySelector('.rp-sendimg');sb.innerHTML='';if(img)sb.appendChild(img);sb.insertAdjacentHTML('beforeend','<p><b>\uce74\ud1a1 \ucc3d\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uace0 [\uacf5\uc720\ud558\uae30]\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</b></p><p class="muted">\ubcf4\ub0b8 \ub4a4 [\ubcf4\ub0c8\uc5b4\uc694]\ub97c \ub204\ub974\uba74 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ub3fc\uc694. \uacf5\uc720\ud558\uc9c0 \uc54a\uace0 \ucc3d\uc744 \ub2eb\uc558\ub2e4\uba74 [\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30]\ub97c \ub20c\ub7ec\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn" data-rp-kakao>\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30</button><button type="button" class="btn primary" data-rp-mark>\ubcf4\ub0c8\uc5b4\uc694</button></div>');}}catch(err){P.saving(err.message||'\uce74\ud1a1\uc744 \uc5f4\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}return;}
