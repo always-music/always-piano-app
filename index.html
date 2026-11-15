@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151244">
+  <meta name="app-build" content="202611151250">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1127,7 +1127,7 @@ Piano.readyPages=['reports/weekly','lessons/regular','lessons/makeup','lessons/a
 Piano.honor=()=>Piano.user?.vice?'부원장님':Piano.user?.role==='director'?'원장님':'선생님';
 Piano.canVisit=function(role,groupId,pageId){
  const group=Piano.navigation.find(g=>g.id===groupId);
- return !!(group&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
+ return !!(group&&!(groupId==='reports'&&Piano.user?.vice)&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
 };
 Piano.escape=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 Piano.icon=function(name,cls=''){
@@ -2640,7 +2640,7 @@ function render(){
  if(P.live&&!P.user)return;
  if(P.live)state.role=P.user.role;
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),director=state.role==='director';
- app.innerHTML=`<button class="drawer-backdrop" data-action="close-menu" aria-label="메뉴 닫기" tabindex="-1"></button><aside class="sidebar" id="sidebar" aria-label="주 메뉴"><button class="icon-btn drawer-close" data-action="close-menu" aria-label="메뉴 닫기">${ic('close')}</button><a class="brand" href="#home/overview" aria-label="Always Piano 홈">${document.getElementById('brand-template').innerHTML}</a>${P.live?`<div class="brand-hello"><strong>${e(P.user?.name||'')} ${P.honor()}</strong><span>반가워요</span></div><p class="brand-today"><i></i>${P.todayText()}</p><button class="sidebar-cta" data-weekly-new><span class="cta-icon">${ic('plus')}</span><span class="cta-label">수업 등록</span><span class="cta-chev">${ic('chevron')}</span></button>`:''}<p class="nav-caption">WORKSPACE</p><nav aria-label="학원 운영 메뉴">${P.navigation.filter(g=>g.roles.includes(state.role)||g.id==='students'&&P.user?.vice).map(g=>{
+ app.innerHTML=`<button class="drawer-backdrop" data-action="close-menu" aria-label="메뉴 닫기" tabindex="-1"></button><aside class="sidebar" id="sidebar" aria-label="주 메뉴"><button class="icon-btn drawer-close" data-action="close-menu" aria-label="메뉴 닫기">${ic('close')}</button><a class="brand" href="#home/overview" aria-label="Always Piano 홈">${document.getElementById('brand-template').innerHTML}</a>${P.live?`<div class="brand-hello"><strong>${e(P.user?.name||'')} ${P.honor()}</strong><span>반가워요</span></div><p class="brand-today"><i></i>${P.todayText()}</p><button class="sidebar-cta" data-weekly-new><span class="cta-icon">${ic('plus')}</span><span class="cta-label">수업 등록</span><span class="cta-chev">${ic('chevron')}</span></button>`:''}<p class="nav-caption">WORKSPACE</p><nav aria-label="학원 운영 메뉴">${P.navigation.filter(g=>!(g.id==='reports'&&P.user?.vice)&&(g.roles.includes(state.role)||g.id==='students'&&P.user?.vice)).map(g=>{
  const current=g.id===state.group,active=g.id===state.navGroup;
  if(g.id==='home')return `<a class="nav-item ${active?'active':''}" data-nav-group="home" href="#home/overview" ${current?'aria-current="page"':''}>${ic(g.icon)}<span>${g.label}</span>${active?'<span class="nav-dot"></span>':''}</a>`;
  return `<details class="nav-group" name="sidebar-navigation" ${active?'open':''}><summary class="nav-item ${active?'active':''}" data-nav-group="${g.id}">${ic(g.icon)}<span>${g.label}</span>${ic('chevron','nav-chevron')}</summary><div class="nav-submenu">${g.pages.filter(p=>!p[2]||p[2]===state.role).map(p=>`<a class="nav-subitem ${current&&p[0]===state.page?'active':''}" href="#${g.id}/${p[0]}" ${current&&p[0]===state.page?'aria-current="page"':''}>${e(p[1])}${P.readyPages.includes(g.id+'/'+p[0])?'':'<span class="nav-badge">준비</span>'}</a>`).join('')}</div></details>`;
