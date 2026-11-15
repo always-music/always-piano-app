@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151507">
+  <meta name="app-build" content="202611151512">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1318,7 +1318,6 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .form-actions .r-dirty{margin-right:auto}
 
 /* ── 22. 휴대폰: 아래 버튼은 한 줄씩 꽉 차게, 주 버튼이 맨 위 ── */
-@media (max-width:520px){.form-actions,.del-box .del-act,.discard-actions{flex-direction:column-reverse;align-items:stretch}.form-actions .btn,.discard-actions .btn{width:100%;flex:none;min-height:44px}.form-actions .r-dirty{align-self:flex-start;margin:0}}
 /* 왼쪽 아래 계정 버튼 3개: 글자가 두 줄로 꺾이지 않게 */
 .side-user-actions{gap:4px}
 .side-user-actions button{flex:1 1 auto;min-width:0;padding:0 4px;white-space:nowrap;font-size:11.5px;letter-spacing:-.02em}
@@ -1733,7 +1732,7 @@ P.weeklySummary=function(){
  const pills=`<span class="title-pills"><span class="pill outline">주 1회 ${tally[0]}명</span><span class="pill outline">주 2회 ${tally[1]}명</span><span class="pill outline">주 3회 이상 ${tally[2]}명</span></span>`;
  return P.card(`학생별 수업 요일 · ${rows.length}명${pills}`,P.table(['학생','주 횟수','요일 · 시간'],rows.map(r=>row([`<strong>${e(r.name)}</strong>`,`<span class="freq freq-${Math.min(r.ws.length,3)}">주 ${r.ws.length}회</span>`,r.ws.map(w=>`<button class="slot-pill" data-weekly-edit="${e(w.id)}" title="${w.duration}분">${WD[w.weekday]} ${w.time}</button>`).join(' ')])),'등록된 수업이 없습니다.'));
 };
-P.weeklyPage=()=>`<div class="toolbar lesson-toolbar"><div class="lesson-filters"><label class="search">${ic('search')}<input id="lesson-search" aria-label="학생 이름으로 찾기" placeholder="학생 이름으로 찾기" value="${e(P.lessonFilter.q)}"></label></div><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div><div id="calendar-panel">${P.weeklyGrid()}</div><div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`;
+P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div><div id="calendar-panel">${P.weeklyGrid()}</div><div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`;};
 // Add (several weekdays at once) or edit one entry; edit also offers delete.
 P.weeklyForm=function(w){
  const roster=(P.data.roster||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'ko')),sid=w?.studentId||'',durs=P.data.durations||[40,50],time=w?.time||P.presetTime||'15:00';
@@ -2185,7 +2184,7 @@ const teacherOf=s=>(P.data.teachers||[]).find(t=>t.id===s.teacherId)?.name||'';
 function lessonDay(sid,week){const today=P.data.date,ds=days(sid).map(w=>add(week,w-1));const past=ds.filter(d=>d<=today);return past.length?past.at(-1):ds[0]||(today>=week&&today<=add(week,6)?today:week);}
 P.reportsPage=function(){
  if(!P.rp.week)P.rp.week=mon(P.data.date);
- return `<div class="section-note">${ic('note')}<span>\ud559\uc0dd\ub9c8\ub2e4 \ud55c \uc7a5\uc529 \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uc694. \ud559\ubd80\ubaa8\ub2d8\uc740 \ub85c\uadf8\uc778 \uc5c6\uc774 \uce74\ud1a1 \uce74\ub4dc\uc758 <b>\ub9ac\ud3ec\ud2b8 \ubcf4\uae30</b>\ub85c \uc5f4\uc5b4\uc694.</span>${window.APP_MODE?'':`<a class="btn primary rp-applink" href="https://always-music.github.io/always-piano-app/#reports/weekly" target="_blank" rel="noopener">\uce74\ud1a1 \ubc84\ud2bc\uc73c\ub85c \ubcf4\ub0b4\uae30 (\uc571 \uc8fc\uc18c\uc5d0\uc11c \uc5f4\uae30)</a>`}</div><div id="rp-root"><p class="empty-cell">\ub9ac\ud3ec\ud2b8\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc785\ub2c8\ub2e4\u2026</p></div>`;
+ return `<div id="rp-root"><p class="empty-cell">\ub9ac\ud3ec\ud2b8\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc785\ub2c8\ub2e4\u2026</p></div>`;
 };
 P.loadReports=async function(){if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
 P.rpRender=function(){
@@ -3116,6 +3115,21 @@ window.addEventListener('hashchange',route);
  const back=target=>{if(closeTop())return;if(target&&target!==location.hash){skip=true;location.hash=target;}};
  window.addEventListener('hashchange',()=>{if(skip){skip=false;return;}if(gh)P.histPush('route');});
  if(gh){try{gh.replace({k:'route',h:location.hash||'#home/overview'},null,(location.hash||'#home/overview').slice(1));gh.setChangeHandler(e=>back(e.state&&e.state.h?e.state.h:(e.location&&e.location.hash?'#'+e.location.hash:'')));}catch(_e){}}
+ else if(window.APP_MODE){
+  // 휴대폰 앱: 맨 아래 '처음' 기록 위에 '지킴' 기록을 하나 더 둬서, 켜자마자 뒤로가기를 눌러도 바로 꺼지지 않게.
+  // 처음 기록까지 돌아오면: 열린 창 닫기 → 홈이 아니면 홈으로 → 홈이면 "한 번 더 누르면 종료돼요" 후 2초 안에 한 번 더 누르면 종료.
+  const HOME='#home/overview';let waitExit=null;
+  const guard=h=>{try{history.pushState({k:'guard',h:h||location.hash||HOME},'',h||location.hash||HOME);}catch(_e){}};
+  try{history.replaceState({k:'root',h:location.hash||HOME},'',location.hash||HOME);}catch(_e){}guard();
+  window.addEventListener('popstate',e=>{
+   if(!(e.state&&e.state.k==='root')){if(waitExit){clearTimeout(waitExit);waitExit=null;}back(e.state&&e.state.h);return;}
+   if(closeTop()){guard();return;}
+   if((location.hash||HOME)!==HOME){guard(HOME);route();return;}
+   if(waitExit)return;
+   P.notify('한 번 더 누르면 종료돼요');
+   waitExit=setTimeout(()=>{waitExit=null;if(history.state&&history.state.k==='root')guard();},2000);
+  });
+ }
  else{try{history.replaceState({k:'route',h:location.hash},'',location.hash);}catch(_e){}window.addEventListener('popstate',e=>back(e.state&&e.state.h));}
 })();
 // A menu is a disclosure, not a modal: Esc closes it and returns to its summary.
