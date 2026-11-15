@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151356">
+  <meta name="app-build" content="202611151406">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1231,6 +1231,50 @@ html{scrollbar-gutter:stable}
 html.r-ptr :is(button,a[href],summary,[role=button],[tabindex]:not([tabindex="-1"]),.btn):focus-visible{box-shadow:none!important}
 @media (pointer:fine){.field input:not([type=checkbox]):not([type=radio]),.field select,dialog input:not([type=checkbox]):not([type=radio]):not([type=range]),dialog select{height:40px;min-height:40px;padding-top:0;padding-bottom:0}}
 
+/* ── 11. 페이지 제목 줄 (이디야 A안): 왼쪽 세로 막대 + 영문 머리말 + 제목 + 한 줄 설명 · 홈 제외 ── */
+.content:not(:has(.home-board))>.page-heading>div:first-child{position:relative;padding-left:16px}
+.content:not(:has(.home-board))>.page-heading>div:first-child::before{content:"";position:absolute;left:0;top:2px;bottom:2px;width:4px;border-radius:4px;background:linear-gradient(var(--r-choc),var(--r-gold))}
+.content>.page-heading .eyebrow{display:block;margin:0 0 3px;font-size:10.5px;font-weight:700;letter-spacing:.16em;color:#9A7A4A;opacity:1}
+.content>.page-heading h1{font-size:22px;font-weight:800;line-height:1.3;letter-spacing:-.02em}
+.content>.page-heading .lead{margin:4px 0 0;font-size:13.5px;line-height:1.55;color:var(--r-muted);word-break:keep-all}
+.content{padding-bottom:96px}
+
+/* ── 12. 첫 화면(새로고침): 로고 + 흐르는 선 ── */
+.r-boot{min-height:100vh;min-height:100dvh;display:grid;place-content:center;justify-items:center;gap:18px;opacity:0;animation:rShow .3s ease-out .12s forwards}
+.r-boot img{width:150px;height:auto;mix-blend-mode:multiply}
+.r-boot small{display:none}
+.r-run{display:block;position:relative;width:160px;height:2px;border-radius:2px;background:#EAE5DE;overflow:hidden}
+.r-run::after{content:"";position:absolute;left:0;top:0;bottom:0;width:30%;background:var(--r-choc);animation:rRun 1.35s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes rShow{to{opacity:1}}
+
+/* ── 13. 불러오는 동안: 실제 모양 뼈대 (0.3초 뒤 표시, 3초 넘으면 안내 한 줄) ── */
+.empty-cell.r-skel{display:grid!important;gap:0;margin:0;padding:0 0 6px!important;text-align:left!important;color:inherit;opacity:0;animation:rShow .2s ease-out .3s forwards;min-height:0}
+.r-skel>.r-run{width:100%;margin-bottom:4px}
+.r-skrow{display:grid;grid-template-columns:1.2fr 3fr .8fr .6fr;gap:18px;align-items:center;height:48px;padding:0 16px;border-bottom:1px solid #F0ECE7}
+.r-skrow>:nth-child(n+3){justify-self:end}
+.r-skp{display:flex;justify-content:space-between;align-items:center;height:36px;padding:0 4px;border-bottom:1px solid #F0ECE7}
+.r-sk{display:block;height:10px;border-radius:2px;background:#EEEAE4}
+.r-skrow .r-sk{width:100%}
+.r-skel>small{display:block;padding:10px 16px 2px;font-size:12px;color:var(--r-faint);opacity:0;animation:rShow .3s 3s forwards}
+.r-skin{animation:rIn .3s ease-out both}
+@keyframes rIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ── 14. 표가 아닌 목록 줄도 같은 hover: 옅은 바탕 + 왼쪽 진한 선 ── */
+.rp-row,.task,.view-as-option{transition:background-color .12s}
+.rp-row:hover,.task:hover,.view-as-option:hover{background:#FAF7F3!important;box-shadow:inset 2px 0 0 var(--r-choc)!important}
+
+/* ── 15. 강사 화면 보기: 화면 오른쪽 아래 떠 있는 버튼 (움직이는 광택 없음) ── */
+button.view-as-trigger.r-fab{position:fixed;right:28px;bottom:24px;z-index:80;display:flex;align-items:center;gap:10px;width:auto;max-width:calc(100vw - 32px);min-height:0;margin:0;padding:8px 18px 8px 8px;border:1.5px solid transparent;border-radius:12px;background:linear-gradient(135deg,#4A3426,#2C1F16) padding-box,linear-gradient(120deg,#E9D3A6,#B08D57 55%,#7A5C36) border-box;color:#fff;text-align:left;box-shadow:0 10px 24px rgba(20,12,6,.28);transition:box-shadow .15s,transform .08s}
+button.view-as-trigger.r-fab:hover{background:linear-gradient(135deg,#57402F,#33241A) padding-box,linear-gradient(120deg,#F1DDB5,#C29E66 55%,#8A6A40) border-box;box-shadow:0 12px 28px rgba(20,12,6,.34);transform:none}
+button.view-as-trigger.r-fab:active{transform:scale(.98)}
+.r-fab .view-as-icon{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:9px;background:rgba(233,211,166,.16);color:#F1DDB5}
+.r-fab .view-as-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.r-fab .view-as-text strong{display:block;font-size:13.5px;font-weight:700;line-height:1.3;color:#fff}
+.r-fab .view-as-text small{display:block;margin-top:1px;font-size:11.5px;line-height:1.3;color:rgba(255,255,255,.72)}
+@media (max-width:760px){button.view-as-trigger.r-fab{right:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px));padding:6px;border-radius:14px}.r-fab .view-as-text{display:none}}
+@media print{.r-fab{display:none!important}}
+.empty-cell.r-skel:not(.card .r-skel){background:#fff;border:1px solid var(--r-line);border-radius:14px;overflow:hidden}
+
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -1786,7 +1830,10 @@ P.page=function(state){
  if(!P.live)return oldPage(state);
  if(state.group==='home')return P.liveDashboard(state);
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),key=state.group+'/'+state.page;
- const head=`<div class="page-heading"><div><p class="eyebrow">ALWAYS PIANO WORKSPACE</p><h1>${e(page[1])}</h1><p class="subtitle">${e(group.label)} · ${P.user.role==='director'?'원장':'담당 강사'} 권한</p></div></div>`;
+ const EN={'lessons/regular':'REGULAR LESSONS','lessons/makeup':'MAKEUP LESSONS','lessons/attendance':'ATTENDANCE','lessons/history':'CHANGE LOG','reports/weekly':'PARENT REPORT','students/list':'STUDENTS','students/consultations':'CONSULTATIONS','teachers/list':'TEACHERS','teachers/workload':'TEACHING LOAD','teachers/payroll':'PAYROLL','teachers/leave':'TEACHER LEAVE','marketing/content':'CONTENT CALENDAR','marketing/campaigns':'CAMPAIGNS','marketing/funnel':'FUNNEL','marketing/reviews':'REVIEWS','finance/summary':'MONTHLY P&L','finance/expenses':'INCOME · EXPENSES','finance/analysis':'ANALYSIS','operations/notifications':'AUTO NOTICES','operations/notices':'NOTICES','operations/events':'EVENTS','settings/accounts':'ACCOUNTS','settings/hours':'HOURS'};
+ const DESC={'lessons/regular':'요일별 정규 수업 시간표에서 학생을 배정하고 옮겨요.','lessons/makeup':'보강 일정을 주간·월간으로 보고, 빈 칸을 눌러 바로 등록해요.','lessons/attendance':'수업별 출결을 확인하고 결석·보강을 이어서 처리해요.','lessons/history':'선생님들이 수업을 등록·변경한 기록을 확인해요.','reports/weekly':'학생마다 이번 주 레슨 이야기를 써서 카톡 카드로 보내고, 보냄·열람을 확인해요.','students/list':'재원 학생과 수강 조건을 관리해요. 수업 요일은 정규 수업 시간표에서 정해요.','settings/accounts':'원장 계정과 로그인 권한을 관리해요.','operations/notices':'학원 소식과 공지를 올리고 함께 확인해요.','teachers/list':'강사 기본 정보와 담당 과목, 로그인 계정을 관리해요.'};
+ const lead=DESC[key]||P.pageSpecs?.[key]?.desc||(group.label+' · '+(P.user.role==='director'?'원장':'담당 강사')+' 권한');
+ const head=`<div class="page-heading"><div><p class="eyebrow">${e(EN[key]||'ALWAYS PIANO')}</p><h1>${e(page[1])}</h1><p class="lead">${e(lead)}</p></div></div>`;
  let body='';
  if(key==='reports/weekly')body=P.reportsPage();
  else if(key==='students/list')body=P.rosterStudentsPage();
@@ -2285,7 +2332,7 @@ P.showLoading=function(text){
 };
 P.authBoot=async function(){
  if(!P.live){P.user={id:'preview',name:'오프라인 미리보기',role:'director',teacherId:'t1'};P.startApp();return;}
- app().innerHTML='<div class="auth-shell"><p role="status">운영 워크스페이스를 불러오는 중입니다…</p></div>';
+ app().innerHTML='<div class="auth-shell r-boot" role="status" aria-label="운영 워크스페이스를 불러오는 중">'+(document.getElementById('brand-template')?.innerHTML||'')+'<span class="r-run"></span></div>';
  let stored=storage('localStorage','get');persist=!!stored;if(!stored)stored=storage('sessionStorage','get');
  if(!stored){loginScreen();return;}
  // 저장된 로그인은 '로그인 만료·계정 변경'일 때만 지워요. 휴대폰 통신이 잠깐 끊기거나 서버가 늦어도 다시 시도하고, 로그인 정보는 그대로 둡니다.
@@ -2743,6 +2790,21 @@ app().addEventListener('change',async event=>{
 {const tip=document.createElement('div');tip.id='r-tip';tip.setAttribute('aria-hidden','true');let cur=null,t=0;const place=(el)=>{const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;let x=Math.min(Math.max(8,r.left+r.width/2-w/2),innerWidth-w-8),y=r.top-h-8;if(y<8)y=r.bottom+8;tip.style.left=x+'px';tip.style.top=y+'px';};
  document.addEventListener('pointerover',ev=>{if(ev.pointerType&&ev.pointerType!=='mouse')return;const el=ev.target.closest?.('[title],[data-tip]');if(el===cur)return;clearTimeout(t);if(!el){cur=null;tip.classList.remove('on');return;}if(el.hasAttribute('title')){const v=el.getAttribute('title');el.removeAttribute('title');if(v)el.dataset.tip=v;if(!el.getAttribute('aria-label')&&v&&!el.textContent.trim())el.setAttribute('aria-label',v);}const v=el.dataset.tip;if(!v){cur=null;tip.classList.remove('on');return;}cur=el;if(!tip.isConnected)document.body.appendChild(tip);t=setTimeout(()=>{if(cur!==el||!el.isConnected)return;tip.textContent=v;place(el);tip.classList.add('on');},tip.classList.contains('on')?0:220);},true);
  document.addEventListener('keydown',ev=>{if(ev.key==='Tab')document.documentElement.classList.remove('r-ptr');},true);document.addEventListener('pointerdown',()=>{document.documentElement.classList.add('r-ptr');clearTimeout(t);tip.classList.remove('on');cur=null;},true);addEventListener('scroll',()=>{tip.classList.remove('on');cur=null;},true);}
+
+// 불러오는 동안(이디야 규칙): '…불러오는 중' 글 대신 실제 모양의 회색 뼈대 + 위 흐르는 선. 0.3초 안에 끝나면 안 보이고, 3초 넘으면 작은 안내 한 줄.
+// 뼈대가 빠지고 진짜 내용이 들어오면 묶음마다 0.04초 차이로 살짝 내려오며 나타남(한 번만). 새 화면도 '불러오는 중' 글만 쓰면 자동
+{const ROWS=[[22,46,14,10],[18,60,12,12],[24,40,16,8],[16,54,10,12],[20,48,14,10],[22,36,12,10]];
+ const row=w=>'<div class="r-skrow">'+w.map(x=>'<i class="r-sk" style="width:'+x+'%"></i>').join('')+'</div>';
+ const prow=(a,b)=>'<div class="r-skp"><i class="r-sk" style="width:'+a+'px"></i><i class="r-sk" style="width:'+b+'px"></i></div>';
+ const up=el=>{if(el.dataset.sk)return;const t=el.textContent||'';if(!/불러오는 중/.test(t))return;el.dataset.sk='1';el.classList.add('r-skel');el.setAttribute('role','status');el.setAttribute('aria-label',t.replace(/…/g,'').trim());
+  const pop=!!el.closest('dialog,.wq-pop')||(el.parentElement&&el.parentElement.clientWidth<520);
+  el.innerHTML='<span class="r-run"></span>'+(pop?prow(90,150)+prow(70,190)+prow(110,120):ROWS.map(row).join(''))+'<small>자료가 많아 조금 걸려요</small>';};
+ const scan=n=>{if(n.nodeType!==1)return;if(n.matches('.empty-cell'))up(n);else if(n.firstElementChild)n.querySelectorAll('.empty-cell').forEach(up);};
+ const OUT=new WeakMap();
+ const skin=(host,n)=>{if(n.nodeType!==1||n.matches('script,style,template,.r-skel'))return;const i=host._skN=(host._skN||0)+1;n.classList.add('r-skin');n.style.animationDelay=Math.min(i-1,5)*40+'ms';setTimeout(()=>{n.classList.remove('r-skin');n.style.animationDelay='';},600);};
+ new MutationObserver(ms=>{for(const m of ms){const tg=m.target;for(const r of m.removedNodes)if(r.nodeType===1&&(r.dataset?.sk||r.querySelector?.('[data-sk]'))){OUT.set(tg,performance.now());tg._skN=0;}
+  const out=OUT.get(tg);for(const n of m.addedNodes){scan(n);if(out&&performance.now()-out<500&&!(n.nodeType===1&&n.dataset?.sk))skin(tg,n);}}}).observe(document.body,{childList:true,subtree:true});
+ scan(document.body);}
 </script>
 
   <script>
@@ -2789,10 +2851,10 @@ function render(){
  const current=g.id===state.group,active=g.id===state.navGroup;
  if(g.id==='home')return `<a class="nav-item ${active?'active':''}" data-nav-group="home" href="#home/overview" ${current?'aria-current="page"':''}>${ic(g.icon)}<span>${g.label}</span>${active?'<span class="nav-dot"></span>':''}</a>`;
  return `<details class="nav-group" name="sidebar-navigation" ${active?'open':''}><summary class="nav-item ${active?'active':''}" data-nav-group="${g.id}">${ic(g.icon)}<span>${g.label}</span>${ic('chevron','nav-chevron')}</summary><div class="nav-submenu">${g.pages.filter(p=>!p[2]||p[2]===state.role).map(p=>`<a class="nav-subitem ${current&&p[0]===state.page?'active':''}" href="#${g.id}/${p[0]}" ${current&&p[0]===state.page?'aria-current="page"':''}>${e(p[1])}${P.readyPages.includes(g.id+'/'+p[0])?'':'<span class="nav-badge">준비</span>'}</a>`).join('')}</div></details>`;
- }).join('')}</nav><div class="sidebar-bottom">${P.live&&(P.realSession||P.user).role==='director'&&!(P.realSession||P.user).vice?`<button type="button" class="view-as-trigger" data-view-as-open aria-haspopup="dialog"><span class="view-as-icon">${ic('students')}</span><span class="view-as-text"><strong>강사 화면 보기</strong><small>지금 · ${P.viewAs?e(P.user.name)+' '+P.honor():'원장 화면'}</small></span>${ic('chevron','view-as-chev')}</button>`:''}${P.live&&P.user?(()=>{const me=(P.realSession||{}).user||P.user;return `<div class="side-user"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><span class="side-user-text"><strong>${e(me.name)}</strong><small>${me.role==='director'?'원장':'강사'}</small></span><div class="side-user-actions"><button type="button" data-live-action="push">알림 설정</button><button type="button" data-live-action="password">비밀번호 변경</button><button type="button" data-live-action="logout">로그아웃</button></div></div>`;})():`<div class="workspace-status"><strong><span class="status-dot"></span>함께 만드는 좋은 배움</strong>Always Piano Academy<br>UI 미리보기</div>`}<div class="sidebar-footer">© ALWAYS PIANO ACADEMY</div></div></aside>
+ }).join('')}</nav><div class="sidebar-bottom">${P.live&&P.user?(()=>{const me=(P.realSession||{}).user||P.user;return `<div class="side-user"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><span class="side-user-text"><strong>${e(me.name)}</strong><small>${me.role==='director'?'원장':'강사'}</small></span><div class="side-user-actions"><button type="button" data-live-action="push">알림 설정</button><button type="button" data-live-action="password">비밀번호 변경</button><button type="button" data-live-action="logout">로그아웃</button></div></div>`;})():`<div class="workspace-status"><strong><span class="status-dot"></span>함께 만드는 좋은 배움</strong>Always Piano Academy<br>UI 미리보기</div>`}<div class="sidebar-footer">© ALWAYS PIANO ACADEMY</div></div></aside>
  <div class="main-wrap"><header class="topbar"><button class="mobile-menu" data-action="open-menu" aria-label="메뉴 열기" aria-controls="sidebar" aria-expanded="false">${ic('menu')}</button><span class="tb-aurora" aria-hidden="true"></span>${(()=>{const src=document.getElementById('brand-template')?.content.querySelector('img')?.getAttribute('src');return src?`<a class="tb-logo-link" href="#home/overview" aria-label="홈으로"><img class="tb-logo" src="${src}" alt="Always Piano Academy"></a>`:'';})()}${P.live&&state.group==='home'?(()=>{const d=new Date((P.data.date||'')+'T12:00:00Z');return `<div class="tb-hello"><span>${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${'일월화수목금토'[d.getUTCDay()]}요일</span><strong>${e(P.user.name)} ${P.honor()}, 반가워요</strong></div>`;})():''}<div class="breadcrumb"><span>워크스페이스</span>${ic('chevron')}<strong>${group.label} / ${page[1]}</strong></div><div class="top-actions">${P.live?`<details class="user-menu"><summary aria-label="사용자 메뉴"><span class="avatar">${e(P.user.name.slice(0,1))}</span><span class="user-label">${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</span>${ic('chevron')}</summary><div class="user-menu-panel"><p>${e(P.user.name)} · ${(P.user?.vice?'부원장':director?'원장':'강사')}</p><button data-action="notices">${ic('bell')}학원 소식</button><button data-live-action="push">${ic('bell')}알림 설정</button><button data-live-action="password">비밀번호 변경</button><button data-live-action="logout">로그아웃</button></div></details>`:`<label class="role-picker"><span>화면 미리보기</span><select id="role-select" aria-label="역할별 화면 미리보기 (실제 로그인 아님)"><option value="director" ${director?'selected':''}>원장 화면</option><option value="teacher" ${!director?'selected':''}>강사 화면</option></select></label><button class="icon-btn" data-action="notices" aria-label="알림 미리보기">${ic('bell')}</button>`}</div></header>
  <main class="content" id="main" tabindex="-1">${P.viewAs?`<div class="view-as-banner" role="status"><span>${ic('teacher')}<strong>${e(P.user.name)} ${P.honor()}</strong> 계정으로 작업 중이에요 · 등록·수정은 원장 이름으로 기록돼요</span><button class="btn" data-view-as-exit>원장 화면으로 돌아가기</button></div>`:''}${P.live?'':'<div class="demo-banner"><span><strong>DEMO WORKSPACE</strong>오프라인 가상 데이터 미리보기 · 저장되지 않음</span><span>기준일 2026.10.26</span></div>'}<p id="live-status" class="live-status" role="status" aria-live="polite"></p>${P.page(state)}<footer class="footer"><span>ALWAYS PIANO ACADEMY · EVERY LITTLE NOTE COUNTS.</span><span>${P.live?'DEVELOPMENT WORKSPACE':'UI PROTOTYPE'} · ${(P.user?.vice?'부원장':director?'원장':'강사')} 화면</span></footer></main></div>
- <dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title"></h2><button class="icon-btn" data-action="close-dialog" aria-label="상세 창 닫기">${ic('close')}</button></div><div class="dialog-content" id="dialog-content"></div><div class="dialog-foot"><span></span><button class="btn" data-action="close-dialog">닫기</button></div></dialog>`;
+ ${P.live&&(P.realSession||P.user).role==='director'&&!(P.realSession||P.user).vice?`<button type="button" class="view-as-trigger r-fab" data-view-as-open aria-haspopup="dialog" title="선생님 계정 화면으로 바꿔 봐요"><span class="view-as-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c.6-3.1 2.8-5 5.5-5s4.9 1.9 5.5 5"/><path d="M16.5 6.5h4.5m0 0-2-2m2 2-2 2M21 12.5h-4.5m0 0 2-2m-2 2 2 2"/></svg></span><span class="view-as-text"><strong>강사 화면 보기</strong><small>지금: ${P.viewAs?e(P.user.name)+' '+P.honor():'원장 화면'}</small></span></button>`:''}<dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title"></h2><button class="icon-btn" data-action="close-dialog" aria-label="상세 창 닫기">${ic('close')}</button></div><div class="dialog-content" id="dialog-content"></div><div class="dialog-foot"><span></span><button class="btn" data-action="close-dialog">닫기</button></div></dialog>`;
  document.title=page[1]+' · Always Piano';
  state.drawer=false;document.body.style.overflow='';
  updateDrawer();
