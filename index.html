@@ -2,6 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
+  <script>window.__errs=[];addEventListener('error',function(e){window.__errs.push((e.message||'오류')+' (줄 '+e.lineno+':'+e.colno+')');});</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#3D2B1F">
   <link rel="manifest" href="manifest.webmanifest">
@@ -11,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611120926">
+  <meta name="app-build" content="202611150708">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1052,8 +1053,47 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 .big-day.today .big-day-num{font-weight:800;color:#E23D7A}
 .abs-col.today{background:#FFEAF2!important;border:2.5px solid #E23D7A!important}
 .abs-col.today .abs-day,.abs-col.today .abs-day span{font-weight:800;color:#E23D7A}
+/* ── 학부모 주간 리포트 (2026-11-13) ── */
+.rp-head{padding:16px 18px;display:grid;grid-template-columns:auto 1fr;gap:14px 28px;align-items:center}
+.rp-week{display:flex;align-items:center;gap:10px}.rp-week strong{display:block;font-size:18px;font-weight:800;color:var(--text)}.rp-week small{color:var(--muted);font-size:12.5px}
+.rp-week .icon-btn{border:1px solid var(--line);background:var(--card)}.rp-week .icon-btn:disabled{opacity:.35}.rp-prev svg{transform:rotate(180deg)}
+.rp-progress{display:flex;flex-direction:column;gap:7px;min-width:0}.rp-nums{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;font-size:14px}.rp-nums b{font-size:20px;font-weight:800;color:var(--ink)}.rp-nums .muted{font-size:12.5px;color:var(--muted)}
+.rp-bar{height:6px;border-radius:99px;background:#ECE7E1;overflow:hidden}.rp-bar i{display:block;height:100%;background:var(--ink);border-radius:99px;transition:width .3s var(--ease-soft)}
+.rp-tools{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:10px;align-items:center}.rp-tools .seg-tabs{margin:0}.rp-tools .seg-tab b{font-weight:800;margin-left:2px}
+.rp-days{display:flex;gap:4px;flex-wrap:wrap}.rp-day{min-height:34px;min-width:38px;padding:0 10px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13px;color:var(--muted)}.rp-day.active{background:var(--ink);border-color:var(--ink);color:#fff;font-weight:700}
+.rp-search{margin-left:auto;min-height:36px;border:1px solid var(--line);border-radius:8px;padding:0 12px;font:inherit;font-size:14px;width:170px;background:var(--card)}
+.rp-list{padding:4px 0}.rp-row{display:grid;grid-template-columns:150px minmax(0,1fr) auto 88px 16px;gap:14px;align-items:center;width:100%;text-align:left;padding:12px 18px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:var(--text);cursor:pointer}
+.rp-row:last-child{border-bottom:0}.rp-row:hover{background:#FAF8F5}.rp-row:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+.rp-who strong{display:block;font-size:15px;font-weight:700}.rp-who small{color:var(--muted);font-size:12px}
+.rp-scene{font-size:13.5px;color:#4A3B2F;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.rp-scene i{color:#B4ABA2;font-style:normal}
+.rp-flags{display:flex;gap:4px}.rp-flag{font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:99px;background:#F1EEEA;color:var(--muted)}.rp-flag.seen{background:var(--brass-soft);color:var(--brass-ink)}
+.rp-state{justify-self:end;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;white-space:nowrap}.rp-sent{background:#E5F2EA;color:#2F7D4F}.rp-draft{background:var(--brass-soft);color:var(--brass-ink)}.rp-none{background:#F8E6E2;color:#B94A3B}
+.rp-chev{width:16px;height:16px;color:#B4ABA2}
+#detail-dialog:has(.rp-form){width:min(1040px,calc(100vw - 24px));max-width:none}
+.rp-form{display:flex;flex-direction:column;gap:14px}.rp-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.rp-fields{display:flex;flex-direction:column;gap:8px;min-width:0}.rp-fields>input,.rp-fields textarea,.rp-line input[type=date],.rp-song>input{font:inherit;font-size:14px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--card);color:var(--text);width:100%}
+.rp-fields textarea{resize:vertical;line-height:1.6}.rp-fields input:focus,.rp-fields textarea:focus{outline:2px solid var(--brass);outline-offset:0;border-color:transparent}
+.rp-lab{font-size:13px;font-weight:700;color:var(--text);margin-top:6px}.rp-lab small{font-weight:500;color:var(--muted);margin-left:6px;font-size:12px}.rp-lab.must::after{content:' *';color:#B94A3B}
+.rp-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}.rp-line .rp-lab{margin:0}.rp-line input[type=date]{width:auto}
+.rp-st{display:inline-flex;gap:2px;padding:3px;background:#F1EEEA;border-radius:9px}.rp-st label{position:relative}.rp-st input{position:absolute;opacity:0;pointer-events:none}.rp-st span{display:block;padding:5px 10px;border-radius:7px;font-size:12.5px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.rp-st input:checked+span{background:var(--card);color:var(--ink);font-weight:700;box-shadow:0 1px 3px rgba(61,43,31,.15)}.rp-st input:focus-visible+span{outline:2px solid var(--brass)}
+#rp-songs{display:flex;flex-direction:column;gap:6px}.rp-song{display:grid;grid-template-columns:minmax(0,1fr) auto 30px;gap:8px;align-items:center}
+.rp-add{align-self:flex-start;margin-top:6px;min-height:34px;font-size:13px}
+.rp-chips{display:flex;flex-wrap:wrap;gap:6px}.rp-chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:5px 11px;font:inherit;font-size:12.5px;color:#5C4A3C;cursor:pointer}.rp-chip:hover{border-color:var(--brass);color:var(--ink)}.rp-chip.strong{background:var(--brass-soft);border-color:#E4D3B2;color:var(--brass-ink);font-weight:700}
+.rp-previewcol{position:sticky;top:0;display:flex;flex-direction:column;gap:8px}.rp-previewcol canvas{width:100%;height:auto;aspect-ratio:1/1;border-radius:10px;border:1px solid var(--line);box-shadow:0 12px 30px -20px rgba(61,43,31,.5);background:#FBF9F6}.rp-kk{font-size:12px;margin:0}
+.rp-actions{display:flex;gap:8px;align-items:center;justify-content:flex-end;border-top:1px solid var(--line);padding-top:12px}.rp-actions .rp-msgline{margin-right:auto;font-size:13px}
+.rp-sentbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;background:#E5F2EA;color:#2F7D4F;border-radius:10px;padding:10px 14px;font-size:13.5px}.rp-sentbar>span{display:flex;gap:6px;align-items:center}.rp-sentbar .icon{width:16px;height:16px}.rp-sentbar .btn{margin-left:auto;min-height:32px}
+.rp-chk{display:flex;gap:6px;align-items:center;color:var(--text)}
+.rp-carry{margin:0;display:flex;gap:6px;align-items:center;font-size:13px;color:var(--brass-ink);background:var(--brass-soft);border-radius:8px;padding:8px 12px}.rp-carry .icon{width:15px;height:15px}
+.rp-send{border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:#FAF8F5}.rp-send p{margin:0;font-size:14px}.rp-send .icon{width:16px;height:16px;vertical-align:-3px}
+.rp-sendbtns{display:flex;flex-wrap:wrap;gap:8px}.rp-linkline{font-size:12px!important;word-break:break-all;user-select:all}
+.btn.kakao{background:#FEE500;border-color:#FEE500;color:#191919;font-weight:700}
+@media (max-width:900px){.rp-grid{grid-template-columns:1fr}.rp-previewcol{position:static;order:-1;max-width:320px}.rp-head{grid-template-columns:1fr}}
+@media (max-width:760px){.rp-row{grid-template-columns:minmax(0,1fr) auto 14px;gap:4px 10px;padding:12px 14px}.rp-who{grid-column:1}.rp-scene{grid-column:1/2;grid-row:2;font-size:12.5px}.rp-flags{grid-column:2;grid-row:2;justify-self:end}.rp-state{grid-column:2;grid-row:1}.rp-chev{grid-column:3;grid-row:1/3}.rp-search{margin-left:0;width:100%}.rp-song{grid-template-columns:minmax(0,1fr) 30px}.rp-song .rp-st{grid-column:1/-1;grid-row:2;justify-self:start}}
+.rp-imgfallback{display:flex;flex-direction:column;gap:8px}.rp-imgfallback img{width:320px;max-width:100%;border-radius:8px;border:1px solid var(--line)}
 </style>
 
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 이동</a>
@@ -1061,7 +1101,7 @@ html.using-pointer :focus,html.using-pointer :focus-visible{outline:none!importa
 
   <div id="app"></div>
   <script>
-window.APP_MODE=true;window.APP_API="https://script.google.com/macros/s/AKfycbwJKO_zbbxNoWPS_r_NzF210WglYIzk35t-wkiESwrrNHCTPoDG9udXGEl43gr6Edc/exec";
+window.APP_MODE=true;window.APP_API="https://script.google.com/macros/s/AKfycbwJKO_zbbxNoWPS_r_NzF210WglYIzk35t-wkiESwrrNHCTPoDG9udXGEl43gr6Edc/exec";window.KAKAO_KEY="614076b75975a563e3e911012b5c01f9";
 window.google={script:{run:(function(){function runner(ok,fail){return new Proxy({},{get(_,k){
  if(k==='withSuccessHandler')return f=>runner(f,fail);if(k==='withFailureHandler')return f=>runner(ok,f);
  return arg=>fetch(window.APP_API,{method:'POST',body:JSON.stringify({fn:k,arg})}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json();}).then(d=>ok&&ok(d)).catch(e=>fail&&fail(e));}});}
@@ -1073,6 +1113,7 @@ window.Piano=window.Piano||{};
 Piano.navigation=[
 {id:'home',label:'홈',icon:'home',roles:['director','teacher'],pages:[['overview','대시보드']]},
 {id:'lessons',label:'수업 관리',icon:'calendar',roles:['director','teacher'],pages:[['regular','정규 수업'],['makeup','보강 수업'],['attendance','출결 관리'],['history','변경 이력','director']]},
+{id:'reports',label:'학부모 리포트',icon:'note',roles:['director','teacher'],pages:[['weekly','주간 리포트']]},
 {id:'students',label:'학생 관리',icon:'students',roles:['director'],pages:[['list','학생 목록'],['consultations','상담·신규 등록','director']]},
 {id:'teachers',label:'강사 관리',icon:'teacher',roles:['director'],pages:[['list','강사 정보'],['workload','수업 현황'],['payroll','강사료 정산'],['leave','강사 휴무']]},
 {id:'marketing',label:'마케팅 관리',icon:'marketing',roles:['director'],pages:[['content','콘텐츠 캘린더'],['campaigns','광고·홍보'],['funnel','유입·전환 분석'],['reviews','리뷰 관리']]},
@@ -1081,7 +1122,7 @@ Piano.navigation=[
 {id:'settings',label:'관리자 설정',icon:'settings',roles:['director'],pages:[['accounts','계정·권한'],['hours','운영시간']]}
 ];
 // Pages wired to live data; others show a "준비" badge in the sidebar.
-Piano.readyPages=['lessons/regular','lessons/makeup','lessons/attendance','lessons/history','students/list','teachers/list','operations/notices','settings/accounts'];
+Piano.readyPages=['reports/weekly','lessons/regular','lessons/makeup','lessons/attendance','lessons/history','students/list','teachers/list','operations/notices','settings/accounts'];
 Piano.honor=()=>Piano.user?.vice?'부원장님':Piano.user?.role==='director'?'원장님':'선생님';
 Piano.canVisit=function(role,groupId,pageId){
  const group=Piano.navigation.find(g=>g.id===groupId);
@@ -1172,6 +1213,7 @@ P.dashboard=function(state){
  <div class="dashboard-grid"><div class="stack">${P.card(`오늘의 수업 <span class="count">${ls.length}건</span>`,P.lessonTable(state.role)+`<div class="table-note">${director?'전체 강사':'김다은 강사'} 기준 · 가상 수업 데이터</div>`,P.routeLink('lessons','regular','전체 보기'),'2026. 10. 26 · 월요일')}${director?P.card('월별 운영 흐름',P.chart(),'<div class="legend"><span><i></i>수입</span><span><i class="light"></i>지출</span></div>','최근 6개월 · 별도 집계 예시'):teaching}</div><div class="stack"><div id="calendar-panel">${P.calendar(state)}</div>${P.card('오늘의 체크리스트',P.taskList(),P.routeLink('operations','tasks','전체 보기'))}${P.card('학원 소식',P.noticeList(),P.badge('공지','outline'))}</div></div>`;
 };
 P.pageSpecs={
+ 'reports/weekly':{desc:'학생마다 주간 레슨 리포트를 써서 카톡으로 보내고, 보냄·열람을 확인합니다.',cols:['학생','오늘의 한 장면','상태'],rows:[['윤서아','새 곡 첫 줄을 바로 쳐봤어요','보냄 11/13'],['이도윤','—','안 씀']],features:['주간 발송 체크','카톡 카드 이미지','학부모 열람 확인']},
  'lessons/attendance':{desc:'수업별 출결 상태를 확인하고 결석·보강 이력을 연결합니다.',cols:['수업일','학생','담당 강사','출결 상태'],rows:[['10.26 14:00','윤서아','김다은','출석'],['10.26 15:00','이도윤','김다은','확인 대기']],features:['출결 기록','결석 사유','보강 연결']},
  'lessons/history':{desc:'선생님들이 수업을 등록·변경한 기록을 원장이 확인합니다.',cols:['변경 일시','작업자','학생','변경 전 → 후'],rows:[['11/3 14:20','임시 강사 1','윤서아','수 15:00 → 목 16:30 (이후 수업 모두)']],features:['변경 전후','적용 범위','변경 사유']},
  'students/consultations':{desc:'상담부터 등록까지의 과정을 유입 경로와 함께 기록합니다.',cols:['상담일','문의 구분','유입 경로','진행 상태'],rows:[['10.26','초등 피아노 상담','네이버 검색','상담 예정'],['10.24','성인 취미반 상담','지인 소개','등록 완료']],features:['상담 기록','등록 전환','유입 경로 연결']},
@@ -1606,7 +1648,8 @@ P.page=function(state){
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),key=state.group+'/'+state.page;
  const head=`<div class="page-heading"><div><p class="eyebrow">ALWAYS PIANO WORKSPACE</p><h1>${e(page[1])}</h1><p class="subtitle">${e(group.label)} · ${P.user.role==='director'?'원장':'담당 강사'} 권한</p></div></div>`;
  let body='';
- if(key==='students/list')body=P.rosterStudentsPage();
+ if(key==='reports/weekly')body=P.reportsPage();
+ else if(key==='students/list')body=P.rosterStudentsPage();
  else if(key==='teachers/list')body=P.rosterTeachersPage();
  else if(state.group==='lessons'){
   if(state.page==='history')body=`<div class="section-note">${ic('clock')}<span>선생님들이 수업을 등록·변경할 때마다 자동으로 기록돼요. 최근 500건까지 보여줘요.</span></div>${P.card('수업 변경 이력',`<div id="history-results"><p class="empty-cell">이력을 불러오는 중입니다…</p></div>`)}`;
@@ -1827,6 +1870,184 @@ P.payDialog=function(){const p=P.ac().payments||[];
  const item=x=>`<div class="pay-row"><div class="pay-main"><strong>${e(x.studentName)} · ${e(x.instrument)}</strong><span class="sub">${x.state==='needed'?`${x.prevSeq?`${x.prevSeq}번째 회차권 ${x.used}/${x.count}회 사용 → `:'첫 회차권 · '}${x.seq}번째 회차권`:`${x.seq}번째 회차권 · ${x.used}/${x.count}회`} · ${wonOr(x.price)} · 다음 수업 ${x.nextDate?mdText(x.nextDate):'없음'}${x.requestedAt?` · 요청 ${mdText(x.requestedAt.slice(0,10))}`:''}</span></div>${P.badge(PSTATE[x.state][0],PSTATE[x.state][1])}<div class="pay-acts">${x.state==='needed'?btn('request',x,'요청 완료')+btn('confirm',x,'납부 확인',true):x.state==='requested'?btn('confirm',x,'납부 확인',true):btn('ack',x,'확인 완료')}</div></div>`;
  const sec=(state,title)=>{const l=p.filter(x=>x.state===state);return l.length?`<h3 class="pay-title">${title} ${l.length}건</h3>${l.map(item).join('')}`:'';};
  return `<div class="pay-dialog">${sec('needed','납부 요청 필요')}${sec('requested','요청 후 납부 미확인')}${sec('recheck','출결 정정으로 재확인 필요')}${p.length?'':'<p class="empty-cell">처리할 납부 알림이 없습니다.</p>'}<p class="sub">다음 수업이 가까운 순서 · 마지막 갱신 <span data-sync-time>${P.syncTime()}</span> · 요청 완료만으로는 회차가 충전되지 않아요. 앱 안 알림만 쓰고 문자·카톡은 보내지 않아요.</p></div>`;};
+})(Piano);
+</script>
+<script>
+// \u2500\u2500 \ud559\ubd80\ubaa8 \uc8fc\uac04 \ub9ac\ud3ec\ud2b8: \uc8fc\uac04 \ubc1c\uc1a1 \uccb4\ud06c\ub9ac\uc2a4\ud2b8 \u00b7 \uc791\uc131\ucc3d \u00b7 \uce74\ud1a1 \uce74\ub4dc \uc774\ubbf8\uc9c0(\uce94\ubc84\uc2a4) \u00b7 \ubcf4\ub0b4\uae30 \u2500\u2500
+(function(P){
+const e=P.escape,ic=(n,c)=>P.icon(n,c);
+const mon=d=>{const x=new Date(d+'T00:00:00Z'),w=x.getUTCDay();x.setUTCDate(x.getUTCDate()-(w===0?6:w-1));return x.toISOString().slice(0,10);};
+const add=(d,n)=>{const x=new Date(d+'T00:00:00Z');x.setUTCDate(x.getUTCDate()+n);return x.toISOString().slice(0,10);};
+const md=d=>d?`${+d.slice(5,7)}/${+d.slice(8,10)}`:'';
+const DAYS=['\uc77c','\uc6d4','\ud654','\uc218','\ubaa9','\uae08','\ud1a0'];
+const given=n=>{n=String(n||'').trim();return /^[\uac00-\ud7a3]{3}$/.test(n)?n.slice(1):n;};
+const batchim=s=>{s=String(s);const c=s.charCodeAt(s.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0;};
+const callName=n=>{const g=given(n);return g+(batchim(g)?'\uc774':'');};
+const obj=(s,a,b)=>s+(batchim(s.replace(/['\u2019)\s]+$/,''))?a:b);
+const weekLabel=m=>{const t=new Date(add(m,3)+'T00:00:00Z');return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
+const longDate=d=>{const x=new Date(d+'T00:00:00Z');return `${x.getUTCMonth()+1}\uc6d4 ${x.getUTCDate()}\uc77c ${DAYS[x.getUTCDay()]}\uc694\uc77c`;};
+P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null};P.rpPhoto=P.rpPhoto||{};
+P.reportLink=t=>(window.REPORT_BASE||'https://always-music.github.io/always-piano-app/r/')+'?t='+t;
+const days=sid=>[...new Set((P.data.weekly||[]).filter(w=>w.studentId===sid).map(w=>w.weekday))].sort();
+const students=()=>(P.data.students||[]).filter(s=>s.status==='active');
+const teacherOf=s=>(P.data.teachers||[]).find(t=>t.id===s.teacherId)?.name||'';
+function lessonDay(sid,week){const today=P.data.date,ds=days(sid).map(w=>add(week,w-1));const past=ds.filter(d=>d<=today);return past.length?past.at(-1):ds[0]||(today>=week&&today<=add(week,6)?today:week);}
+P.reportsPage=function(){
+ if(!P.rp.week)P.rp.week=mon(P.data.date);
+ return `<div class="section-note">${ic('note')}<span>\ud559\uc0dd\ub9c8\ub2e4 \ud55c \uc7a5\uc529 \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uc694. \ud559\ubd80\ubaa8\ub2d8\uc740 \ub85c\uadf8\uc778 \uc5c6\uc774 \uce74\ud1a1 \uce74\ub4dc\uc758 <b>\ub9ac\ud3ec\ud2b8 \ubcf4\uae30</b>\ub85c \uc5f4\uc5b4\uc694. \uce74\ud1a1 \ubcf4\ub0b4\uae30\ub294 \ud734\ub300\ud3f0 \uc571\uc5d0\uc11c \ud574 \uc8fc\uc138\uc694.</span></div><div id="rp-root"><p class="empty-cell">\ub9ac\ud3ec\ud2b8\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc785\ub2c8\ub2e4\u2026</p></div>`;
+};
+P.loadReports=async function(){if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
+P.rpRender=function(){
+ const root=document.getElementById('rp-root');if(!root||!P.rp.list)return;const w=P.rp.week,list=P.rp.list,by={};list.forEach(r=>by[r.studentId]=r);
+ const rows=students().map(s=>({s,r:by[s.id],d:days(s.id)})).sort((a,b)=>((a.d[0]||9)-(b.d[0]||9))||a.s.name.localeCompare(b.s.name,'ko'));
+ const st=x=>!x.r?'none':x.r.sentAt?'sent':'draft',cnt={sent:0,draft:0,none:0};rows.forEach(x=>cnt[st(x)]++);const video=list.filter(r=>r.videoSent).length,seen=list.filter(r=>r.sentAt&&r.views).length;
+ const q=P.rp.q.trim(),shown=rows.filter(x=>(P.rp.filter==='all'||(P.rp.filter==='sent'?st(x)==='sent':st(x)!=='sent'))&&(!P.rp.day||x.d.includes(P.rp.day))&&(!q||x.s.name.includes(q)));
+ const pct=rows.length?Math.round(cnt.sent/rows.length*100):0,thisWeek=w===mon(P.data.date);
+ const tab=(k,l,n)=>`<button type="button" class="seg-tab ${P.rp.filter===k?'active':''}" data-rp-filter="${k}" aria-pressed="${P.rp.filter===k}">${l} <b>${n}</b></button>`;
+ const row=x=>{const s=st(x),r=x.r;return `<button type="button" class="rp-row" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small>${x.d.length?x.d.map(d=>DAYS[d]).join('\u00b7'):'\uc2dc\uac04\ud45c \uc5c6\uc74c'}${P.user.role==='director'&&teacherOf(x.s)?' \u00b7 '+e(teacherOf(x.s)):''}</small></span><span class="rp-scene">${r?e(r.scene):'<i>\uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>'}</span><span class="rp-flags">${r&&r.videoSent?'<span class="rp-flag">\uc601\uc0c1</span>':''}${r&&r.sentAt?`<span class="rp-flag ${r.views?'seen':''}">${r.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04'}</span>`:''}</span><span class="rp-state rp-${s}">${s==='sent'?'\ubcf4\ub0c4 '+md(r.sentAt.slice(0,10)):s==='draft'?'\uc791\uc131\ub428':'\uc548 \uc500'}</span>${ic('chevron','rp-chev')}</button>`;};
+ root.innerHTML=`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
+ <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${rows.length}\uba85 \ubcf4\ub0c4</span><span class="muted">\uc791\uc131\ub428 ${cnt.draft} \u00b7 \uc548 \uc500 ${cnt.none} \u00b7 \uc601\uc0c1 ${video} \u00b7 \uc5f4\uc5b4\ubd04 ${seen}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
+ <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\uc548 \ubcf4\ub0c4',cnt.draft+cnt.none)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${tab('all','\uc804\uccb4',rows.length)}</div><div class="rp-days" role="group" aria-label="\uc694\uc77c">${[0,1,2,3,4,5,6].map(d=>`<button type="button" class="rp-day ${P.rp.day===d?'active':''}" data-rp-day="${d}" aria-pressed="${P.rp.day===d}">${d?DAYS[d]:'\uc804\uccb4'}</button>`).join('')}</div><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
+ <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${P.rp.filter==='todo'&&!q&&!P.rp.day&&rows.length?'\uc774\ubc88 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'}</p>`}</section>`;
+};
+document.addEventListener('click',ev=>{const t=ev.target;
+ const wk=t.closest('[data-rp-week]');if(wk){P.rp.week=add(P.rp.week,+wk.dataset.rpWeek);P.rp.list=null;document.getElementById('rp-root').innerHTML='<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>';P.loadReports();return;}
+ const f=t.closest('[data-rp-filter]');if(f){P.rp.filter=f.dataset.rpFilter;P.rpRender();return;}
+ const d=t.closest('[data-rp-day]');if(d){P.rp.day=+d.dataset.rpDay;P.rpRender();return;}
+ const o=t.closest('[data-rp-open]');if(o){P.rpOpen(o.dataset.rpOpen);return;}
+});
+document.addEventListener('input',ev=>{if(ev.target.id==='rp-search'){P.rp.q=ev.target.value;const pos=ev.target.selectionStart;P.rpRender();const i=document.getElementById('rp-search');i.focus();i.setSelectionRange(pos,pos);}});
+
+// \u2500\u2500 \uc791\uc131\ucc3d \u2500\u2500
+const SCENES=['\uc0c8 \uace1 \uc545\ubcf4\ub97c \ubc1b\uc790\ub9c8\uc790 \uccab \uc904\uc744 \ubc14\ub85c \uccd0\ubd24\uc5b4\uc694','\ud2c0\ub824\ub3c4 \uba48\ucd94\uc9c0 \uc54a\uace0 \ub05d\uae4c\uc9c0 \ucce4\uc5b4\uc694','\uc190 \ubaa8\uc591\uc774 \uc9c0\ub09c\uc8fc\ubcf4\ub2e4 \ud6e8\uc52c \ub3d9\uae00\ub3d9\uae00\ud574\uc84c\uc5b4\uc694','\ub9ac\ub4ec\uc744 \uc815\ud655\ud558\uac8c \uc138\uba74\uc11c \ucce4\uc5b4\uc694','\uc624\ub298 \ub808\uc2a8 \ub0b4\ub0b4 \uc9d1\uc911\uc744 \uc815\ub9d0 \uc798\ud588\uc5b4\uc694','\uc5f0\uc2b5\uc744 \uafb8\uc900\ud788 \ud574 \uc628 \uac8c \uc18c\ub9ac\ub85c \ub4e4\ub838\uc5b4\uc694'];
+const LINES=['\uc9d1\uc5d0\uc11c \uc5f0\uc2b5\uc744 \uc798\ud574 \uc628 \uac8c \ub290\uaef4\uc84c\uc5b4\uc694.','\uc190 \ubaa8\uc591\uacfc \uc790\uc138\uac00 \ub9ce\uc774 \uc88b\uc544\uc84c\uc5b4\uc694.','\uc148\uc5ec\ub9bc\uc744 \uc0b4\ub824\uc11c \ud45c\ud604\ud558\ub824\uace0 \ub178\ub825\ud588\uc5b4\uc694.','\ub2e4\uc74c \uc8fc\uc5d0\ub294 \uc67c\uc190 \ubc18\uc8fc\ub97c \uc870\uae08 \ub354 \uc5f0\uc2b5\ud574 \uc62c\uac8c\uc694.','\ud55c \uace1\uc774 \uc624\ub798 \uac78\ub9b4 \ub54c\ub294 \uc0c8 \uace1\uc744 \uac19\uc774 \ubcd1\ud589\ud558\uace0 \uc788\uc5b4\uc694.','\uad81\uae08\ud558\uc2e0 \uc810 \uc788\uc73c\uc2dc\uba74 \ud3b8\ud558\uac8c \ub9d0\uc500 \uc8fc\uc138\uc694.'];
+const STATE={done:'\uc644\uc131',new:'\uc0c8 \uace1',ing:'\uc5f0\uc2b5 \uc911'};
+let songSeq=0;
+const songRow=(s={title:'',state:'ing'})=>{const i=songSeq++;return `<div class="rp-song"><input name="songTitle" value="${e(s.title)}" maxlength="60" placeholder="\uace1 \uc774\ub984" aria-label="\uace1 \uc774\ub984"><div class="rp-st" role="radiogroup" aria-label="\uace1 \uc0c1\ud0dc">${Object.entries(STATE).map(([k,l])=>`<label><input type="radio" name="songState${i}" value="${k}" ${s.state===k?'checked':''}><span>${l}</span></label>`).join('')}</div><button type="button" class="icon-btn" data-rp-song-del aria-label="\uace1 \uc9c0\uc6b0\uae30">${ic('close')}</button></div>`;};
+P.rpOpen=async function(sid){
+ const s=students().find(x=>x.id===sid);if(!s)return;P.modal(s.name+' \ub9ac\ud3ec\ud2b8','<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>','edit');
+ try{const g=await P.api('reports.get',{studentId:sid,week:P.rp.week});P.rpCur={s,g};P.rpForm();}catch(err){document.getElementById('dialog-content').innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}
+};
+P.rpForm=function(){
+ const {s,g}=P.rpCur,r=g.report,last=g.last,carry=!r&&last;
+ const songs=r?r.songs:carry?last.songs.filter(x=>x.state!=='done').map(x=>({title:x.title,state:'ing'})):[];
+ const rec=r?r.recipient:last?last.recipient:'\uc5b4\uba38\ub2d8',call=callName(s.name),sent=r&&r.sentAt;
+ document.getElementById('dialog-content').innerHTML=`<form class="rp-form" data-rp-form="${e(s.id)}">
+ ${sent?`<div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span><label class="rp-chk"><input type="checkbox" data-rp-video ${r.videoSent?'checked':''}> \uc601\uc0c1\ub3c4 \ubcf4\ub0c4</label><button type="button" class="btn danger-link" data-rp-unsend>\ubcf4\ub0c4 \ucde8\uc18c</button></div>`:''}
+ ${carry&&songs.length?`<p class="rp-carry">${ic('note')} \uc9c0\ub09c\uc8fc(${md(last.lessonDate)})\uc5d0 \uc5f0\uc2b5\ud558\ub358 \uace1\uc744 \ubd88\ub7ec\uc654\uc5b4\uc694.</p>`:''}
+ <div class="rp-grid"><div class="rp-fields">
+  <div class="rp-line"><label class="rp-lab" for="rp-date">\ub808\uc2a8\uc77c</label><input id="rp-date" name="lessonDate" type="date" value="${r?r.lessonDate:lessonDay(s.id,P.rp.week)}" required><span class="rp-lab">\ubc1b\ub294 \ubd84</span><div class="rp-st" role="radiogroup" aria-label="\ubc1b\ub294 \ubd84">${['\uc5b4\uba38\ub2d8','\uc544\ubc84\ub2d8','\ubcf4\ud638\uc790\ub2d8'].map(x=>`<label><input type="radio" name="recipient" value="${x}" ${rec===x?'checked':''}><span>${x}</span></label>`).join('')}</div></div>
+  <div><div class="rp-lab">\uc774\ubc88 \uc8fc \uace1</div><div id="rp-songs">${(songs.length?songs:[undefined]).map(x=>songRow(x)).join('')}</div><button type="button" class="btn rp-add" data-rp-song-add>${ic('plus')} \uace1 \ucd94\uac00</button></div>
+  <label class="rp-lab" for="rp-theory">\uc774\ub860\u00b7\uc219\uc81c</label><input id="rp-theory" name="theory" maxlength="200" value="${e(r?r.theory:carry?last.theory:'')}" placeholder="\uc608: \uc74c\uc545\uc774\ub860 3\uad8c p.24 \u00b7 \uacc4\uc774\ub984 \uac8c\uc784">
+  <label class="rp-lab must" for="rp-scene">\uc624\ub298\uc758 \ud55c \uc7a5\uba74 <small>${e(call)}\uc5d0\uac8c\ub9cc \uc788\uc5c8\ub358 \uc77c \ud55c \uc904 \u00b7 \uce74\ub4dc\uc5d0 \ud06c\uac8c \ub4e4\uc5b4\uac00\uc694</small></label>
+  <textarea id="rp-scene" name="scene" maxlength="200" rows="2" placeholder="\uc608: \uc0c8 \uace1 \uc545\ubcf4\ub97c \ubc1b\uc790\ub9c8\uc790 \uccab \uc904\uc744 \ubc14\ub85c \uccd0\ubd24\uc5b4\uc694">${e(r?r.scene:'')}</textarea>
+  <div class="rp-chips" data-rp-target="rp-scene">${SCENES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div>
+  <label class="rp-lab" for="rp-msg">\ud3b8\uc9c0 <small>\ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub97c \ub204\ub974\uba74 \ubcf4\uc774\ub294 \uae00</small></label>
+  <textarea id="rp-msg" name="message" maxlength="1500" rows="5" placeholder="${e(given(s.name)+' '+rec)}\uaed8 \uc804\ud560 \uc774\uc57c\uae30">${e(r?r.message:'')}</textarea>
+  <div class="rp-chips" data-rp-target="rp-msg"><button type="button" class="rp-chip strong" data-rp-auto>\uace1 \ub0b4\uc6a9\uc73c\ub85c \ubb38\uc7a5 \ub9cc\ub4e4\uae30</button>${LINES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div>
+  <label class="rp-lab" for="rp-video">\uc5f0\uc8fc \uc601\uc0c1 \ub9c1\ud06c <small>\uc720\ud29c\ube0c '\uc77c\ubd80 \uacf5\uac1c'\ub098 \uad6c\uae00 \ub4dc\ub77c\uc774\ube0c \uacf5\uc720 \ub9c1\ud06c</small></label><input id="rp-video" name="videoUrl" type="url" maxlength="400" value="${e(r?r.videoUrl:'')}" placeholder="https://youtu.be/\u2026">
+  <label class="rp-lab" for="rp-photo">\uc624\ub298 \uc0ac\uc9c4 <small>\uce74\ub4dc \uc774\ubbf8\uc9c0\uc5d0\ub9cc \uc4f0\uace0 \uc11c\ubc84\uc5d0 \uc800\uc7a5\ud558\uc9c0 \uc54a\uc544\uc694</small></label><input id="rp-photo" type="file" accept="image/*">
+ </div><div class="rp-previewcol"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas><p class="muted rp-kk"></p></div></div>
+ <div class="rp-actions"><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
+ <div id="rp-sendbox"></div></form>`;
+ const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
+ if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';
+ P.rpPreview();
+};
+function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({title:row.querySelector('[name=songTitle]').value.trim(),state:row.querySelector('input[type=radio]:checked')?.value||'ing'})).filter(x=>x.title);
+ const v=n=>f.querySelector(`[name=${n}]`)?.value.trim()||'';return {songs,lessonDate:v('lessonDate'),theory:v('theory'),scene:v('scene'),message:v('message'),videoUrl:v('videoUrl'),recipient:f.querySelector('[name=recipient]:checked')?.value||'\uc5b4\uba38\ub2d8'};}
+let pvTimer=0;P.rpPreview=function(){clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
+document.addEventListener('input',ev=>{if(ev.target.closest('form[data-rp-form]'))P.rpPreview();});
+document.addEventListener('change',ev=>{const t=ev.target;
+ if(t.id==='rp-photo'&&t.files[0]){const img=new Image();img.onload=()=>{P.rpPhoto[P.rpCur.s.id]=img;document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();};img.src=URL.createObjectURL(t.files[0]);}
+ else if(t.closest('form[data-rp-form]'))P.rpPreview();
+ if(t.matches('[data-rp-video]'))P.rpMark({videoSent:t.checked});
+});
+document.addEventListener('click',ev=>{const t=ev.target,f=t.closest('form[data-rp-form]');if(!f)return;
+ if(t.closest('[data-rp-song-add]')){const box=document.getElementById('rp-songs');box.insertAdjacentHTML('beforeend',songRow());box.lastElementChild.querySelector('input').focus();return;}
+ if(t.closest('[data-rp-song-del]')){t.closest('.rp-song').remove();P.rpPreview();return;}
+ const chip=t.closest('[data-rp-chip]');if(chip){const ta=document.getElementById(chip.parentElement.dataset.rpTarget);if(ta.id==='rp-scene')ta.value=chip.dataset.rpChip;else ta.value=(ta.value.trim()?ta.value.trim()+' ':'')+chip.dataset.rpChip;ta.focus();P.rpPreview();return;}
+ if(t.closest('[data-rp-auto]')){const x=formData(f),ta=document.getElementById('rp-msg'),q=a=>a.map(s=>`'${s.title}'`).join(', '),done=x.songs.filter(s=>s.state==='done'),nw=x.songs.filter(s=>s.state==='new'),ing=x.songs.filter(s=>s.state==='ing');
+  const out=[done.length?`\uc624\ub298 ${obj(q(done),'\uc740','\ub294')} \ub9c8\ubb34\ub9ac\ud588\uc5b4\uc694.`:'',nw.length?`\uc0c8 \uace1\uc73c\ub85c ${obj(q(nw),'\uc744','\ub97c')} \uc2dc\uc791\ud588\uc5b4\uc694.`:'',ing.length?`${obj(q(ing),'\uc740','\ub294')} \uacc4\uc18d \uc5f0\uc2b5\ud558\uace0 \uc788\uc5b4\uc694.`:'',x.theory?`\uc774\ub860\uc740 ${x.theory} \ud588\uc5b4\uc694.`:''].filter(String).join(' ');
+  if(out){ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+out;P.rpPreview();}return;}
+ if(t.closest('[data-rp-unsend]')){P.rpMark({sent:false});return;}
+});
+P.rpMark=async function(change){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;if(change.sent===false)P.rpForm();P.loadReports();if(change.imageUrl===undefined)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
+document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[data-rp-form]');if(!f)return;ev.preventDefault();ev.stopPropagation();if(f.getAttribute('aria-busy')==='true')return;
+ const go=ev.submitter?.value||'save',x=formData(f),line=f.querySelector('.rp-msgline'),cur=P.rpCur,r=cur.g.report;
+ if(!x.scene){line.textContent='"\uc624\ub298\uc758 \ud55c \uc7a5\uba74"\uc744 \ud55c \uc904 \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-scene').focus();return;}
+ f.setAttribute('aria-busy','true');line.textContent='\uc800\uc7a5 \uc911\u2026';
+ try{const res=await P.api('reports.save',Object.assign({},x,{studentId:cur.s.id},r?{id:r.id,version:r.version}:{}),crypto.randomUUID());
+  cur.g.report=Object.assign(r||{sentAt:'',views:0,videoSent:false},x,{id:res.id,version:res.version,token:res.token,week:res.week});
+  document.getElementById('detail-dialog')._initial=JSON.stringify([...new FormData(f)]);line.textContent='\uc800\uc7a5\ud588\uc5b4\uc694';P.loadReports();
+  if(go==='send')await P.rpPrepareSend();else P.saving('\uc800\uc7a5\ud588\uc5b4\uc694','done');
+ }catch(err){line.textContent=err.message;}finally{f.removeAttribute('aria-busy');}
+},true);
+
+// \u2500\u2500 \ubcf4\ub0b4\uae30: \uce74\ud1a1 \uce74\ub4dc(\uce74\uce74\uc624 \uacf5\uc720) \u2192 \uc548 \ub418\uba74 \ud734\ub300\ud3f0 \uacf5\uc720\ucc3d(\uc774\ubbf8\uc9c0+\ub9c1\ud06c) \u2192 PC\ub294 \ub9c1\ud06c \ubcf5\uc0ac\u00b7\uc774\ubbf8\uc9c0 \uc800\uc7a5 \u2500\u2500
+const loadKakao=()=>window.Kakao?Promise.resolve(window.Kakao):Promise.reject(new Error('Kakao SDK'));
+P.rpPrepareSend=async function(){
+ const {s,g}=P.rpCur,r=g.report,box=document.getElementById('rp-sendbox'),link=P.reportLink(r.token),call=callName(s.name);
+ const title=`${given(s.name)} ${r.recipient}, \uc624\ub298 ${call} \uc774\uc57c\uae30\uc608\uc694`,desc=`\u201c${r.scene}\u201d \u2014 ${P.user.name} \uc120\uc0dd\ub2d8`;
+ box.innerHTML=`<div class="rp-send"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p></div>`;
+ const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
+ const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
+ P.rpDone=async()=>{await P.rpMark({sent:true});box.innerHTML=`<div class="rp-send"><p>${ic('check')} <b>\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694.</b></p><div class="rp-sendbtns"><button type="button" class="btn primary" data-rp-next>\ub2e4\uc74c \ud559\uc0dd \uc4f0\uae30 ${ic('arrow')}</button></div></div>`;};
+ let html='',kakaoOk=false;
+ if(window.APP_MODE&&window.KAKAO_KEY){try{const K=await loadKakao();if(!K.isInitialized())K.init(window.KAKAO_KEY);const up=await K.Share.uploadImage({file:[file]});const img=up.infos.original.url;P.rpKakao={K,img,title,desc,link,call};await P.rpMark({imageUrl:img});kakaoOk=true;
+   html=`<p><b>\uce74\ub4dc\uac00 \uc900\ube44\ub410\uc5b4\uc694.</b> \ubc84\ud2bc\uc744 \ub204\ub974\uba74 \uce74\ud1a1\uc774 \uc5f4\ub824\uc694. ${e(given(s.name))} ${e(r.recipient)} \ub300\ud654\ubc29\uc744 \uace8\ub77c \uc8fc\uc138\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn kakao" data-rp-kakao>\uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</button></div>`;}catch(err){html=`<p class="muted">${e(err.message||'\uce74\uce74\uc624 \uce74\ub4dc\ub97c \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694.')} \uc544\ub798 \ubc29\ubc95\uc73c\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</p>`;}}
+ const png=await new Promise(ok=>c.toBlob(ok,'image/png')),touch=matchMedia('(pointer:coarse)').matches,canShare=touch&&!!(navigator.canShare&&navigator.canShare({files:[file]}));P.rpFile={file,png,text:`${title}\n${link}`,link};
+ if(!kakaoOk)html+=`<p class="muted">${canShare?'\uacf5\uc720\ub97c \ub204\ub974\uace0 \uce74\ud1a1\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uba74 \uce74\ub4dc \uc774\ubbf8\uc9c0\uc640 \ub9ac\ud3ec\ud2b8 \ub9c1\ud06c\uac00 \ud568\uaed8 \uac00\uc694.':'\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac \u2192 PC \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uae30(Ctrl+V) \u2461 \ub9c1\ud06c \ubcf5\uc0ac \u2192 \ud55c \ubc88 \ub354 \ubd99\uc5ec\ub123\uae30 \u2462 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc'}</p><div class="rp-sendbtns">${canShare?'<button type="button" class="btn primary" data-rp-share>\uce74\ud1a1\uc73c\ub85c \uacf5\uc720</button>':'<button type="button" class="btn primary" data-rp-copyimg>\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac</button>'}<button type="button" class="btn${canShare?'':' primary'}" data-rp-copy>${canShare?'':'\u2461 '}\ub9c1\ud06c \ubcf5\uc0ac</button><button type="button" class="btn" data-rp-mark>${canShare?'':'\u2462 '}\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc</button></div><p class="muted rp-linkline">${e(link)}</p><div class="rp-imgfallback" hidden><p class="muted">\uc774 \ud654\uba74\uc5d0\uc11c\ub294 \uc790\ub3d9 \ubcf5\uc0ac\uac00 \ub9c9\ud600 \uc788\uc5b4\uc694. \uc544\ub798 \uce74\ub4dc\uc5d0\uc11c \ub9c8\uc6b0\uc2a4 \uc624\ub978\ucabd \u2192 <b>\uc774\ubbf8\uc9c0 \ubcf5\uc0ac</b>\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</p><img alt="\uce74\ub4dc \uc774\ubbf8\uc9c0" src="${URL.createObjectURL(png)}"></div>`;
+ box.innerHTML=`<div class="rp-send">${html}</div>`;box.scrollIntoView({block:'nearest',behavior:'smooth'});
+};
+document.addEventListener('click',async ev=>{const t=ev.target;
+ if(t.closest('[data-rp-kakao]')){const k=P.rpKakao;try{k.K.Share.sendDefault({objectType:'feed',content:{title:k.title,description:k.desc,imageUrl:k.img,imageWidth:800,imageHeight:800,link:{mobileWebUrl:k.link,webUrl:k.link}},buttons:[{title:`${k.call} \ub9ac\ud3ec\ud2b8 \ubcf4\uae30`,link:{mobileWebUrl:k.link,webUrl:k.link}}]});await P.rpDone();}catch(err){P.saving(err.message||'\uce74\ud1a1\uc744 \uc5f4\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}return;}
+ if(t.closest('[data-rp-share]')){try{await navigator.share({files:[P.rpFile.file],text:P.rpFile.text});await P.rpDone();}catch(err){if(err?.name!=='AbortError')P.saving('\uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. \ub9c1\ud06c \ubcf5\uc0ac\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.','error');}return;}
+ if(t.closest('[data-rp-copyimg]')){try{await navigator.clipboard.write([new ClipboardItem({'image/png':P.rpFile.png})]);P.saving('\uce74\ub4dc \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694. \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uc5b4 \uc8fc\uc138\uc694','done');}catch{const fb=document.querySelector('.rp-imgfallback');if(fb)fb.hidden=false;P.saving('\uc624\ub978\ucabd \ud074\ub9ad\uc73c\ub85c \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
+ if(t.closest('[data-rp-copy]')){try{await navigator.clipboard.writeText(P.rpFile.link);P.saving('\ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694','done');}catch{const l=document.querySelector('.rp-linkline');if(l){const rg=document.createRange();rg.selectNodeContents(l);getSelection().removeAllRanges();getSelection().addRange(rg);}P.saving('\uc120\ud0dd\ub41c \ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
+ if(t.closest('[data-rp-mark]')){await P.rpDone();return;}
+ if(t.closest('[data-rp-next]')){const order=[...document.querySelectorAll('[data-rp-open]')].map(b=>b.dataset.rpOpen).filter(id=>id!==P.rpCur.s.id);const next=order.find(id=>!(P.rp.list||[]).some(r=>r.studentId===id&&r.sentAt));if(next)P.rpOpen(next);else document.getElementById('detail-dialog').close();}
+});
+
+// \u2500\u2500 \uce74\ub4dc \uc774\ubbf8\uc9c0 (800\u00d7800). \uc0ac\uc9c4 \uc788\uc73c\uba74 \uc0ac\uc9c4\ud615, \uc5c6\uc73c\uba74 \uc624\uc120\u00b7\uc74c\ud45c\ud615. \u2500\u2500
+// \ud559\uc6d0 \ub85c\uace0(\ub192\uc740\uc74c\uc790\ub9ac \ubaa8\uc591)\ub97c \ubca1\ud130\ub85c \uadf8\ub824 \uc5b4\ub5a4 \ud06c\uae30\uc5d0\uc11c\ub3c4 \uc120\uba85\ud558\uac8c. \uc6d0\ubcf8 486\u00d7718 \uc88c\ud45c.
+function mark(ctx,x,y,h,col){const s=h/718;ctx.save();ctx.translate(x,y);ctx.scale(s,s);ctx.strokeStyle=col;ctx.lineWidth=30;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(278,55);ctx.lineTo(278,522);ctx.moveTo(278,55);ctx.quadraticCurveTo(362,96,346,142);ctx.quadraticCurveTo(334,182,290,206);ctx.stroke();ctx.beginPath();ctx.arc(282,405,124,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(208,488,68,0,Math.PI*2);ctx.stroke();ctx.beginPath();ctx.arc(252,418,198,-1.88,.8,true);ctx.stroke();ctx.restore();return 486*s;}
+const F=(w,px)=>`${w} ${px}px "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif`;
+function wrap(ctx,text,max,lines){const out=[];let cur='';for(const ch of String(text)){if(ch==='\n'){out.push(cur);cur='';continue;}if(ctx.measureText(cur+ch).width>max&&cur){const sp=cur.lastIndexOf(' ');if(sp>cur.length*.5){out.push(cur.slice(0,sp));cur=cur.slice(sp+1)+ch;}else{out.push(cur);cur=ch;}}else cur+=ch;}if(cur)out.push(cur);
+ if(out.length>lines){out.length=lines;let l=out[lines-1];while(l&&ctx.measureText(l+'\u2026\u201d').width>max)l=l.slice(0,-1);out[lines-1]=l+'\u2026\u201d';}return out;}
+function fit(ctx,t,max){if(ctx.measureText(t).width<=max)return t;while(t&&ctx.measureText(t+'\u2026').width>max)t=t.slice(0,-1);return t+'\u2026';}
+
+function seal(ctx,cx,cy,r){ctx.save();ctx.translate(cx,cy);ctx.rotate(-.17);ctx.fillStyle='rgba(176,141,87,.07)';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.lineWidth=r*.09;ctx.strokeStyle='#B08D57';ctx.stroke();ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,r*.8,0,Math.PI*2);ctx.stroke();
+ ctx.fillStyle='#B08D57';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=F(800,r*.34);ctx.fillText('\ucc38',0,-r*.2);ctx.font=F(800,r*.27);ctx.fillText('\uc798\ud588\uc5b4\uc694',0,r*.22);ctx.restore();}
+function sign(ctx,x,yTop,teacher,sub,r){ctx.strokeStyle='#E6DCCB';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,yTop);ctx.lineTo(800-x,yTop);ctx.stroke();
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#3D2B1F';ctx.font=F(700,28);ctx.fillText(`${teacher} \uc120\uc0dd\ub2d8\uc774`,x,yTop+56);ctx.fillStyle='#8B7B6C';ctx.font=F(500,20);ctx.fillText(sub,x,yTop+90);seal(ctx,800-x-r,yTop+58,r);}
+P.rpDraw=function(c,d,photo){
+ const ctx=c.getContext('2d'),W=800,X=64,call=callName(d.name),date=d.lessonDate||P.data.date,dt=new Date(date+'T00:00:00Z');
+ ctx.clearRect(0,0,W,W);ctx.fillStyle='#FBF9F6';ctx.fillRect(0,0,W,W);const songs=(d.songs||[]).filter(s=>s.title);
+ const sub=`${given(d.name)} ${d.recipient||'\uc5b4\uba38\ub2d8'}\uaed8 \u00b7 ${longDate(date)}`,quote=d.scene?`\u201c${d.scene}\u201d`:'\u201c\uc624\ub298\uc758 \ud55c \uc7a5\uba74\uc744 \uc368 \uc8fc\uc138\uc694\u201d';
+ if(photo){
+  const H=452,sc=Math.max(W/photo.width,H/photo.height),pw=photo.width*sc,phh=photo.height*sc;ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();ctx.drawImage(photo,(W-pw)/2,(H-phh)/2,pw,phh);ctx.restore();
+  ctx.font=F(700,22);const lab=`${dt.getUTCMonth()+1}\uc6d4 ${dt.getUTCDate()}\uc77c ${d.videoUrl?'\uc5f0\uc8fc':'\ub808\uc2a8'}`,lw=ctx.measureText(lab).width;ctx.fillStyle='rgba(251,249,246,.94)';ctx.beginPath();ctx.roundRect(44,44,lw+92,52,26);ctx.fill();const gw=mark(ctx,64,52,36,'#3D2B1F');ctx.fillStyle='#3D2B1F';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(lab,62+(gw?gw+12:0),71);
+  if(d.videoUrl){ctx.fillStyle='rgba(251,249,246,.95)';ctx.beginPath();ctx.arc(W/2,H/2,58,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3D2B1F';ctx.beginPath();ctx.moveTo(W/2-16,H/2-26);ctx.lineTo(W/2+28,H/2);ctx.lineTo(W/2-16,H/2+26);ctx.fill();}
+  ctx.textBaseline='alphabetic';ctx.fillStyle='#2A1E15';ctx.font=F(800,50);const h=`${call}\uc758 `;ctx.fillText(h,X,H+82);ctx.fillStyle='#B08D57';ctx.fillText('\uc624\ub298',X+ctx.measureText(h).width,H+82);
+  ctx.fillStyle='#4A3B2F';ctx.font=F(500,28);wrap(ctx,quote,W-2*X,2).forEach((l,i)=>ctx.fillText(l,X,H+134+i*42));
+  sign(ctx,X,W-150,d.teacher,sub,42);return;}
+ const lw=mark(ctx,X,58,54,'#3D2B1F');ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#3D2B1F';ctx.font=F(700,25);ctx.fillText('\uc5b8\uc81c\ub098 \uc74c\uc545\ud559\uc6d0',X+lw+14,86);
+ ctx.textAlign='right';ctx.fillStyle='#8A6D3E';ctx.font=F(700,22);const ds=`${d.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \u00b7 ':''}${dt.getUTCMonth()+1}.${String(dt.getUTCDate()).padStart(2,'0')} ${['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getUTCDay()]}`;if('letterSpacing' in ctx)ctx.letterSpacing='3px';ctx.fillText(ds,W-X,85);if('letterSpacing' in ctx)ctx.letterSpacing='0px';
+ // \uc624\uc120\uacfc \uc774\ubc88 \uc8fc \uace1 \uc74c\ud45c (\uaf49 \ucc2c \uac08\uc0c9 = \uc644\uc131, \uae08\uc0c9 = \uc5f0\uc2b5 \uc911, \ube48 \uc74c\ud45c = \uc0c8 \uace1)
+ const top=192,gap=24;ctx.strokeStyle='#CDB992';ctx.lineWidth=1.6;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(0,top+i*gap);ctx.lineTo(W,top+i*gap);ctx.stroke();}
+ const pick=[...songs.filter(s=>s.state==='done'),...songs.filter(s=>s.state==='new'),...songs.filter(s=>s.state==='ing')].slice(0,3),n=pick.length,xs=n===1?[.5]:n===2?[.33,.67]:[.2,.5,.8],ys=[top+gap*1.5,top+gap*.5,top+gap*2.5];
+ pick.forEach((s,i)=>{const x=W*xs[i],y=ys[i],col=s.state==='done'?'#3D2B1F':'#B08D57';ctx.save();ctx.translate(x,y);ctx.rotate(-.35);ctx.beginPath();ctx.ellipse(0,0,21,15,0,0,Math.PI*2);if(s.state==='new'){ctx.lineWidth=5;ctx.strokeStyle=col;ctx.stroke();}else{ctx.fillStyle=col;ctx.fill();}ctx.restore();
+  ctx.fillStyle=col;ctx.fillRect(x+16,y-74,4.5,72);
+  const tag=STATE[s.state],max=W/Math.max(n,2)-36;ctx.textBaseline='alphabetic';ctx.textAlign='left';ctx.font=F(700,19);const tw=ctx.measureText(tag+'  ').width;ctx.font=F(700,20);const tt=fit(ctx,s.title,max-tw),full=tw+ctx.measureText(tt).width;
+  ctx.font=F(700,19);ctx.fillStyle='#B08D57';ctx.fillText(tag,x-full/2,top+gap*4+50);ctx.fillStyle='#5C4A3C';ctx.font=F(700,20);ctx.fillText(tt,x-full/2+tw,top+gap*4+50);});
+ if(!n){ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.fillStyle='#B8A88F';ctx.font=F(500,20);ctx.fillText('\uc774\ubc88 \uc8fc \uace1\uc744 \ub123\uc73c\uba74 \uc74c\ud45c\ub85c \ubcf4\uc5ec\uc694',W/2,top+gap*4+50);}
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.font=F(500,30);const ql=wrap(ctx,quote,W-2*X,3),signTop=W-160,qTop=signTop-36-ql.length*46,hBase=qTop-22;
+ ctx.fillStyle='#4A3B2F';ql.forEach((l,i)=>ctx.fillText(l,X,qTop+i*46+32));
+ ctx.font=F(800,62);ctx.fillStyle='#2A1E15';ctx.fillText(`${call}\uc758`,X,hBase-74);ctx.fillStyle='#B08D57';ctx.fillText('\uc624\ub298',X,hBase);ctx.fillStyle='#2A1E15';ctx.fillText(' \ub808\uc2a8',X+ctx.measureText('\uc624\ub298').width,hBase);
+ sign(ctx,X,signTop,d.teacher,sub,48);
+};
+document.fonts?.load?.(F(800,40)).then(()=>P.rpPreview?.()).catch(()=>{});
 })(Piano);
 </script>
 
@@ -2410,7 +2631,7 @@ async function route(){
  state.navGroup=state.group;
  // The server page check returns no data, so render first and verify the session in the background.
  if(P.live)P.api('page',{route:state.group+'/'+state.page}).catch(error=>{if(sequence===routeSequence)P.notify(error.message);});
- render();document.getElementById('main')?.classList.add('view-enter');restoreView(true);
+ try{render();}catch(err){console.error(err);P.saving?.('화면을 열지 못했어요: '+(err&&err.message||err)+(window.__errs&&window.__errs.length?' / '+window.__errs.join(' / '):''),'error');return;}document.getElementById('main')?.classList.add('view-enter');restoreView(true);
  P.syncData?.(5000);
 }
 function render(){
@@ -2431,6 +2652,7 @@ function render(){
  restoreView();
  if(P.live&&state.group==='settings'&&state.page==='accounts')P.loadAccounts();
  if(P.live&&state.group==='lessons'&&state.page==='history')P.loadHistory();
+ if(P.live&&state.group==='reports'){P.rpRender?.();P.loadReports?.();}
 }
 function updateDrawer(){
  const mobile=matchMedia('(max-width:900px)').matches;
