@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151513">
+  <meta name="app-build" content="202611151516">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3118,16 +3118,27 @@ window.addEventListener('hashchange',route);
  else if(window.APP_MODE){
   // 휴대폰 앱: 맨 아래 '처음' 기록 위에 '지킴' 기록을 하나 더 둬서, 켜자마자 뒤로가기를 눌러도 바로 꺼지지 않게.
   // 처음 기록까지 돌아오면: 열린 창 닫기 → 홈이 아니면 홈으로 → 홈이면 "한 번 더 누르면 종료돼요" 후 2초 안에 한 번 더 누르면 종료.
-  const HOME='#home/overview';let waitExit=null;
+  // 안드로이드 크롬은 '아직 아무것도 안 누른' 상태에서 페이지가 넣은 기록을 뒤로가기 때 건너뛰어요. 그래서 그때는 CloseWatcher(뒤로가기 가로채기)로 받고,
+  // 한 번이라도 누르면 그때 기록을 넣어 일반 방식으로 처리해요. 안내 뒤 2초 안에 다시 누르면 가로채는 게 없어서 그대로 종료돼요.
+  const HOME='#home/overview';let waitExit=null,watcher=null;
   const guard=h=>{try{history.pushState({k:'guard',h:h||location.hash||HOME},'',h||location.hash||HOME);}catch(_e){}};
-  try{history.replaceState({k:'root',h:location.hash||HOME},'',location.hash||HOME);}catch(_e){}guard();
-  window.addEventListener('popstate',e=>{
-   if(!(e.state&&e.state.k==='root')){if(waitExit){clearTimeout(waitExit);waitExit=null;}back(e.state&&e.state.h);return;}
-   if(closeTop()){guard();return;}
-   if((location.hash||HOME)!==HOME){guard(HOME);route();return;}
+  const atRoot=()=>!!(history.state&&history.state.k==='root');
+  const arm=()=>{if(watcher||!('CloseWatcher'in window))return;try{watcher=new CloseWatcher();watcher.onclose=()=>{watcher=null;rootBack(false);};}catch(_e){watcher=null;}};
+  const rootBack=viaHistory=>{
+   if(closeTop()){viaHistory?guard():arm();return;}
+   if((location.hash||HOME)!==HOME){if(viaHistory)guard(HOME);else history.replaceState({k:'root',h:HOME},'',HOME);route();if(!viaHistory)arm();return;}
    if(waitExit)return;
    P.notify('한 번 더 누르면 종료돼요');
-   waitExit=setTimeout(()=>{waitExit=null;if(history.state&&history.state.k==='root')guard();},2000);
+   waitExit=setTimeout(()=>{waitExit=null;if(atRoot())arm();},2000);
+  };
+  try{history.replaceState({k:'root',h:location.hash||HOME},'',location.hash||HOME);}catch(_e){}
+  if(navigator.userActivation&&navigator.userActivation.hasBeenActive||!('CloseWatcher'in window))guard();else arm();
+  // 사용자가 화면을 누르면: 가로채기를 풀고, 맨 아래에 있으면 기록을 하나 넣어 둠(이제 건너뛰지 않음)
+  const touched=e=>{if(e.type==='keydown'&&e.key==='Escape')return;if(watcher){try{watcher.destroy();}catch(_e){}watcher=null;}if(atRoot()){if(waitExit){clearTimeout(waitExit);waitExit=null;}guard();}};
+  window.addEventListener('pointerdown',touched,true);window.addEventListener('keydown',touched,true);
+  window.addEventListener('popstate',e=>{
+   if(!(e.state&&e.state.k==='root')){if(waitExit){clearTimeout(waitExit);waitExit=null;}back(e.state&&e.state.h);return;}
+   rootBack(true);
   });
  }
  else{try{history.replaceState({k:'route',h:location.hash},'',location.hash);}catch(_e){}window.addEventListener('popstate',e=>back(e.state&&e.state.h));}
