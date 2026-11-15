@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151423">
+  <meta name="app-build" content="202611151432">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1327,6 +1327,25 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .slide-r,.slide-l{animation:rSoft .24s ease-out!important}
 @keyframes rSoft{from{opacity:.35}to{opacity:1}}
 
+/* ── 23. 리포트 보내기: 작성창 아래로 늘어나지 않고 위에 따로 뜨는 팝업 ── */
+#detail-dialog:has(.rp-form) .dialog-foot{display:none}
+.rp-actions .rp-del{margin-right:4px}
+#rp-sendbox:empty{display:none}
+#rp-sendbox:not(:empty){position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;background:rgba(24,16,10,.36);animation:rFade .16s ease-out}
+#rp-sendbox .rp-send{width:min(440px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:0;gap:0;border:0;border-radius:14px;background:#fff;box-shadow:0 24px 60px rgba(30,20,12,.26);animation:rPop .2s ease-out}
+.rp-sendh{position:relative;padding:18px 60px 14px 22px;border-bottom:1px solid #EFEBE6}
+.rp-sendh .k{display:block;margin-bottom:4px;font-size:10px;font-weight:700;letter-spacing:.16em;color:#9A7A4A}
+.rp-sendh b{display:block;font-size:16px;font-weight:700;line-height:1.4;color:var(--r-ink)}
+.rp-sendb{display:flex;flex-direction:column;gap:12px;padding:18px 22px 20px}
+.rp-sendb p{margin:0;font-size:13.5px;line-height:1.6;color:var(--r-ink);word-break:keep-all}
+.rp-sendb p.muted{color:var(--r-muted);font-size:12.5px}
+.rp-sendimg{display:block;width:200px;max-width:100%;aspect-ratio:1;margin:0 auto 2px;border-radius:10px;border:1px solid var(--r-line);box-shadow:0 8px 20px -12px rgba(30,20,12,.35)}
+.rp-sendb .rp-sendbtns{display:flex;flex-wrap:wrap;gap:8px}
+.rp-sendb .rp-sendbtns .btn{flex:1 1 auto}
+.rp-sendb .btn.kakao{min-height:44px;height:44px;font-size:14.5px}
+.rp-sendb .rp-linkline{font-size:11.5px;word-break:break-all}
+.rp-imgfallback[hidden],.rp-del[hidden]{display:none!important}
+
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -2112,6 +2131,7 @@ P.payDialog=function(){const p=P.ac().payments||[];
 })(Piano);
 </script>
 <script>
+document.addEventListener('keydown',ev=>{if(ev.key!=='Escape')return;const b=document.getElementById('rp-sendbox');if(b&&b.firstElementChild){ev.preventDefault();ev.stopImmediatePropagation();b.innerHTML='';}},true);
 // \u2500\u2500 \ud559\ubd80\ubaa8 \uc8fc\uac04 \ub9ac\ud3ec\ud2b8: \uc8fc\uac04 \ubc1c\uc1a1 \uccb4\ud06c\ub9ac\uc2a4\ud2b8 \u00b7 \uc791\uc131\ucc3d \u00b7 \uce74\ud1a1 \uce74\ub4dc \uc774\ubbf8\uc9c0(\uce94\ubc84\uc2a4) \u00b7 \ubcf4\ub0b4\uae30 \u2500\u2500
 (function(P){
 const e=P.escape,ic=(n,c)=>P.icon(n,c);
@@ -2187,7 +2207,7 @@ P.rpForm=function(){
   <label class="rp-lab" for="rp-video">\uc5f0\uc8fc \uc601\uc0c1 \ub9c1\ud06c <small>\uc720\ud29c\ube0c '\uc77c\ubd80 \uacf5\uac1c'\ub098 \uad6c\uae00 \ub4dc\ub77c\uc774\ube0c \uacf5\uc720 \ub9c1\ud06c</small></label><input id="rp-video" name="videoUrl" type="url" maxlength="400" value="${e(r?r.videoUrl:'')}" placeholder="https://youtu.be/\u2026">
   <label class="rp-lab" for="rp-photo">\uc624\ub298 \uc0ac\uc9c4 <small>\uce74\ub4dc \uc774\ubbf8\uc9c0\uc5d0\ub9cc \uc4f0\uace0 \uc11c\ubc84\uc5d0 \uc800\uc7a5\ud558\uc9c0 \uc54a\uc544\uc694</small></label><input id="rp-photo" type="file" accept="image/*">
  </div><div class="rp-previewcol"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas><p class="muted rp-kk"></p></div></div>
- <div class="rp-actions"><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
+ <div class="rp-actions"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
  <div id="rp-sendbox"></div></form>`;
  const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
  if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';
@@ -2218,7 +2238,7 @@ document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[da
  f.setAttribute('aria-busy','true');line.textContent='\uc800\uc7a5 \uc911\u2026';
  try{const res=await P.api('reports.save',Object.assign({},x,{studentId:cur.s.id},r?{id:r.id,version:r.version}:{}),crypto.randomUUID());
   cur.g.report=Object.assign(r||{sentAt:'',views:0,videoSent:false},x,{id:res.id,version:res.version,token:res.token,week:res.week});
-  document.getElementById('detail-dialog')._initial=JSON.stringify([...new FormData(f)]);line.textContent='\uc800\uc7a5\ud588\uc5b4\uc694';P.loadReports();
+  document.getElementById('detail-dialog')._initial=JSON.stringify([...new FormData(f)]);const del=f.querySelector('[data-rp-delete]');if(del)del.hidden=false;line.textContent='\uc800\uc7a5\ud588\uc5b4\uc694';P.loadReports();
   if(go==='send')await P.rpPrepareSend();else P.saving('\uc800\uc7a5\ud588\uc5b4\uc694','done');
  }catch(err){line.textContent=err.message;}finally{f.removeAttribute('aria-busy');}
 },true);
@@ -2227,20 +2247,23 @@ document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[da
 const loadKakao=()=>window.Kakao?Promise.resolve(window.Kakao):Promise.reject(new Error('Kakao SDK'));
 P.rpPrepareSend=async function(){
  const {s,g}=P.rpCur,r=g.report,box=document.getElementById('rp-sendbox'),link=P.reportLink(r.token),call=callName(s.name);
+ const head='<div class="rp-sendh"><span class="k">SEND</span><b>'+e(given(s.name))+' '+e(r.recipient)+'\uaed8 \ubcf4\ub0b4\uae30</b><button type="button" class="del-x" data-rp-sendclose aria-label="\ub2eb\uae30"></button></div>';
  const title=`${given(s.name)} ${r.recipient}, \uc624\ub298 ${call} \uc774\uc57c\uae30\uc608\uc694`,desc=`\u201c${r.scene}\u201d \u2014 ${P.user.name} \uc120\uc0dd\ub2d8`;
- box.innerHTML=`<div class="rp-send"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p></div>`;
+ box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p><span class="r-run" style="width:100%"></span></div></div>`;
  const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
  const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
- P.rpDone=async()=>{await P.rpMark({sent:true});box.innerHTML=`<div class="rp-send"><p>${ic('check')} <b>\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694.</b></p><div class="rp-sendbtns"><button type="button" class="btn primary" data-rp-next>\ub2e4\uc74c \ud559\uc0dd \uc4f0\uae30 ${ic('arrow')}</button></div></div>`;};
+ P.rpDone=async()=>{await P.rpMark({sent:true});box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p>${ic('check')} <b>\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694.</b></p><div class="rp-sendbtns"><button type="button" class="btn primary" data-rp-next>\ub2e4\uc74c \ud559\uc0dd \uc4f0\uae30 ${ic('arrow')}</button></div></div></div>`;};
  let html='',kakaoOk=false;
  if(window.APP_MODE&&window.KAKAO_KEY){try{const K=await loadKakao();if(!K.isInitialized())K.init(window.KAKAO_KEY);const up=await K.Share.uploadImage({file:[file]});const img=String(up.infos.original.url).replace(/^http:/,'https:');P.rpKakao={K,img,title,desc,link,call};P.rpMark({imageUrl:img}).catch(()=>{});kakaoOk=true;
    html=`<p><b>\uce74\ub4dc\uac00 \uc900\ube44\ub410\uc5b4\uc694.</b> \ubc84\ud2bc\uc744 \ub204\ub974\uba74 \uce74\ud1a1\uc774 \uc5f4\ub824\uc694. ${e(given(s.name))} ${e(r.recipient)} \ub300\ud654\ubc29\uc744 \uace8\ub77c \uc8fc\uc138\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn kakao" data-rp-kakao>\uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</button></div>`;}catch(err){html=`<p class="muted">${e(err.message||'\uce74\uce74\uc624 \uce74\ub4dc\ub97c \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694.')} \uc544\ub798 \ubc29\ubc95\uc73c\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</p>`;}}
  const png=await new Promise(ok=>c.toBlob(ok,'image/png')),touch=matchMedia('(pointer:coarse)').matches,canShare=false&&!!(navigator.canShare&&navigator.canShare({files:[file]}));P.rpFile={file,png,text:`${title}\n${link}`,link};
  if(!kakaoOk&&!window.APP_MODE)html+=`<p>\ubc84\ud2bc \ub2ec\ub9b0 \uce74\ud1a1 \uce74\ub4dc\ub294 \uc571 \uc8fc\uc18c\uc5d0\uc11c\ub9cc \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p><div class="rp-sendbtns"><a class="btn kakao" href="https://always-music.github.io/always-piano-app/#reports/weekly" target="_blank" rel="noopener">\uc571 \uc8fc\uc18c\uc5d0\uc11c \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</a></div><p class="muted">\ub610\ub294 \uc544\ub798\ucc98\ub7fc \ubcf5\uc0ac\ud574\uc11c \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p>`;
  if(!kakaoOk)html+=`<p class="muted">${canShare?'\uacf5\uc720\ub97c \ub204\ub974\uace0 \uce74\ud1a1\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uba74 \uce74\ub4dc \uc774\ubbf8\uc9c0\uc640 \ub9ac\ud3ec\ud2b8 \ub9c1\ud06c\uac00 \ud568\uaed8 \uac00\uc694.':'\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac \u2192 PC \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uae30(Ctrl+V) \u2461 \ub9c1\ud06c \ubcf5\uc0ac \u2192 \ud55c \ubc88 \ub354 \ubd99\uc5ec\ub123\uae30 \u2462 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc'}</p><div class="rp-sendbtns">${canShare?'<button type="button" class="btn primary" data-rp-share>\uce74\ud1a1\uc73c\ub85c \uacf5\uc720</button>':'<button type="button" class="btn primary" data-rp-copyimg>\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac</button>'}<button type="button" class="btn${canShare?'':' primary'}" data-rp-copy>${canShare?'':'\u2461 '}\ub9c1\ud06c \ubcf5\uc0ac</button><button type="button" class="btn" data-rp-mark>${canShare?'':'\u2462 '}\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc</button></div><p class="muted rp-linkline">${e(link)}</p><div class="rp-imgfallback" hidden><p class="muted">\uc774 \ud654\uba74\uc5d0\uc11c\ub294 \uc790\ub3d9 \ubcf5\uc0ac\uac00 \ub9c9\ud600 \uc788\uc5b4\uc694. \uc544\ub798 \uce74\ub4dc\uc5d0\uc11c \ub9c8\uc6b0\uc2a4 \uc624\ub978\ucabd \u2192 <b>\uc774\ubbf8\uc9c0 \ubcf5\uc0ac</b>\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</p><img alt="\uce74\ub4dc \uc774\ubbf8\uc9c0" src="${URL.createObjectURL(png)}"></div>`;
- box.innerHTML=`<div class="rp-send">${html}</div>`;box.scrollIntoView({block:'nearest',behavior:'smooth'});
+ box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><img class="rp-sendimg" src="${c.toDataURL('image/jpeg',.85)}" alt="">${html}</div></div>`;box.querySelector('[data-rp-kakao],.btn.primary')?.focus();
 };
 document.addEventListener('click',async ev=>{const t=ev.target;
+ if(t.closest('[data-rp-sendclose]')||t.id==='rp-sendbox'){const b=document.getElementById('rp-sendbox');if(b)b.innerHTML='';return;}
+ if(t.closest('[data-rp-delete]')){const cur=P.rpCur,r=cur&&cur.g.report;if(!r)return;P.confirmDelete(e(given(cur.s.name))+' \ud559\uc0dd\uc758 \uc774\ubc88 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud560\uae4c\uc694?','\uc774\ubbf8 \ubcf4\ub0b8 \uce74\ud1a1 \uce74\ub4dc\uc758 \ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub3c4 \ub354 \uc774\uc0c1 \uc5f4\ub9ac\uc9c0 \uc54a\uc544\uc694.',async()=>{await P.api('reports.delete',{id:r.id,version:r.version},crypto.randomUUID());const d=document.getElementById('detail-dialog');if(d)d._initial=null;P.requestDialogClose?.(true);P.saving('\ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud588\uc5b4\uc694','done');P.loadReports();});return;}
  if(t.closest('[data-rp-kakao]')){const k=P.rpKakao;try{k.K.Share.sendDefault({objectType:'feed',content:{title:k.title,description:k.desc,imageUrl:k.img,imageWidth:800,imageHeight:800,link:{mobileWebUrl:k.link,webUrl:k.link}},buttons:[{title:`${k.call} \ub9ac\ud3ec\ud2b8 \ubcf4\uae30`,link:{mobileWebUrl:k.link,webUrl:k.link}}]});await P.rpDone();}catch(err){P.saving(err.message||'\uce74\ud1a1\uc744 \uc5f4\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}return;}
  if(t.closest('[data-rp-share]')){try{await navigator.share({files:[P.rpFile.file],text:P.rpFile.text});await P.rpDone();}catch(err){if(err?.name!=='AbortError')P.saving('\uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. \ub9c1\ud06c \ubcf5\uc0ac\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.','error');}return;}
  if(t.closest('[data-rp-copyimg]')){try{await navigator.clipboard.write([new ClipboardItem({'image/png':P.rpFile.png})]);P.saving('\uce74\ub4dc \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694. \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uc5b4 \uc8fc\uc138\uc694','done');}catch{const fb=document.querySelector('.rp-imgfallback');if(fb)fb.hidden=false;P.saving('\uc624\ub978\ucabd \ud074\ub9ad\uc73c\ub85c \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
