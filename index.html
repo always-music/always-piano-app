@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611151410">
+  <meta name="app-build" content="202611151413">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1274,6 +1274,56 @@ button.view-as-trigger.r-fab:active{transform:scale(.98)}
 @media (max-width:760px){button.view-as-trigger.r-fab{right:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px));padding:6px;border-radius:14px}.r-fab .view-as-text{display:none}}
 @media print{.r-fab{display:none!important}}
 .empty-cell.r-skel:not(.card .r-skel){background:#fff;border:1px solid var(--r-line);border-radius:14px;overflow:hidden}
+
+/* ── 16. 왼쪽 메뉴 펼치기·접기 (이디야): 빠르게 열리고 부드럽게 멈춤 0.26초, 하위 항목은 살짝 늦게 옅게 나타남, 누르면 잠깐 흐려짐 ── */
+details.nav-group{interpolate-size:allow-keywords}
+details.nav-group::details-content{height:0;overflow:clip;transition:height .26s cubic-bezier(.4,0,.2,1),content-visibility .26s allow-discrete}
+details.nav-group[open]::details-content{height:auto}
+details.nav-group .nav-subitem{opacity:0;transform:translateY(-3px);transition:opacity .14s ease-out,transform .2s var(--r-ease),background-color .15s,color .15s}
+details.nav-group[open] .nav-subitem{opacity:1;transform:none;transition:opacity .3s ease-out .1s,transform .34s var(--r-ease) .08s,background-color .15s,color .15s}
+.nav-chevron{transition:transform .34s var(--r-ease)}
+.sidebar :is(.nav-item,.nav-subitem):active{opacity:.6;transform:none;transition:opacity .05s}
+.nav-submenu{position:relative;border-left:0!important;padding-left:14px}
+.nav-submenu::before{content:"";position:absolute;left:22px;top:4px;bottom:6px;width:1.5px;border-radius:2px;background:#E6E1DA}
+.nav-subitem{position:relative}
+.nav-subitem.active{background:#F6F2EC!important;box-shadow:none!important;font-weight:700}
+.nav-subitem.active::before{content:"";position:absolute;left:-1px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--r-choc)}
+
+/* ── 17. 빈 화면: 가는 선 그림(오선 + 음표) + 이유 한 줄 · 작은 칸 안 빈 글은 그대로 ── */
+main .empty-cell:not(.r-skel):not([role=alert]):not(.home-board *):not(.day-detail *):not(.hm-side *):not(td){color:var(--r-ink);font-size:13.5px;font-weight:600;line-height:1.65;padding:30px 16px 32px}
+main .empty-cell:not(.r-skel):not([role=alert]):not(.home-board *):not(.day-detail *):not(.hm-side *):not(td)::before{content:"";display:block;width:64px;height:64px;margin:0 auto 12px;background:url("data:image/svg+xml,%3Csvg xmlns='http:%2F%2Fwww.w3.org%2F2000%2Fsvg' viewBox='0 0 72 72' fill='none'%3E%3Cpath d='M8 22h56M8 30h56M8 38h56M8 46h56M8 54h56' stroke='%23E2DBD2' stroke-width='1.3'/%3E%3Cellipse cx='33' cy='50' rx='6' ry='4.4' transform='rotate(-20 33 50)' stroke='%233D2B1F' stroke-width='1.4' fill='%23fff'/%3E%3Cpath d='M38.6 48.5V20l11 4' stroke='%233D2B1F' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+td.empty-cell{color:var(--r-muted)}
+
+/* ── 18. 작은 메뉴(강사 필터·사용자 메뉴): 모서리 10 · 같은 그림자 · 4px 내려오며 0.14초 ── */
+:is(.teacher-filter-panel,.user-menu-panel){border-radius:10px!important;border-color:transparent!important;box-shadow:0 0 0 1px rgba(30,20,12,.08),0 16px 32px -10px rgba(30,20,12,.26)!important}
+details[open]>:is(.teacher-filter-panel,.user-menu-panel){animation:rMenu .14s ease-out both}
+@keyframes rMenu{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* ── 19. 펼치기 칸(details): 오른쪽 ＋ 가 － 로, 높이 부드럽게 0.28초 ── */
+details.att-history{interpolate-size:allow-keywords}
+details.att-history::details-content{height:0;overflow:clip;transition:height .28s cubic-bezier(.2,.8,.2,1),content-visibility .28s allow-discrete}
+details.att-history[open]::details-content{height:auto}
+details.att-history>summary{list-style:none;position:relative;padding-right:30px;cursor:pointer}
+details.att-history>summary::-webkit-details-marker{display:none}
+details.att-history>summary::after{content:"";position:absolute;right:8px;top:50%;width:12px;height:12px;margin-top:-6px;color:var(--r-ink);background:linear-gradient(currentColor,currentColor) center/12px 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 12px no-repeat;transition:background-size .22s ease,transform .22s ease}
+details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;transform:rotate(180deg)}
+
+/* ── 20. 닫을 때 확인(저장 안 한 변경): 확인 창과 같은 모양 · UNSAVED 머리말 ── */
+.discard-box{padding:0!important;border-radius:14px!important;overflow:hidden;box-shadow:0 24px 60px rgba(30,20,12,.24)!important;animation:rPop .2s ease-out}
+.discard-box::before{content:"UNSAVED";display:block;padding:18px 22px 0;font-size:10px;font-weight:700;letter-spacing:.16em;color:#B4540A}
+.discard-box strong{display:block;padding:4px 22px 0;font-size:16px;font-weight:700;color:var(--r-ink)}
+.discard-box p{margin:4px 0 0;padding:0 22px 18px;font-size:12.5px;color:var(--r-muted)}
+.discard-actions{display:flex;justify-content:flex-end;gap:8px;margin:0!important;padding:12px 16px 12px 22px;border-top:1px solid #EFEBE6;background:#fff}
+.discard-actions .btn{min-height:36px;height:36px}
+.discard-actions [data-action="discard-dialog"]{color:var(--r-red);border-color:#EBCBC5}
+
+/* ── 21. 저장 안 한 변경 표시: 저장 버튼 바로 왼쪽 작은 주황 칩 ── */
+.r-dirty{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;margin-right:auto;align-self:center;border-radius:6px;background:#FDF1E4;color:#B4540A;font-size:12px;font-weight:700;white-space:nowrap}
+.r-dirty::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.form-actions .r-dirty{margin-right:auto}
+
+/* ── 22. 휴대폰: 아래 버튼은 한 줄씩 꽉 차게, 주 버튼이 맨 위 ── */
+@media (max-width:520px){.form-actions,.del-box .del-act,.discard-actions{flex-direction:column-reverse;align-items:stretch}.form-actions .btn,.discard-actions .btn{width:100%;flex:none;min-height:44px}.form-actions .r-dirty{align-self:flex-start;margin:0}}
 
 </style>
 
@@ -2805,6 +2855,9 @@ app().addEventListener('change',async event=>{
  new MutationObserver(ms=>{for(const m of ms){const tg=m.target;for(const r of m.removedNodes)if(r.nodeType===1&&(r.dataset?.sk||r.querySelector?.('[data-sk]'))){OUT.set(tg,performance.now());tg._skN=0;}
   const out=OUT.get(tg);for(const n of m.addedNodes){scan(n);if(out&&performance.now()-out<500&&!(n.nodeType===1&&n.dataset?.sk))skin(tg,n);}}}).observe(document.body,{childList:true,subtree:true});
  scan(document.body);}
+
+// 저장 안 한 변경 표시 (이디야 규칙): 팝업 입력이 처음과 달라지면 저장 버튼 왼쪽에 "저장 안 됨" 칩
+document.addEventListener("input",ev=>{const d=ev.target.closest?.("#detail-dialog");if(!d)return;const f=ev.target.closest("form");if(!f)return;const act=f.querySelector(".form-actions");const sub=act&&act.querySelector("[type=submit]");if(!sub)return;const dirty=JSON.stringify([...new FormData(f)])!==d._initial;let c=act.querySelector(".r-dirty");if(dirty&&!c){act.insertAdjacentHTML("afterbegin","<span class=\"r-dirty\" role=\"status\">저장 안 됨</span>");}else if(!dirty&&c)c.remove();},true);
 </script>
 
   <script>
