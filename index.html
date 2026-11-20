@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201616">
+  <meta name="app-build" content="202611201624">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1784,7 +1784,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  body.app-mode .wkm-tab{font-size:13px!important;font-weight:600!important}
  body.app-mode .wkm-tab small{font-size:10.5px!important}
  body.app-mode .wkm-time{font-size:12.5px!important;font-weight:600!important}
- body.app-mode .wkm-names .weekly-chip{font-size:13px!important}
+ body.app-mode .wkm-names .weekly-chip{font-size:12px!important;letter-spacing:-.04em;white-space:nowrap!important;overflow:hidden;text-overflow:clip;padding:6px 0!important}
  body.app-mode .wkm-add{font-size:16px!important}
  /* 보강·결석 달력 */
  body.app-mode .hm-month span,body.app-mode .abs-nav strong{font-size:13px!important}
@@ -1834,6 +1834,13 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  body.app-mode .at-tab{font-size:10.5px}
  body.app-mode .at-tab.on{font-weight:600}
  body.app-mode .content{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+ /* 페이지 제목: 메모와 같은 자리(왼쪽 4px, 머리줄 바로 아래)·정규 수업의 '수업 추가'는 제목 줄 오른쪽 */
+ body.app-mode .page-heading{padding:0 4px!important;margin:0 0 12px!important;gap:10px}
+ body.app-mode .page-heading>div:first-child{padding-left:0!important;margin-left:0!important}
+ body.app-mode main.content{position:relative}
+ body.app-mode .wk-toolbar{position:absolute;top:calc(71px + env(safe-area-inset-top,0px));right:20px;margin:0!important;z-index:2}
+ body.app-mode .wk-toolbar .btn{height:34px!important;min-height:0!important;padding:0 12px;border-radius:11px}
+ body.app-mode .wk-toolbar~.home-wkm{margin-top:0!important}
  /* 입력칸: 본문과 같은 14px (확대 방지는 앱에서 maximum-scale=1로 처리) */
  body.app-mode :is(input,textarea,select){font-size:14px}
 }
@@ -2203,7 +2210,7 @@ P.weeklySummary=function(){
  const pills=`<span class="title-pills"><span class="pill outline">주 1회 ${tally[0]}명</span><span class="pill outline">주 2회 ${tally[1]}명</span><span class="pill outline">주 3회 이상 ${tally[2]}명</span></span>`;
  return P.card(`학생별 수업 요일 · ${rows.length}명${pills}`,P.table(['학생','주 횟수','요일 · 시간'],rows.map(r=>row([`<strong>${e(r.name)}</strong>`,`<span class="freq freq-${Math.min(r.ws.length,3)}">주 ${r.ws.length}회</span>`,r.ws.map(w=>`<button class="slot-pill" data-weekly-edit="${e(w.id)}" title="${w.duration}분">${WD[w.weekday]} ${w.time}</button>`).join(' ')])),'등록된 수업이 없습니다.'));
 };
-P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div>${window.APP_MODE?`<div class="home-wkm app-wkm" id="wkm-panel">${P.weeklyMobile()}</div>`:''}<div id="calendar-panel"${window.APP_MODE?' class="app-wkgrid"':''}>${P.weeklyGrid()}</div><div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`;};
+P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar wk-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div>${window.APP_MODE?`<div class="home-wkm app-wkm" id="wkm-panel">${P.weeklyMobile()}</div>`:''}<div id="calendar-panel"${window.APP_MODE?' class="app-wkgrid"':''}>${P.weeklyGrid()}</div>${window.APP_MODE?'':`<div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`}`;};
 // Add (several weekdays at once) or edit one entry; edit also offers delete.
 P.weeklyForm=function(w){
  const roster=(P.data.roster||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'ko')),sid=w?.studentId||'',durs=P.data.durations||[40,50],time=w?.time||P.presetTime||'15:00';
@@ -3211,8 +3218,8 @@ P.swapDayForm=function(pop){const tmp=document.createElement('div');tmp.innerHTM
  if(r.top+h1>innerHeight-8)pop.style.top=Math.max(8,innerHeight-8-h1)+'px';
  pop.style.height=h0+'px';pop.style.overflow='hidden';pop.offsetHeight;pop.style.transition='height .26s cubic-bezier(.2,.75,.25,1),top .26s cubic-bezier(.2,.75,.25,1)';pop.style.height=h1+'px';
  clearTimeout(pop._ht);pop._ht=setTimeout(()=>{pop.style.height='';pop.style.overflow='';pop.style.transition='';},280);};
-P.absQuick=function(anchor,date){document.querySelector('.wq-pop')?.remove();const r=anchor.getBoundingClientRect(),pop=document.createElement('form');pop.className='wq-pop';pop.dataset.absDate=date;pop.dataset.date=date;pop.dataset.mode='absent';pop.innerHTML=P.dayForm(date,'absent');document.body.appendChild(pop);P.histPush?.('pop');
- const w=Math.min(300,innerWidth-24);pop.style.width=w+'px';pop.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';const h=pop.offsetHeight;pop.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-6):Math.min(r.top+34,innerHeight-h-8))+'px';pop.querySelector('input').focus();};
+P.absQuick=function(anchor,date,noFocus){document.querySelector('.wq-pop')?.remove();const r=anchor.getBoundingClientRect(),pop=document.createElement('form');pop.className='wq-pop';pop.dataset.absDate=date;pop.dataset.date=date;pop.dataset.mode='absent';pop.innerHTML=P.dayForm(date,'absent');document.body.appendChild(pop);P.histPush?.('pop');
+ const w=Math.min(300,innerWidth-24);pop.style.width=w+'px';pop.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';const h=pop.offsetHeight;pop.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-6):Math.min(r.top+34,innerHeight-h-8))+'px';if(!noFocus)pop.querySelector('input').focus();};
 P.absQuickSave=async function(pop){if(pop.dataset.mode==='makeup')return P.makeupQuickSave(pop);if(pop.dataset.mode==='consult')return P.consultQuickSave(pop);if(pop.dataset.mode==='memo'){const t=pop.querySelector('[name=daymemo]').value.trim(),d=pop.dataset.absDate;if(!t){pop.querySelector('.form-error').textContent='메모를 입력해 주세요.';return;}P.popClose(pop);return P.dateNoteSave({date:d,text:t});}const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))];
  if(!names.length){err.textContent='학생 이름을 입력해 주세요.';return;}const ss=P.absDaySessions(date),nm=id=>P.rosterName(id),bad=names.filter(n=>!ss.some(s=>nm(s.studentId)===n));
  if(bad.length){err.textContent=bad.join(', ')+': 이날 수업이 없거나 이미 결석 예정이에요.';return;}
@@ -3695,7 +3702,7 @@ addEventListener('scroll',()=>{document.getElementById('app-brand')?.classList.t
 // 홈 빠른 버튼: 오늘 날짜로 결석·보강·상담·날짜 메모 팝업을 바로 열기
 app.addEventListener('click',ev=>{
  const q=ev.target.closest('[data-app-quick]');
- if(q){const mode=q.dataset.appQuick;P.absQuick(q,P.data.date);const pop=document.querySelector('.wq-pop');if(pop&&mode!=='absent'){pop.dataset.mode=mode;P.swapDayForm(pop);}return;}
+ if(q){const mode=q.dataset.appQuick;P.absQuick(q,P.data.date,true);const pop=document.querySelector('.wq-pop');if(pop&&mode!=='absent'){pop.dataset.mode=mode;P.swapDayForm(pop);}return;}
  if(ev.target.closest('[data-app-all]')&&!state.drawer){P.histPush('drawer');state.drawer=true;updateDrawer();}
 });
 function aaMarkTabs(){const bar=document.getElementById('app-tabs');if(!bar)return;const cur=state.drawer?'all':APP_TABS.some(t=>t[3]&&t[0]===state.group)?state.group:'all';bar.querySelectorAll('.at-tab').forEach(t=>{const on=t.dataset.tab===cur;t.classList.toggle('on',on);if(on)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});}
