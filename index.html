@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201531">
+  <meta name="app-build" content="202611201536">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1542,8 +1542,43 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp2-foot{position:sticky;bottom:0;z-index:5;margin:0!important;padding:12px 22px!important;background:#fff;border-top:1px solid var(--r-line)}
 @media (max-width:900px){.rp2-grid{grid-template-columns:1fr!important}.rp2-side{border-left:0;border-top:1px solid var(--r-line)}.rp2-sticky{position:static}.rp2-sticky canvas{max-width:340px}}
 @media (max-width:560px){.rp2-head{padding:12px 16px}.rp2-steps{padding:4px 16px 8px}.rp2-media{grid-template-columns:1fr}.rp2 .rp-song{grid-template-columns:minmax(0,1fr) 32px!important}.rp2 .rp-song .rp-st{grid-column:1/-1;grid-row:2}.rp2-foot{padding:12px 16px!important}.rp2-who{width:100%}}
-.rp2-who b{display:none}
 .rp2-who small{font-size:12.5px;color:#5E5650;font-weight:600}
+
+/* ── 28. 작성창 2판 다듬기: 시안과 똑같이 ── */
+#detail-dialog:has(.rp2) .dialog-heading{display:none}
+.rp2-head{padding:18px 22px!important;background:#fff!important;gap:12px!important}
+.rp2-av{width:40px!important;height:40px!important;border-radius:12px!important;font-size:16px!important}
+.rp2-who b{display:block!important;font-size:18px!important;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.rp2-who small{font-size:12.5px!important;font-weight:500!important;color:var(--r-muted)!important}
+.rp2-date{gap:0!important}
+.rp2-date span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.rp2 input,.rp2 textarea,.rp2 select{border:1px solid var(--r-line2)!important;border-radius:10px!important;background:#fff!important;box-shadow:none!important;outline:none;color:var(--r-ink)}
+.rp2 input:hover:not(:focus),.rp2 textarea:hover:not(:focus){border-color:#BDB3A7!important}
+.rp2 input:focus,.rp2 textarea:focus{border-color:var(--r-choc)!important;box-shadow:0 0 0 3px rgba(61,43,31,.1)!important}
+.rp2-date input{height:36px!important;min-height:36px!important;padding:0 12px!important;border-radius:8px!important;font-size:13.5px!important;font-weight:700!important;font-variant-numeric:tabular-nums}
+.rp2 .rp-song input[name=songTitle]{border:0!important;box-shadow:none!important;background:none!important;padding:10px 0!important}
+.rp2 .rp-song input[name=songTitle]:focus{box-shadow:none!important}
+.rp2 .rp-song{padding:4px 8px 4px 14px!important}
+.rp2-seg label span{font-size:13px}
+.rp2-x{width:34px;height:34px;flex:none;border:0;border-radius:8px;background:none;color:var(--r-muted);font-size:22px;line-height:1;cursor:pointer}
+.rp2-x:hover{background:#F3F0EC;color:var(--r-ink)}
+/* 단계 번호: 늘 채움 */
+.rp2-num{background:var(--r-choc)!important;border-color:var(--r-choc)!important;color:#fff!important}
+/* 이론·숙제 이름표: 입력칸 위 작은 글씨 */
+.rp2-field .rp-lab{font-size:12.5px;font-weight:700;color:#5E5650}
+/* 추천 문장: 스크롤바 숨기고 오른쪽 끝을 흐리게 */
+.rp2-sugg{scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent);padding-right:24px}
+.rp2-sugg::-webkit-scrollbar{display:none}
+.rp2 .rp-chip{height:32px;padding:0 13px;border:1px solid var(--r-line)!important;border-radius:99px!important;background:#fff!important;font-size:12.5px;color:#4A403A}
+.rp2 .rp-chip:hover{background:#F7F4F0!important;border-color:var(--r-line2)!important}
+.rp2 .rp-chip.strong{background:#F4ECDD!important;border-color:transparent!important;color:#6B4F2C;font-weight:700}
+/* 오른쪽 별점: 이름표 한 줄 + 별 */
+.rp2-sticky .rp-line{display:grid!important;grid-template-columns:1fr auto;align-items:center;gap:6px 8px!important}
+.rp2-sticky .rp-line>.rp-lab{font-size:12px;font-weight:700;color:#5E5650}
+.rp2-sticky .rp-line>small{grid-column:2;grid-row:1;font-size:11.5px!important;color:var(--r-faint);margin:0!important}
+.rp2-sticky .rp-stars{grid-column:1/-1}
+.rp2-sticky>.rp-lab{display:flex;justify-content:space-between;font-size:12px;color:#5E5650}
+@media (max-width:560px){.rp2-head{padding:14px 16px!important}}
 
 </style>
 
@@ -2417,9 +2452,9 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
  const rec=r?r.recipient:last?last.recipient:'\uc5b4\uba38\ub2d8',call=callName(s.name),sent=r&&r.sentAt;
  const when=(P.rp.targets&&P.rp.targets[s.id]&&P.rp.targets[s.id].dates||[]).map(d=>DAYS[new Date(d.date+'T00:00:00Z').getUTCDay()]+' '+String(d.time).slice(0,5)).join(' \u00b7 ');
  document.getElementById('dialog-content').innerHTML=`<form class="rp-form rp2" data-rp-form="${e(s.id)}">
- <div class="rp2-head"><div class="rp2-who"><span class="rp2-av">${e(given(s.name).slice(0,1))}</span><div><b>${e(s.name)}</b><small>${e(when||weekLabel(P.rp.week))}${last?' \u00b7 \uc9c0\ub09c \ub9ac\ud3ec\ud2b8 '+md(last.lessonDate):''}</small></div></div>
+ <div class="rp2-head"><div class="rp2-who"><span class="rp2-av">${e(given(s.name).slice(0,1))}</span><div><b>${e(s.name)} \ub9ac\ud3ec\ud2b8</b><small>${e([when,weekLabel(P.rp.week),last?'\uc9c0\ub09c \ub9ac\ud3ec\ud2b8 '+md(last.lessonDate)+(last.views?' \uc5f4\uc5b4\ubd04':''):''].filter(Boolean).join(' \u00b7 '))}</small></div></div>
   <label class="rp2-date"><span>\ub808\uc2a8\uc77c</span><input id="rp-date" name="lessonDate" type="date" value="${r?r.lessonDate:lessonDay(s.id,P.rp.week)}" required></label>
-  <div class="rp-st rp2-seg" role="radiogroup" aria-label="\ubc1b\ub294 \ubd84">${['\uc5b4\uba38\ub2d8','\uc544\ubc84\ub2d8','\ubcf4\ud638\uc790\ub2d8'].map(x=>`<label><input type="radio" name="recipient" value="${x}" ${rec===x?'checked':''}><span>${x}</span></label>`).join('')}</div></div>
+  <div class="rp-st rp2-seg" role="radiogroup" aria-label="\ubc1b\ub294 \ubd84">${['\uc5b4\uba38\ub2d8','\uc544\ubc84\ub2d8','\ubcf4\ud638\uc790\ub2d8'].map(x=>`<label><input type="radio" name="recipient" value="${x}" ${rec===x?'checked':''}><span>${x}</span></label>`).join('')}</div><button type="button" class="rp2-x" data-action="close-dialog" aria-label="\ub2eb\uae30">\u00d7</button></div>
  <div class="rp-grid rp2-grid"><div class="rp-fields rp2-steps">
   <section class="rp2-step" data-step="songs"><span class="rp2-num">1</span><h3>\uc774\ubc88 \uc8fc \uace1 <small>${carry&&songs.length?'\uc9c0\ub09c\uc8fc('+md(last.lessonDate)+')\uc5d0 \uc5f0\uc2b5\ud558\ub358 \uace1\uc744 \ubd88\ub7ec\uc654\uc5b4\uc694':'\uc644\uc131\u00b7\uc0c8 \uace1\u00b7\uc5f0\uc2b5 \uc911\uc744 \uace8\ub77c\uc694'}</small></h3>
    <div class="rp2-body"><div class="rp2-songs"><div id="rp-songs">${(songs.length?songs:[undefined]).map(x=>songRow(x)).join('')}</div><button type="button" class="rp2-addrow" data-rp-song-add>\uff0b \uace1 \ucd94\uac00</button></div>
