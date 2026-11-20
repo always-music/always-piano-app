@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201536">
+  <meta name="app-build" content="202611201554">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1580,6 +1580,95 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp2-sticky>.rp-lab{display:flex;justify-content:space-between;font-size:12px;color:#5E5650}
 @media (max-width:560px){.rp2-head{padding:14px 16px!important}}
 
+/* ===== 휴대폰 앱: 아래 탭 + 전체 메뉴 + 메모 탭 (2026-11-21, 회사 앱 구성 참고) ===== */
+.app-tabs,.app-all{display:none}
+@media (max-width:900px){
+ body.app-mode{--at-ease:cubic-bezier(.2,.8,.2,1);--at-spring:cubic-bezier(.34,1.36,.5,1)}
+ body.app-mode .mobile-menu,body.app-mode .sidebar,body.app-mode .drawer-backdrop,body.app-mode .r-fab{display:none!important}
+ body.app-mode .content{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+ body.app-mode .footer{display:none}
+ body.app-mode #save-toast{bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+ /* 아래 탭 */
+ body.app-mode .app-tabs{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:90;height:66px;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:0 4px;border-radius:24px;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);border:1px solid rgba(255,255,255,.95);box-shadow:0 8px 28px rgba(40,25,15,.13),0 1px 2px rgba(40,25,15,.06);transition:transform .38s cubic-bezier(.32,.72,0,1)}
+ body.app-mode .at-tab{display:grid;justify-items:center;align-content:center;gap:2px;height:100%;padding:0;border:0;background:none;color:#6F6760;font:500 11.5px/1.2 'Noto Sans KR',sans-serif;text-decoration:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+ body.app-mode .at-pw{position:relative;width:56px;height:33px;display:grid;place-items:center}
+ body.app-mode .at-pill{position:absolute;inset:0;border-radius:17px;background:#3D2B1F;opacity:0;transform:scale(.7);transition:opacity .18s linear,transform .32s var(--at-spring),background-color .18s,box-shadow .18s}
+ body.app-mode .at-tab .icon{position:relative;width:22px;height:22px;stroke-width:1.8;transition:color .18s,transform .2s var(--at-ease)}
+ body.app-mode .at-tab.press .at-pill{opacity:1;transform:scale(1);background:#fff;box-shadow:0 2px 10px rgba(40,25,15,.15)}
+ body.app-mode .at-tab.press .icon{transform:scale(.92)}
+ body.app-mode .at-tab.on .at-pill{opacity:1;transform:scale(1);background:#3D2B1F;box-shadow:none}
+ body.app-mode .at-tab.on .icon{color:#fff}
+ body.app-mode .at-tab.on{color:#1E1915;font-weight:700}
+ body.app-mode .at-tab:focus-visible{outline:2px solid #B08D57;outline-offset:-4px;border-radius:18px}
+ /* 화면 바뀔 때: 살짝 올라오며 나타남 */
+ body.app-mode main.view-enter{animation:at-enter .34s var(--at-ease) both}
+ @keyframes at-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+ /* 전체 */
+ body.app-mode .app-all{position:fixed;inset:0;z-index:85;display:flex;flex-direction:column;background:#F2F1EF;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .16s linear,transform .16s linear,visibility 0s .16s}
+ body.app-mode .app-all.open{opacity:1;visibility:visible;transform:none;transition:opacity .26s var(--at-ease),transform .34s var(--at-ease),visibility 0s}
+ .aa-head{flex:none;background:#3D2B1F;color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 16px}
+ .aa-top{display:flex;align-items:center;justify-content:space-between}
+ .aa-top h2{margin:0;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
+ .aa-icon{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:50%;background:none;color:#fff;transition:background-color .15s}
+ .aa-icon:active{background:rgba(255,255,255,.12)}
+ .aa-icon .icon{width:22px;height:22px}
+ .aa-me{display:flex;align-items:center;gap:9px;margin:12px 0 14px;min-width:0}
+ .aa-me .avatar{width:34px;height:34px;flex:none;border-radius:50%;background:#fff;color:#3D2B1F;display:grid;place-items:center;font-weight:800;font-size:14px}
+ .aa-me strong{font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .aa-me small{font-size:12px;color:rgba(255,255,255,.62)}
+ .aa-viewas{margin-left:auto;flex:none;height:34px;padding:0 13px;border:0;border-radius:11px;background:#fff;color:#3D2B1F;font:700 13px 'Noto Sans KR',sans-serif;transition:transform .15s var(--at-ease)}
+ .aa-viewas:active{transform:scale(.95)}
+ .aa-search{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:14px;background:rgba(255,255,255,.97);color:#A39B94}
+ .aa-search .icon{width:18px;height:18px;flex:none}
+ .aa-search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:none;font:400 15px 'Noto Sans KR',sans-serif;color:#1E1915;padding:0}
+ .aa-search input::-webkit-search-cancel-button{display:none}
+ .aa-body{flex:1;min-height:0;display:grid;grid-template-columns:96px minmax(0,1fr)}
+ .aa-rail{position:relative;overflow-y:auto;background:#EAE7E3;padding-bottom:120px;scrollbar-width:none;transition:opacity .2s}
+ .aa-rail::-webkit-scrollbar,.aa-pane::-webkit-scrollbar{display:none}
+ .app-all.searching .aa-rail{opacity:.45;pointer-events:none}
+ .aa-rind{position:absolute;left:0;right:0;top:0;height:50px;background:#F2F1EF;transition:transform .36s var(--at-ease),height .3s var(--at-ease)}
+ .aa-rind::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:#3D2B1F}
+ .aa-cat{position:relative;z-index:1;display:block;width:100%;padding:15px 12px 15px 14px;border:0;background:none;text-align:left;font:500 13.5px/1.35 'Noto Sans KR',sans-serif;color:#6F6760;word-break:keep-all;transition:color .2s}
+ .aa-cat.on{color:#1E1915;font-weight:700}
+ .aa-rail hr{border:0;border-top:1px solid #DAD5D0;margin:8px 14px}
+ .aa-minor{display:block;width:100%;padding:10px 12px 10px 14px;border:0;background:none;text-align:left;font:400 12.5px/1.4 'Noto Sans KR',sans-serif;color:#8F8780}
+ .aa-minor.out{color:#C2483D}
+ .aa-pane{position:relative;overflow-y:auto;padding:4px 12px 130px;scrollbar-width:none;overscroll-behavior:contain}
+ .aa-sec{padding-top:16px}
+ .aa-sec h3{margin:0 4px 8px;font-size:16.5px;font-weight:800;color:#1E1915;letter-spacing:-.02em}
+ .aa-list{background:#fff;border:1px solid #E8E4E0;border-radius:16px;overflow:hidden}
+ .aa-item{display:flex;align-items:center;gap:11px;padding:13px 12px;color:#1E1915;text-decoration:none;font-size:14.5px;transition:background-color .15s}
+ .aa-item+.aa-item{border-top:1px solid #F2EFEC}
+ .aa-item:active{background:#F5F2EF}
+ .aa-item .icon{width:19px;height:19px;flex:none;color:#3D2B1F}
+ .aa-item span{flex:1;min-width:0}
+ .aa-item em{font-style:normal;font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;background:#F5EEE2;color:#8A6A38}
+ .aa-item .aa-chev{width:15px;height:15px;color:#C9C2BB}
+ .aa-item.soon,.aa-item.soon .icon{color:#A39B94}
+ .aa-none{padding:40px 8px;text-align:center;color:#A39B94;font-size:13px}
+ /* 메모 탭: 홈에 있던 메모를 한 화면 크게 */
+ body.app-mode .memo-page .memo-card{min-height:calc(100dvh - 230px);border-radius:20px}
+ body.app-mode .memo-page .memo-card .card-header{padding:16px 16px 8px}
+ body.app-mode .memo-page .memo-card .card-header h2{font-size:21px;font-weight:800;letter-spacing:-.03em}
+ body.app-mode .memo-page .memo-card .memo-body,body.app-mode .memo-page .memo-card:not(.editing) .memo-body{flex:1 1 auto;margin:6px 12px 12px;padding:16px;border-radius:16px;font-size:15px;line-height:1.85;min-height:calc(100dvh - 330px);word-break:keep-all;overflow-wrap:anywhere;transition:border-color .25s,box-shadow .25s,background-color .25s}
+ body.app-mode .memo-page .memo-card:not(.editing) .memo-body{background:#FBF9F5}
+ body.app-mode .memo-page .memo-card.editing .memo-body{background:#fff;border-color:#3D2B1F;box-shadow:0 0 0 4px rgba(61,43,31,.08)}
+ body.app-mode .memo-page .memo-card.editing .memo-toolbar{position:fixed;left:12px;right:12px;bottom:calc(10px + max(env(safe-area-inset-bottom,0px),var(--kb,0px)));z-index:95;height:58px;flex-wrap:nowrap;gap:2px;padding:0 10px;overflow-x:auto;scrollbar-width:none;border:0;border-radius:20px;background:#3D2B1F;box-shadow:0 10px 30px rgba(40,25,15,.28);animation:at-bar .38s cubic-bezier(.32,.72,0,1) both}
+ body.app-mode .memo-page .memo-card.editing .memo-toolbar::-webkit-scrollbar{display:none}
+ @keyframes at-bar{from{transform:translateY(150%)}to{transform:none}}
+ body.app-mode .memo-page .memo-tool{flex:none;height:40px;min-width:40px;border:0;border-radius:12px;background:none;color:#fff;font-size:14px}
+ body.app-mode .memo-page .memo-tool:active{background:rgba(255,255,255,.16)}
+ body.app-mode .memo-page .memo-swatch{flex:none;margin:0 5px;width:22px;height:22px;border-color:#3D2B1F;box-shadow:0 0 0 1px rgba(255,255,255,.45)}
+ body.app-mode .memo-page .memo-sep{flex:none;width:1px;height:22px;margin:0 5px;background:rgba(255,255,255,.2)}
+ body.app-mode .app-wkgrid{display:none}
+ body.app-mode .app-wkm{display:block!important;order:0;margin-top:0}
+ body.app-mode .memo-page .memo-card .card-header{flex-wrap:wrap;gap:8px}
+ body.app-mode .memo-page .memo-card .card-header h2{white-space:nowrap}
+ body.app-mode .memo-page .memo-head-right{flex:1;min-width:0;justify-content:flex-end}
+ body.app-mode .memo-page .memo-status{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ body.app-mode:has(.memo-page .memo-card.editing) .app-tabs{transform:translateY(150%)}
+}
+@media (max-width:900px) and (prefers-reduced-motion:reduce){body.app-mode .app-all,body.app-mode .at-pill,body.app-mode main.view-enter,.aa-rind{transition:none!important;animation:none!important}}
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -1608,14 +1697,15 @@ Piano.navigation=[
 {id:'marketing',label:'마케팅 관리',icon:'marketing',roles:['director'],pages:[['content','콘텐츠 캘린더'],['campaigns','광고·홍보'],['funnel','유입·전환 분석'],['reviews','리뷰 관리']]},
 {id:'finance',label:'학원 경영',icon:'chart',roles:['director'],pages:[['summary','월별 손익'],['expenses','수입·지출'],['analysis','경영 분석']]},
 {id:'operations',label:'운영 관리',icon:'operations',roles:['director','teacher'],pages:[['notifications','자동 알림','director'],['notices','공지사항'],['events','연주회·콩쿠르']]},
+{id:'memo',label:'메모',icon:'memo',roles:['director','teacher'],app:true,pages:[['board','메모']]},
 {id:'settings',label:'관리자 설정',icon:'settings',roles:['director'],pages:[['accounts','계정·권한'],['hours','운영시간']]}
 ];
 // Pages wired to live data; others show a "준비" badge in the sidebar.
-Piano.readyPages=['reports/weekly','lessons/regular','lessons/makeup','lessons/attendance','lessons/history','students/list','teachers/list','operations/notices','settings/accounts'];
+Piano.readyPages=['memo/board','reports/weekly','lessons/regular','lessons/makeup','lessons/attendance','lessons/history','students/list','teachers/list','operations/notices','settings/accounts'];
 Piano.honor=()=>Piano.user?.vice?'부원장님':Piano.user?.role==='director'?'원장님':'선생님';
 Piano.canVisit=function(role,groupId,pageId){
  const group=Piano.navigation.find(g=>g.id===groupId);
- return !!(group&&!(groupId==='reports'&&Piano.user?.vice)&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
+ return !!(group&&!(group.app&&!globalThis.APP_MODE)&&!(groupId==='reports'&&Piano.user?.vice)&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
 };
 Piano.escape=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 Piano.icon=function(name,cls=''){
@@ -1631,6 +1721,7 @@ Piano.icon=function(name,cls=''){
  arrow:'<path d="M5 12h14m-5-5 5 5-5 5"/>',chevron:'<path d="m9 5 7 7-7 7"/>',bell:'<path d="M5 17h14l-2-4V8a5 5 0 0 0-10 0v5zm5 3h4"/>',
  check:'<path d="m5 12 4 4L19 6"/>',card:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>',plus:'<path d="M12 5v14M5 12h14"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',close:'<path d="m6 6 12 12M6 18 18 6"/>',
  note:'<path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="17" cy="16" rx="3" ry="2"/>',search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',
+ memo:'<path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8.5 9h7m-7 3.5h4"/>',doc:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5m-5 4h5"/>',
  leaf:'<path d="M5 20C0 6 14 3 21 3c0 12-4 18-13 15M5 21 16 9"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>'};
  return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.note}</svg>`;
 };
@@ -1935,7 +2026,7 @@ P.weeklySummary=function(){
  const pills=`<span class="title-pills"><span class="pill outline">주 1회 ${tally[0]}명</span><span class="pill outline">주 2회 ${tally[1]}명</span><span class="pill outline">주 3회 이상 ${tally[2]}명</span></span>`;
  return P.card(`학생별 수업 요일 · ${rows.length}명${pills}`,P.table(['학생','주 횟수','요일 · 시간'],rows.map(r=>row([`<strong>${e(r.name)}</strong>`,`<span class="freq freq-${Math.min(r.ws.length,3)}">주 ${r.ws.length}회</span>`,r.ws.map(w=>`<button class="slot-pill" data-weekly-edit="${e(w.id)}" title="${w.duration}분">${WD[w.weekday]} ${w.time}</button>`).join(' ')])),'등록된 수업이 없습니다.'));
 };
-P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div><div id="calendar-panel">${P.weeklyGrid()}</div><div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`;};
+P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div>${window.APP_MODE?`<div class="home-wkm app-wkm" id="wkm-panel">${P.weeklyMobile()}</div>`:''}<div id="calendar-panel"${window.APP_MODE?' class="app-wkgrid"':''}>${P.weeklyGrid()}</div><div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`;};
 // Add (several weekdays at once) or edit one entry; edit also offers delete.
 P.weeklyForm=function(w){
  const roster=(P.data.roster||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'ko')),sid=w?.studentId||'',durs=P.data.durations||[40,50],time=w?.time||P.presetTime||'15:00';
@@ -2129,11 +2220,12 @@ P.liveDashboard=function(state){
  const active=P.data.students.filter(s=>s.status==='active').length;
  // Home: greeting lives in the sidebar; top row = two narrow metric cards · 할 일 (with alerts + 등록) · 메모, all on one top line.
  const alerts=P.taskAlert()+(P.user.role==='director'?P.payAlert():'');
- return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side"><div class="home-memo">${P.memoCard()}</div><div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
+ return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side">${window.APP_MODE?'':`<div class="home-memo">${P.memoCard()}</div>`}<div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
 };
 P.page=function(state){
  if(!P.live)return oldPage(state);
  if(state.group==='home')return P.liveDashboard(state);
+ if(state.group==='memo')return `<h1 class="sr-only">메모</h1><div class="memo-page">${P.memoCard()}</div>`;
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),key=state.group+'/'+state.page;
  const EN={'lessons/regular':'REGULAR LESSONS','lessons/makeup':'MAKEUP LESSONS','lessons/attendance':'ATTENDANCE','lessons/history':'CHANGE LOG','reports/weekly':'PARENT REPORT','students/list':'STUDENTS','students/consultations':'CONSULTATIONS','teachers/list':'TEACHERS','teachers/workload':'TEACHING LOAD','teachers/payroll':'PAYROLL','teachers/leave':'TEACHER LEAVE','marketing/content':'CONTENT CALENDAR','marketing/campaigns':'CAMPAIGNS','marketing/funnel':'FUNNEL','marketing/reviews':'REVIEWS','finance/summary':'MONTHLY P&L','finance/expenses':'INCOME · EXPENSES','finance/analysis':'ANALYSIS','operations/notifications':'AUTO NOTICES','operations/notices':'NOTICES','operations/events':'EVENTS','settings/accounts':'ACCOUNTS','settings/hours':'HOURS'};
  const DESC={'lessons/regular':'요일별 정규 수업 시간표에서 학생을 배정하고 옮겨요.','lessons/makeup':'보강 일정을 주간·월간으로 보고, 빈 칸을 눌러 바로 등록해요.','lessons/attendance':'수업별 출결을 확인하고 결석·보강을 이어서 처리해요.','lessons/history':'선생님들이 수업을 등록·변경한 기록을 확인해요.','reports/weekly':'학생마다 이번 주 레슨 이야기를 써서 카톡 카드로 보내고, 보냄·열람을 확인해요.','students/list':'재원 학생과 수강 조건을 관리해요. 수업 요일은 정규 수업 시간표에서 정해요.','settings/accounts':'원장 계정과 로그인 권한을 관리해요.','operations/notices':'학원 소식과 공지를 올리고 함께 확인해요.','teachers/list':'강사 기본 정보와 담당 과목, 로그인 계정을 관리해요.'};
@@ -3365,7 +3457,7 @@ async function route(){
  }
  state.navGroup=state.group;
  // The server page check returns no data, so render first and verify the session in the background.
- if(P.live)P.api('page',{route:state.group+'/'+state.page}).catch(error=>{if(sequence===routeSequence)P.notify(error.message);});
+ if(P.live&&!P.navigation.find(g=>g.id===state.group)?.app)P.api('page',{route:state.group+'/'+state.page}).catch(error=>{if(sequence===routeSequence)P.notify(error.message);});
  try{render();}catch(err){console.error(err);P.saving?.('화면을 열지 못했어요: '+(err&&err.message||err)+(window.__errs&&window.__errs.length?' / '+window.__errs.join(' / '):''),'error');return;}document.getElementById('main')?.classList.add('view-enter');restoreView(true);
  P.syncData?.(5000);
 }
@@ -3373,7 +3465,8 @@ function render(){
  if(P.live&&!P.user)return;
  if(P.live)state.role=P.user.role;
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),director=state.role==='director';
- app.innerHTML=`<button class="drawer-backdrop" data-action="close-menu" aria-label="메뉴 닫기" tabindex="-1"></button><aside class="sidebar" id="sidebar" aria-label="주 메뉴"><button class="icon-btn drawer-close" data-action="close-menu" aria-label="메뉴 닫기">${ic('close')}</button><a class="brand" href="#home/overview" aria-label="Always Piano 홈">${document.getElementById('brand-template').innerHTML}</a>${P.live?`<div class="brand-hello"><strong>${e(P.user?.name||'')} ${P.honor()}</strong><span>반가워요</span></div><p class="brand-today"><i></i>${P.todayText()}</p><button class="sidebar-cta" data-weekly-new><span class="cta-icon">${ic('plus')}</span><span class="cta-label">수업 등록</span><span class="cta-chev">${ic('chevron')}</span></button>`:''}<p class="nav-caption">WORKSPACE</p><nav aria-label="학원 운영 메뉴">${P.navigation.filter(g=>!(g.id==='reports'&&P.user?.vice)&&(g.roles.includes(state.role)||g.id==='students'&&P.user?.vice)).map(g=>{
+ const keep=[...app.querySelectorAll(':scope>.app-keep')];keep.forEach(n=>n.remove());
+ app.innerHTML=`<button class="drawer-backdrop" data-action="close-menu" aria-label="메뉴 닫기" tabindex="-1"></button><aside class="sidebar" id="sidebar" aria-label="주 메뉴"><button class="icon-btn drawer-close" data-action="close-menu" aria-label="메뉴 닫기">${ic('close')}</button><a class="brand" href="#home/overview" aria-label="Always Piano 홈">${document.getElementById('brand-template').innerHTML}</a>${P.live?`<div class="brand-hello"><strong>${e(P.user?.name||'')} ${P.honor()}</strong><span>반가워요</span></div><p class="brand-today"><i></i>${P.todayText()}</p><button class="sidebar-cta" data-weekly-new><span class="cta-icon">${ic('plus')}</span><span class="cta-label">수업 등록</span><span class="cta-chev">${ic('chevron')}</span></button>`:''}<p class="nav-caption">WORKSPACE</p><nav aria-label="학원 운영 메뉴">${P.navigation.filter(g=>!g.app&&!(g.id==='reports'&&P.user?.vice)&&(g.roles.includes(state.role)||g.id==='students'&&P.user?.vice)).map(g=>{
  const current=g.id===state.group,active=g.id===state.navGroup;
  if(g.id==='home')return `<a class="nav-item ${active?'active':''}" data-nav-group="home" href="#home/overview" ${current?'aria-current="page"':''}>${ic(g.icon)}<span>${g.label}</span>${active?'<span class="nav-dot"></span>':''}</a>`;
  return `<details class="nav-group" name="sidebar-navigation" ${active?'open':''}><summary class="nav-item ${active?'active':''}" data-nav-group="${g.id}">${ic(g.icon)}<span>${g.label}</span>${ic('chevron','nav-chevron')}</summary><div class="nav-submenu">${g.pages.filter(p=>!p[2]||p[2]===state.role).map(p=>`<a class="nav-subitem ${current&&p[0]===state.page?'active':''}" href="#${g.id}/${p[0]}" ${current&&p[0]===state.page?'aria-current="page"':''}>${e(p[1])}${P.readyPages.includes(g.id+'/'+p[0])?'':'<span class="nav-badge">준비</span>'}</a>`).join('')}</div></details>`;
@@ -3382,6 +3475,7 @@ function render(){
  <main class="content" id="main" tabindex="-1">${P.live?'':'<div class="demo-banner"><span><strong>DEMO WORKSPACE</strong>오프라인 가상 데이터 미리보기 · 저장되지 않음</span><span>기준일 2026.10.26</span></div>'}<p id="live-status" class="live-status" role="status" aria-live="polite"></p>${P.page(state)}<footer class="footer"><span>ALWAYS PIANO ACADEMY · EVERY LITTLE NOTE COUNTS.</span><span>${P.live?'DEVELOPMENT WORKSPACE':'UI PROTOTYPE'} · ${(P.user?.vice?'부원장':director?'원장':'강사')} 화면</span></footer></main></div>
  ${P.live&&(P.realSession?.user||P.user).role==='director'&&!(P.realSession?.user||P.user).vice?`<button type="button" class="view-as-trigger r-fab" data-view-as-open aria-haspopup="dialog" title="선생님 계정 화면으로 바꿔 봐요"><span class="view-as-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19.5c.6-3.1 2.8-5 5.5-5s4.9 1.9 5.5 5"/><path d="M16.5 6.5h4.5m0 0-2-2m2 2-2 2M21 12.5h-4.5m0 0 2-2m-2 2 2 2"/></svg></span><span class="view-as-text"><strong>다른 사람 화면 보기</strong><small>지금: ${P.viewAs?e(P.user.name)+' '+P.honor():'원장 화면'}</small></span></button>`:''}<dialog id="detail-dialog" aria-labelledby="dialog-title"><div class="dialog-heading"><h2 id="dialog-title"></h2><button class="icon-btn" data-action="close-dialog" aria-label="상세 창 닫기">${ic('close')}</button></div><div class="dialog-content" id="dialog-content"></div><div class="dialog-foot"><span></span><button class="btn" data-action="close-dialog">닫기</button></div></dialog>`;
  document.title=page[1]+' · Always Piano';
+ keep.forEach(n=>app.appendChild(n));P.appChrome?.();
  state.drawer=false;document.body.style.overflow='';
  updateDrawer();
  restoreView();
@@ -3389,6 +3483,60 @@ function render(){
  if(P.live&&state.group==='lessons'&&state.page==='history')P.loadHistory();
  if(P.live&&state.group==='reports'){P.rpRender?.();P.loadReports?.();}
 }
+// 휴대폰 앱(좁은 화면): 아래 탭(홈·수업·메모·리포트·전체)과 '전체' 메뉴. 화면을 다시 그려도 떼었다 다시 붙여서(app-keep) 전환 모션이 이어져요.
+// '전체'는 기존 서랍 메뉴(state.drawer)를 그대로 써서 뒤로가기·링크 이동 때 닫히는 동작을 공유해요.
+const APP_TABS=[['home','홈','home','#home/overview'],['lessons','수업','calendar','#lessons/regular'],['memo','메모','memo','#memo/board'],['reports','리포트','doc','#reports/weekly'],['all','전체','menu','']];
+let aaSpyLock=0;
+const aaGroups=()=>P.navigation.filter(g=>!(g.id==='reports'&&P.user?.vice)&&(g.roles.includes(state.role)||g.id==='students'&&P.user?.vice));
+function aaHtml(me){
+ const director=me.role==='director',gs=aaGroups();
+ const rail=gs.map((g,i)=>`<button type="button" class="aa-cat${i?'':' on'}" data-aa-cat="${g.id}">${e(g.label)}</button>`).join('');
+ const pane=gs.map(g=>{const items=g.pages.filter(p=>P.canVisit(state.role,g.id,p[0])).map(p=>{const ready=g.id==='home'||P.readyPages.includes(g.id+'/'+p[0]);return `<a class="aa-item${ready?'':' soon'}" href="#${g.id}/${p[0]}" data-aa-label="${e(g.label+' '+p[1])}">${ic(g.icon)}<span>${e(p[1])}</span>${ready?'':'<em>준비</em>'}${ic('chevron','aa-chev')}</a>`;}).join('');
+  return items?`<section class="aa-sec" data-aa-sec="${g.id}"><h3>${e(g.label)}</h3><div class="aa-list">${items}</div></section>`:'';}).join('');
+ const viewAs=P.live&&director&&!me.vice?`<button type="button" class="aa-viewas" data-view-as-open>${P.viewAs?e(P.user.name)+' 화면 보는 중':'다른 사람 화면'}</button>`:'';
+ return `<div class="aa-head"><div class="aa-top"><h2>전체</h2><button type="button" class="aa-icon" data-action="notices" aria-label="학원 소식">${ic('bell')}</button></div><div class="aa-me"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><strong>${e(me.name||'')}</strong><small>${me.vice?'부원장':director?'원장':'강사'}</small>${viewAs}</div><label class="aa-search">${ic('search')}<input id="aa-q" type="search" placeholder="메뉴 찾기 (예: 보강, 출결, 리포트)" autocomplete="off" aria-label="메뉴 찾기"></label></div><div class="aa-body"><nav class="aa-rail" aria-label="분류"><span class="aa-rind" aria-hidden="true"></span>${rail}<hr>${P.live?`<button type="button" class="aa-minor" data-live-action="push">알림 설정</button><button type="button" class="aa-minor" data-live-action="password">비밀번호 변경</button><button type="button" class="aa-minor out" data-live-action="logout">로그아웃</button>`:''}</nav><div class="aa-pane" id="aa-pane">${pane}<p class="aa-none" hidden>찾는 메뉴가 없어요</p></div></div>`;
+}
+function aaMarkTabs(){const bar=document.getElementById('app-tabs');if(!bar)return;const cur=state.drawer?'all':APP_TABS.some(t=>t[3]&&t[0]===state.group)?state.group:'all';bar.querySelectorAll('.at-tab').forEach(t=>{const on=t.dataset.tab===cur;t.classList.toggle('on',on);if(on)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});}
+function aaRailTo(b){const all=document.getElementById('app-all');if(!b||!all)return;all.querySelectorAll('.aa-cat').forEach(x=>x.classList.toggle('on',x===b));const r=all.querySelector('.aa-rind');r.style.height=b.offsetHeight+'px';r.style.transform=`translateY(${b.offsetTop}px)`;}
+function aaFilter(q){const all=document.getElementById('app-all');if(!all)return;let any=false;all.querySelectorAll('.aa-sec').forEach(sec=>{let n=0;sec.querySelectorAll('.aa-item').forEach(it=>{const hit=!q||it.dataset.aaLabel.includes(q);it.hidden=!hit;if(hit)n++;});sec.hidden=!n;if(n)any=true;});all.querySelector('.aa-none').hidden=any;all.classList.toggle('searching',!!q);}
+P.appChrome=function(){
+ if(!window.APP_MODE||(P.live&&!P.user))return;
+ document.body.classList.add('app-mode');
+ const tabs=APP_TABS.filter(t=>!t[3]||P.canVisit(state.role,t[0],t[3].split('/')[1])),key=tabs.map(t=>t[0]).join();
+ let bar=document.getElementById('app-tabs');
+ if(!bar||bar.dataset.key!==key){bar?.remove();bar=document.createElement('nav');bar.id='app-tabs';bar.className='app-tabs app-keep';bar.setAttribute('aria-label','아래 메뉴');bar.dataset.key=key;
+  bar.innerHTML=tabs.map(([id,label,icon,href])=>`${href?`<a href="${href}"`:'<button type="button"'} class="at-tab" data-tab="${id}"><span class="at-pw"><span class="at-pill"></span>${ic(icon)}</span><span class="at-l">${label}</span>${href?'</a>':'</button>'}`).join('');app.appendChild(bar);}
+ const me=(P.realSession||{}).user||P.user||{name:'',role:state.role},ak=[state.role,P.user?.id,P.user?.vice,P.viewAs||'',me.name,P.live].join('|');
+ let all=document.getElementById('app-all');
+ if(!all||all.dataset.key!==ak){all?.remove();all=document.createElement('section');all.id='app-all';all.className='app-all app-keep';all.dataset.key=ak;all.setAttribute('aria-label','전체 메뉴');all.inert=true;all.innerHTML=aaHtml(me);app.appendChild(all);}
+ aaMarkTabs();
+};
+P.appDrawer=function(open){
+ const all=document.getElementById('app-all');if(!all)return;
+ all.classList.toggle('open',open);all.inert=!open;
+ if(open)requestAnimationFrame(()=>aaRailTo(all.querySelector('.aa-cat.on')));
+ else{const q=all.querySelector('#aa-q');if(q?.value){q.value='';aaFilter('');}}
+ aaMarkTabs();
+};
+app.addEventListener('pointerdown',ev=>{const t=ev.target.closest('.at-tab');if(t&&!t.classList.contains('on'))t.classList.add('press');});
+['pointerup','pointercancel'].forEach(n=>document.addEventListener(n,()=>setTimeout(()=>app.querySelectorAll('.at-tab.press').forEach(t=>t.classList.remove('press')),70)));
+app.addEventListener('click',ev=>{
+ const t=ev.target.closest('.at-tab');
+ if(t){
+  if(t.dataset.tab==='all'){ev.preventDefault();if(state.drawer){state.drawer=false;updateDrawer();}else{P.histPush('drawer');state.drawer=true;updateDrawer();}return;}
+  if(t.getAttribute('href')===location.hash){ev.preventDefault();if(state.drawer){state.drawer=false;updateDrawer();}else window.scrollTo({top:0,behavior:'smooth'});}
+  return;
+ }
+ const c=ev.target.closest('[data-aa-cat]');
+ if(c){const sec=document.querySelector(`[data-aa-sec="${c.dataset.aaCat}"]`),pane=document.getElementById('aa-pane');if(sec&&pane){aaRailTo(c);aaSpyLock=Date.now();pane.scrollTo({top:sec.offsetTop-4,behavior:'smooth'});}}
+});
+app.addEventListener('input',ev=>{if(ev.target.id==='aa-q')aaFilter(ev.target.value.trim());});
+document.addEventListener('scroll',ev=>{const pane=ev.target;if(!(pane instanceof Element)||pane.id!=='aa-pane'||Date.now()-aaSpyLock<700)return;
+ const secs=[...pane.querySelectorAll('.aa-sec:not([hidden])')];if(!secs.length)return;let on=secs[0];
+ if(pane.scrollTop+pane.clientHeight>=pane.scrollHeight-4)on=secs[secs.length-1];else for(const s of secs)if(s.offsetTop-pane.scrollTop<60)on=s;
+ aaRailTo(document.querySelector(`[data-aa-cat="${on.dataset.aaSec}"]`));},true);
+// 메모 편집 막대: 휴대폰 키보드가 올라오면 그 위에 붙도록 키보드 높이를 CSS 변수로.
+if(window.visualViewport)visualViewport.addEventListener('resize',()=>{const kb=Math.max(0,innerHeight-visualViewport.height-visualViewport.offsetTop);document.documentElement.style.setProperty('--kb',kb+'px');});
 function updateDrawer(){
  const mobile=matchMedia('(max-width:900px)').matches;
  const sidebar=document.getElementById('sidebar');
@@ -3400,6 +3548,7 @@ function updateDrawer(){
  document.querySelector('.mobile-menu').setAttribute('aria-expanded',String(state.drawer));
  document.querySelector('.main-wrap').inert=state.drawer;
  document.body.style.overflow=state.drawer?'hidden':'';
+ P.appDrawer?.(state.drawer);
 }
 let dialogOpener=null;
 function openDialog(title,body,mode='view'){
