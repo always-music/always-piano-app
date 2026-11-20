@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201607">
+  <meta name="app-build" content="202611201616">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1739,6 +1739,103 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
  .am-done{margin-left:auto;height:42px;min-height:0;padding:0 16px;border:0;border-radius:13px;background:#fff;color:#3D2B1F;font:700 13.5px 'Noto Sans KR',sans-serif}
  .am-done:active{background:#F1ECE7}
  body.app-mode:has(.app-memo.editing) .app-tabs{transform:translateY(150%)}
+}
+/* ===== 휴대폰 앱 글자 크기: B 균형 (2026-11-21, 비교 시안 claude.ai/artifact/X6tjX4Dgxu1pGMWxHZ9fyZ) =====
+   본문 13~14px · 카드 제목 15px · 큰 제목 19px · 굵기 한 단계 낮춤(800→700, 700→600). 휴대폰 글꼴 키움 설정에 커지지 않게 고정. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (max-width:900px){
+ body.app-mode{font-size:14px}
+ /* 위 머리줄 */
+ body.app-mode .app-brand{height:calc(48px + env(safe-area-inset-top,0px))}
+ body.app-mode main.content{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
+ body.app-mode .ab-wm b{font-size:15px}
+ body.app-mode .ab-wm span{font-size:10.5px}
+ body.app-mode .ab-ava{width:32px;height:32px;font-size:13.5px}
+ body.app-mode .ab-bell{width:32px;height:32px}
+ body.app-mode .ab-bell .icon{width:21px;height:21px}
+ /* 홈 상단 */
+ body.app-mode .m-hero.app-hero{padding:10px 18px 46px!important}
+ body.app-mode .ah-hello{font-size:19px!important}
+ body.app-mode .ah-date{font-size:12.5px;margin-top:5px}
+ body.app-mode .ah-tiles{gap:7px;margin-top:14px}
+ body.app-mode .ah-tile{padding:9px 9px 8px;border-radius:13px}
+ body.app-mode .ah-tile small{font-size:10.5px}
+ body.app-mode .ah-tile b{font-size:17px;font-weight:700}
+ body.app-mode .ah-tile em{font-size:11px}
+ body.app-mode .push-nudge-t{font-size:13px!important}
+ body.app-mode .push-nudge-on{font-size:12.5px!important}
+ body.app-mode .ah-sheet{margin-top:-28px;padding:12px 12px 0;gap:10px;border-radius:24px 24px 0 0}
+ body.app-mode .ah-quick{padding:14px 4px 12px;border-radius:18px}
+ body.app-mode .ah-q{font-size:12px;gap:7px}
+ body.app-mode .ah-q span{width:42px;height:42px;border-radius:13.5px}
+ body.app-mode .ah-q svg{width:20px;height:20px}
+ body.app-mode .ah-notice{padding:12px 14px;border-radius:18px}
+ body.app-mode .ah-notice b{font-size:13.5px}
+ body.app-mode .ah-notice small{font-size:12px}
+ /* 제목 */
+ body.app-mode main :is(h1,h2,h3){font-weight:700!important}
+ body.app-mode .page-heading h1{font-size:19px!important}
+ body.app-mode .page-heading .eyebrow,body.app-mode .am-head .eyebrow{font-size:10.5px!important}
+ body.app-mode main .card h2,body.app-mode main .card-header h2{font-size:15px!important;letter-spacing:-.02em}
+ body.app-mode main .sub{font-size:11.5px!important}
+ body.app-mode #dialog-title{font-size:17px!important;font-weight:700!important}
+ body.app-mode .dialog-content{font-size:14px}
+ /* 주간 시간표(휴대폰) */
+ body.app-mode .wkm-tab{font-size:13px!important;font-weight:600!important}
+ body.app-mode .wkm-tab small{font-size:10.5px!important}
+ body.app-mode .wkm-time{font-size:12.5px!important;font-weight:600!important}
+ body.app-mode .wkm-names .weekly-chip{font-size:13px!important}
+ body.app-mode .wkm-add{font-size:16px!important}
+ /* 보강·결석 달력 */
+ body.app-mode .hm-month span,body.app-mode .abs-nav strong{font-size:13px!important}
+ body.app-mode .abs-day,body.app-mode .abs-day span{font-size:12.5px!important}
+ body.app-mode .big-day-num{font-size:11.5px!important}
+ body.app-mode .mk-legend span{font-size:11.5px!important}
+ body.app-mode .calendar-weekday{font-size:11px!important}
+ /* 표·버튼·탭·공용 */
+ body.app-mode .btn{font-size:12.5px!important}
+ body.app-mode .seg-tab,body.app-mode .seg-tab span,body.app-mode .seg-tab b{font-size:12.5px!important}
+ body.app-mode main tr td,body.app-mode main td strong{font-size:13px!important}
+ body.app-mode main tr th{font-size:12px!important}
+ body.app-mode .empty-cell,body.app-mode .subtitle,body.app-mode .notice span,body.app-mode .section-note span,body.app-mode main .time{font-size:13px!important}
+ body.app-mode .pill{font-size:11.5px!important}
+ body.app-mode .wk-head strong,body.app-mode .tf-option span,body.app-mode .dq-opt{font-size:13px!important}
+ body.app-mode .wq-title{font-size:13.5px!important}
+ body.app-mode main summary b{font-size:13.5px!important}
+ /* 전체 */
+ body.app-mode .aa-head{padding:calc(12px + env(safe-area-inset-top,0px)) 16px 14px}
+ body.app-mode .aa-top h2{font-size:18px;font-weight:700}
+ body.app-mode .aa-me{margin:10px 0 12px}
+ body.app-mode .aa-me .avatar{width:30px;height:30px;font-size:12.5px}
+ body.app-mode .aa-me strong{font-size:14.5px}
+ body.app-mode .aa-me small{font-size:11.5px}
+ body.app-mode .aa-write{height:32px;padding:0 12px;font-size:12.5px}
+ body.app-mode .aa-search{height:42px}
+ body.app-mode .aa-body{grid-template-columns:92px minmax(0,1fr)}
+ body.app-mode .aa-cat{padding:14px 12px;font-size:12.5px}
+ body.app-mode .aa-minor{font-size:12px;padding:9px 12px}
+ body.app-mode .aa-sec h3{font-size:15.5px;font-weight:700}
+ body.app-mode .aa-grp{font-size:11px}
+ body.app-mode .aa-item{padding:12px 11px;font-size:13.5px;gap:10px}
+ body.app-mode .aa-item .icon{width:18px;height:18px}
+ body.app-mode .aa-item em{font-size:10.5px}
+ /* 메모 */
+ body.app-mode .am-head h2{font-size:19px!important}
+ body.app-mode .am-act .memo-status{font-size:11.5px}
+ body.app-mode .am-btn{height:34px;padding:0 14px;font-size:12.5px}
+ body.app-mode .app-memo .am-paper,body.app-mode .app-memo:not(.editing) .am-paper{font-size:14.5px!important;line-height:1.8!important;padding:16px 16px 36px!important;border-radius:18px!important}
+ body.app-mode .app-memo.editing .am-bar{height:56px;border-radius:20px}
+ body.app-mode .am-bar .memo-tool{height:40px;min-width:40px;font-size:14px}
+ body.app-mode .am-done{height:40px;font-size:12.5px}
+ /* 아래 탭 */
+ body.app-mode .app-tabs{height:62px;border-radius:24px}
+ body.app-mode .at-pw{width:52px;height:31px}
+ body.app-mode .at-tab .icon{width:21px;height:21px}
+ body.app-mode .at-tab{font-size:10.5px}
+ body.app-mode .at-tab.on{font-weight:600}
+ body.app-mode .content{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+ /* 입력칸: 본문과 같은 14px (확대 방지는 앱에서 maximum-scale=1로 처리) */
+ body.app-mode :is(input,textarea,select){font-size:14px}
 }
 </style>
 
@@ -3607,6 +3704,8 @@ function aaFilter(q){const all=document.getElementById('app-all');if(!all)return
 P.appChrome=function(){
  if(!window.APP_MODE||(P.live&&!P.user))return;
  document.body.classList.add('app-mode');
+ // 메모·입력칸을 누를 때 아이폰이 화면을 확대하지 않게(글자를 줄였으므로)
+ const vp=document.querySelector('meta[name=viewport]');if(vp&&!/maximum-scale/.test(vp.content))vp.content+=', maximum-scale=1';
  const tabs=APP_TABS.filter(t=>!t[3]||P.canVisit(state.role,t[0],t[3].split('/')[1])),key=tabs.map(t=>t[0]).join();
  let bar=document.getElementById('app-tabs');
  if(!bar||bar.dataset.key!==key){bar?.remove();bar=document.createElement('nav');bar.id='app-tabs';bar.className='app-tabs app-keep';bar.setAttribute('aria-label','아래 메뉴');bar.dataset.key=key;
