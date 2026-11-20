@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201554">
+  <meta name="app-build" content="202611201607">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1646,29 +1646,100 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
  .aa-item .aa-chev{width:15px;height:15px;color:#C9C2BB}
  .aa-item.soon,.aa-item.soon .icon{color:#A39B94}
  .aa-none{padding:40px 8px;text-align:center;color:#A39B94;font-size:13px}
- /* 메모 탭: 홈에 있던 메모를 한 화면 크게 */
- body.app-mode .memo-page .memo-card{min-height:calc(100dvh - 230px);border-radius:20px}
- body.app-mode .memo-page .memo-card .card-header{padding:16px 16px 8px}
- body.app-mode .memo-page .memo-card .card-header h2{font-size:21px;font-weight:800;letter-spacing:-.03em}
- body.app-mode .memo-page .memo-card .memo-body,body.app-mode .memo-page .memo-card:not(.editing) .memo-body{flex:1 1 auto;margin:6px 12px 12px;padding:16px;border-radius:16px;font-size:15px;line-height:1.85;min-height:calc(100dvh - 330px);word-break:keep-all;overflow-wrap:anywhere;transition:border-color .25s,box-shadow .25s,background-color .25s}
- body.app-mode .memo-page .memo-card:not(.editing) .memo-body{background:#FBF9F5}
- body.app-mode .memo-page .memo-card.editing .memo-body{background:#fff;border-color:#3D2B1F;box-shadow:0 0 0 4px rgba(61,43,31,.08)}
- body.app-mode .memo-page .memo-card.editing .memo-toolbar{position:fixed;left:12px;right:12px;bottom:calc(10px + max(env(safe-area-inset-bottom,0px),var(--kb,0px)));z-index:95;height:58px;flex-wrap:nowrap;gap:2px;padding:0 10px;overflow-x:auto;scrollbar-width:none;border:0;border-radius:20px;background:#3D2B1F;box-shadow:0 10px 30px rgba(40,25,15,.28);animation:at-bar .38s cubic-bezier(.32,.72,0,1) both}
- body.app-mode .memo-page .memo-card.editing .memo-toolbar::-webkit-scrollbar{display:none}
- @keyframes at-bar{from{transform:translateY(150%)}to{transform:none}}
- body.app-mode .memo-page .memo-tool{flex:none;height:40px;min-width:40px;border:0;border-radius:12px;background:none;color:#fff;font-size:14px}
- body.app-mode .memo-page .memo-tool:active{background:rgba(255,255,255,.16)}
- body.app-mode .memo-page .memo-swatch{flex:none;margin:0 5px;width:22px;height:22px;border-color:#3D2B1F;box-shadow:0 0 0 1px rgba(255,255,255,.45)}
- body.app-mode .memo-page .memo-sep{flex:none;width:1px;height:22px;margin:0 5px;background:rgba(255,255,255,.2)}
  body.app-mode .app-wkgrid{display:none}
  body.app-mode .app-wkm{display:block!important;order:0;margin-top:0}
- body.app-mode .memo-page .memo-card .card-header{flex-wrap:wrap;gap:8px}
- body.app-mode .memo-page .memo-card .card-header h2{white-space:nowrap}
- body.app-mode .memo-page .memo-head-right{flex:1;min-width:0;justify-content:flex-end}
- body.app-mode .memo-page .memo-status{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
- body.app-mode:has(.memo-page .memo-card.editing) .app-tabs{transform:translateY(150%)}
 }
 @media (max-width:900px) and (prefers-reduced-motion:reduce){body.app-mode .app-all,body.app-mode .at-pill,body.app-mode main.view-enter,.aa-rind{transition:none!important;animation:none!important}}
+/* ===== 휴대폰 앱 2차: 시안(claude.ai/artifact/BNy1MRMPdjygrSkmSMvdaQ)과 같게 — 위 머리줄·홈 상단·메모·전체 ===== */
+.app-brand{display:none}
+@media (max-width:900px){
+ body.app-mode{background:#F2F1EF}
+ body.app-mode .topbar{display:none!important}
+ body.app-mode main.content{padding-top:calc(68px + env(safe-area-inset-top,0px))!important}
+ /* 위 머리줄 */
+ body.app-mode .app-brand{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 18px 0;background:#3D2B1F;color:#fff;transition:box-shadow .25s}
+ body.app-mode .app-brand.lift{box-shadow:0 6px 18px rgba(30,18,10,.18)}
+ .ab-wm{color:#fff!important;text-decoration:none;line-height:1.1}
+ .ab-wm b{display:block;font-size:17px;font-weight:800;letter-spacing:.06em}
+ .ab-wm span{font-size:11px;color:rgba(255,255,255,.62);letter-spacing:.02em}
+ .ab-r{display:flex;align-items:center;gap:12px}
+ .ab-bell{position:relative;width:34px;height:34px;min-height:0;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none;color:#fff;transition:background-color .15s}
+ .ab-bell:active{background:rgba(255,255,255,.12)}
+ .ab-bell .icon{width:22px;height:22px;stroke-width:1.8}
+ .ab-bell i{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:#E23D7A;box-shadow:0 0 0 2px #3D2B1F}
+ .ab-ava{width:36px;height:36px;min-height:0;padding:0;border:0;border-radius:50%;background:#fff;color:#3D2B1F;font:800 15px 'Noto Sans KR',sans-serif;transition:transform .15s}
+ .ab-ava:active{transform:scale(.94)}
+ /* 아래 탭: 시안 크기 */
+ body.app-mode .app-tabs{bottom:calc(14px + env(safe-area-inset-bottom,0px));height:68px;border-radius:26px;background:rgba(255,255,255,.88);border-color:rgba(255,255,255,.9);box-shadow:0 8px 28px rgba(40,25,15,.12),0 1px 2px rgba(40,25,15,.06)}
+ body.app-mode .at-tab{gap:3px}
+ body.app-mode .at-pw{width:58px;height:34px}
+ /* 페이지 제목: 시안처럼 금색 영문 한 줄 + 굵은 제목, 설명·왼쪽 막대 없음 */
+ body.app-mode .page-heading{height:auto!important;min-height:0!important;padding:0 4px;margin:0 0 4px}
+ body.app-mode .page-heading>div:first-child{padding-left:0}
+ body.app-mode .page-heading>div:first-child::before{display:none}
+ body.app-mode .page-heading .eyebrow{font-size:11px;letter-spacing:.14em;color:#B08D57;margin:0 0 2px}
+ body.app-mode .page-heading h1{font-size:21px;letter-spacing:-.03em}
+ body.app-mode .page-heading .lead{display:none}
+ /* 홈 상단 */
+ body.app-mode .m-hero.app-hero{margin:-16px -16px 0!important;padding:14px 20px 52px!important;border-radius:0!important;background:#3D2B1F!important;box-shadow:none!important;color:#fff}
+ .app-hero .ah-hello{margin:0;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#fff}
+ .app-hero .ah-date{margin:6px 0 0;font-size:13px;color:rgba(255,255,255,.66)}
+ .app-hero .ah-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px}
+ .app-hero .ah-tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 10px 9px}
+ .app-hero .ah-tile small{display:block;font-size:11px;color:rgba(255,255,255,.62)}
+ .app-hero .ah-tile b{font-size:20px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+ .app-hero .ah-tile em{font-style:normal;font-size:12px;font-weight:500;margin-left:2px;color:rgba(255,255,255,.75)}
+ .app-hero .push-nudge,.app-hero [class*="nudge"]{margin-top:14px}
+ body.app-mode .ah-sheet{position:relative;display:grid;gap:12px;margin:-30px -16px 0;padding:14px 14px 0;background:#F2F1EF;border-radius:26px 26px 0 0}
+ .ah-quick{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:16px 6px 14px;margin:0;border-radius:20px}
+ .ah-q{display:grid;justify-items:center;gap:8px;min-height:0;padding:4px 0;border:0;background:none;border-radius:14px;font:500 12.5px 'Noto Sans KR',sans-serif;color:#1E1915;transition:transform .15s cubic-bezier(.2,.8,.2,1)}
+ .ah-q:active{transform:scale(.92)}
+ .ah-q span{width:46px;height:46px;border-radius:15px;background:#F1ECE7;color:#3D2B1F;display:grid;place-items:center}
+ .ah-q svg{width:22px;height:22px}
+ .ah-notice{display:flex;align-items:center;gap:12px;width:100%;min-height:0;margin:0;padding:14px 16px;border-radius:20px;text-align:left;font:inherit;color:#1E1915;transition:transform .15s,background-color .15s}
+ .ah-notice:active{transform:scale(.98);background:#FBFAF9}
+ .ah-notice .ah-bar{width:3px;align-self:stretch;border-radius:2px;background:#B08D57}
+ .ah-notice .ah-nt{flex:1;min-width:0;display:grid}
+ .ah-notice b{font-size:14.5px;font-weight:700}
+ .ah-notice b em{font-style:normal;color:#B08D57}
+ .ah-notice small{font-size:12.5px;color:#6F6760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .ah-notice .icon{width:20px;height:20px;color:#A39B94}
+ body.app-mode .home-wkm{margin-top:12px}
+ /* 전체: 시안 머리 · 소분류 */
+ .aa-write{margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;border-radius:11px;background:#fff;color:#3D2B1F!important;text-decoration:none;font-size:13px;font-weight:700;transition:transform .15s}
+ .aa-write:active{transform:scale(.95)}
+ .aa-write .icon{width:16px;height:16px}
+ .aa-sec{padding-top:14px}
+ .aa-sec h3{margin:0 4px 4px;font-size:17px}
+ .aa-grp{margin:12px 6px 6px;font-size:11.5px;font-weight:600;color:#A39B94}
+ .aa-cat{padding:15px 14px}
+ body.app-mode .aa-body{grid-template-columns:100px minmax(0,1fr)}
+ .aa-minor{padding:10px 14px}
+ /* 메모 탭 */
+ body.app-mode .app-memo{height:auto!important;min-height:0;display:grid;grid-template-rows:auto 1fr;gap:12px;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+ .am-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:0 4px}
+ .am-head .eyebrow{display:block;margin:0;font-size:11px;font-weight:700;letter-spacing:.14em;color:#B08D57}
+ .am-head h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.03em;color:#1E1915}
+ .am-act{display:flex;align-items:center;gap:10px;min-width:0}
+ .am-act .memo-status{font-size:12px;color:#A39B94;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .am-btn{flex:none;height:36px;min-height:0;padding:0 16px;border:1px solid #E8E4E0;border-radius:12px;background:#fff;color:#1E1915;font:700 13.5px 'Noto Sans KR',sans-serif;transition:transform .15s,background-color .2s,color .2s,border-color .2s}
+ .am-btn:active{transform:scale(.94)}
+ .am-btn.primary{background:#3D2B1F;border-color:#3D2B1F;color:#fff}
+ body.app-mode .app-memo .am-paper,body.app-mode .app-memo:not(.editing) .am-paper{margin:0!important;min-height:calc(100dvh - 280px);max-height:none!important;padding:18px 18px 40px!important;border:1px solid #E9E1D6!important;border-radius:20px!important;background:#FBF9F5!important;box-shadow:none;font-size:15px;line-height:1.85;color:#1E1915;word-break:keep-all;overflow-wrap:anywhere;outline:0;transition:border-color .25s,box-shadow .25s,background-color .25s}
+ body.app-mode .app-memo.editing .am-paper{border-color:#3D2B1F!important;box-shadow:0 0 0 4px rgba(61,43,31,.08)!important;background:#fff!important}
+ body.app-mode .app-memo:not(.editing) .am-bar{display:none!important}
+ body.app-mode .app-memo.editing .am-bar{position:fixed;left:12px;right:12px;bottom:calc(14px + max(env(safe-area-inset-bottom,0px),var(--kb,0px)));z-index:95;height:60px;display:flex!important;flex-wrap:nowrap;align-items:center;gap:4px;margin:0;padding:0 8px;border:0;border-radius:22px;background:#3D2B1F;box-shadow:0 10px 30px rgba(40,25,15,.28);animation:am-up .38s cubic-bezier(.32,.72,0,1) both}
+ @keyframes am-up{from{transform:translateY(150%)}to{transform:none}}
+ body.app-mode .am-bar .memo-tool{display:grid;place-items:center;height:42px;min-width:42px;padding:0 10px;border:0;border-radius:13px;background:none;color:#fff;font-size:15px;transition:background-color .15s,transform .15s}
+ body.app-mode .am-bar .memo-tool:hover{background:none;border:0}
+ body.app-mode .am-bar .memo-tool:active{background:rgba(255,255,255,.16);transform:scale(.92)}
+ body.app-mode .am-bar .memo-tool svg{width:20px;height:20px}
+ .am-hl{display:block;width:22px;height:16px;border-radius:4px;background:#BAE6FD}
+ body.app-mode .am-bar .memo-sep{width:1px;height:22px;margin:0 4px;background:rgba(255,255,255,.18)}
+ .am-done{margin-left:auto;height:42px;min-height:0;padding:0 16px;border:0;border-radius:13px;background:#fff;color:#3D2B1F;font:700 13.5px 'Noto Sans KR',sans-serif}
+ .am-done:active{background:#F1ECE7}
+ body.app-mode:has(.app-memo.editing) .app-tabs{transform:translateY(150%)}
+}
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -1721,6 +1792,7 @@ Piano.icon=function(name,cls=''){
  arrow:'<path d="M5 12h14m-5-5 5 5-5 5"/>',chevron:'<path d="m9 5 7 7-7 7"/>',bell:'<path d="M5 17h14l-2-4V8a5 5 0 0 0-10 0v5zm5 3h4"/>',
  check:'<path d="m5 12 4 4L19 6"/>',card:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/>',plus:'<path d="M12 5v14M5 12h14"/>',menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',close:'<path d="m6 6 12 12M6 18 18 6"/>',
  note:'<path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="2"/><ellipse cx="17" cy="16" rx="3" ry="2"/>',search:'<circle cx="10" cy="10" r="6"/><path d="m15 15 6 6"/>',
+ calPlus:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4m8-4v4M3 10h18m-9 3v5m-2.5-2.5h5"/>',userPlus:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20v-1.5a6 6 0 0 1 12 0V20M19 8v6m-3-3h6"/>',idCard:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="11" r="2"/><path d="M6 16a3 3 0 0 1 6 0m3-6h3m-3 3h3"/>',bars:'<path d="M4 20V10m6 10V4m6 16v-7m4 7H3"/>',won:'<path d="m4 6 3.5 12L12 7l4.5 11L20 6M3 11h18"/>',moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5"/>',trend:'<path d="m3 17 6-6 4 4 8-8m-5 0h5v5"/>',mega:'<path d="m3 10 14-5v14L3 14zm4 4.5 1.5 5h3l-1.3-4"/>',funnel:'<path d="M3 5h18l-7 8v6l-4 2v-8z"/>',star:'<path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.3L12 16l-4.9 2.6 1.1-5.3-4-3.7 5.4-.6z"/>',pin:'<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11"/><circle cx="12" cy="10" r="2.2"/>',music:'<path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',key:'<circle cx="8" cy="15" r="4"/><path d="m11 12 9-9m-3 3 3 3m-6 0 2 2"/>',
  memo:'<path d="M5 4h14v11l-5 5H5z"/><path d="M14 20v-5h5M8.5 9h7m-7 3.5h4"/>',doc:'<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5m-5 4h5"/>',
  leaf:'<path d="M5 20C0 6 14 3 21 3c0 12-4 18-13 15M5 21 16 9"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/>'};
  return `<svg class="icon ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]||paths.note}</svg>`;
@@ -1967,6 +2039,14 @@ P.mobileHero=function(todayCount){
   const step=t=>{const k=Math.min((t-t0)/dur,1);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step);};el.textContent='0';requestAnimationFrame(step);}),380);
  const stat=(label,n,i)=>`<div class="mh-stat" style="--i:${i}"><span>${label}</span><b data-count="${n}">${n}</b></div>`;
  const _n='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M9 18V5l11-2v13"/><ellipse cx="6" cy="18" rx="3" ry="2.2"/><ellipse cx="17" cy="16" rx="3" ry="2.2"/></svg>';
+ if(window.APP_MODE){
+  const cs=P.consultsOn?P.consultsOn(today):[],due=P.data.reportDue?.count||0,canCs=P.user.role==='director'||P.user.vice;
+  const tile=(label,n,unit,i)=>`<div class="ah-tile" style="--i:${i}"><small>${label}</small><b><span data-count="${n}">${n}</span><em>${unit}</em></b></div>`;
+  const qi={absent:'<path d="M8 3v4m8-4v4M3 10h18m-11 3 4 4m0-4-4 4"/><rect x="3" y="5" width="18" height="16" rx="3"/>',makeup:'<path d="M8 3v4m8-4v4M3 10h18m-9 3v5m-2.5-2.5h5"/><rect x="3" y="5" width="18" height="16" rx="3"/>',consult:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',memo:'<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>'};
+  const q=(mode,label)=>`<button type="button" class="ah-q" data-app-quick="${mode}"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${qi[mode]}</svg></span>${label}</button>`;
+  const notice=cs.length?`<button type="button" class="card ah-notice" data-cs-open="${e(cs[0].id)}"><span class="ah-bar"></span><span class="ah-nt"><b>오늘 상담 <em>${cs.length}건</em></b><small>${e([cs[0].time,cs[0].name].filter(Boolean).join(' '))}${cs.length>1?` 외 ${cs.length-1}건`:''}</small></span>${ic('arrow')}</button>`:'';
+  return `<section class="m-hero app-hero${first?' anim':''}" aria-label="오늘 요약"><h2 class="ah-hello">${e(P.user.name.replace(/\s*부원장$/,''))} ${P.honor()}, 안녕하세요</h2><p class="ah-date">${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${WD[d.getUTCDay()]||'일'}요일${due?` · 이번 주 리포트 ${due}명 남음`:''}</p><div class="ah-tiles">${tile('오늘 수업',todayCount,'명',0)}${tile('결석',absent,'명',1)}${tile('보강',makeup,'건',2)}${tile('상담',cs.length,'건',3)}</div>${P.pushNudge()}</section><div class="ah-sheet"><div class="card ah-quick">${q('absent','결석 등록')}${q('makeup','보강 등록')}${canCs?q('consult','상담 등록'):''}${q('memo','날짜 메모')}</div>${notice}</div>`;
+ }
  return `<section class="m-hero${first?' anim':''}" aria-label="오늘 요약"><span class="mh-aurora" aria-hidden="true"></span><p class="mh-date">${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${WD[d.getUTCDay()]||'일'}요일</p><p class="mh-hello" aria-hidden="true"><strong>${e(P.user.name)}</strong> ${P.honor()}, 반가워요</p>
  <div class="mh-stats">${stat('오늘 수업',todayCount,0)}${stat('오늘 결석',absent,1)}${stat('오늘 보강',makeup,2)}</div>${P.pushNudge()}<span class="mh-shine" aria-hidden="true"></span></section>`;
 };
@@ -2203,6 +2283,10 @@ P.memoCard=function(){
  const bar=`<div class="memo-toolbar" role="toolbar" aria-label="메모 서식">${tool('bold','<b>B</b>','굵게')}${tool('italic','<i>I</i>','기울임')}${tool('underline','<u>U</u>','밑줄')}${tool('strikeThrough','<s>S</s>','취소선')}<span class="memo-sep"></span>${swatch('foreColor','#111827','글자색 검정')}${swatch('foreColor','#DC2626','글자색 빨강')}${swatch('foreColor','#2563EB','글자색 파랑')}${swatch('foreColor','#16A34A','글자색 초록')}<span class="memo-sep"></span>${swatch('hiliteColor','#FEF08A','형광펜 노랑')}${swatch('hiliteColor','#FBCFE8','형광펜 분홍')}${swatch('hiliteColor','#BAE6FD','형광펜 하늘')}<span class="memo-sep"></span>${tool('insertUnorderedList','• 목록','목록')}${tool('removeFormat','지우기','서식 지우기')}</div>`;
  return `<section class="card memo-card"><div class="card-header"><div><h2>메모</h2></div><div class="memo-head-right"><span class="memo-status" id="memo-status">${memoTime(P.data.memo?.updatedAt)}</span><button type="button" class="btn memo-edit memo-cancel" data-memo-cancel>취소</button><button type="button" class="btn memo-edit" data-memo-edit>편집</button></div></div>${bar}<div class="memo-body" id="memo-body" contenteditable="false" role="textbox" aria-multiline="true" aria-label="메모" data-placeholder="편집을 눌러 메모를 작성하세요.">${P.sanitizeMemo(P.data.memo?.html||'')}</div></section>`;
 };
+P.appMemo=function(){
+ const t=(cmd,inner,label,arg='')=>`<button type="button" class="memo-tool" data-memo-cmd="${cmd}"${arg?` data-memo-arg="${arg}"`:''} aria-label="${label}">${inner}</button>`;
+ return `<h1 class="sr-only">메모</h1><div class="memo-page memo-card app-memo"><div class="am-head"><div><p class="eyebrow">NOTE</p><h2>메모</h2></div><div class="am-act"><span class="memo-status" id="memo-status">${memoTime(P.data.memo?.updatedAt)}</span><button type="button" class="am-btn" data-memo-edit>편집</button></div></div><div class="memo-body am-paper" id="memo-body" contenteditable="false" role="textbox" aria-multiline="true" aria-label="메모" data-placeholder="편집을 눌러 메모를 작성하세요.">${P.sanitizeMemo(P.data.memo?.html||'')}</div><div class="memo-toolbar am-bar" role="toolbar" aria-label="메모 서식">${t('hiliteColor','<span class="am-hl"></span>','형광펜','#BAE6FD')}${t('bold','<b>B</b>','굵게')}${t('italic','<i>I</i>','기울임')}${t('underline','<u>U</u>','밑줄')}<span class="memo-sep"></span>${t('undo','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4 12l5 5M4 12h11a5 5 0 0 1 0 10h-2"/></svg>','되돌리기')}<button type="button" class="am-done" data-memo-edit>완료</button></div></div>`;
+};
 P.memoTime=memoTime;
 P.todayText=()=>{const d=new Date((P.data?.date||new Date().toISOString().slice(0,10))+'T12:00:00Z');return `${d.getUTCMonth()+1}월 ${d.getUTCDate()}일 ${'일월화수목금토'[d.getUTCDay()]}요일`;};
 // Home: makeup-lesson month calendar (click a day to register a makeup) with an upcoming-makeups side list.
@@ -2225,7 +2309,7 @@ P.liveDashboard=function(state){
 P.page=function(state){
  if(!P.live)return oldPage(state);
  if(state.group==='home')return P.liveDashboard(state);
- if(state.group==='memo')return `<h1 class="sr-only">메모</h1><div class="memo-page">${P.memoCard()}</div>`;
+ if(state.group==='memo')return P.appMemo();
  const group=P.navigation.find(g=>g.id===state.group),page=group.pages.find(p=>p[0]===state.page),key=state.group+'/'+state.page;
  const EN={'lessons/regular':'REGULAR LESSONS','lessons/makeup':'MAKEUP LESSONS','lessons/attendance':'ATTENDANCE','lessons/history':'CHANGE LOG','reports/weekly':'PARENT REPORT','students/list':'STUDENTS','students/consultations':'CONSULTATIONS','teachers/list':'TEACHERS','teachers/workload':'TEACHING LOAD','teachers/payroll':'PAYROLL','teachers/leave':'TEACHER LEAVE','marketing/content':'CONTENT CALENDAR','marketing/campaigns':'CAMPAIGNS','marketing/funnel':'FUNNEL','marketing/reviews':'REVIEWS','finance/summary':'MONTHLY P&L','finance/expenses':'INCOME · EXPENSES','finance/analysis':'ANALYSIS','operations/notifications':'AUTO NOTICES','operations/notices':'NOTICES','operations/events':'EVENTS','settings/accounts':'ACCOUNTS','settings/hours':'HOURS'};
  const DESC={'lessons/regular':'요일별 정규 수업 시간표에서 학생을 배정하고 옮겨요.','lessons/makeup':'보강 일정을 주간·월간으로 보고, 빈 칸을 눌러 바로 등록해요.','lessons/attendance':'수업별 출결을 확인하고 결석·보강을 이어서 처리해요.','lessons/history':'선생님들이 수업을 등록·변경한 기록을 확인해요.','reports/weekly':'학생마다 이번 주 레슨 이야기를 써서 카톡 카드로 보내고, 보냄·열람을 확인해요.','students/list':'재원 학생과 수강 조건을 관리해요. 수업 요일은 정규 수업 시간표에서 정해요.','settings/accounts':'원장 계정과 로그인 권한을 관리해요.','operations/notices':'학원 소식과 공지를 올리고 함께 확인해요.','teachers/list':'강사 기본 정보와 담당 과목, 로그인 계정을 관리해요.'};
@@ -2893,7 +2977,7 @@ P.openViewAs=function(){
  P.showDialog('강사 화면 보기',`<div class="view-as-list"><p class="view-as-intro">선택한 강사 계정으로 로그인한 것처럼 화면이 바뀌어요. 등록·수정은 원장 이름으로 기록돼요.</p>${option('',real.user.name+' 원장님','원장 화면 · 전체 관리')}<p class="view-as-group">강사 ${teachers.length}명</p>${teachers.map(t=>option(t.id,t.name.replace(/\s*부원장$/,'')+(t.vice?' 부원장님':' 선생님'),t.vice?'부원장 · 전체 관리':`담당 학생 ${count(t.id)}명`,P.teacherColor(t.id))).join('')||'<p class="empty-cell">로그인 계정이 있는 강사가 없습니다.</p>'}</div>`,'view');
 };
 // Home memo: 편집 opens the formatting toolbar; 저장 saves and closes it; 취소 restores the last saved note.
-const memoMode=(card,on)=>{const body=card.querySelector('#memo-body');card.classList.toggle('editing',on);body.contentEditable=on?'true':'false';card.querySelector('[data-memo-edit]').textContent=on?'저장':'편집';card.querySelector('[data-memo-edit]').classList.toggle('primary',on);};
+const memoMode=(card,on)=>{const body=card.querySelector('#memo-body');card.classList.toggle('editing',on);body.contentEditable=on?'true':'false';card.querySelector('[data-memo-edit]').textContent=on?(card.classList.contains('app-memo')?'완료':'저장'):'편집';card.querySelector('[data-memo-edit]').classList.toggle('primary',on);};
 P.saveMemo=async function(){
  const body=document.getElementById('memo-body'),status=document.getElementById('memo-status');if(!body)return false;
  const html=P.sanitizeMemo(body.innerHTML);if(status)status.textContent='저장 중…';
@@ -2915,7 +2999,7 @@ document.addEventListener('click',event=>{
  if(!body.contains(document.getSelection()?.anchorNode))body.focus();
  document.execCommand('styleWithCSS',false,true);document.execCommand(b.dataset.memoCmd,false,b.dataset.memoArg||null);
 });
-document.addEventListener('input',event=>{if(event.target.id!=='memo-body')return;const s=document.getElementById('memo-status');if(s)s.textContent='편집 중 · 저장을 눌러 주세요';});
+document.addEventListener('input',event=>{if(event.target.id!=='memo-body')return;const s=document.getElementById('memo-status');if(s)s.textContent=s.closest('.app-memo')?'편집 중':'편집 중 · 저장을 눌러 주세요';});
 // Full-screen loading cover (outside #app so re-renders keep it). Returns a function that hides it after a short minimum so it never just flashes.
 P.showLoading=function(text){
  let el=document.getElementById('app-loading');
@@ -3488,14 +3572,35 @@ function render(){
 const APP_TABS=[['home','홈','home','#home/overview'],['lessons','수업','calendar','#lessons/regular'],['memo','메모','memo','#memo/board'],['reports','리포트','doc','#reports/weekly'],['all','전체','menu','']];
 let aaSpyLock=0;
 const aaGroups=()=>P.navigation.filter(g=>!(g.id==='reports'&&P.user?.vice)&&(g.roles.includes(state.role)||g.id==='students'&&P.user?.vice));
+// 전체 메뉴 구성(시안 그대로): 분류 → 소분류 → 메뉴(경로, 아이콘, 이름 바꿀 때만 세 번째 값). 권한 없는 메뉴·빈 분류는 빠져요.
+const AA_MENU=[
+ ['lesson','수업',[['수업 운영',[['lessons/regular','calendar','시간표'],['lessons/makeup','calPlus'],['lessons/attendance','check'],['lessons/history','clock']]]]],
+ ['report','리포트',[['보내기',[['reports/weekly','doc']]]]],
+ ['student','학생·상담',[['학생',[['students/list','students'],['students/consultations','userPlus']]]]],
+ ['teacher','강사',[['강사',[['teachers/list','idCard'],['teachers/workload','bars'],['teachers/payroll','won'],['teachers/leave','moon']]]]],
+ ['biz','경영·홍보',[['학원 경영',[['finance/summary','trend'],['finance/expenses','won'],['finance/analysis','bars']]],['마케팅',[['marketing/content','calendar'],['marketing/campaigns','mega'],['marketing/funnel','funnel'],['marketing/reviews','star']]]]],
+ ['ops','운영·설정',[['운영',[['operations/notifications','bell'],['operations/notices','pin'],['operations/events','music']]],['설정',[['settings/accounts','key'],['settings/hours','clock']]]]]
+];
 function aaHtml(me){
- const director=me.role==='director',gs=aaGroups();
- const rail=gs.map((g,i)=>`<button type="button" class="aa-cat${i?'':' on'}" data-aa-cat="${g.id}">${e(g.label)}</button>`).join('');
- const pane=gs.map(g=>{const items=g.pages.filter(p=>P.canVisit(state.role,g.id,p[0])).map(p=>{const ready=g.id==='home'||P.readyPages.includes(g.id+'/'+p[0]);return `<a class="aa-item${ready?'':' soon'}" href="#${g.id}/${p[0]}" data-aa-label="${e(g.label+' '+p[1])}">${ic(g.icon)}<span>${e(p[1])}</span>${ready?'':'<em>준비</em>'}${ic('chevron','aa-chev')}</a>`;}).join('');
-  return items?`<section class="aa-sec" data-aa-sec="${g.id}"><h3>${e(g.label)}</h3><div class="aa-list">${items}</div></section>`:'';}).join('');
- const viewAs=P.live&&director&&!me.vice?`<button type="button" class="aa-viewas" data-view-as-open>${P.viewAs?e(P.user.name)+' 화면 보는 중':'다른 사람 화면'}</button>`:'';
- return `<div class="aa-head"><div class="aa-top"><h2>전체</h2><button type="button" class="aa-icon" data-action="notices" aria-label="학원 소식">${ic('bell')}</button></div><div class="aa-me"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><strong>${e(me.name||'')}</strong><small>${me.vice?'부원장':director?'원장':'강사'}</small>${viewAs}</div><label class="aa-search">${ic('search')}<input id="aa-q" type="search" placeholder="메뉴 찾기 (예: 보강, 출결, 리포트)" autocomplete="off" aria-label="메뉴 찾기"></label></div><div class="aa-body"><nav class="aa-rail" aria-label="분류"><span class="aa-rind" aria-hidden="true"></span>${rail}<hr>${P.live?`<button type="button" class="aa-minor" data-live-action="push">알림 설정</button><button type="button" class="aa-minor" data-live-action="password">비밀번호 변경</button><button type="button" class="aa-minor out" data-live-action="logout">로그아웃</button>`:''}</nav><div class="aa-pane" id="aa-pane">${pane}<p class="aa-none" hidden>찾는 메뉴가 없어요</p></div></div>`;
+ const director=me.role==='director',real=P.live&&director&&!me.vice;
+ const label=r=>{const [g,p]=r.split('/');return P.navigation.find(x=>x.id===g)?.pages.find(x=>x[0]===p)?.[1]||r;};
+ const cats=AA_MENU.map(([id,name,subs])=>{const body=subs.map(([sub,items])=>{const vis=items.filter(([r])=>{const [g,p]=r.split('/');return P.canVisit(state.role,g,p);});
+   return vis.length?`<p class="aa-grp">${e(sub)}</p><div class="aa-list">${vis.map(([r,icon,name2])=>{const ready=P.readyPages.includes(r),l=name2||label(r);return `<a class="aa-item${ready?'':' soon'}" href="#${r}" data-aa-label="${e(name+' '+sub+' '+l)}">${ic(icon)}<span>${e(l)}</span>${ready?'':'<em>준비</em>'}${ic('chevron','aa-chev')}</a>`;}).join('')}</div>`:'';}).join('');
+  return body?{id,name,html:`<section class="aa-sec" data-aa-sec="${id}"><h3>${e(name)}</h3>${body}</section>`}:null;}).filter(Boolean);
+ const rail=cats.map((c,i)=>`<button type="button" class="aa-cat${i?'':' on'}" data-aa-cat="${c.id}">${e(c.name)}</button>`).join('');
+ const viewAs=real?(P.viewAs?'<button type="button" class="aa-minor" data-view-as-exit>원장 화면으로<br>돌아가기</button>':'<button type="button" class="aa-minor" data-view-as-open>강사 화면<br>미리 보기</button>'):'';
+ const pen='<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>';
+ return `<div class="aa-head"><div class="aa-top"><h2>전체</h2><button type="button" class="aa-icon" data-action="notices" aria-label="학원 소식">${ic('bell')}</button></div><div class="aa-me"><span class="avatar">${e(String(me.name||'').slice(0,1))}</span><strong>${e(String(me.name||'').replace(/\s*부원장$/,''))}</strong><small>${me.vice?'부원장':director?'원장':'강사'}</small><a class="aa-write" href="#operations/notices">${pen}공지 쓰기</a></div><label class="aa-search">${ic('search')}<input id="aa-q" type="search" placeholder="메뉴 찾기 (예: 보강, 출결, 리포트)" autocomplete="off" aria-label="메뉴 찾기"></label></div><div class="aa-body"><nav class="aa-rail" aria-label="분류"><span class="aa-rind" aria-hidden="true"></span>${rail}<hr>${viewAs}${P.live?`<button type="button" class="aa-minor" data-live-action="push">알림 설정</button><button type="button" class="aa-minor" data-live-action="password">비밀번호 변경</button><button type="button" class="aa-minor out" data-live-action="logout">로그아웃</button>`:''}</nav><div class="aa-pane" id="aa-pane">${cats.map(c=>c.html).join('')}<p class="aa-none" hidden>찾는 메뉴가 없어요</p></div></div>`;
 }
+// 위 머리줄(시안의 초콜릿 바): 워드마크 · 학원 소식 · 내 이니셜(누르면 전체)
+function abHtml(me){const due=P.live&&P.data?.reportDue?.count;return `<a class="ab-wm" href="#home/overview" aria-label="홈으로"><b>ALWAYS</b><span>언제나 음악학원</span></a><div class="ab-r"><button type="button" class="ab-bell" data-action="notices" aria-label="학원 소식">${ic('bell')}${due?'<i></i>':''}</button><button type="button" class="ab-ava" data-app-all aria-label="전체 메뉴">${e(String(me.name||'').slice(0,1))}</button></div>`;}
+addEventListener('scroll',()=>{document.getElementById('app-brand')?.classList.toggle('lift',scrollY>4);},{passive:true});
+// 홈 빠른 버튼: 오늘 날짜로 결석·보강·상담·날짜 메모 팝업을 바로 열기
+app.addEventListener('click',ev=>{
+ const q=ev.target.closest('[data-app-quick]');
+ if(q){const mode=q.dataset.appQuick;P.absQuick(q,P.data.date);const pop=document.querySelector('.wq-pop');if(pop&&mode!=='absent'){pop.dataset.mode=mode;P.swapDayForm(pop);}return;}
+ if(ev.target.closest('[data-app-all]')&&!state.drawer){P.histPush('drawer');state.drawer=true;updateDrawer();}
+});
 function aaMarkTabs(){const bar=document.getElementById('app-tabs');if(!bar)return;const cur=state.drawer?'all':APP_TABS.some(t=>t[3]&&t[0]===state.group)?state.group:'all';bar.querySelectorAll('.at-tab').forEach(t=>{const on=t.dataset.tab===cur;t.classList.toggle('on',on);if(on)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});}
 function aaRailTo(b){const all=document.getElementById('app-all');if(!b||!all)return;all.querySelectorAll('.aa-cat').forEach(x=>x.classList.toggle('on',x===b));const r=all.querySelector('.aa-rind');r.style.height=b.offsetHeight+'px';r.style.transform=`translateY(${b.offsetTop}px)`;}
 function aaFilter(q){const all=document.getElementById('app-all');if(!all)return;let any=false;all.querySelectorAll('.aa-sec').forEach(sec=>{let n=0;sec.querySelectorAll('.aa-item').forEach(it=>{const hit=!q||it.dataset.aaLabel.includes(q);it.hidden=!hit;if(hit)n++;});sec.hidden=!n;if(n)any=true;});all.querySelector('.aa-none').hidden=any;all.classList.toggle('searching',!!q);}
@@ -3507,6 +3612,7 @@ P.appChrome=function(){
  if(!bar||bar.dataset.key!==key){bar?.remove();bar=document.createElement('nav');bar.id='app-tabs';bar.className='app-tabs app-keep';bar.setAttribute('aria-label','아래 메뉴');bar.dataset.key=key;
   bar.innerHTML=tabs.map(([id,label,icon,href])=>`${href?`<a href="${href}"`:'<button type="button"'} class="at-tab" data-tab="${id}"><span class="at-pw"><span class="at-pill"></span>${ic(icon)}</span><span class="at-l">${label}</span>${href?'</a>':'</button>'}`).join('');app.appendChild(bar);}
  const me=(P.realSession||{}).user||P.user||{name:'',role:state.role},ak=[state.role,P.user?.id,P.user?.vice,P.viewAs||'',me.name,P.live].join('|');
+ let brand=document.getElementById('app-brand');if(!brand){brand=document.createElement('header');brand.id='app-brand';brand.className='app-brand app-keep';app.appendChild(brand);}brand.innerHTML=abHtml(P.user||me);brand.classList.toggle('lift',scrollY>4);
  let all=document.getElementById('app-all');
  if(!all||all.dataset.key!==ak){all?.remove();all=document.createElement('section');all.id='app-all';all.className='app-all app-keep';all.dataset.key=ak;all.setAttribute('aria-label','전체 메뉴');all.inert=true;all.innerHTML=aaHtml(me);app.appendChild(all);}
  aaMarkTabs();
