@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201419">
+  <meta name="app-build" content="202611201515">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1410,6 +1410,66 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp-flag.heart{background:#FBEFF1;color:#B2405A}
 .rp-react{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 10px;border-radius:99px;background:#FBEFF1;color:#B2405A;font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rp-react small{color:#C77D8E;font-weight:500}
+/* 3단계: 학생별 리포트 기록 · 최근 8주 발송 현황 */
+.rp-hist{margin-top:16px}
+.rp-hist .rp-lab small{font-weight:500;color:var(--r-faint);margin-left:4px}
+.rp-hist ol{list-style:none;margin:8px 0 0;padding:0;max-height:260px;overflow:auto;border-top:1px solid #EFEBE6}
+.rp-hist li button{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;padding:9px 6px;border:0;border-bottom:1px solid #EFEBE6;background:none;text-align:left;font:inherit;cursor:pointer;transition:background-color .12s}
+.rp-hist li button:hover{background:#FAF7F3;box-shadow:inset 2px 0 0 var(--r-choc)}
+.rp-hist .d{font-size:12px;font-weight:700;color:#9A7A4A;font-variant-numeric:tabular-nums}
+.rp-hist .s{font-size:12.5px;color:var(--r-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-hist .f{display:flex;gap:4px}
+.rp-hist .rp-flag{font-size:10.5px;padding:1px 6px}
+.rp-stats{margin-top:16px;padding:0;overflow:hidden}
+.rp-stats>summary{display:flex;align-items:baseline;gap:10px;padding:14px 18px;cursor:pointer;list-style:none}
+.rp-stats>summary::-webkit-details-marker{display:none}
+.rp-stats>summary b{font-size:14.5px}.rp-stats>summary small{color:var(--r-faint);font-size:12px}
+.rp-stats>summary::after{content:"";margin-left:auto;width:12px;height:12px;align-self:center;background:linear-gradient(currentColor,currentColor) center/12px 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 12px no-repeat;color:var(--r-ink);transition:background-size .22s ease,transform .22s ease}
+.rp-stats[open]>summary::after{background-size:12px 1.5px,1.5px 0;transform:rotate(180deg)}
+.rp-stats[open]>summary{border-bottom:1px solid #EFEBE6}
+.rp-statrows{display:grid;gap:0;padding:6px 18px}
+.rp-statrow{display:grid;grid-template-columns:110px minmax(0,1fr) 120px 140px;gap:14px;align-items:center;padding:9px 0;border-bottom:1px solid #F3EFEA;font-size:13px}
+.rp-statrow .w{font-weight:700}
+.rp-statrow .bar{height:10px;background:#F3EFE9;border-radius:5px;overflow:hidden}
+.rp-statrow .bar i{display:block;height:100%;background:#E6DCCD;border-radius:5px}
+.rp-statrow .bar b{display:block;height:100%;background:var(--r-choc);border-radius:5px}
+.rp-statrow .n b{font-size:14px}
+.rp-statrow .m{color:var(--r-muted);font-size:12px}
+.rp-statnote{margin:0;padding:8px 18px 14px;font-size:11.5px}
+@media (max-width:760px){.rp-statrow{grid-template-columns:84px minmax(0,1fr) 90px}.rp-statrow .m{grid-column:2/-1}}
+/* 월말 성장 카드 */
+.rp-mode{margin:0 0 12px}
+.rp-msum{display:grid;gap:8px;padding:12px 14px;border:1px solid var(--r-line);border-radius:10px;background:#FAF8F5}
+.rp-msum .st{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.rp-msum .st span{display:flex;align-items:baseline;gap:2px;flex-wrap:wrap;padding:8px 10px;border-radius:8px;background:#fff;border:1px solid #EFEBE6;font-size:12px;color:#8A6D3E;font-weight:700}
+.rp-msum .st b{font-size:20px;color:var(--r-choc);font-weight:800}
+.rp-msum .st small{flex-basis:100%;font-size:11px;color:var(--r-faint);font-weight:600}
+.rp-msum p{margin:0;font-size:12.5px;color:var(--r-ink)}.rp-msum p em{font-style:normal;font-weight:700;color:#9A7A4A;margin-right:6px}
+.rp-msum ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.rp-msum li{font-size:12.5px;color:var(--r-ink)}.rp-msum li span{display:inline-block;min-width:40px;font-weight:700;color:#9A7A4A;font-variant-numeric:tabular-nums}
+.rp-msum p.muted{font-size:11.5px;color:var(--r-faint)}
+/* 별점 고르기 (도장 대신) */
+.rp-stars{display:inline-flex;flex-direction:row;gap:2px}
+.rp-stars label{cursor:pointer}
+.rp-stars input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.rp-stars span{display:block;font-size:26px;line-height:1;color:#E2D6C0;transition:color .12s,transform .08s;padding:2px}
+.rp-stars label:active span{transform:scale(.92)}
+.rp-stars:has(input[value="1"]:checked) label:nth-child(-n+1) span,.rp-stars:has(input[value="2"]:checked) label:nth-child(-n+2) span,.rp-stars:has(input[value="3"]:checked) label:nth-child(-n+3) span,.rp-stars:has(input[value="4"]:checked) label:nth-child(-n+4) span,.rp-stars:has(input[value="5"]:checked) label:nth-child(-n+5) span{color:#C9A15C}
+.rp-stars:hover label span{color:#E2D6C0}
+.rp-stars label:hover span,.rp-stars label:has(~label:hover) span{color:#D9B676!important}
+.rp-stars input:focus-visible+span{outline:2px solid var(--r-choc);border-radius:4px}
+.rp-line:has(.rp-stars) small{margin-left:8px;font-size:11.5px}
+.rp-starv{color:#C9A15C;letter-spacing:2px;font-size:16px}
+/* 영상 파일 첨부 */
+.rp-video{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 12px;border:1px dashed var(--r-line2);border-radius:10px;background:#FAF8F5}
+.rp-vstate{display:inline-flex;align-items:center;gap:8px;margin-right:auto;font-size:13px}
+.rp-vstate b{color:#2F7A4E;font-weight:700}
+.rp-vpick{cursor:pointer}
+.rp-vprog{display:flex;align-items:center;gap:8px;flex:1 1 200px}
+.rp-vprog i{flex:1;height:6px;border-radius:3px;background:#EAE3D8;overflow:hidden}
+.rp-vprog b{display:block;height:100%;width:0;background:var(--r-choc);transition:width .2s}
+.rp-vprog span{font-size:12px;font-weight:700;color:var(--r-muted);min-width:56px;text-align:right}
+.rp-vprog[hidden],.rp-vpick[hidden]{display:none}
 
 </style>
 
@@ -2210,8 +2270,8 @@ const callName=n=>{const g=given(n);return g+(batchim(g)?'\uc774':'');};
 const obj=(s,a,b)=>s+(batchim(s.replace(/['\u2019)\s]+$/,''))?a:b);
 const weekLabel=m=>{const t=new Date(add(m,3)+'T00:00:00Z');return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
 const longDate=d=>{const x=new Date(d+'T00:00:00Z');return `${x.getUTCMonth()+1}\uc6d4 ${x.getUTCDate()}\uc77c ${DAYS[x.getUTCDay()]}\uc694\uc77c`;};
-P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null};P.rpPhoto=P.rpPhoto||{};
-P.reportLink=t=>(window.REPORT_BASE||'https://always-music.github.io/always-piano-app/r/')+'?t='+t;
+P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null,mode:'week',month:null,mlist:null,mfilter:'todo'};P.rpPhoto=P.rpPhoto||{};
+P.reportLink=t=>(window.REPORT_BASE||'https:\/\/always-music.github.io/always-piano-app/r/')+'?t='+t;
 const days=sid=>[...new Set((P.data.weekly||[]).filter(w=>w.studentId===sid).map(w=>w.weekday))].sort();
 const students=()=>(P.data.students||[]).filter(s=>s.status==='active');
 const teacherOf=s=>(P.data.teachers||[]).find(t=>t.id===s.teacherId)?.name||'';
@@ -2220,8 +2280,8 @@ P.reportsPage=function(){
  if(!P.rp.week)P.rp.week=mon(P.data.date);
  return `<div id="rp-root"><p class="empty-cell">\ub9ac\ud3ec\ud2b8\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc785\ub2c8\ub2e4\u2026</p></div>`;
 };
-P.loadReports=async function(){if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rp.targets=r.targets||{};P.rp.kakao=r.kakao||{};P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
-P.rpRender=function(){
+P.loadReports=async function(){if(P.rp.mode==='month')return P.loadMonth();if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rp.targets=r.targets||{};P.rp.kakao=r.kakao||{};P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
+P.rpRender=function(){if(P.rp.mode==='month')return P.rpRenderMonth();
  const root=document.getElementById('rp-root');if(!root||!P.rp.list)return;const w=P.rp.week,list=P.rp.list,by={},T=P.rp.targets||{};list.forEach(r=>by[r.studentId]=r);
  const thisWeek=w===mon(P.data.date);
  const st=x=>x.r?(x.r.sentAt?'sent':'draft'):(x.t?(x.t.state==='due'?'due':x.t.state==='upcoming'?'upcoming':'absent'):'off');
@@ -2241,18 +2301,24 @@ P.rpRender=function(){
   case 'upcoming':return `<span class="rp-state wait">${dayOf(x.t.next)}\uc694\uc77c \uc218\uc5c5 \uc608\uc815</span>`;case 'absent':return '<span class="rp-state wait">\uc774\ubc88 \uc8fc \uacb0\uc11d</span>';default:return '<span class="rp-state wait">\uc218\uc5c5 \uc5c6\uc74c</span>';}};
  const row=x=>`<button type="button" class="rp-row k-${x.k}" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small>${when(x)}${P.user.role==='director'&&teacherOf(x.s)?'<span class="rp-when t">'+e(teacherOf(x.s))+'</span>':''}</small></span><span class="rp-scene">${x.r?e(x.r.scene):x.k==='due'?'<i>\uc218\uc5c5\ud588\uc5b4\uc694 \u00b7 \uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>':'<i>\u2014</i>'}</span><span class="rp-flags">${tag(x)}</span><span class="rp-chev">${ic('chevron')}</span></button>`;
  const empty=P.rp.filter==='late'?'3\uc77c \ub118\uac8c \uc548 \uc5f4\uc5b4\ubcf8 \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694.':P.rp.filter==='todo'?(target?'\uc774\ubc88 \uc8fc \ubcf4\ub0bc \ucc28\ub840\uc778 \ub9ac\ud3ec\ud2b8\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc774\ubc88 \uc8fc\uc5d0\ub294 \uc544\uc9c1 \uc218\uc5c5\ud55c \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'):P.rp.filter==='upcoming'?'\ub0a8\uc740 \uc218\uc5c5\uc774 \uc5c6\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.';
- root.innerHTML=`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
+ root.innerHTML=P.rpModeBar()+`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
  <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${target}\uba85 \ubcf4\ub0c4</span><span class="muted">\ubcf4\ub0bc \ucc28\ub840 ${cnt.due} \u00b7 \uc791\uc131\ub428 ${cnt.draft} \u00b7 \uc218\uc5c5 \uc608\uc815 ${cnt.upcoming}${cnt.absent?' \u00b7 \uacb0\uc11d '+cnt.absent:''} \u00b7 \uc5f4\uc5b4\ubd04 ${seen}${cnt.heart?' \u00b7 \u2665 \ubc18\uc751 '+cnt.heart:''}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
  ${todo?`<button type="button" class="btn primary rp-chain" data-rp-chain>\ubcf4\ub0bc \ucc28\ub840 \uc774\uc5b4\uc11c \uc4f0\uae30 <b>${todo}</b></button>`:''}
  <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\ubcf4\ub0bc \ucc28\ub840',todo)}${tab('upcoming','\uc218\uc5c5 \uc608\uc815',cnt.upcoming)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${cnt.late||P.rp.filter==='late'?tab('late','\uc548 \uc5f4\uc5b4\ubd04 3\uc77c+',cnt.late):''}${tab('all','\uc804\uccb4',rows.length)}</div><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
- <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${empty}</p>`}</section>`;
+ <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${empty}</p>`}</section><details class="card rp-stats" data-rp-stats><summary><b>\ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669</b><small>\ubcf4\ub0b8 \ube44\uc728 \u00b7 \uc5f4\uc5b4\ubd04 \u00b7 \ud559\ubd80\ubaa8 \ubc18\uc751</small></summary><div id="rp-stats-body"><p class="empty-cell">\ud604\ud669\uc744 \ubd88\ub7ec\uc624\ub294 \uc911\u2026</p></div></details>`;
 };
 // \uc774\uc5b4\uc11c \uc4f0\uae30: \ubcf4\ub0bc \ucc28\ub840 \ud559\uc0dd\uc744 \uc21c\uc11c\ub300\ub85c \u2014 \ubcf4\ub0b4\uac70\ub098 \uc800\uc7a5\ud558\uba74 \ub2e4\uc74c \ud559\uc0dd \ucc3d\uc774 \ubc14\ub85c \uc5f4\ub9bc. \ucc3d\uc744 \ub2eb\uc73c\uba74 \uba48\ucda4
-P.rpNext=function(done){const order=(P.rp.order||[]).filter(id=>id!==(P.rpCur&&P.rpCur.s.id));const next=order[0];
+P.rpNext=function(done){const order=((P.rp.mode==='month'?P.rp.morder:P.rp.order)||[]).filter(id=>id!==(P.rpCur&&P.rpCur.s.id));const next=order[0];
  if(!next){P.rp.chain=false;P.requestDialogClose?.(true);P.saving(done+' \u00b7 \uc774\ubc88 \uc8fc \ubcf4\ub0bc \ucc28\ub840\ub97c \ubaa8\ub450 \ub9c8\ucce4\uc5b4\uc694','done');return;}
- const s=students().find(x=>x.id===next);P.saving(done+' \u00b7 \ub2e4\uc74c: '+(s?s.name:''),'done');P.rpOpen(next);};
+ const s=students().find(x=>x.id===next);P.saving(done+' \u00b7 \ub2e4\uc74c: '+(s?s.name:''),'done');(P.rp.mode==='month'?P.rpOpenMonth:P.rpOpen)(next);};
 document.addEventListener('click',ev=>{const t=ev.target;
  const wk=t.closest('[data-rp-week]');if(wk){P.rp.week=add(P.rp.week,+wk.dataset.rpWeek);P.rp.list=null;document.getElementById('rp-root').innerHTML='<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>';P.loadReports();return;}
+ const hi=t.closest('[data-rp-hist]');if(hi){const sid=P.rpCur.s.id;P.rp.week=hi.dataset.rpHist;P.rp.list=null;const rt=document.getElementById('rp-root');if(rt)rt.innerHTML='<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>';P.loadReports();P.rpOpen(sid);return;}
+ const md0=t.closest('[data-rp-mode]');if(md0){P.rp.mode=md0.dataset.rpMode;P.rp.q='';const rt=document.getElementById('rp-root');if(rt)rt.innerHTML=P.rpModeBar()+'<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>';P.loadReports();return;}
+ const mf=t.closest('[data-rp-mfilter]');if(mf){P.rp.mfilter=mf.dataset.rpMfilter;P.rpRenderMonth();return;}
+ const mm=t.closest('[data-rp-mmonth]');if(mm){P.rp.month=addM(P.rp.month,+mm.dataset.rpMmonth);P.rp.mlist=null;const rt=document.getElementById('rp-root');if(rt)rt.innerHTML=P.rpModeBar()+'<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>';P.loadMonth();return;}
+ const mo=t.closest('[data-rp-mopen]');if(mo){P.rpOpenMonth(mo.dataset.rpMopen);return;}
+ if(t.closest('[data-rp-mchain]')){const first=(P.rp.morder||[])[0];if(first){P.rp.chain=true;P.rpOpenMonth(first);}return;}
  if(t.closest('[data-rp-chain]')){const first=(P.rp.order||[])[0];if(first){P.rp.chain=true;P.rpOpen(first);}return;}
  const f=t.closest('[data-rp-filter]');if(f){P.rp.filter=f.dataset.rpFilter;P.rpRender();return;}
  
@@ -2271,7 +2337,7 @@ P.rpOpen=async function(sid){
  const s=students().find(x=>x.id===sid);if(!s)return;P.modal(s.name+' \ub9ac\ud3ec\ud2b8','<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>','edit');
  try{const g=await P.api('reports.get',{studentId:sid,week:P.rp.week});P.rpCur={s,g};P.rpForm();}catch(err){document.getElementById('dialog-content').innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}
 };
-P.rpForm=function(){
+P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g.report.sentAt?P.rpMonthView():P.rpMonthForm();
  const {s,g}=P.rpCur,r=g.report,last=g.last,carry=!r&&last;if(r&&r.sentAt)return P.rpView();
  const songs=r?r.songs:carry?last.songs.filter(x=>x.state!=='done').map(x=>({title:x.title,state:'ing'})):[];
  const rec=r?r.recipient:last?last.recipient:'\uc5b4\uba38\ub2d8',call=callName(s.name),sent=r&&r.sentAt;
@@ -2280,6 +2346,7 @@ P.rpForm=function(){
  ${carry&&songs.length?`<p class="rp-carry">${ic('note')} \uc9c0\ub09c\uc8fc(${md(last.lessonDate)})\uc5d0 \uc5f0\uc2b5\ud558\ub358 \uace1\uc744 \ubd88\ub7ec\uc654\uc5b4\uc694.</p>`:''}
  <div class="rp-grid"><div class="rp-fields">
   <div class="rp-line"><label class="rp-lab" for="rp-date">\ub808\uc2a8\uc77c</label><input id="rp-date" name="lessonDate" type="date" value="${r?r.lessonDate:lessonDay(s.id,P.rp.week)}" required><span class="rp-lab">\ubc1b\ub294 \ubd84</span><div class="rp-st" role="radiogroup" aria-label="\ubc1b\ub294 \ubd84">${['\uc5b4\uba38\ub2d8','\uc544\ubc84\ub2d8','\ubcf4\ud638\uc790\ub2d8'].map(x=>`<label><input type="radio" name="recipient" value="${x}" ${rec===x?'checked':''}><span>${x}</span></label>`).join('')}</div></div>
+  ${P.rpStarPick(r?r.stars:(last&&last.stars)||5)}
   <div><div class="rp-lab">\uc774\ubc88 \uc8fc \uace1</div><div id="rp-songs">${(songs.length?songs:[undefined]).map(x=>songRow(x)).join('')}</div><button type="button" class="btn rp-add" data-rp-song-add>${ic('plus')} \uace1 \ucd94\uac00</button></div>
   <label class="rp-lab" for="rp-theory">\uc774\ub860\u00b7\uc219\uc81c</label><input id="rp-theory" name="theory" maxlength="200" value="${e(r?r.theory:carry?last.theory:'')}" placeholder="\uc608: \uc74c\uc545\uc774\ub860 3\uad8c p.24 \u00b7 \uacc4\uc774\ub984 \uac8c\uc784">
   <label class="rp-lab must" for="rp-scene">\uc624\ub298\uc758 \ud55c \uc7a5\uba74 <small>${e(call)}\uc5d0\uac8c\ub9cc \uc788\uc5c8\ub358 \uc77c \ud55c \uc904 \u00b7 \uce74\ub4dc\uc5d0 \ud06c\uac8c \ub4e4\uc5b4\uac00\uc694</small></label>
@@ -2288,9 +2355,13 @@ P.rpForm=function(){
   <label class="rp-lab" for="rp-msg">\ud3b8\uc9c0 <small>\ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub97c \ub204\ub974\uba74 \ubcf4\uc774\ub294 \uae00</small></label>
   <textarea id="rp-msg" name="message" maxlength="1500" rows="5" placeholder="${e(given(s.name)+' '+rec)}\uaed8 \uc804\ud560 \uc774\uc57c\uae30">${e(r?r.message:'')}</textarea>
   <div class="rp-chips" data-rp-target="rp-msg"><button type="button" class="rp-chip strong" data-rp-auto>\uace1 \ub0b4\uc6a9\uc73c\ub85c \ubb38\uc7a5 \ub9cc\ub4e4\uae30</button>${LINES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div>
-  <label class="rp-lab" for="rp-video">\uc5f0\uc8fc \uc601\uc0c1 \ub9c1\ud06c <small>\uc720\ud29c\ube0c '\uc77c\ubd80 \uacf5\uac1c'\ub098 \uad6c\uae00 \ub4dc\ub77c\uc774\ube0c \uacf5\uc720 \ub9c1\ud06c</small></label><input id="rp-video" name="videoUrl" type="url" maxlength="400" value="${e(r?r.videoUrl:'')}" placeholder="https://youtu.be/\u2026">
-  <label class="rp-lab" for="rp-photo">\uc624\ub298 \uc0ac\uc9c4 <small>\uce74\ub4dc \uc774\ubbf8\uc9c0\uc5d0\ub9cc \uc4f0\uace0 \uc11c\ubc84\uc5d0 \uc800\uc7a5\ud558\uc9c0 \uc54a\uc544\uc694</small></label><input id="rp-photo" type="file" accept="image/*">
- </div><div class="rp-previewcol"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas><p class="muted rp-kk"></p></div></div>
+  <div class="rp-lab">\uc5f0\uc8fc \uc601\uc0c1 <small>\ud30c\uc77c\uc744 \uace0\ub974\uba74 \ubcf4\ub0b8 \ub0a0\ubd80\ud130 2\uc8fc \ub3d9\uc548 \ubcf4\uad00\ud588\ub2e4\uac00 \uc790\ub3d9\uc73c\ub85c \uc9c0\uc6cc\uc694</small></div>
+  <div class="rp-video" data-rp-vbox><input type="hidden" id="rp-video" name="videoUrl" value="${e(r?r.videoUrl:'')}">
+   <span class="rp-vstate">${r&&r.videoUrl?'<b>\u2713 \uc601\uc0c1\uc774 \ub4e4\uc5b4\uac00 \uc788\uc5b4\uc694</b><button type="button" class="text-link" data-rp-vclear>\ube7c\uae30</button>':'<span class="muted">\uc544\uc9c1 \uc601\uc0c1\uc774 \uc5c6\uc5b4\uc694</span>'}</span>
+   <label class="btn rp-vpick"><input type="file" accept="video/\*" data-rp-vfile hidden>\ub3d9\uc601\uc0c1 \ud30c\uc77c \uace0\ub974\uae30</label>
+   <div class="rp-vprog" hidden><i><b></b></i><span>0%</span></div></div>
+  <label class="rp-lab" for="rp-photo">\uc624\ub298 \uc0ac\uc9c4 <small>\uce74\ub4dc \uc774\ubbf8\uc9c0\uc5d0\ub9cc \uc4f0\uace0 \uc11c\ubc84\uc5d0 \uc800\uc7a5\ud558\uc9c0 \uc54a\uc544\uc694</small></label><input id="rp-photo" type="file" accept="image/\*">
+ </div><div class="rp-previewcol"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas><p class="muted rp-kk"></p>${P.rpHist()}</div></div>
  <div class="rp-actions"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
  <div id="rp-sendbox"></div></form>`;
  const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
@@ -2298,9 +2369,91 @@ P.rpForm=function(){
  P.rpPreview();
 };
 function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({title:row.querySelector('[name=songTitle]').value.trim(),state:row.querySelector('input[type=radio]:checked')?.value||'ing'})).filter(x=>x.title);
- const v=n=>f.querySelector(`[name=${n}]`)?.value.trim()||'';return {songs,lessonDate:v('lessonDate'),theory:v('theory'),scene:v('scene'),message:v('message'),videoUrl:v('videoUrl'),recipient:f.querySelector('[name=recipient]:checked')?.value||'\uc5b4\uba38\ub2d8'};}
+ const v=n=>f.querySelector(`[name=${n}]`)?.value.trim()||'';return {songs,lessonDate:v('lessonDate'),theory:v('theory'),scene:v('scene'),message:v('message'),videoUrl:v('videoUrl'),stars:+(f.querySelector('[name=stars]:checked')?.value||0),recipient:f.querySelector('[name=recipient]:checked')?.value||'\uc5b4\uba38\ub2d8'};}
 
 // \ubcf4\ub0b8 \ub9ac\ud3ec\ud2b8: \uace0\uce60 \uc218 \uc5c6\uace0 \ud655\uc778\ub9cc (\uace0\uce58\ub824\uba74 \ubcf4\ub0c4 \ucde8\uc18c). \ub2e4\uc2dc \ubcf4\ub0b4\uae30\u00b7\ub9ac\ud3ec\ud2b8 \ubcf4\uae30\u00b7\uc601\uc0c1\ub3c4 \ubcf4\ub0c4 \ud45c\uc2dc\ub9cc \uac00\ub2a5
+
+// \ud559\uc0dd\ubcc4 \ub9ac\ud3ec\ud2b8 \uae30\ub85d: \uc774\ubc88 \uc8fc\ub97c \ube80 \uc9c0\ub09c \ub9ac\ud3ec\ud2b8(\ucd5c\uadfc 20\uac1c). \ub204\ub974\uba74 \uadf8 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \uc5f4\uc5b4\uc694
+P.rpHist=function(){const {s,g}=P.rpCur,cur=g.report&&g.report.id;const items=(g.history||[]).filter(h=>h.id!==cur);
+ if(!items.length)return '<div class="rp-hist"><div class="rp-lab">'+e(callName(s.name))+'\uc758 \ub9ac\ud3ec\ud2b8 \uae30\ub85d</div><p class="muted">\uc544\uc9c1 \uc9c0\ub09c \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694.</p></div>';
+ return '<div class="rp-hist"><div class="rp-lab">'+e(callName(s.name))+'\uc758 \ub9ac\ud3ec\ud2b8 \uae30\ub85d <small>'+items.length+'\uac1c</small></div><ol>'+items.map(h=>{const st=h.sentAt?(h.views?'<span class="rp-flag seen">\uc5f4\uc5b4\ubd04 '+h.views+'</span>':'<span class="rp-flag">\uc548 \uc5f4\uc5b4\ubd04</span>'):'<span class="rp-flag">\uc791\uc131\ub9cc</span>';
+  return '<li><button type="button" data-rp-hist="'+e(h.week)+'"><span class="d">'+md(h.lessonDate||h.week)+'</span><span class="s">'+e(h.scene||'\u2014')+'</span><span class="f">'+(h.reaction?'<span class="rp-flag heart">\u2665</span>':'')+st+'</span></button></li>';}).join('')+'</ol></div>';};
+// \ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669
+P.rpStats=async function(){const box=document.getElementById('rp-stats-body');if(!box||box.dataset.done)return;box.dataset.done='1';
+ try{const r=await P.api('reports.stats',{});const max=Math.max(1,...r.weeks.map(w=>w.target));
+  box.innerHTML='<div class="rp-statrows">'+r.weeks.map(w=>{const pct=w.target?Math.round(w.sent/w.target*100):0,vp=w.sent?Math.round(w.viewed/w.sent*100):0;
+   return '<div class="rp-statrow"><span class="w">'+e(weekLabel(w.week))+'</span><span class="bar"><i style="width:'+(w.target?Math.round(w.target/max*100):0)+'%"><b style="width:'+pct+'%"></b></i></span><span class="n"><b>'+w.sent+'</b> / '+w.target+'\uba85 \ubcf4\ub0c4</span><span class="m">\uc5f4\uc5b4\ubd04 '+vp+'% \u00b7 \u2665 '+w.reacted+'</span></div>';}).join('')+'</div><p class="muted rp-statnote">\ubcf4\ub0bc \ub300\uc0c1 = \uadf8 \uc8fc \uc2e4\uc81c\ub85c \uc218\uc5c5\ud55c \ud559\uc0dd(\uacb0\uc11d \uc81c\uc678). \ub9c9\ub300 \uae38\uc774\ub294 \ud559\uc0dd \uc218, \uc9c4\ud55c \ubd80\ubd84\uc740 \ubcf4\ub0b8 \ube44\uc728\uc774\uc5d0\uc694.</p>';}
+ catch(err){box.dataset.done='';box.innerHTML='<p class="empty-cell">'+e(err.message)+'</p>';}};
+
+// \u2500\u2500 \uc6d4\ub9d0 \uc131\uc7a5 \uce74\ub4dc \u2500\u2500
+const ym=d=>String(d).slice(0,7),addM=(m,n)=>{const x=new Date(m+'-01T00:00:00Z');x.setUTCMonth(x.getUTCMonth()+n);return x.toISOString().slice(0,7);},mLabel=m=>(+m.slice(0,4))+'\ub144 '+(+m.slice(5,7))+'\uc6d4',mNum=m=>+String(m).slice(5,7);
+P.rpModeBar=()=>`<div class="seg-tabs rp-mode" role="group" aria-label="\ub9ac\ud3ec\ud2b8 \uc885\ub958"><button type="button" class="seg-tab ${P.rp.mode!=='month'?'active':''}" data-rp-mode="week">\uc8fc\uac04 \ub9ac\ud3ec\ud2b8</button><button type="button" class="seg-tab ${P.rp.mode==='month'?'active':''}" data-rp-mode="month">\uc6d4\ub9d0 \uc131\uc7a5 \uce74\ub4dc</button></div>`;
+P.loadMonth=async function(){if(!P.rp.month)P.rp.month=ym(P.data.date);const month=P.rp.month;try{const r=await P.api('reports.month',{month});if(r.month===P.rp.month){P.rp.mlist=r.rows;P.rp.kakao=Object.assign({},P.rp.kakao,r.kakao||{});P.rpRenderMonth();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
+P.rpRenderMonth=function(){
+ const root=document.getElementById('rp-root');if(!root||!P.rp.mlist)return;const m=P.rp.month,by={};students().forEach(s=>by[s.id]=s);
+ const rows=P.rp.mlist.filter(x=>by[x.studentId]).map(x=>Object.assign({},x,{s:by[x.studentId],k:x.card?(x.card.sentAt?'sent':'draft'):'none'})).sort((a,b)=>({none:0,draft:1,sent:2}[a.k]-{none:0,draft:1,sent:2}[b.k])||a.s.name.localeCompare(b.s.name,'ko'));
+ const cnt={none:0,draft:0,sent:0};rows.forEach(x=>cnt[x.k]++);const todo=cnt.none+cnt.draft,pct=rows.length?Math.round(cnt.sent/rows.length*100):0,thisM=m===ym(P.data.date);
+ const inTab=x=>P.rp.mfilter==='all'||(P.rp.mfilter==='todo'?x.k!=='sent':x.k==='sent');
+ const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x)&&(!q||x.s.name.includes(q)));P.rp.morder=rows.filter(x=>x.k!=='sent').map(x=>x.s.id);
+ const tab=(k,lab,n)=>`<button type="button" class="seg-tab ${P.rp.mfilter===k?'active':''}" data-rp-mfilter="${k}">${lab} <b>${n}</b></button>`;
+ const tag=x=>x.k==='sent'?`${x.card.reaction?'<span class="rp-flag heart">\u2665 '+(x.card.reaction.text?'\ub2f5\uc7a5':'\uc798 \ubc1b\uc74c')+'</span>':''}<span class="rp-flag ${x.card.views?'seen':''}">${x.card.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rp-state sent">\ubcf4\ub0c4 ${md(x.card.sentAt.slice(0,10))}</span>`:x.k==='draft'?'<span class="rp-state draft">\uc791\uc131\ub428 \u00b7 \uc548 \ubcf4\ub0c4</span>':'<span class="rp-state due">\ubcf4\ub0bc \ucc28\ub840</span>';
+ const row=x=>`<button type="button" class="rp-row k-${x.k==='none'?'due':x.k}" data-rp-mopen="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small><span class="rp-when">\uc8fc\uac04 ${x.weeklySent}\ubc88</span><span class="rp-when">\ub808\uc2a8 ${x.lessons}\ud68c</span></small></span><span class="rp-scene">${x.card&&x.card.note?e(x.card.note):'<i>\uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>'}</span><span class="rp-flags">${tag(x)}</span><span class="rp-chev">${ic('chevron')}</span></button>`;
+ root.innerHTML=P.rpModeBar()+`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-mmonth="-1" aria-label="\uc9c0\ub09c\ub2ec">${ic('chevron')}</button><div><strong>${mLabel(m)}</strong><small>${thisM?'\uc774\ubc88 \ub2ec':'\uc9c0\ub09c\ub2ec'} \u00b7 \uc8fc\uac04 \ub9ac\ud3ec\ud2b8\ub97c \ubc1b\uc740 \ud559\uc0dd</small></div><button type="button" class="icon-btn" data-rp-mmonth="1" aria-label="\ub2e4\uc74c \ub2ec" ${thisM?'disabled':''}>${ic('chevron')}</button></div>
+ <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${rows.length}\uba85 \ubcf4\ub0c4</span><span class="muted">\ubcf4\ub0bc \ucc28\ub840 ${cnt.none} \u00b7 \uc791\uc131\ub428 ${cnt.draft}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
+ ${todo?`<button type="button" class="btn primary rp-chain" data-rp-mchain>\uc131\uc7a5 \uce74\ub4dc \uc774\uc5b4\uc11c \uc4f0\uae30 <b>${todo}</b></button>`:''}
+ <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\ubcf4\ub0bc \ucc28\ub840',todo)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${tab('all','\uc804\uccb4',rows.length)}</div><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
+ <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${rows.length?(P.rp.mfilter==='todo'?mNum(m)+'\uc6d4 \uc131\uc7a5 \uce74\ub4dc\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'):mNum(m)+'\uc6d4\uc5d0 \uc8fc\uac04 \ub9ac\ud3ec\ud2b8\ub97c \ubcf4\ub0b8 \ud559\uc0dd\uc774 \uc544\uc9c1 \uc5c6\uc5b4\uc694.'}</p>`}</section>`;
+};
+P.rpOpenMonth=async function(sid){
+ const s=students().find(x=>x.id===sid);if(!s)return;const m=P.rp.month;P.modal(s.name+' '+mNum(m)+'\uc6d4 \uc131\uc7a5 \uce74\ub4dc','<p class="empty-cell">\ubd88\ub7ec\uc624\ub294 \uc911\u2026</p>','edit');
+ try{const g=await P.api('reports.monthGet',{studentId:sid,month:m});const c=g.card?Object.assign({},g.card,{kind:'month',month:m,scene:String(g.card.note||'').split('\n')[0],videoUrl:''}):null;
+  P.rpCur={s,month:m,g:{report:c,summary:g.summary,lastGoal:g.lastGoal,history:[]}};P.rpForm();}catch(err){document.getElementById('dialog-content').innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
+const sumBox=(sm)=>`<div class="rp-msum"><div class="st"><span><b>${sm.lessons}</b>\ud68c<small>\uc774\ub2ec \ub808\uc2a8</small></span><span><b>${sm.done.length}</b>\uace1<small>\uc644\uc131\ud55c \uace1</small></span><span><b>${sm.started.length}</b>\uace1<small>\uc0c8\ub85c \uc2dc\uc791\ud55c \uace1</small></span></div>
+ ${sm.done.length?'<p><em>\uc644\uc131</em>'+sm.done.map(e).join(' \u00b7 ')+'</p>':''}${sm.started.length?'<p><em>\uc0c8 \uace1</em>'+sm.started.map(e).join(' \u00b7 ')+'</p>':''}
+ ${sm.scenes.length?'<ol>'+sm.scenes.map(x=>'<li><span>'+md(x.date)+'</span>'+e(x.scene)+'</li>').join('')+'</ol>':''}<p class="muted">\uc8fc\uac04 \ub9ac\ud3ec\ud2b8\uc5d0\uc11c \uc790\ub3d9\uc73c\ub85c \ubaa8\uc558\uc5b4\uc694. \uace0\uce58\ub824\uba74 \uc8fc\uac04 \ub9ac\ud3ec\ud2b8\ub97c \uace0\uccd0\uc694.</p></div>`;
+const NOTES=['\ud55c \ub2ec \ub3d9\uc548 \uafb8\uc900\ud788 \uc5f0\uc2b5\ud574 \uc628 \uac8c \uc18c\ub9ac\ub85c \ub290\uaef4\uc838\uc694.','\uc0c8 \uace1\uc744 \uc2dc\uc791\ud560 \ub54c \uac81\ub0b4\uc9c0 \uc54a\uace0 \ub3c4\uc804\ud558\ub294 \ubaa8\uc2b5\uc774 \uba4b\uc84c\uc5b4\uc694.','\uc190 \ubaa8\uc591\uacfc \uc790\uc138\uac00 \ud55c \ub2ec \uc0ac\uc774\uc5d0 \ub9ce\uc774 \uc88b\uc544\uc84c\uc5b4\uc694.','\uc9d1\uc911\ud558\ub294 \uc2dc\uac04\uc774 \ub208\uc5d0 \ub744\uac8c \uae38\uc5b4\uc84c\uc5b4\uc694.','\ub2e4\uc74c \ub2ec\uc5d0\ub294 \ud45c\ud604(\uc148\uc5ec\ub9bc)\uc744 \uc870\uae08 \ub354 \uc0b4\ub824 \ubcfc\uac8c\uc694.'];
+P.rpMonthForm=function(){
+ const {s,g,month}=P.rpCur,r=g.report,sm=g.summary,rec=r?r.recipient:'\uc5b4\uba38\ub2d8',goalHint=sm.started.filter(t=>!sm.done.includes(t))[0];
+ document.getElementById('dialog-content').innerHTML=`<form class="rp-form" data-rp-form="${e(s.id)}" data-rp-month="${e(month)}">
+ <div class="rp-grid"><div class="rp-fields">
+  <div class="rp-line"><span class="rp-lab">\ubc1b\ub294 \ubd84</span><div class="rp-st" role="radiogroup" aria-label="\ubc1b\ub294 \ubd84">${['\uc5b4\uba38\ub2d8','\uc544\ubc84\ub2d8','\ubcf4\ud638\uc790\ub2d8'].map(x=>`<label><input type="radio" name="recipient" value="${x}" ${rec===x?'checked':''}><span>${x}</span></label>`).join('')}</div></div>
+  ${P.rpStarPick(r?r.stars:5)}
+  <div><div class="rp-lab">${mNum(month)}\uc6d4 \ud55c\ub208\uc5d0 <small>\uc790\ub3d9</small></div>${sumBox(sm)}</div>
+  <label class="rp-lab must" for="rp-note">\uc6d0\uc7a5\ub2d8 \ud55c\ub9c8\ub514 <small>\uce74\ub4dc\uc640 \ud398\uc774\uc9c0 \uac00\uc6b4\ub370\uc5d0 \ud06c\uac8c \ub4e4\uc5b4\uac00\uc694</small></label>
+  <textarea id="rp-note" name="note" maxlength="800" rows="4" placeholder="${e(given(s.name)+' '+rec)}\uaed8 \uc774\ubc88 \ub2ec \uc774\uc57c\uae30\ub97c \ub4e4\ub824\uc8fc\uc138\uc694">${e(r?r.note:'')}</textarea>
+  <div class="rp-chips" data-rp-target="rp-note">${NOTES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div>
+  <label class="rp-lab" for="rp-goal">\ub2e4\uc74c \ub2ec \ubaa9\ud45c <small>\uc120\ud0dd</small></label><input id="rp-goal" name="goal" maxlength="200" value="${e(r?r.goal:goalHint?"'"+goalHint+"' \uc644\uc131\ud558\uae30":'')}" placeholder="\uc608: \ubbf8\ub274\uc5d0\ud2b8 \uc644\uc131\ud558\uae30">
+ </div><div class="rp-previewcol"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas></div></div>
+ <div class="rp-actions"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30</button></div>
+ <div id="rp-sendbox"></div></form>`;
+ const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);P.rpMonthPreview();};
+P.rpMonthView=function(){
+ const {s,g,month}=P.rpCur,r=g.report,sm=g.summary,link=P.reportLink(r.token);
+ document.getElementById('dialog-content').innerHTML=`<div class="rp-view" data-rp-view="${e(s.id)}">
+ <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?'\ud559\ubd80\ubaa8\ub2d8\uc774 '+r.views+'\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694':'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span>${r.reaction?`<span class="rp-react">\u2665 ${r.reaction.text?'\u201c'+e(r.reaction.text)+'\u201d':'\uc798 \ubc1b\uc558\uc5b4\uc694'} <small>${md(String(r.reaction.at).slice(0,10))}</small></span>`:''}</div>
+ <div class="rp-grid"><div class="rp-fields"><dl class="rp-dl"><dt>\ubc1b\ub294 \ubd84</dt><dd>${e(given(s.name)+' '+r.recipient)}</dd>${r.stars?'<dt>\ubcc4\uc810</dt><dd><span class="rp-starv">'+starTxt(r.stars)+'</span></dd>':''}<dt>${mNum(month)}\uc6d4 \ud55c\ub208\uc5d0</dt><dd>${sumBox(sm)}</dd><dt>\uc6d0\uc7a5\ub2d8 \ud55c\ub9c8\ub514</dt><dd><div class="rp-letter">${e(r.note)}</div></dd>${r.goal?'<dt>\ub2e4\uc74c \ub2ec \ubaa9\ud45c</dt><dd>'+e(r.goal)+'</dd>':''}</dl>
+ <p class="rp-lock">\ubcf4\ub0b8 \uc131\uc7a5 \uce74\ub4dc\ub294 \uace0\uce60 \uc218 \uc5c6\uc5b4\uc694. \uace0\uce58\ub824\uba74 [\ubcf4\ub0c4 \ucde8\uc18c]\ub97c \ub204\ub978 \ub4a4 \ub2e4\uc2dc \uc368 \uc8fc\uc138\uc694.</p></div>
+ <div class="rp-previewcol"><div class="rp-lab">\ubcf4\ub0b8 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\ubcf4\ub0b8 \uce74\ub4dc"></canvas></div></div>
+ <div class="rp-actions"><button type="button" class="btn danger-link" data-rp-unsend>\ubcf4\ub0c4 \ucde8\uc18c</button><span class="muted rp-msgline" role="status"></span><a class="btn" href="${e(link)}" target="_blank" rel="noopener">\ud398\uc774\uc9c0 \ubcf4\uae30 \u2197</a><button type="button" class="btn primary" data-rp-resend>\ub2e4\uc2dc \ubcf4\ub0b4\uae30</button></div>
+ <div id="rp-sendbox"></div></div>`;
+ document.getElementById('detail-dialog')._initial=null;P.rpDraw(document.getElementById('rp-canvas'),Object.assign({},r,{name:s.name,teacher:P.user.name,summary:sm}));};
+let mpv=0;P.rpMonthPreview=function(){clearTimeout(mpv);mpv=setTimeout(()=>{const f=document.querySelector('form[data-rp-month]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const fd=new FormData(f);
+ P.rpDraw(c,{kind:'month',month:P.rpCur.month,name:P.rpCur.s.name,teacher:P.user.name,recipient:fd.get('recipient')||'\uc5b4\uba38\ub2d8',note:fd.get('note')||'',stars:+(fd.get('stars')||0),summary:P.rpCur.g.summary});},120);};
+// \uce74\ub4dc \uadf8\ub9bc(\uc6d4\uac04): \uc774\ub2ec \uc22b\uc790 3\uce78 + \uc6d0\uc7a5\ub2d8 \ud55c\ub9c8\ub514 + \uc11c\uba85
+P.rpDrawMonth=function(c,d){
+ const ctx=c.getContext('2d'),W=800,X=64,call=callName(d.name),m=mNum(d.month),sm=d.summary||{lessons:0,done:[],started:[]};
+ ctx.clearRect(0,0,W,W);ctx.fillStyle='#FBF9F6';ctx.fillRect(0,0,W,W);
+ const lw=mark(ctx,X,58,54,'#3D2B1F');ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#3D2B1F';ctx.font=F(700,25);ctx.fillText('\uc5b8\uc81c\ub098 \uc74c\uc545\ud559\uc6d0',X+lw+14,86);
+ ctx.textAlign='right';ctx.fillStyle='#8A6D3E';ctx.font=F(700,22);ctx.fillText(String(d.month).slice(0,4)+' \u00b7 '+m+'\uc6d4 \uc131\uc7a5 \uae30\ub85d',W-X,86);
+ ctx.strokeStyle='#E6DCCB';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(X,140);ctx.lineTo(W-X,140);ctx.stroke();
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.font=F(800,58);ctx.fillStyle='#2A1E15';ctx.fillText(call+'\uc758',X,226);const mw=ctx.measureText(m+'\uc6d4').width;ctx.fillStyle='#B08D57';ctx.fillText(m+'\uc6d4',X,298);ctx.fillStyle='#2A1E15';ctx.fillText(' \uc131\uc7a5 \uae30\ub85d',X+mw,298);
+ const boxes=[[sm.lessons,'\ud68c','\uc774\ub2ec \ub808\uc2a8'],[sm.done.length,'\uace1','\uc644\uc131\ud55c \uace1'],[sm.started.length,'\uace1','\uc0c8\ub85c \uc2dc\uc791\ud55c \uace1']],bw=(W-2*X-2*18)/3;
+ boxes.forEach((b,i)=>{const x=X+i*(bw+18),y=338;ctx.fillStyle='#FFFFFF';ctx.strokeStyle='#E6DCCB';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,y,bw,118,16);ctx.fill();ctx.stroke();
+  ctx.textAlign='left';ctx.fillStyle='#3D2B1F';ctx.font=F(800,48);ctx.fillText(String(b[0]),x+22,y+64);const nw=ctx.measureText(String(b[0])).width;ctx.font=F(700,22);ctx.fillStyle='#8A6D3E';ctx.fillText(b[1],x+26+nw,y+64);ctx.font=F(600,19);ctx.fillStyle='#8B7B6C';ctx.fillText(b[2],x+22,y+98);});
+ ctx.fillStyle='#4A3B2F';ctx.font=F(500,27);const q=d.note?'\u201c'+String(d.note).replace(/\s+/g,' ').trim()+'\u201d':'\u201c\uc6d0\uc7a5\ub2d8 \ud55c\ub9c8\ub514\ub97c \uc368 \uc8fc\uc138\uc694\u201d';wrap(ctx,q,W-2*X,3).forEach((ln,i)=>ctx.fillText(ln,X,516+i*42));
+ sign(ctx,X,W-160,d.teacher||'',given(d.name)+' '+(d.recipient||'\uc5b4\uba38\ub2d8')+'\uaed8 \u00b7 '+m+'\uc6d4 \ud55c \ub2ec\uc744 \ub9c8\uce58\uace0',46);};
+P.rpStarPick=v=>`<div class="rp-line"><span class="rp-lab">\ubcc4\uc810</span><div class="rp-stars" role="radiogroup" aria-label="\ubcc4\uc810">${[1,2,3,4,5].map(n=>`<label title="\ubcc4 ${n}\uac1c"><input type="radio" name="stars" value="${n}" ${+v===n?'checked':''}><span>\u2605</span></label>`).join('')}</div><small class="muted">\uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ubcc4\ub85c \ub4e4\uc5b4\uac00\uc694</small></div>`;
+const starTxt=n=>n?'\u2605'.repeat(n)+'\u2606'.repeat(5-n):'';
 P.rpView=function(){
  const {s,g}=P.rpCur,r=g.report,link=P.reportLink(r.token);
  const dl=x=>{if(!x)return '';const d=new Date(x+'T12:00:00');return (d.getMonth()+1)+'\uc6d4 '+d.getDate()+'\uc77c '+'\uc77c\uc6d4\ud654\uc218\ubaa9\uae08\ud1a0'[d.getDay()]+'\uc694\uc77c';};
@@ -2310,18 +2463,18 @@ P.rpView=function(){
  document.getElementById('dialog-content').innerHTML=`<div class="rp-view" data-rp-view="${e(s.id)}">
  <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span>${r.reaction?`<span class="rp-react">\u2665 ${r.reaction.text?'\u201c'+e(r.reaction.text)+'\u201d':'\uc798 \ubc1b\uc558\uc5b4\uc694'} <small>${md(String(r.reaction.at).slice(0,10))}</small></span>`:''}<span class="rp-vid ${r.videoUrl?'on':''}">${r.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \ud3ec\ud568':'\uc5f0\uc8fc \uc601\uc0c1 \uc5c6\uc74c'}</span></div>
  <div class="rp-grid"><div class="rp-fields"><dl class="rp-dl">
-  ${row('\ub808\uc2a8\uc77c',e(dl(r.lessonDate)))}${row('\ubc1b\ub294 \ubd84',e(given(s.name)+' '+r.recipient))}
+  ${row('\ub808\uc2a8\uc77c',e(dl(r.lessonDate)))}${row('\ubc1b\ub294 \ubd84',e(given(s.name)+' '+r.recipient))}${row('\ubcc4\uc810',r.stars?'<span class="rp-starv">'+starTxt(r.stars)+'</span>':'')}
   ${row('\uc774\ubc88 \uc8fc \uace1',songs?'<ul class="rp-songlist">'+songs+'</ul>':'')}${row('\uc774\ub860\u00b7\uc219\uc81c',e(r.theory||''))}
   ${row('\uc624\ub298\uc758 \ud55c \uc7a5\uba74',e(r.scene||''))}${row('\ud3b8\uc9c0',r.message?'<div class="rp-letter">'+e(r.message)+'</div>':'')}
   ${row('\uc5f0\uc8fc \uc601\uc0c1',r.videoUrl?'<a class="text-link" href="'+e(r.videoUrl)+'" target="_blank" rel="noopener">\uc601\uc0c1 \uc5f4\uae30 \u2197</a>':'')}
  </dl><p class="rp-lock">\ubcf4\ub0b8 \ub9ac\ud3ec\ud2b8\ub294 \uace0\uce60 \uc218 \uc5c6\uc5b4\uc694. \uace0\uce58\ub824\uba74 [\ubcf4\ub0c4 \ucde8\uc18c]\ub97c \ub204\ub978 \ub4a4 \ub2e4\uc2dc \uc368 \uc8fc\uc138\uc694.</p></div>
- <div class="rp-previewcol"><div class="rp-lab">\ubcf4\ub0b8 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\ubcf4\ub0b8 \uce74\ub4dc"></canvas></div></div>
+ <div class="rp-previewcol"><div class="rp-lab">\ubcf4\ub0b8 \uce74\ub4dc</div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\ubcf4\ub0b8 \uce74\ub4dc"></canvas>${P.rpHist()}</div></div>
  <div class="rp-actions"><button type="button" class="btn danger-link" data-rp-unsend>\ubcf4\ub0c4 \ucde8\uc18c</button><span class="muted rp-msgline" role="status"></span><a class="btn" href="${e(link)}" target="_blank" rel="noopener">\ub9ac\ud3ec\ud2b8 \ubcf4\uae30 \u2197</a><button type="button" class="btn primary" data-rp-resend>\ub2e4\uc2dc \ubcf4\ub0b4\uae30</button></div>
  <div id="rp-sendbox"></div></div>`;
  const d=document.getElementById('detail-dialog');d._initial=null;
  P.rpDraw(document.getElementById('rp-canvas'),Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
 };
-let pvTimer=0;P.rpPreview=function(){clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
+let pvTimer=0;P.rpPreview=function(){if(P.rpCur&&P.rpCur.month)return P.rpMonthPreview();clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
 document.addEventListener('input',ev=>{if(ev.target.closest('form[data-rp-form]'))P.rpPreview();});
 document.addEventListener('change',ev=>{const t=ev.target;
  if(t.id==='rp-photo'&&t.files[0]){const img=new Image();img.onload=()=>{P.rpPhoto[P.rpCur.s.id]=img;document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();};img.src=URL.createObjectURL(t.files[0]);}
@@ -2337,7 +2490,7 @@ document.addEventListener('click',async ev=>{const t=ev.target,f=t.closest('form
   if(out){ta.value=(ta.value.trim()?ta.value.trim()+'\n':'')+out;P.rpPreview();}return;}
  if(t.closest('[data-rp-unsend]')){const done=P.btnBusy(t.closest('[data-rp-unsend]'),'\ucde8\uc18c \uc911');try{await P.rpMark({sent:false});P.requestDialogClose?.(true);}catch(err){done();}return;}
 });
-P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api('reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
+P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api(P.rpCur.month?'reports.monthSent':'reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
 document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[data-rp-form]');if(!f)return;ev.preventDefault();ev.stopPropagation();if(f.getAttribute('aria-busy')==='true')return;
  const go=ev.submitter?.value||'save',x=formData(f),line=f.querySelector('.rp-msgline'),cur=P.rpCur,r=cur.g.report;
  if(!x.scene){line.textContent='"\uc624\ub298\uc758 \ud55c \uc7a5\uba74"\uc744 \ud55c \uc904 \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-scene').focus();return;}
@@ -2358,27 +2511,27 @@ P.rpKkBox=function(sid,edit){const v=(P.rp.kakao||{})[sid]||'';
 P.rpPrepareSend=async function(){
  const {s,g}=P.rpCur,r=g.report,box=document.getElementById('rp-sendbox'),link=P.reportLink(r.token),call=callName(s.name);
  const head='<div class="rp-sendh"><span class="k">SEND</span><b>'+e(given(s.name))+' '+e(r.recipient)+'\uaed8 \ubcf4\ub0b4\uae30</b><button type="button" class="del-x" data-rp-sendclose aria-label="\ub2eb\uae30"></button></div>';
- const title=`${given(s.name)} ${r.recipient}, \uc624\ub298 ${call} \uc774\uc57c\uae30\uc608\uc694`,desc=`\u201c${r.scene}\u201d \u2014 ${P.user.name} \uc120\uc0dd\ub2d8`;
+ const title=P.rpCur.month?`${given(s.name)} ${r.recipient}, ${call}\uc758 ${mNum(P.rpCur.month)}\uc6d4 \uc131\uc7a5 \uae30\ub85d\uc774\uc5d0\uc694`:`${given(s.name)} ${r.recipient}, \uc624\ub298 ${call} \uc774\uc57c\uae30\uc608\uc694`,desc=`\u201c${r.scene}\u201d \u2014 \uc5b8\uc81c\ub098 \uc120\uc0dd\ub2d8\ub4e4`;
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p><span class="r-run" style="width:100%"></span></div></div>`;
- const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
+ const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name,summary:P.rpCur.g.summary}),P.rpPhoto[s.id]);
  const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
  P.rpDone=async()=>{await P.rpMark({sent:true,videoSent:!!r.videoUrl},true);box.innerHTML='';if(P.rp.chain){P.loadReports();return P.rpNext(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694');}P.requestDialogClose?.(true);P.saving(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694 \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
  let html='',kakaoOk=false;
  if(window.APP_MODE&&window.KAKAO_KEY){try{const K=await loadKakao();if(!K.isInitialized())K.init(window.KAKAO_KEY);const up=await K.Share.uploadImage({file:[file]});const img=String(up.infos.original.url).replace(/^http:/,'https:');P.rpKakao={K,img,title,desc,link,call};P.rpMark({imageUrl:img}).catch(()=>{});kakaoOk=true;
    html=`<p><b>\uce74\ub4dc\uac00 \uc900\ube44\ub410\uc5b4\uc694.</b> \ubc84\ud2bc\uc744 \ub204\ub974\uba74 \uce74\ud1a1\uc774 \uc5f4\ub824\uc694. ${e(given(s.name))} ${e(r.recipient)} \ub300\ud654\ubc29\uc744 \uace8\ub77c \uc8fc\uc138\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn kakao" data-rp-kakao>\uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</button></div>`;}catch(err){html=`<p class="muted">${e(err.message||'\uce74\uce74\uc624 \uce74\ub4dc\ub97c \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694.')} \uc544\ub798 \ubc29\ubc95\uc73c\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</p>`;}}
  const png=await new Promise(ok=>c.toBlob(ok,'image/png')),touch=matchMedia('(pointer:coarse)').matches,canShare=false&&!!(navigator.canShare&&navigator.canShare({files:[file]}));P.rpFile={file,png,text:`${title}\n${link}`,link};
- if(!kakaoOk&&!window.APP_MODE)html+=`<p>\ubc84\ud2bc \ub2ec\ub9b0 \uce74\ud1a1 \uce74\ub4dc\ub294 \uc571 \uc8fc\uc18c\uc5d0\uc11c\ub9cc \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p><div class="rp-sendbtns"><a class="btn kakao" href="https://always-music.github.io/always-piano-app/#reports/weekly" target="_blank" rel="noopener">\uc571 \uc8fc\uc18c\uc5d0\uc11c \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</a></div><p class="muted">\ub610\ub294 \uc544\ub798\ucc98\ub7fc \ubcf5\uc0ac\ud574\uc11c \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p>`;
+ if(!kakaoOk&&!window.APP_MODE)html+=`<p>\ubc84\ud2bc \ub2ec\ub9b0 \uce74\ud1a1 \uce74\ub4dc\ub294 \uc571 \uc8fc\uc18c\uc5d0\uc11c\ub9cc \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p><div class="rp-sendbtns"><a class="btn kakao" href="https:\/\/always-music.github.io/always-piano-app/#reports/weekly" target="_blank" rel="noopener">\uc571 \uc8fc\uc18c\uc5d0\uc11c \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</a></div><p class="muted">\ub610\ub294 \uc544\ub798\ucc98\ub7fc \ubcf5\uc0ac\ud574\uc11c \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694.</p>`;
  if(!kakaoOk)html+=`<p class="muted">${canShare?'\uacf5\uc720\ub97c \ub204\ub974\uace0 \uce74\ud1a1\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uba74 \uce74\ub4dc \uc774\ubbf8\uc9c0\uc640 \ub9ac\ud3ec\ud2b8 \ub9c1\ud06c\uac00 \ud568\uaed8 \uac00\uc694.':'\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac \u2192 PC \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uae30(Ctrl+V) \u2461 \ub9c1\ud06c \ubcf5\uc0ac \u2192 \ud55c \ubc88 \ub354 \ubd99\uc5ec\ub123\uae30 \u2462 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc'}</p><div class="rp-sendbtns">${canShare?'<button type="button" class="btn primary" data-rp-share>\uce74\ud1a1\uc73c\ub85c \uacf5\uc720</button>':'<button type="button" class="btn primary" data-rp-copyimg>\u2460 \uce74\ub4dc \uc774\ubbf8\uc9c0 \ubcf5\uc0ac</button>'}<button type="button" class="btn${canShare?'':' primary'}" data-rp-copy>${canShare?'':'\u2461 '}\ub9c1\ud06c \ubcf5\uc0ac</button><button type="button" class="btn" data-rp-mark>${canShare?'':'\u2462 '}\ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc</button></div><p class="muted rp-linkline">${e(link)}</p><div class="rp-imgfallback" hidden><p class="muted">\uc774 \ud654\uba74\uc5d0\uc11c\ub294 \uc790\ub3d9 \ubcf5\uc0ac\uac00 \ub9c9\ud600 \uc788\uc5b4\uc694. \uc544\ub798 \uce74\ub4dc\uc5d0\uc11c \ub9c8\uc6b0\uc2a4 \uc624\ub978\ucabd \u2192 <b>\uc774\ubbf8\uc9c0 \ubcf5\uc0ac</b>\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</p><img alt="\uce74\ub4dc \uc774\ubbf8\uc9c0" src="${URL.createObjectURL(png)}"></div>`;
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb">${P.rpKkBox(s.id)}<img class="rp-sendimg" src="${c.toDataURL('image/jpeg',.85)}" alt="">${html}</div></div>`;box.querySelector('[data-rp-kakao],.btn.primary')?.focus();
 };
 document.addEventListener('click',async ev=>{const t=ev.target;
  if(t.closest('[data-rp-resend]')){const done=P.btnBusy(t.closest('[data-rp-resend]'),'\uc900\ube44 \uc911');try{await P.rpPrepareSend();}finally{done();}return;}
  if(t.closest('[data-rp-sendclose]')||t.id==='rp-sendbox'){const b=document.getElementById('rp-sendbox');if(b)b.innerHTML='';return;}
- if(t.closest('[data-rp-delete]')){const cur=P.rpCur,r=cur&&cur.g.report;if(!r)return;P.confirmDelete(e(given(cur.s.name))+' \ud559\uc0dd\uc758 \uc774\ubc88 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud560\uae4c\uc694?','\uc774\ubbf8 \ubcf4\ub0b8 \uce74\ud1a1 \uce74\ub4dc\uc758 \ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub3c4 \ub354 \uc774\uc0c1 \uc5f4\ub9ac\uc9c0 \uc54a\uc544\uc694.',async()=>{await P.api('reports.delete',{id:r.id,version:r.version},crypto.randomUUID());const d=document.getElementById('detail-dialog');if(d)d._initial=null;P.requestDialogClose?.(true);P.saving('\ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud588\uc5b4\uc694','done');P.loadReports();});return;}
+ if(t.closest('[data-rp-delete]')){const cur=P.rpCur,r=cur&&cur.g.report;if(!r)return;P.confirmDelete(e(given(cur.s.name))+(cur.month?' \ud559\uc0dd\uc758 '+mNum(cur.month)+'\uc6d4 \uc131\uc7a5 \uce74\ub4dc\ub97c \uc0ad\uc81c\ud560\uae4c\uc694?':' \ud559\uc0dd\uc758 \uc774\ubc88 \uc8fc \ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud560\uae4c\uc694?'),'\uc774\ubbf8 \ubcf4\ub0b8 \uce74\ud1a1 \uce74\ub4dc\uc758 \ub9ac\ud3ec\ud2b8 \ubcf4\uae30\ub3c4 \ub354 \uc774\uc0c1 \uc5f4\ub9ac\uc9c0 \uc54a\uc544\uc694.',async()=>{await P.api(P.rpCur&&P.rpCur.month?'reports.monthDelete':'reports.delete',{id:r.id,version:r.version},crypto.randomUUID());const d=document.getElementById('detail-dialog');if(d)d._initial=null;P.requestDialogClose?.(true);P.saving('\ub9ac\ud3ec\ud2b8\ub97c \uc0ad\uc81c\ud588\uc5b4\uc694','done');P.loadReports();});return;}
  if(t.closest('[data-rp-kkcopy]')){const v=(P.rp.kakao||{})[P.rpCur.s.id]||'';try{await navigator.clipboard.writeText(v);P.saving('\uce74\ud1a1 \uc774\ub984\uc744 \ubcf5\uc0ac\ud588\uc5b4\uc694. \uacf5\uc720\ucc3d \uac80\uc0c9\uce78\uc5d0 \ubd99\uc5ec\ub123\uc5b4\uc694','done');}catch(err){P.saving(v,'info');}return;}
  if(t.closest('[data-rp-kkedit]')){t.closest('[data-rp-kkbox]').outerHTML=P.rpKkBox(P.rpCur.s.id,true);document.querySelector('.rp-kkin')?.focus();return;}
  if(t.closest('[data-rp-kksave]')){const bx=t.closest('[data-rp-kkbox]'),v=bx.querySelector('.rp-kkin').value.trim(),sid=P.rpCur.s.id;const done=P.btnBusy(t.closest('[data-rp-kksave]'),'\uc800\uc7a5 \uc911');try{await P.api('reports.kakao',{studentId:sid,kakaoName:v},crypto.randomUUID());P.rp.kakao=Object.assign({},P.rp.kakao,{[sid]:v});bx.outerHTML=P.rpKkBox(sid);}catch(err){done();P.saving(err.message,'error');}return;}
- if(t.closest('[data-rp-kakao]')){const k=P.rpKakao;try{const kv=(P.rp.kakao||{})[P.rpCur.s.id];if(kv)navigator.clipboard?.writeText(kv).catch(()=>{});k.K.Share.sendDefault({objectType:'feed',content:{title:k.title,description:k.desc,imageUrl:k.img,imageWidth:800,imageHeight:800,link:{mobileWebUrl:k.link,webUrl:k.link}},buttons:[{title:`${k.call} \ub9ac\ud3ec\ud2b8 \ubcf4\uae30`,link:{mobileWebUrl:k.link,webUrl:k.link}}]});const sb=document.querySelector('#rp-sendbox .rp-sendb');if(sb){const img=sb.querySelector('.rp-sendimg');sb.innerHTML='';if(img)sb.appendChild(img);sb.insertAdjacentHTML('beforeend','<p><b>\uce74\ud1a1 \ucc3d\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uace0 [\uacf5\uc720\ud558\uae30]\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</b></p><p class="muted">\ubcf4\ub0b8 \ub4a4 [\ubcf4\ub0c8\uc5b4\uc694]\ub97c \ub204\ub974\uba74 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ub3fc\uc694. \uacf5\uc720\ud558\uc9c0 \uc54a\uace0 \ucc3d\uc744 \ub2eb\uc558\ub2e4\uba74 [\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30]\ub97c \ub20c\ub7ec\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn" data-rp-kakao>\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30</button><button type="button" class="btn primary" data-rp-mark>\ubcf4\ub0c8\uc5b4\uc694</button></div>');}}catch(err){P.saving(err.message||'\uce74\ud1a1\uc744 \uc5f4\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}return;}
+ if(t.closest('[data-rp-kakao]')){const k=P.rpKakao;try{const kv=(P.rp.kakao||{})[P.rpCur.s.id];if(kv)navigator.clipboard?.writeText(kv).catch(()=>{});k.K.Share.sendDefault({objectType:'feed',content:{title:k.title,description:k.desc,imageUrl:k.img,imageWidth:800,imageHeight:800,link:{mobileWebUrl:k.link,webUrl:k.link}},buttons:[{title:P.rpCur&&P.rpCur.month?`${mNum(P.rpCur.month)}\uc6d4 \uc131\uc7a5 \uae30\ub85d \ubcf4\uae30`:`${k.call} \ub9ac\ud3ec\ud2b8 \ubcf4\uae30`,link:{mobileWebUrl:k.link,webUrl:k.link}}]});const sb=document.querySelector('#rp-sendbox .rp-sendb');if(sb){const img=sb.querySelector('.rp-sendimg');sb.innerHTML='';if(img)sb.appendChild(img);sb.insertAdjacentHTML('beforeend','<p><b>\uce74\ud1a1 \ucc3d\uc5d0\uc11c \ub300\ud654\ubc29\uc744 \uace0\ub974\uace0 [\uacf5\uc720\ud558\uae30]\ub97c \ub20c\ub7ec \uc8fc\uc138\uc694.</b></p><p class="muted">\ubcf4\ub0b8 \ub4a4 [\ubcf4\ub0c8\uc5b4\uc694]\ub97c \ub204\ub974\uba74 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ub3fc\uc694. \uacf5\uc720\ud558\uc9c0 \uc54a\uace0 \ucc3d\uc744 \ub2eb\uc558\ub2e4\uba74 [\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30]\ub97c \ub20c\ub7ec\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn" data-rp-kakao>\uce74\ud1a1 \ucc3d \ub2e4\uc2dc \uc5f4\uae30</button><button type="button" class="btn primary" data-rp-mark>\ubcf4\ub0c8\uc5b4\uc694</button></div>');}}catch(err){P.saving(err.message||'\uce74\ud1a1\uc744 \uc5f4\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}return;}
  if(t.closest('[data-rp-share]')){try{await navigator.share({files:[P.rpFile.file],text:P.rpFile.text});await P.rpDone();}catch(err){if(err?.name!=='AbortError')P.saving('\uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. \ub9c1\ud06c \ubcf5\uc0ac\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.','error');}return;}
  if(t.closest('[data-rp-copyimg]')){try{await navigator.clipboard.write([new ClipboardItem({'image/png':P.rpFile.png})]);P.saving('\uce74\ub4dc \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694. \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uc5b4 \uc8fc\uc138\uc694','done');}catch{const fb=document.querySelector('.rp-imgfallback');if(fb)fb.hidden=false;P.saving('\uc624\ub978\ucabd \ud074\ub9ad\uc73c\ub85c \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
  if(t.closest('[data-rp-copy]')){try{await navigator.clipboard.writeText(P.rpFile.link);P.saving('\ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694','done');}catch{const l=document.querySelector('.rp-linkline');if(l){const rg=document.createRange();rg.selectNodeContents(l);getSelection().removeAllRanges();getSelection().addRange(rg);}P.saving('\uc120\ud0dd\ub41c \ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
@@ -2396,9 +2549,10 @@ function fit(ctx,t,max){if(ctx.measureText(t).width<=max)return t;while(t&&ctx.m
 
 function seal(ctx,cx,cy,r){ctx.save();ctx.translate(cx,cy);ctx.rotate(-.17);ctx.fillStyle='rgba(176,141,87,.07)';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.lineWidth=r*.09;ctx.strokeStyle='#B08D57';ctx.stroke();ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,r*.8,0,Math.PI*2);ctx.stroke();
  ctx.fillStyle='#B08D57';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=F(800,r*.34);ctx.fillText('\ucc38',0,-r*.2);ctx.font=F(800,r*.27);ctx.fillText('\uc798\ud588\uc5b4\uc694',0,r*.22);ctx.restore();}
+function stars(ctx,right,cy,n){if(!n)return;const R=19,gap=46;for(let i=0;i<5;i++){const cx=right-R-(4-i)*gap;ctx.save();ctx.translate(cx,cy);ctx.beginPath();for(let k=0;k<10;k++){const a=-Math.PI/2+k*Math.PI/5,rr=k%2?R*.45:R;ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr);}ctx.closePath();if(i<n){ctx.fillStyle='#C9A15C';ctx.fill();}else{ctx.lineWidth=2;ctx.strokeStyle='#E2D3B5';ctx.stroke();}ctx.restore();}}
 function sign(ctx,x,yTop,teacher,sub,r){ctx.strokeStyle='#E6DCCB';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,yTop);ctx.lineTo(800-x,yTop);ctx.stroke();
- ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#3D2B1F';ctx.font=F(700,28);ctx.fillText(`${teacher} \uc120\uc0dd\ub2d8\uc774`,x,yTop+56);ctx.fillStyle='#8B7B6C';ctx.font=F(500,20);ctx.fillText(sub,x,yTop+90);seal(ctx,800-x-r,yTop+58,r);}
-P.rpDraw=function(c,d,photo){
+ ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#3D2B1F';ctx.font=F(700,28);ctx.fillText('\uc5b8\uc81c\ub098 \uc120\uc0dd\ub2d8\ub4e4\uc774',x,yTop+56);ctx.fillStyle='#8B7B6C';ctx.font=F(500,20);ctx.fillText(sub,x,yTop+90);stars(ctx,800-x,yTop+58,P._stars||0);}
+P.rpDraw=function(c,d,photo){P._stars=d?+d.stars||0:0;if(d&&d.kind==='month')return P.rpDrawMonth(c,d);
  const ctx=c.getContext('2d'),W=800,X=64,call=callName(d.name),date=d.lessonDate||P.data.date,dt=new Date(date+'T00:00:00Z');
  ctx.clearRect(0,0,W,W);ctx.fillStyle='#FBF9F6';ctx.fillRect(0,0,W,W);const songs=(d.songs||[]).filter(s=>s.title);
  const sub=`${given(d.name)} ${d.recipient||'\uc5b4\uba38\ub2d8'}\uaed8 \u00b7 ${longDate(date)}`,quote=d.scene?`\u201c${d.scene}\u201d`:'\u201c\uc624\ub298\uc758 \ud55c \uc7a5\uba74\uc744 \uc368 \uc8fc\uc138\uc694\u201d';
@@ -2413,7 +2567,7 @@ P.rpDraw=function(c,d,photo){
  ctx.textAlign='right';ctx.fillStyle='#8A6D3E';ctx.font=F(700,22);const ds=`${d.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \u00b7 ':''}${dt.getUTCMonth()+1}.${String(dt.getUTCDate()).padStart(2,'0')} ${['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getUTCDay()]}`;if('letterSpacing' in ctx)ctx.letterSpacing='3px';ctx.fillText(ds,W-X,85);if('letterSpacing' in ctx)ctx.letterSpacing='0px';
  // \uc624\uc120\uacfc \uc774\ubc88 \uc8fc \uace1 \uc74c\ud45c (\uaf49 \ucc2c \uac08\uc0c9 = \uc644\uc131, \uae08\uc0c9 = \uc5f0\uc2b5 \uc911, \ube48 \uc74c\ud45c = \uc0c8 \uace1)
  const top=192,gap=24;ctx.strokeStyle='#CDB992';ctx.lineWidth=1.6;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(0,top+i*gap);ctx.lineTo(W,top+i*gap);ctx.stroke();}
- const pick=[...songs.filter(s=>s.state==='done'),...songs.filter(s=>s.state==='new'),...songs.filter(s=>s.state==='ing')].slice(0,3),n=pick.length,xs=n===1?[.5]:n===2?[.33,.67]:[.2,.5,.8],ys=[top+gap*1.5,top+gap*.5,top+gap*2.5];
+ const pick=[...songs.filter(s=>s.state==='done'),...songs.filter(s=>s.state==='new'),...songs.filter(s=>s.state==='ing')].slice(0,3),n=pick.length,xs=n===1?[.5]:n===2?[.33,.67]:[.2,.5,.8],ys=[top+gap*2.5,top+gap*3.5,top+gap*3];
  pick.forEach((s,i)=>{const x=W*xs[i],y=ys[i],col=s.state==='done'?'#3D2B1F':'#B08D57';ctx.save();ctx.translate(x,y);ctx.rotate(-.35);ctx.beginPath();ctx.ellipse(0,0,21,15,0,0,Math.PI*2);if(s.state==='new'){ctx.lineWidth=5;ctx.strokeStyle=col;ctx.stroke();}else{ctx.fillStyle=col;ctx.fill();}ctx.restore();
   ctx.fillStyle=col;ctx.fillRect(x+16,y-74,4.5,72);
   const tag=STATE[s.state],max=W/Math.max(n,2)-36;ctx.textBaseline='alphabetic';ctx.textAlign='left';ctx.font=F(700,19);const tw=ctx.measureText(tag+'  ').width;ctx.font=F(700,20);const tt=fit(ctx,s.title,max-tw),full=tw+ctx.measureText(tt).width;
@@ -2426,6 +2580,36 @@ P.rpDraw=function(c,d,photo){
 };
 document.fonts?.load?.(F(800,40)).then(()=>P.rpPreview?.()).catch(()=>{});
 })(Piano);
+
+document.addEventListener('toggle',ev=>{if(ev.target.matches&&ev.target.matches('[data-rp-stats]')&&ev.target.open)window.Piano.rpStats();},true);
+
+// \uc6d4\uac04 \uc791\uc131\ucc3d \uc800\uc7a5(\uc8fc\uac04 \uc800\uc7a5\ubcf4\ub2e4 \uba3c\uc800 \ubc1b\uc74c)
+window.addEventListener('submit',async ev=>{const f=ev.target.closest&&ev.target.closest('form[data-rp-month]');if(!f)return;ev.preventDefault();ev.stopImmediatePropagation();if(f.getAttribute('aria-busy')==='true')return;
+ const cur=window.Piano.rpCur,r=cur.g.report,go=ev.submitter&&ev.submitter.value||'save',line=f.querySelector('.rp-msgline'),fd=new FormData(f),x={recipient:fd.get('recipient')||'\uc5b4\uba38\ub2d8',note:String(fd.get('note')||'').trim(),goal:String(fd.get('goal')||'').trim(),stars:+(fd.get('stars')||0)};
+ if(!x.note){line.textContent='\uc6d0\uc7a5\ub2d8 \ud55c\ub9c8\ub514\ub97c \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-note').focus();return;}
+ f.setAttribute('aria-busy','true');line.textContent='\uc800\uc7a5 \uc911\u2026';
+ try{const res=await window.Piano.api('reports.monthSave',Object.assign({},x,{studentId:cur.s.id,month:cur.month},r?{id:r.id,version:r.version}:{}),crypto.randomUUID());
+  cur.g.report=Object.assign(r||{sentAt:'',views:0},x,{id:res.id,version:res.version,token:res.token,month:cur.month,kind:'month',scene:x.note.split(String.fromCharCode(10))[0],videoUrl:''});
+  document.getElementById('detail-dialog')._initial=JSON.stringify([...new FormData(f)]);line.textContent='\uc800\uc7a5\ud588\uc5b4\uc694';const del=f.querySelector('[data-rp-delete]');if(del)del.hidden=false;window.Piano.loadReports();
+  if(go==='send')await window.Piano.rpPrepareSend();else if(window.Piano.rp.chain){window.Piano.rpNext('\uc800\uc7a5\ud588\uc5b4\uc694');}else{window.Piano.requestDialogClose?.(true);window.Piano.saving('\uc800\uc7a5\ud588\uc5b4\uc694','done');}
+ }catch(err){line.textContent=err.message;}finally{f.removeAttribute('aria-busy');}},true);
+document.addEventListener('input',ev=>{if(ev.target.closest&&ev.target.closest('form[data-rp-month]'))window.Piano.rpMonthPreview();});
+
+// \uc601\uc0c1 \ud30c\uc77c: \uc11c\ubc84\uac00 \ub9cc\ub4e0 \uc5c5\ub85c\ub4dc \uc8fc\uc18c\ub85c \ube0c\ub77c\uc6b0\uc800\uac00 \ub4dc\ub77c\uc774\ube0c\uc5d0 \ubc14\ub85c \uc62c\ub9bc(\uc9c4\ud589\ub960) \u2192 \uc644\ub8cc \ud655\uc778 \u2192 \ub9ac\ud3ec\ud2b8\uc5d0 \ubd99\uc74c. \uc62c\ub9ac\ub294 \ub3d9\uc548 \uc800\uc7a5 \ubc84\ud2bc \uc7a0\uae08
+document.addEventListener('change',async ev=>{const inp=ev.target;if(!inp.matches||!inp.matches('[data-rp-vfile]'))return;const file=inp.files&&inp.files[0];inp.value='';if(!file)return;
+ const P=window.Piano,box=inp.closest('[data-rp-vbox]'),f=inp.closest('form'),st=box.querySelector('.rp-vstate'),pg=box.querySelector('.rp-vprog'),bar=pg.querySelector('b'),pct=pg.querySelector('span'),pick=box.querySelector('.rp-vpick');
+ if(!/^video[/]/.test(file.type)){P.saving('\ub3d9\uc601\uc0c1 \ud30c\uc77c\ub9cc \uc62c\ub9b4 \uc218 \uc788\uc5b4\uc694','error');return;}if(file.size>1024*1024*1024){P.saving('1GB \uc774\ud558 \ub3d9\uc601\uc0c1\ub9cc \uc62c\ub9b4 \uc218 \uc788\uc5b4\uc694','error');return;}
+ const subs=[...f.querySelectorAll('[type=submit]')];subs.forEach(b=>b.disabled=true);pick.hidden=true;pg.hidden=false;bar.style.width='0%';pct.textContent='\uc900\ube44 \uc911';st.innerHTML='<span class="muted">'+P.escape(file.name)+' \u00b7 '+(file.size/1048576).toFixed(0)+'MB</span>';
+ const done=()=>{subs.forEach(b=>b.disabled=false);pick.hidden=false;pg.hidden=true;};
+ try{const sid=P.rpCur.s.id,s1=await P.api('reports.videoStart',{studentId:sid,name:file.name,size:file.size,type:file.type,origin:location.origin},crypto.randomUUID());
+  const id=await new Promise((ok,no)=>{const x=new XMLHttpRequest();x.open('PUT',s1.uploadUrl);x.setRequestHeader('Content-Type',file.type);
+   x.upload.onprogress=e=>{if(e.lengthComputable){const p=Math.round(e.loaded/e.total*100);bar.style.width=p+'%';pct.textContent=p+'%';}};
+   x.onload=()=>{if(x.status===200||x.status===201){try{ok(JSON.parse(x.responseText).id);}catch(e){no(new Error('\uc5c5\ub85c\ub4dc \uacb0\uacfc\ub97c \uc77d\uc9c0 \ubabb\ud588\uc5b4\uc694'));}}else no(new Error('\uc5c5\ub85c\ub4dc\uc5d0 \uc2e4\ud328\ud588\uc5b4\uc694 ('+x.status+')'));};
+   x.onerror=()=>no(new Error('\uc5c5\ub85c\ub4dc \uc911 \uc5f0\uacb0\uc774 \ub04a\uacbc\uc5b4\uc694. \ub2e4\uc2dc \uace8\ub77c \uc8fc\uc138\uc694.'));x.send(file);});
+  pct.textContent='\ub9c8\ubb34\ub9ac \uc911';const d=await P.api('reports.videoDone',{studentId:sid,fileId:id},crypto.randomUUID());
+  f.querySelector('#rp-video').value=d.url;st.innerHTML='<b>\u2713 \uc601\uc0c1\uc744 \uc62c\ub838\uc5b4\uc694</b><button type="button" class="text-link" data-rp-vclear>\ube7c\uae30</button>';f.dispatchEvent(new Event('input',{bubbles:true}));P.rpPreview&&P.rpPreview();P.saving('\uc601\uc0c1\uc744 \uc62c\ub838\uc5b4\uc694. \uc800\uc7a5\ud558\uba74 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694','done');
+ }catch(err){st.innerHTML='<span class="muted">\uc544\uc9c1 \uc601\uc0c1\uc774 \uc5c6\uc5b4\uc694</span>';P.saving(err.message||'\uc601\uc0c1\uc744 \uc62c\ub9ac\uc9c0 \ubabb\ud588\uc5b4\uc694','error');}finally{done();}});
+document.addEventListener('click',ev=>{const b=ev.target.closest&&ev.target.closest('[data-rp-vclear]');if(!b)return;const box=b.closest('[data-rp-vbox]'),f=b.closest('form');f.querySelector('#rp-video').value='';box.querySelector('.rp-vstate').innerHTML='<span class="muted">\uc601\uc0c1\uc744 \ube90\uc5b4\uc694 \u00b7 \uc800\uc7a5\ud558\uba74 \ubc18\uc601\ub3fc\uc694</span>';f.dispatchEvent(new Event('input',{bubbles:true}));window.Piano.rpPreview&&window.Piano.rpPreview();});
 </script>
 
   <script>
