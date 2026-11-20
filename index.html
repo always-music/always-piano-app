@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201408">
+  <meta name="app-build" content="202611201419">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1405,6 +1405,11 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .tb-due:hover{background:rgba(233,211,166,.26)}
 .tb-due[hidden]{display:none}
 @media (max-width:760px){.rp-row{grid-template-columns:minmax(0,1fr) auto 14px!important}.rp-head:has(.rp-chain){grid-template-columns:1fr}.rp-chain{justify-self:stretch}.tb-due{height:28px;padding:0 9px;font-size:11.5px}}
+/* 2단계: 안 열어봄 3일+ · 학부모 반응 */
+.rp-flag.late{background:#FDECEA;color:#B23A2E}
+.rp-flag.heart{background:#FBEFF1;color:#B2405A}
+.rp-react{display:inline-flex;align-items:center;gap:6px;max-width:100%;padding:3px 10px;border-radius:99px;background:#FBEFF1;color:#B2405A;font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp-react small{color:#C77D8E;font-weight:500}
 
 </style>
 
@@ -2220,26 +2225,26 @@ P.rpRender=function(){
  const root=document.getElementById('rp-root');if(!root||!P.rp.list)return;const w=P.rp.week,list=P.rp.list,by={},T=P.rp.targets||{};list.forEach(r=>by[r.studentId]=r);
  const thisWeek=w===mon(P.data.date);
  const st=x=>x.r?(x.r.sentAt?'sent':'draft'):(x.t?(x.t.state==='due'?'due':x.t.state==='upcoming'?'upcoming':'absent'):'off');
- const ORDER={due:0,draft:1,upcoming:2,sent:3,absent:4,off:5};
+ const ORDER={due:0,draft:1,upcoming:2,sent:3,absent:4,off:5};const ago=d=>Math.floor((new Date(P.data.date+'T00:00:00Z')-new Date(String(d).slice(0,10)+'T00:00:00Z'))/864e5);const late=x=>x.k==='sent'&&!x.r.views&&ago(x.r.sentAt)>=3;
  const rows=students().map(s=>({s,r:by[s.id],t:T[s.id],d:days(s.id)})).map(x=>Object.assign(x,{k:st(x)})).sort((p,q)=>(ORDER[p.k]-ORDER[q.k])||String((p.t&&(p.t.last||p.t.next))||'9').localeCompare(String((q.t&&(q.t.last||q.t.next))||'9'))||p.s.name.localeCompare(q.s.name,'ko'));
- const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0};rows.forEach(x=>cnt[x.k]++);
+ const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0,late:0,heart:0};rows.forEach(x=>{cnt[x.k]++;if(late(x))cnt.late++;if(x.r&&x.r.reaction)cnt.heart++;});
  const target=cnt.due+cnt.draft+cnt.upcoming+cnt.sent,todo=cnt.due+cnt.draft,seen=list.filter(r=>r.sentAt&&r.views).length;
- const inTab=x=>P.rp.filter==='all'||(P.rp.filter==='todo'?(x.k==='due'||x.k==='draft'):P.rp.filter===x.k);
+ const inTab=x=>P.rp.filter==='all'||(P.rp.filter==='todo'?(x.k==='due'||x.k==='draft'):P.rp.filter==='late'?late(x):P.rp.filter===x.k);
  const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x)&&(!q||x.s.name.includes(q)));P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
  if(thisWeek&&P.data.reportDue){P.data.reportDue.count=cnt.due+cnt.draft;const c=document.querySelector('.tb-due');if(c){c.hidden=!(cnt.due+cnt.draft);const n=c.querySelector('b');if(n)n.textContent=cnt.due+cnt.draft;}}
  const pct=target?Math.round(cnt.sent/target*100):0;
  const tab=(k,lab,n)=>`<button type="button" class="seg-tab ${P.rp.filter===k?'active':''}" data-rp-filter="${k}" aria-pressed="${P.rp.filter===k}">${lab} <b>${n}</b></button>`;
  const dayOf=d=>DAYS[new Date(d+'T00:00:00Z').getUTCDay()];
  const when=x=>x.t?x.t.dates.map(d=>`<span class="rp-when ${d.absent?'off':''}">${dayOf(d.date)} ${e(String(d.time).slice(0,5))}${d.absent?' \uacb0\uc11d':''}</span>`).join(''):'<span class="rp-when off">\uc774\ubc88 \uc8fc \uc218\uc5c5 \uc5c6\uc74c</span>';
- const tag=x=>{const r=x.r;switch(x.k){case 'sent':return `${r.videoSent?'<span class="rp-flag">\uc601\uc0c1</span>':''}<span class="rp-flag ${r.views?'seen':''}">${r.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rp-state sent">\ubcf4\ub0c4 ${md(r.sentAt.slice(0,10))}</span>`;
+ const tag=x=>{const r=x.r;switch(x.k){case 'sent':return `${r.reaction?`<span class="rp-flag heart" title="${e(r.reaction.text||'\uc798 \ubc1b\uc558\uc5b4\uc694')}">\u2665 ${r.reaction.text?'\ub2f5\uc7a5':'\uc798 \ubc1b\uc74c'}</span>`:''}${r.videoSent?'<span class="rp-flag">\uc601\uc0c1</span>':''}<span class="rp-flag ${r.views?'seen':late(x)?'late':''}">${r.views?'\uc5f4\uc5b4\ubd04':late(x)?'\uc548 \uc5f4\uc5b4\ubd04 '+ago(r.sentAt)+'\uc77c':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rp-state sent">\ubcf4\ub0c4 ${md(r.sentAt.slice(0,10))}</span>`;
   case 'draft':return '<span class="rp-state draft">\uc791\uc131\ub428 \u00b7 \uc548 \ubcf4\ub0c4</span>';case 'due':return '<span class="rp-state due">\ubcf4\ub0bc \ucc28\ub840</span>';
   case 'upcoming':return `<span class="rp-state wait">${dayOf(x.t.next)}\uc694\uc77c \uc218\uc5c5 \uc608\uc815</span>`;case 'absent':return '<span class="rp-state wait">\uc774\ubc88 \uc8fc \uacb0\uc11d</span>';default:return '<span class="rp-state wait">\uc218\uc5c5 \uc5c6\uc74c</span>';}};
  const row=x=>`<button type="button" class="rp-row k-${x.k}" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small>${when(x)}${P.user.role==='director'&&teacherOf(x.s)?'<span class="rp-when t">'+e(teacherOf(x.s))+'</span>':''}</small></span><span class="rp-scene">${x.r?e(x.r.scene):x.k==='due'?'<i>\uc218\uc5c5\ud588\uc5b4\uc694 \u00b7 \uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>':'<i>\u2014</i>'}</span><span class="rp-flags">${tag(x)}</span><span class="rp-chev">${ic('chevron')}</span></button>`;
- const empty=P.rp.filter==='todo'?(target?'\uc774\ubc88 \uc8fc \ubcf4\ub0bc \ucc28\ub840\uc778 \ub9ac\ud3ec\ud2b8\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc774\ubc88 \uc8fc\uc5d0\ub294 \uc544\uc9c1 \uc218\uc5c5\ud55c \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'):P.rp.filter==='upcoming'?'\ub0a8\uc740 \uc218\uc5c5\uc774 \uc5c6\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.';
+ const empty=P.rp.filter==='late'?'3\uc77c \ub118\uac8c \uc548 \uc5f4\uc5b4\ubcf8 \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694.':P.rp.filter==='todo'?(target?'\uc774\ubc88 \uc8fc \ubcf4\ub0bc \ucc28\ub840\uc778 \ub9ac\ud3ec\ud2b8\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc774\ubc88 \uc8fc\uc5d0\ub294 \uc544\uc9c1 \uc218\uc5c5\ud55c \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'):P.rp.filter==='upcoming'?'\ub0a8\uc740 \uc218\uc5c5\uc774 \uc5c6\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.';
  root.innerHTML=`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
- <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${target}\uba85 \ubcf4\ub0c4</span><span class="muted">\ubcf4\ub0bc \ucc28\ub840 ${cnt.due} \u00b7 \uc791\uc131\ub428 ${cnt.draft} \u00b7 \uc218\uc5c5 \uc608\uc815 ${cnt.upcoming}${cnt.absent?' \u00b7 \uacb0\uc11d '+cnt.absent:''} \u00b7 \uc5f4\uc5b4\ubd04 ${seen}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
+ <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${target}\uba85 \ubcf4\ub0c4</span><span class="muted">\ubcf4\ub0bc \ucc28\ub840 ${cnt.due} \u00b7 \uc791\uc131\ub428 ${cnt.draft} \u00b7 \uc218\uc5c5 \uc608\uc815 ${cnt.upcoming}${cnt.absent?' \u00b7 \uacb0\uc11d '+cnt.absent:''} \u00b7 \uc5f4\uc5b4\ubd04 ${seen}${cnt.heart?' \u00b7 \u2665 \ubc18\uc751 '+cnt.heart:''}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
  ${todo?`<button type="button" class="btn primary rp-chain" data-rp-chain>\ubcf4\ub0bc \ucc28\ub840 \uc774\uc5b4\uc11c \uc4f0\uae30 <b>${todo}</b></button>`:''}
- <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\ubcf4\ub0bc \ucc28\ub840',todo)}${tab('upcoming','\uc218\uc5c5 \uc608\uc815',cnt.upcoming)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${tab('all','\uc804\uccb4',rows.length)}</div><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
+ <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\ubcf4\ub0bc \ucc28\ub840',todo)}${tab('upcoming','\uc218\uc5c5 \uc608\uc815',cnt.upcoming)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${cnt.late||P.rp.filter==='late'?tab('late','\uc548 \uc5f4\uc5b4\ubd04 3\uc77c+',cnt.late):''}${tab('all','\uc804\uccb4',rows.length)}</div><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
  <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${empty}</p>`}</section>`;
 };
 // \uc774\uc5b4\uc11c \uc4f0\uae30: \ubcf4\ub0bc \ucc28\ub840 \ud559\uc0dd\uc744 \uc21c\uc11c\ub300\ub85c \u2014 \ubcf4\ub0b4\uac70\ub098 \uc800\uc7a5\ud558\uba74 \ub2e4\uc74c \ud559\uc0dd \ucc3d\uc774 \ubc14\ub85c \uc5f4\ub9bc. \ucc3d\uc744 \ub2eb\uc73c\uba74 \uba48\ucda4
@@ -2303,7 +2308,7 @@ P.rpView=function(){
  const songs=(r.songs||[]).filter(x=>x&&x.title).map(x=>'<li><span class="rp-songst st-'+e(x.state||'ing')+'">'+e(ST[x.state]||ST.ing)+'</span>'+e(x.title)+'</li>').join('');
  const row=(k,v)=>v?'<dt>'+k+'</dt><dd>'+v+'</dd>':'';
  document.getElementById('dialog-content').innerHTML=`<div class="rp-view" data-rp-view="${e(s.id)}">
- <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span><span class="rp-vid ${r.videoUrl?'on':''}">${r.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \ud3ec\ud568':'\uc5f0\uc8fc \uc601\uc0c1 \uc5c6\uc74c'}</span></div>
+ <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span>${r.reaction?`<span class="rp-react">\u2665 ${r.reaction.text?'\u201c'+e(r.reaction.text)+'\u201d':'\uc798 \ubc1b\uc558\uc5b4\uc694'} <small>${md(String(r.reaction.at).slice(0,10))}</small></span>`:''}<span class="rp-vid ${r.videoUrl?'on':''}">${r.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \ud3ec\ud568':'\uc5f0\uc8fc \uc601\uc0c1 \uc5c6\uc74c'}</span></div>
  <div class="rp-grid"><div class="rp-fields"><dl class="rp-dl">
   ${row('\ub808\uc2a8\uc77c',e(dl(r.lessonDate)))}${row('\ubc1b\ub294 \ubd84',e(given(s.name)+' '+r.recipient))}
   ${row('\uc774\ubc88 \uc8fc \uace1',songs?'<ul class="rp-songlist">'+songs+'</ul>':'')}${row('\uc774\ub860\u00b7\uc219\uc81c',e(r.theory||''))}

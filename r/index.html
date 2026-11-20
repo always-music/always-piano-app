@@ -48,6 +48,17 @@ html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sa
 .diary li{position:relative;padding:0 0 16px 18px}.diary li::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2.5px solid var(--gold)}
 .diary .d{font-size:12px;font-weight:700;color:var(--gold-ink)}.diary .s{font-size:14.5px;line-height:1.55;margin-top:2px}.diary .t{font-size:12.5px;color:var(--muted);margin-top:2px}
 .foot{text-align:center;font-size:12px;color:var(--muted)}
+.react{display:flex;flex-direction:column;gap:12px;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.react .q{margin:0;font-size:14px;color:#4A3B2F;text-align:center}
+.react .heart{appearance:none;border:0;border-radius:12px;background:var(--choc);color:#fff;font:inherit;font-size:16px;font-weight:700;padding:14px;cursor:pointer;transition:background-color .15s,transform .08s}
+.react .heart:active{transform:scale(.98)}.react .heart:disabled{opacity:.6}
+.react textarea{width:100%;min-height:72px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);background:#FFFDFA}
+.react textarea:focus{outline:none;border-color:var(--choc);box-shadow:0 0 0 3px rgba(61,43,31,.1)}
+.react .send{appearance:none;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--choc);font:inherit;font-size:14.5px;font-weight:700;padding:11px;cursor:pointer}
+.react .ok{margin:0;text-align:center;font-size:15px;font-weight:700;color:var(--choc)}
+.react .ok small{display:block;margin-top:2px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.react .say{display:flex;flex-direction:column;gap:8px}
+.react [hidden]{display:none}
 .state{padding:80px 0;text-align:center;color:var(--muted);font-size:15px;line-height:1.7}
 .skel{height:14px;border-radius:7px;background:linear-gradient(90deg,#F1ECE4,#F8F4EE,#F1ECE4);background-size:200% 100%;animation:sk 1.2s infinite}
 @keyframes sk{to{background-position:-200% 0}}@media (prefers-reduced-motion:reduce){.skel{animation:none}}
@@ -84,8 +95,14 @@ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}}
  +(songs?'<div><div class="lab">이번 주 곡</div><div class="staffbox"><div class="songs">'+songs+'</div></div></div>':'')
  +(r.theory?'<div><div class="lab">이론·숙제</div><div class="theory">'+e(r.theory)+'</div></div>':'')
  +'<div class="sign"><span><strong>'+e(r.teacher)+' 선생님</strong><small>언제나 음악학원</small></span><span class="seal">참<br>잘했어요</span></div></article>'
+ +'<section class="react" id="react">'+(r.reacted?'<p class="ok">선생님께 잘 받았다고 전했어요 ♥<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>':'<p class="q">리포트 잘 받으셨나요?</p><button type="button" class="heart" data-heart>잘 받았어요 ♥</button>')+'<div class="say" '+(r.reacted?'':'hidden')+'><textarea maxlength="200" placeholder="선생님께 한 줄 남기기 (선택)" aria-label="선생님께 한 줄 남기기"></textarea><button type="button" class="send" data-say>선생님께 남기기</button></div></section>'
  +(past?'<section class="diary"><h2>'+e(call)+'의 피아노 일기</h2><ol>'+past+'</ol></section>':'')
  +'<p class="foot">이 페이지는 '+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요.</p>';
+ var box=document.getElementById('react');if(box)box.addEventListener('click',function(ev){var t=ev.target,btn=t.closest&&t.closest('[data-heart],[data-say]');if(!btn||btn.disabled)return;var ta=box.querySelector('textarea'),text=btn.hasAttribute('data-say')?ta.value.trim():'';if(btn.hasAttribute('data-say')&&!text){ta.focus();return;}btn.disabled=true;var old=btn.textContent;btn.textContent='전하는 중…';
+  fetch(API,{method:'POST',body:JSON.stringify({fn:'reportReact',arg:{token:token,text:text}})}).then(function(x){return x.json();}).then(function(res){if(!res||!res.ok)throw new Error(res&&res.error&&res.error.message||'');
+   if(text){ta.value='';btn.disabled=false;btn.textContent=old;var ok=box.querySelector('.ok');if(!ok){box.insertAdjacentHTML('afterbegin','<p class="ok"></p>');ok=box.querySelector('.ok');}ok.innerHTML='선생님께 전했어요. 고맙습니다!<small>'+e(text)+'</small>';}
+   else{var q=box.querySelector('.q');if(q)q.remove();btn.outerHTML='<p class="ok">선생님께 잘 받았다고 전했어요 ♥<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>';box.querySelector('.say').hidden=false;}
+  }).catch(function(err){btn.disabled=false;btn.textContent=old;alert(err&&err.message||'잠시 연결이 원활하지 않아요. 조금 뒤 다시 눌러 주세요.');});});
 }).catch(function(){show('잠시 연결이 원활하지 않아요.<br>조금 뒤 다시 열어 주세요.');});
 })();
 </script>
