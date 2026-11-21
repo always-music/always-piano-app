@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211301">
+  <meta name="app-build" content="202611211308">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1579,8 +1579,342 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp2-sticky .rp-stars{grid-column:1/-1}
 .rp2-sticky>.rp-lab{display:flex;justify-content:space-between;font-size:12px;color:#5E5650}
 @media (max-width:560px){.rp2-head{padding:14px 16px!important}}
-.rp-testbtn{margin-left:auto}.rp-tools:has(.rp-testbtn) .rp-search{margin-left:0}
 
+/* ===== 휴대폰 앱: 아래 탭 + 전체 메뉴 + 메모 탭 (2026-11-21, 회사 앱 구성 참고) ===== */
+.app-tabs,.app-all{display:none}
+@media (max-width:900px){
+ body.app-mode{--at-ease:cubic-bezier(.2,.8,.2,1);--at-spring:cubic-bezier(.34,1.36,.5,1)}
+ body.app-mode .mobile-menu,body.app-mode .sidebar,body.app-mode .drawer-backdrop,body.app-mode .r-fab{display:none!important}
+ body.app-mode .content{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+ body.app-mode .footer{display:none}
+ body.app-mode #save-toast{bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+ /* 아래 탭 */
+ body.app-mode .app-tabs{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:90;height:66px;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:0 4px;border-radius:24px;background:rgba(255,255,255,.9);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);border:1px solid rgba(255,255,255,.95);box-shadow:0 8px 28px rgba(40,25,15,.13),0 1px 2px rgba(40,25,15,.06);transition:transform .38s cubic-bezier(.32,.72,0,1)}
+ body.app-mode .at-tab{display:grid;justify-items:center;align-content:center;gap:2px;height:100%;padding:0;border:0;background:none;color:#6F6760;font:500 11.5px/1.2 'Noto Sans KR',sans-serif;text-decoration:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+ body.app-mode .at-pw{position:relative;width:56px;height:33px;display:grid;place-items:center}
+ body.app-mode .at-pill{position:absolute;inset:0;border-radius:17px;background:#3D2B1F;opacity:0;transform:scale(.7);transition:opacity .18s linear,transform .32s var(--at-spring),background-color .18s,box-shadow .18s}
+ body.app-mode .at-tab .icon{position:relative;width:22px;height:22px;stroke-width:1.8;transition:color .18s,transform .2s var(--at-ease)}
+ body.app-mode .at-tab.press .at-pill{opacity:1;transform:scale(1);background:#fff;box-shadow:0 2px 10px rgba(40,25,15,.15)}
+ body.app-mode .at-tab.press .icon{transform:scale(.92)}
+ body.app-mode .at-tab.on .at-pill{opacity:1;transform:scale(1);background:#3D2B1F;box-shadow:none}
+ body.app-mode .at-tab.on .icon{color:#fff}
+ body.app-mode .at-tab.on{color:#1E1915;font-weight:700}
+ body.app-mode .at-tab:focus-visible{outline:2px solid #B08D57;outline-offset:-4px;border-radius:18px}
+ /* 화면 바뀔 때: 살짝 올라오며 나타남 */
+ body.app-mode main.view-enter{animation:at-enter .34s var(--at-ease) both}
+ @keyframes at-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+ /* 전체 */
+ body.app-mode .app-all{position:fixed;inset:0;z-index:85;display:flex;flex-direction:column;background:#F2F1EF;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .16s linear,transform .16s linear,visibility 0s .16s}
+ body.app-mode .app-all.open{opacity:1;visibility:visible;transform:none;transition:opacity .26s var(--at-ease),transform .34s var(--at-ease),visibility 0s}
+ .aa-head{flex:none;background:#3D2B1F;color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 16px}
+ .aa-top{display:flex;align-items:center;justify-content:space-between}
+ .aa-top h2{margin:0;font-size:20px;font-weight:800;color:#fff;letter-spacing:-.02em}
+ .aa-icon{width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:50%;background:none;color:#fff;transition:background-color .15s}
+ .aa-icon:active{background:rgba(255,255,255,.12)}
+ .aa-icon .icon{width:22px;height:22px}
+ .aa-me{display:flex;align-items:center;gap:9px;margin:12px 0 14px;min-width:0}
+ .aa-me .avatar{width:34px;height:34px;flex:none;border-radius:50%;background:#fff;color:#3D2B1F;display:grid;place-items:center;font-weight:800;font-size:14px}
+ .aa-me strong{font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .aa-me small{font-size:12px;color:rgba(255,255,255,.62)}
+ .aa-viewas{margin-left:auto;flex:none;height:34px;padding:0 13px;border:0;border-radius:11px;background:#fff;color:#3D2B1F;font:700 13px 'Noto Sans KR',sans-serif;transition:transform .15s var(--at-ease)}
+ .aa-viewas:active{transform:scale(.95)}
+ .aa-search{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:14px;background:rgba(255,255,255,.97);color:#A39B94}
+ .aa-search .icon{width:18px;height:18px;flex:none}
+ .aa-search input{flex:1;min-width:0;height:100%;border:0;outline:0;background:none;font:400 15px 'Noto Sans KR',sans-serif;color:#1E1915;padding:0}
+ .aa-search input::-webkit-search-cancel-button{display:none}
+ .aa-body{flex:1;min-height:0;display:grid;grid-template-columns:96px minmax(0,1fr)}
+ .aa-rail{position:relative;overflow-y:auto;background:#EAE7E3;padding-bottom:120px;scrollbar-width:none;transition:opacity .2s}
+ .aa-rail::-webkit-scrollbar,.aa-pane::-webkit-scrollbar{display:none}
+ .app-all.searching .aa-rail{opacity:.45;pointer-events:none}
+ .aa-rind{position:absolute;left:0;right:0;top:0;height:50px;background:#F2F1EF;transition:transform .36s var(--at-ease),height .3s var(--at-ease)}
+ .aa-rind::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;background:#3D2B1F}
+ .aa-cat{position:relative;z-index:1;display:block;width:100%;padding:15px 12px 15px 14px;border:0;background:none;text-align:left;font:500 13.5px/1.35 'Noto Sans KR',sans-serif;color:#6F6760;word-break:keep-all;transition:color .2s}
+ .aa-cat.on{color:#1E1915;font-weight:700}
+ .aa-rail hr{border:0;border-top:1px solid #DAD5D0;margin:8px 14px}
+ .aa-minor{display:block;width:100%;padding:10px 12px 10px 14px;border:0;background:none;text-align:left;font:400 12.5px/1.4 'Noto Sans KR',sans-serif;color:#8F8780}
+ .aa-minor.out{color:#C2483D}
+ .aa-pane{position:relative;overflow-y:auto;padding:4px 12px 130px;scrollbar-width:none;overscroll-behavior:contain}
+ .aa-sec{padding-top:16px}
+ .aa-sec h3{margin:0 4px 8px;font-size:16.5px;font-weight:800;color:#1E1915;letter-spacing:-.02em}
+ .aa-list{background:#fff;border:1px solid #E8E4E0;border-radius:16px;overflow:hidden}
+ .aa-item{display:flex;align-items:center;gap:11px;padding:13px 12px;color:#1E1915;text-decoration:none;font-size:14.5px;transition:background-color .15s}
+ .aa-item+.aa-item{border-top:1px solid #F2EFEC}
+ .aa-item:active{background:#F5F2EF}
+ .aa-item .icon{width:19px;height:19px;flex:none;color:#3D2B1F}
+ .aa-item span{flex:1;min-width:0}
+ .aa-item em{font-style:normal;font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;background:#F5EEE2;color:#8A6A38}
+ .aa-item .aa-chev{width:15px;height:15px;color:#C9C2BB}
+ .aa-item.soon,.aa-item.soon .icon{color:#A39B94}
+ .aa-none{padding:40px 8px;text-align:center;color:#A39B94;font-size:13px}
+ body.app-mode .app-wkgrid{display:none}
+ body.app-mode .app-wkm{display:block!important;order:0;margin-top:0}
+}
+@media (max-width:900px) and (prefers-reduced-motion:reduce){body.app-mode .app-all,body.app-mode .at-pill,body.app-mode main.view-enter,.aa-rind{transition:none!important;animation:none!important}}
+/* ===== 휴대폰 앱 2차: 시안(claude.ai/artifact/BNy1MRMPdjygrSkmSMvdaQ)과 같게 — 위 머리줄·홈 상단·메모·전체 ===== */
+.app-brand{display:none}
+@media (max-width:900px){
+ body.app-mode{background:#F2F1EF}
+ body.app-mode .topbar{display:none!important}
+ body.app-mode main.content{padding-top:calc(68px + env(safe-area-inset-top,0px))!important}
+ /* 위 머리줄 */
+ body.app-mode .app-brand{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;height:calc(52px + env(safe-area-inset-top,0px));padding:env(safe-area-inset-top,0px) 18px 0;background:#3D2B1F;color:#fff;transition:box-shadow .25s}
+ body.app-mode .app-brand.lift{box-shadow:0 6px 18px rgba(30,18,10,.18)}
+ .ab-wm{color:#fff!important;text-decoration:none;line-height:1.1}
+ .ab-wm b{display:block;font-size:17px;font-weight:800;letter-spacing:.06em}
+ .ab-wm span{font-size:11px;color:rgba(255,255,255,.62);letter-spacing:.02em}
+ .ab-r{display:flex;align-items:center;gap:12px}
+ .ab-bell{position:relative;width:34px;height:34px;min-height:0;display:grid;place-items:center;padding:0;border:0;border-radius:50%;background:none;color:#fff;transition:background-color .15s}
+ .ab-bell:active{background:rgba(255,255,255,.12)}
+ .ab-bell .icon{width:22px;height:22px;stroke-width:1.8}
+ .ab-bell i{position:absolute;top:6px;right:7px;width:7px;height:7px;border-radius:50%;background:#E23D7A;box-shadow:0 0 0 2px #3D2B1F}
+ .ab-ava{width:36px;height:36px;min-height:0;padding:0;border:0;border-radius:50%;background:#fff;color:#3D2B1F;font:800 15px 'Noto Sans KR',sans-serif;transition:transform .15s}
+ .ab-ava:active{transform:scale(.94)}
+ /* 아래 탭: 시안 크기 */
+ body.app-mode .app-tabs{bottom:calc(14px + env(safe-area-inset-bottom,0px));height:68px;border-radius:26px;background:rgba(255,255,255,.88);border-color:rgba(255,255,255,.9);box-shadow:0 8px 28px rgba(40,25,15,.12),0 1px 2px rgba(40,25,15,.06)}
+ body.app-mode .at-tab{gap:3px}
+ body.app-mode .at-pw{width:58px;height:34px}
+ /* 페이지 제목: 시안처럼 금색 영문 한 줄 + 굵은 제목, 설명·왼쪽 막대 없음 */
+ body.app-mode .page-heading{height:auto!important;min-height:0!important;padding:0 4px;margin:0 0 4px}
+ body.app-mode .page-heading>div:first-child{padding-left:0}
+ body.app-mode .page-heading>div:first-child::before{display:none}
+ body.app-mode .page-heading .eyebrow{font-size:11px;letter-spacing:.14em;color:#B08D57;margin:0 0 2px}
+ body.app-mode .page-heading h1{font-size:21px;letter-spacing:-.03em}
+ body.app-mode .page-heading .lead{display:none}
+ /* 홈 상단 */
+ body.app-mode .m-hero.app-hero{margin:-16px -16px 0!important;padding:14px 20px 52px!important;border-radius:0!important;background:#3D2B1F!important;box-shadow:none!important;color:#fff}
+ .app-hero .ah-hello{margin:0;font-size:22px;font-weight:700;letter-spacing:-.03em;color:#fff}
+ .app-hero .ah-date{margin:6px 0 0;font-size:13px;color:rgba(255,255,255,.66)}
+ .app-hero .ah-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:18px}
+ .app-hero .ah-tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 10px 9px}
+ .app-hero .ah-tile small{display:block;font-size:11px;color:rgba(255,255,255,.62)}
+ .app-hero .ah-tile b{font-size:20px;font-weight:800;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+ .app-hero .ah-tile em{font-style:normal;font-size:12px;font-weight:500;margin-left:2px;color:rgba(255,255,255,.75)}
+ .app-hero .push-nudge,.app-hero [class*="nudge"]{margin-top:14px}
+ body.app-mode .ah-sheet{position:relative;display:grid;gap:12px;margin:-30px -16px 0;padding:14px 14px 0;background:#F2F1EF;border-radius:26px 26px 0 0}
+ .ah-quick{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:16px 6px 14px;margin:0;border-radius:20px}
+ .ah-q{display:grid;justify-items:center;gap:8px;min-height:0;padding:4px 0;border:0;background:none;border-radius:14px;font:500 12.5px 'Noto Sans KR',sans-serif;color:#1E1915;transition:transform .15s cubic-bezier(.2,.8,.2,1)}
+ .ah-q:active{transform:scale(.92)}
+ .ah-q span{width:46px;height:46px;border-radius:15px;background:#F1ECE7;color:#3D2B1F;display:grid;place-items:center}
+ .ah-q svg{width:22px;height:22px}
+ .ah-notice{display:flex;align-items:center;gap:12px;width:100%;min-height:0;margin:0;padding:14px 16px;border-radius:20px;text-align:left;font:inherit;color:#1E1915;transition:transform .15s,background-color .15s}
+ .ah-notice:active{transform:scale(.98);background:#FBFAF9}
+ .ah-notice .ah-bar{width:3px;align-self:stretch;border-radius:2px;background:#B08D57}
+ .ah-notice .ah-nt{flex:1;min-width:0;display:grid}
+ .ah-notice b{font-size:14.5px;font-weight:700}
+ .ah-notice b em{font-style:normal;color:#B08D57}
+ .ah-notice small{font-size:12.5px;color:#6F6760;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .ah-notice .icon{width:20px;height:20px;color:#A39B94}
+ body.app-mode .home-wkm{margin-top:12px}
+ /* 전체: 시안 머리 · 소분류 */
+ .aa-write{margin-left:auto;flex:none;display:flex;align-items:center;gap:6px;height:34px;padding:0 13px;border-radius:11px;background:#fff;color:#3D2B1F!important;text-decoration:none;font-size:13px;font-weight:700;transition:transform .15s}
+ .aa-write:active{transform:scale(.95)}
+ .aa-write .icon{width:16px;height:16px}
+ .aa-sec{padding-top:14px}
+ .aa-sec h3{margin:0 4px 4px;font-size:17px}
+ .aa-grp{margin:12px 6px 6px;font-size:11.5px;font-weight:600;color:#A39B94}
+ .aa-cat{padding:15px 14px}
+ body.app-mode .aa-body{grid-template-columns:100px minmax(0,1fr)}
+ .aa-minor{padding:10px 14px}
+ /* 메모 탭 */
+ body.app-mode .app-memo{height:auto!important;min-height:0;display:grid;grid-template-rows:auto 1fr;gap:12px;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow:visible}
+ .am-head{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:0 4px}
+ .am-head .eyebrow{display:block;margin:0;font-size:11px;font-weight:700;letter-spacing:.14em;color:#B08D57}
+ .am-head h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.03em;color:#1E1915}
+ .am-act{display:flex;align-items:center;gap:10px;min-width:0}
+ .am-act .memo-status{font-size:12px;color:#A39B94;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .am-btn{flex:none;height:36px;min-height:0;padding:0 16px;border:1px solid #E8E4E0;border-radius:12px;background:#fff;color:#1E1915;font:700 13.5px 'Noto Sans KR',sans-serif;transition:transform .15s,background-color .2s,color .2s,border-color .2s}
+ .am-btn:active{transform:scale(.94)}
+ .am-btn.primary{background:#3D2B1F;border-color:#3D2B1F;color:#fff}
+ body.app-mode .app-memo .am-paper,body.app-mode .app-memo:not(.editing) .am-paper{margin:0!important;min-height:calc(100dvh - 280px);max-height:none!important;padding:18px 18px 40px!important;border:1px solid #E9E1D6!important;border-radius:20px!important;background:#FBF9F5!important;box-shadow:none;font-size:15px;line-height:1.85;color:#1E1915;word-break:keep-all;overflow-wrap:anywhere;outline:0;transition:border-color .25s,box-shadow .25s,background-color .25s}
+ body.app-mode .app-memo.editing .am-paper{border-color:#3D2B1F!important;box-shadow:0 0 0 4px rgba(61,43,31,.08)!important;background:#fff!important}
+ body.app-mode .app-memo:not(.editing) .am-bar{display:none!important}
+ body.app-mode .app-memo.editing .am-bar{position:fixed;left:12px;right:12px;bottom:calc(14px + max(env(safe-area-inset-bottom,0px),var(--kb,0px)));z-index:95;height:60px;display:flex!important;flex-wrap:nowrap;align-items:center;gap:4px;margin:0;padding:0 8px;border:0;border-radius:22px;background:#3D2B1F;box-shadow:0 10px 30px rgba(40,25,15,.28);animation:am-up .38s cubic-bezier(.32,.72,0,1) both}
+ @keyframes am-up{from{transform:translateY(150%)}to{transform:none}}
+ body.app-mode .am-bar .memo-tool{display:grid;place-items:center;height:42px;min-width:42px;padding:0 10px;border:0;border-radius:13px;background:none;color:#fff;font-size:15px;transition:background-color .15s,transform .15s}
+ body.app-mode .am-bar .memo-tool:hover{background:none;border:0}
+ body.app-mode .am-bar .memo-tool:active{background:rgba(255,255,255,.16);transform:scale(.92)}
+ body.app-mode .am-bar .memo-tool svg{width:20px;height:20px}
+ .am-hl{display:block;width:22px;height:16px;border-radius:4px;background:#BAE6FD}
+ body.app-mode .am-bar .memo-sep{width:1px;height:22px;margin:0 4px;background:rgba(255,255,255,.18)}
+ .am-done{margin-left:auto;height:42px;min-height:0;padding:0 16px;border:0;border-radius:13px;background:#fff;color:#3D2B1F;font:700 13.5px 'Noto Sans KR',sans-serif}
+ .am-done:active{background:#F1ECE7}
+ body.app-mode:has(.app-memo.editing) .app-tabs{transform:translateY(150%)}
+}
+/* ===== 휴대폰 앱 글자 크기: B 균형 (2026-11-21, 비교 시안 claude.ai/artifact/X6tjX4Dgxu1pGMWxHZ9fyZ) =====
+   본문 13~14px · 카드 제목 15px · 큰 제목 19px · 굵기 한 단계 낮춤(800→700, 700→600). 휴대폰 글꼴 키움 설정에 커지지 않게 고정. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+@media (max-width:900px){
+ body.app-mode{font-size:14px}
+ /* 위 머리줄 */
+ body.app-mode .app-brand{height:calc(48px + env(safe-area-inset-top,0px))}
+ body.app-mode main.content{padding-top:calc(62px + env(safe-area-inset-top,0px))!important}
+ body.app-mode .ab-wm b{font-size:15px}
+ body.app-mode .ab-wm span{font-size:10.5px}
+ body.app-mode .ab-ava{width:32px;height:32px;font-size:13.5px}
+ body.app-mode .ab-bell{width:32px;height:32px}
+ body.app-mode .ab-bell .icon{width:21px;height:21px}
+ /* 홈 상단 */
+ body.app-mode .m-hero.app-hero{padding:10px 18px 46px!important}
+ body.app-mode .ah-hello{font-size:19px!important}
+ body.app-mode .ah-date{font-size:12.5px;margin-top:5px}
+ body.app-mode .ah-tiles{gap:7px;margin-top:14px}
+ body.app-mode .ah-tile{padding:9px 9px 8px;border-radius:13px}
+ body.app-mode .ah-tile small{font-size:10.5px}
+ body.app-mode .ah-tile b{font-size:17px;font-weight:700}
+ body.app-mode .ah-tile em{font-size:11px}
+ body.app-mode .push-nudge-t{font-size:13px!important}
+ body.app-mode .push-nudge-on{font-size:12.5px!important}
+ body.app-mode .ah-sheet{margin-top:-28px;padding:12px 12px 0;gap:10px;border-radius:24px 24px 0 0}
+ body.app-mode .ah-quick{padding:14px 4px 12px;border-radius:18px}
+ body.app-mode .ah-q{font-size:12px;gap:7px}
+ body.app-mode .ah-q span{width:42px;height:42px;border-radius:13.5px}
+ body.app-mode .ah-q svg{width:20px;height:20px}
+ body.app-mode .ah-notice{padding:12px 14px;border-radius:18px}
+ body.app-mode .ah-notice b{font-size:13.5px}
+ body.app-mode .ah-notice small{font-size:12px}
+ /* 제목 */
+ body.app-mode main :is(h1,h2,h3){font-weight:700!important}
+ body.app-mode .page-heading h1{font-size:19px!important}
+ body.app-mode .page-heading .eyebrow,body.app-mode .am-head .eyebrow{font-size:10.5px!important}
+ body.app-mode main .card h2,body.app-mode main .card-header h2{font-size:15px!important;letter-spacing:-.02em}
+ body.app-mode main .sub{font-size:11.5px!important}
+ body.app-mode #dialog-title{font-size:17px!important;font-weight:700!important}
+ body.app-mode .dialog-content{font-size:14px}
+ /* 주간 시간표(휴대폰) */
+ body.app-mode .wkm-tab{font-size:13px!important;font-weight:600!important}
+ body.app-mode .wkm-tab small{font-size:10.5px!important}
+ body.app-mode .wkm-time{font-size:12.5px!important;font-weight:600!important}
+ body.app-mode .wkm-names .weekly-chip{font-size:12px!important;letter-spacing:-.04em;white-space:nowrap!important;overflow:hidden;text-overflow:clip;padding:6px 0!important}
+ body.app-mode .wkm-add{font-size:16px!important}
+ /* 보강·결석 달력 */
+ body.app-mode .hm-month span,body.app-mode .abs-nav strong{font-size:13px!important}
+ body.app-mode .abs-day,body.app-mode .abs-day span{font-size:12.5px!important}
+ body.app-mode .big-day-num{font-size:11.5px!important}
+ body.app-mode .mk-legend span{font-size:11.5px!important}
+ body.app-mode .calendar-weekday{font-size:11px!important}
+ /* 표·버튼·탭·공용 */
+ body.app-mode .btn{font-size:12.5px!important}
+ body.app-mode .seg-tab,body.app-mode .seg-tab span,body.app-mode .seg-tab b{font-size:12.5px!important}
+ body.app-mode main tr td,body.app-mode main td strong{font-size:13px!important}
+ body.app-mode main tr th{font-size:12px!important}
+ body.app-mode .empty-cell,body.app-mode .subtitle,body.app-mode .notice span,body.app-mode .section-note span,body.app-mode main .time{font-size:13px!important}
+ body.app-mode .pill{font-size:11.5px!important}
+ body.app-mode .wk-head strong,body.app-mode .tf-option span,body.app-mode .dq-opt{font-size:13px!important}
+ body.app-mode .wq-title{font-size:13.5px!important}
+ body.app-mode main summary b{font-size:13.5px!important}
+ /* 전체 */
+ body.app-mode .aa-head{padding:calc(12px + env(safe-area-inset-top,0px)) 16px 14px}
+ body.app-mode .aa-top h2{font-size:18px;font-weight:700}
+ body.app-mode .aa-me{margin:10px 0 12px}
+ body.app-mode .aa-me .avatar{width:30px;height:30px;font-size:12.5px}
+ body.app-mode .aa-me strong{font-size:14.5px}
+ body.app-mode .aa-me small{font-size:11.5px}
+ body.app-mode .aa-write{height:32px;padding:0 12px;font-size:12.5px}
+ body.app-mode .aa-search{height:42px}
+ body.app-mode .aa-body{grid-template-columns:92px minmax(0,1fr)}
+ body.app-mode .aa-cat{padding:14px 12px;font-size:12.5px}
+ body.app-mode .aa-minor{font-size:12px;padding:9px 12px}
+ body.app-mode .aa-sec h3{font-size:15.5px;font-weight:700}
+ body.app-mode .aa-grp{font-size:11px}
+ body.app-mode .aa-item{padding:12px 11px;font-size:13.5px;gap:10px}
+ body.app-mode .aa-item .icon{width:18px;height:18px}
+ body.app-mode .aa-item em{font-size:10.5px}
+ /* 메모 */
+ body.app-mode .am-head h2{font-size:19px!important}
+ body.app-mode .am-act .memo-status{font-size:11.5px}
+ body.app-mode .am-btn{height:34px;padding:0 14px;font-size:12.5px}
+ body.app-mode .app-memo .am-paper,body.app-mode .app-memo:not(.editing) .am-paper{font-size:14.5px!important;line-height:1.8!important;padding:16px 16px 36px!important;border-radius:18px!important}
+ body.app-mode .app-memo.editing .am-bar{height:56px;border-radius:20px}
+ body.app-mode .am-bar .memo-tool{height:40px;min-width:40px;font-size:14px}
+ body.app-mode .am-done{height:40px;font-size:12.5px}
+ /* 아래 탭 */
+ body.app-mode .app-tabs{height:62px;border-radius:24px}
+ body.app-mode .at-pw{width:52px;height:31px}
+ body.app-mode .at-tab .icon{width:21px;height:21px}
+ body.app-mode .at-tab{font-size:10.5px}
+ body.app-mode .at-tab.on{font-weight:600}
+ body.app-mode .content{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+ /* 페이지 제목: 메모와 같은 자리(왼쪽 4px, 머리줄 바로 아래)·정규 수업의 '수업 추가'는 제목 줄 오른쪽 */
+ body.app-mode .page-heading{padding:0 4px!important;margin:0 0 12px!important;gap:10px}
+ body.app-mode .page-heading>div:first-child{padding-left:0!important;margin-left:0!important}
+ body.app-mode main.content{position:relative}
+ body.app-mode .wk-toolbar{position:absolute;top:calc(71px + env(safe-area-inset-top,0px));right:20px;margin:0!important;z-index:2}
+ body.app-mode .wk-toolbar .btn{height:34px!important;min-height:0!important;padding:0 12px;border-radius:11px}
+ body.app-mode .wk-toolbar~.home-wkm{margin-top:0!important}
+ /* 입력칸: 본문과 같은 14px (확대 방지는 앱에서 maximum-scale=1로 처리) */
+ body.app-mode :is(input,textarea,select){font-size:14px}
+}
+/* ===== 휴대폰 앱: 주간 보강·결석 + 보강·결석 캘린더 (A안) ===== */
+@media (max-width:900px){
+ body.app-mode{--am-mk:#3B6FD4;--am-ab:#D2473C;--am-cs:#2E9467;--am-mm:#C98A0B;--am-hair:#F3F0ED}
+ .am-card{padding:0!important;overflow:hidden;border-radius:20px}
+ .am-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 12px 8px 16px}
+ .am-head h2{margin:0;font-size:15px!important;font-weight:700!important;letter-spacing:-.02em}
+ .am-rng{display:block;margin-top:2px;font-size:12px;color:#A39B94;font-variant-numeric:tabular-nums}
+ .am-nav{display:flex;align-items:center;gap:4px}
+ .am-nb{width:32px;height:32px;min-height:0;padding:0;border:0;border-radius:10px;background:none;color:#6F6760;display:grid;place-items:center;transition:background-color .15s,transform .15s}
+ .am-nb:active{background:var(--am-hair);transform:scale(.92)}
+ .am-nb .icon{width:16px;height:16px;stroke-width:2}
+ .am-nb .am-prev{transform:rotate(180deg)}
+ .am-now{height:30px;min-height:0;padding:0 10px;border:1px solid #ECE8E4;border-radius:9px;background:#fff;font-size:12px;font-weight:600;color:#6F6760}
+ .am-month{font-variant-numeric:tabular-nums}
+ .am-add{height:32px;min-height:0;padding:0 12px;border:0;border-radius:10px;background:#3D2B1F;color:#fff;font-size:12.5px;font-weight:600;transition:transform .15s}
+ .am-add:active{transform:scale(.95)}
+ .am-sum{display:flex;gap:14px;padding:0 16px 12px;font-size:12px;color:#6F6760;font-variant-numeric:tabular-nums}
+ .am-sum b{margin-left:3px;color:#1E1915;font-weight:700}
+ .am-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle;position:relative;top:-1px;flex:none}
+ .am-mk{background:var(--am-mk)}.am-ab{background:var(--am-ab)}.am-cs{background:var(--am-cs)}.am-mm{background:var(--am-mm)}
+ /* 주간: 날짜 줄 */
+ .am-day{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 14px 12px 10px;border-top:1px solid var(--am-hair)}
+ .am-day.today{background:linear-gradient(90deg,#FFEAF2,#fff 70%)}
+ .am-day.today::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:#E23D7A}
+ .am-dl{display:grid;justify-items:center;align-content:start;min-height:0;padding:1px 0 0;border:0;background:none;border-radius:10px}
+ .am-dl small{font-size:11.5px;color:#A39B94;font-weight:500}
+ .am-dl b{font-size:19px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums;color:#1E1915}
+ .am-day.today .am-dl b,.am-day.today .am-dl small{color:#E23D7A}
+ .am-dl em{margin-top:3px;padding:1px 5px;border-radius:5px;background:#E23D7A;color:#fff;font-style:normal;font-size:9.5px;font-weight:700}
+ .am-items{display:grid;gap:2px;min-width:0}
+ .am-it{display:flex;align-items:baseline;gap:8px;min-width:0;min-height:0;margin:0 -8px;padding:5px 8px;border:0;border-radius:9px;background:none;text-align:left;font-size:13.5px;color:#1E1915;transition:background-color .15s}
+ button.am-it:active{background:var(--am-hair)}
+ .am-it .am-dot{align-self:center;top:0;margin:0}
+ .am-t{flex:none;width:38px;font-size:12px;font-weight:600;color:#6F6760;font-variant-numeric:tabular-nums}
+ .am-n{min-width:0;font-weight:600}
+ .am-x{flex:none;margin-left:auto;font-size:12px;color:#A39B94}
+ .am-it.pending{opacity:.55}
+ .am-abs .am-lab{color:var(--am-ab)}
+ .am-abs .am-n{font-weight:500;color:#5E4E47;word-break:keep-all}
+ .am-nm{display:inline;min-height:0;padding:0;border:0;background:none;font:inherit;color:inherit;border-radius:4px}
+ .am-nm:active{background:#FCEFEE}
+ .am-nm.done{color:#A39B94}
+ .am-sep{color:#C9C2BB}
+ .am-memo{display:flex;align-items:flex-start;gap:7px;min-height:0;margin:0 -2px 3px;padding:6px 9px;border:0;border-radius:9px;background:#FFF6E0;color:#6B4E12;font-size:12.5px;line-height:1.45;text-align:left}
+ .am-memo svg{flex:none;width:13px;height:13px;margin-top:2px;fill:none;stroke:var(--am-mm);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .am-none{margin:0;padding:5px 0;font-size:12.5px;color:#A39B94}
+ /* 월간: 점 달력 */
+ .am-wk{display:grid;grid-template-columns:repeat(7,1fr);padding:0 8px;margin-bottom:4px;text-align:center;font-size:11px;color:#A39B94}
+ .am-wk span:first-child{color:#C9776F}.am-wk span:last-child{color:#6E8FC9}
+ .am-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;padding:0 8px 10px}
+ .am-c{position:relative;display:grid;justify-items:center;align-content:start;gap:4px;height:56px;min-height:0;padding:5px 0 0;border:0;border-radius:12px;background:none;transition:background-color .15s}
+ .am-c:active{background:var(--am-hair)}
+ .am-c.off{visibility:hidden}
+ .am-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13.5px;font-weight:500;color:#1E1915;font-variant-numeric:tabular-nums;transition:background-color .2s,color .2s}
+ .am-c.sun .am-num{color:#C9776F}.am-c.sat .am-num{color:#6E8FC9}
+ .am-c.today .am-num{color:#E23D7A;font-weight:700;box-shadow:inset 0 0 0 1.5px #E23D7A}
+ .am-c.on .am-num{background:#3D2B1F;color:#fff;box-shadow:none;font-weight:700}
+ .am-c.has-mm::after{content:"";position:absolute;top:6px;right:7px;width:5px;height:5px;border-radius:50%;background:var(--am-mm)}
+ .am-c .am-mk{display:flex;align-items:center;gap:3px;height:12px;background:none}
+ .am-c .am-mk i{display:flex;align-items:center;gap:1.5px;font-style:normal;font-size:9.5px;font-weight:700;font-variant-numeric:tabular-nums}
+ .am-c .am-mk i::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+ .am-mk-c{color:var(--am-mk)}.am-ab-c{color:var(--am-ab)}.am-cs-c{color:var(--am-cs)}
+ .am-detail{border-top:1px solid var(--am-hair);padding:12px 14px 14px;transition:opacity .16s,transform .24s cubic-bezier(.2,.8,.2,1)}
+ .am-detail.out{opacity:0;transform:translateY(6px)}
+ .am-dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+ .am-dh b{font-size:14.5px;font-weight:700}
+ .am-dh small{margin-left:6px;font-size:12px;color:#E23D7A;font-weight:600}
+ .am-add2{height:30px;min-height:0;padding:0 10px;border:0;border-radius:9px;background:#F1ECE7;color:#3D2B1F;font-size:12px;font-weight:600}
+ body.app-mode #abs-board .card,body.app-mode #calendar-panel .card{overflow:hidden}
+}
+.rp-testbtn{margin-left:auto}.rp-tools:has(.rp-testbtn) .rp-search{margin-left:0}
 /* ── 29. 보내기 창: 카드 다음 영상 단계 ── */
 .rp-vok{margin:0;padding:10px 12px;border-radius:10px;background:#E9F3EC;color:#2F7A4E;font-size:13px}
 .rp-vstep{display:grid;gap:10px;margin-top:12px;padding:14px;border:1px solid var(--r-line);border-radius:12px;background:#fff}
@@ -1590,7 +1924,6 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 .rp-vinfo b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .rp-vinfo span{flex:none;color:var(--r-muted);font-variant-numeric:tabular-nums}
 .rp-vinfo[hidden]{display:none}
-
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
