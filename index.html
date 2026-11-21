@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211156">
+  <meta name="app-build" content="202611211229">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2430,6 +2430,7 @@ const batchim=s=>{s=String(s);const c=s.charCodeAt(s.length-1);return c>=0xAC00&
 const callName=n=>{const g=given(n);return g+(batchim(g)?'\uc774':'');};
 const obj=(s,a,b)=>s+(batchim(s.replace(/['\u2019)\s]+$/,''))?a:b);
 const weekLabel=m=>{const t=new Date(add(m,3)+'T00:00:00Z');return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
+const weekOf=d=>{const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)+3);return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
 const longDate=d=>{const x=new Date(d+'T00:00:00Z');return `${x.getUTCMonth()+1}\uc6d4 ${x.getUTCDate()}\uc77c ${DAYS[x.getUTCDay()]}\uc694\uc77c`;};
 P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null,mode:'week',month:null,mlist:null,mfilter:'todo'};P.rpPhoto=P.rpPhoto||{};
 P.reportLink=t=>(window.REPORT_BASE||'https:\/\/always-music.github.io/always-piano-app/r/')+'?t='+t;
@@ -2724,11 +2725,10 @@ function sign(ctx,x,yTop,teacher,sub,r){ctx.strokeStyle='#E6DCCB';ctx.lineWidth=
 P.rpDraw=function(c,d,photo){P._stars=d?+d.stars||0:0;if(d&&d.kind==='month')return P.rpDrawMonth(c,d);
  const ctx=c.getContext('2d'),W=800,X=64,call=callName(d.name),date=d.lessonDate||P.data.date,dt=new Date(date+'T00:00:00Z');
  ctx.clearRect(0,0,W,W);ctx.fillStyle='#FBF9F6';ctx.fillRect(0,0,W,W);const songs=(d.songs||[]).filter(s=>s.title);
- const sub=`${given(d.name)} ${d.recipient||'\uc5b4\uba38\ub2d8'}\uaed8 \u00b7 ${longDate(date)}`,quote=d.scene?`\u201c${d.scene}\u201d`:'\u201c\uc624\ub298\uc758 \ud55c \uc7a5\uba74\uc744 \uc368 \uc8fc\uc138\uc694\u201d';
+ const sub=`${given(d.name)} ${d.recipient||'\uc5b4\uba38\ub2d8'}\uaed8 \u00b7 ${weekOf(date)} \ub808\uc2a8`,quote=d.scene?`\u201c${d.scene}\u201d`:'\u201c\uc624\ub298\uc758 \ud55c \uc7a5\uba74\uc744 \uc368 \uc8fc\uc138\uc694\u201d';
  if(photo){
   const H=452,sc=Math.max(W/photo.width,H/photo.height),pw=photo.width*sc,phh=photo.height*sc;ctx.save();ctx.beginPath();ctx.rect(0,0,W,H);ctx.clip();ctx.drawImage(photo,(W-pw)/2,(H-phh)/2,pw,phh);ctx.restore();
-  ctx.font=F(700,22);const lab=`${dt.getUTCMonth()+1}\uc6d4 ${dt.getUTCDate()}\uc77c ${d.videoUrl?'\uc5f0\uc8fc':'\ub808\uc2a8'}`,lw=ctx.measureText(lab).width;ctx.fillStyle='rgba(251,249,246,.94)';ctx.beginPath();ctx.roundRect(44,44,lw+92,52,26);ctx.fill();const gw=mark(ctx,64,52,36,'#3D2B1F');ctx.fillStyle='#3D2B1F';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(lab,62+(gw?gw+12:0),71);
-  if(d.videoUrl){ctx.fillStyle='rgba(251,249,246,.95)';ctx.beginPath();ctx.arc(W/2,H/2,58,0,Math.PI*2);ctx.fill();ctx.fillStyle='#3D2B1F';ctx.beginPath();ctx.moveTo(W/2-16,H/2-26);ctx.lineTo(W/2+28,H/2);ctx.lineTo(W/2-16,H/2+26);ctx.fill();}
+  ctx.font=F(700,22);const lab=`${weekOf(date)} \ub808\uc2a8`,lw=ctx.measureText(lab).width;ctx.fillStyle='rgba(251,249,246,.94)';ctx.beginPath();ctx.roundRect(44,44,lw+92,52,26);ctx.fill();const gw=mark(ctx,64,52,36,'#3D2B1F');ctx.fillStyle='#3D2B1F';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillText(lab,62+(gw?gw+12:0),71);
   ctx.textBaseline='alphabetic';ctx.fillStyle='#2A1E15';ctx.font=F(800,50);const h=`${call}\uc758 `;ctx.fillText(h,X,H+82);ctx.fillStyle='#B08D57';ctx.fillText('\uc624\ub298',X+ctx.measureText(h).width,H+82);
   ctx.fillStyle='#4A3B2F';ctx.font=F(500,28);wrap(ctx,quote,W-2*X,2).forEach((l,i)=>ctx.fillText(l,X,H+134+i*42));
   sign(ctx,X,W-150,d.teacher,sub,42);return;}
