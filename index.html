@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611201628">
+  <meta name="app-build" content="202611211130">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1844,6 +1844,76 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  /* 입력칸: 본문과 같은 14px (확대 방지는 앱에서 maximum-scale=1로 처리) */
  body.app-mode :is(input,textarea,select){font-size:14px}
 }
+/* ===== 휴대폰 앱: 주간 보강·결석 + 보강·결석 캘린더 (A안) ===== */
+@media (max-width:900px){
+ body.app-mode{--am-mk:#3B6FD4;--am-ab:#D2473C;--am-cs:#2E9467;--am-mm:#C98A0B;--am-hair:#F3F0ED}
+ .am-card{padding:0!important;overflow:hidden;border-radius:20px}
+ .am-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 12px 8px 16px}
+ .am-head h2{margin:0;font-size:15px!important;font-weight:700!important;letter-spacing:-.02em}
+ .am-rng{display:block;margin-top:2px;font-size:12px;color:#A39B94;font-variant-numeric:tabular-nums}
+ .am-nav{display:flex;align-items:center;gap:4px}
+ .am-nb{width:32px;height:32px;min-height:0;padding:0;border:0;border-radius:10px;background:none;color:#6F6760;display:grid;place-items:center;transition:background-color .15s,transform .15s}
+ .am-nb:active{background:var(--am-hair);transform:scale(.92)}
+ .am-nb .icon{width:16px;height:16px;stroke-width:2}
+ .am-nb .am-prev{transform:rotate(180deg)}
+ .am-now{height:30px;min-height:0;padding:0 10px;border:1px solid #ECE8E4;border-radius:9px;background:#fff;font-size:12px;font-weight:600;color:#6F6760}
+ .am-month{font-variant-numeric:tabular-nums}
+ .am-add{height:32px;min-height:0;padding:0 12px;border:0;border-radius:10px;background:#3D2B1F;color:#fff;font-size:12.5px;font-weight:600;transition:transform .15s}
+ .am-add:active{transform:scale(.95)}
+ .am-sum{display:flex;gap:14px;padding:0 16px 12px;font-size:12px;color:#6F6760;font-variant-numeric:tabular-nums}
+ .am-sum b{margin-left:3px;color:#1E1915;font-weight:700}
+ .am-dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:5px;vertical-align:middle;position:relative;top:-1px;flex:none}
+ .am-mk{background:var(--am-mk)}.am-ab{background:var(--am-ab)}.am-cs{background:var(--am-cs)}.am-mm{background:var(--am-mm)}
+ /* 주간: 날짜 줄 */
+ .am-day{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px 14px 12px 10px;border-top:1px solid var(--am-hair)}
+ .am-day.today{background:linear-gradient(90deg,#FFEAF2,#fff 70%)}
+ .am-day.today::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;border-radius:0 3px 3px 0;background:#E23D7A}
+ .am-dl{display:grid;justify-items:center;align-content:start;min-height:0;padding:1px 0 0;border:0;background:none;border-radius:10px}
+ .am-dl small{font-size:11.5px;color:#A39B94;font-weight:500}
+ .am-dl b{font-size:19px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums;color:#1E1915}
+ .am-day.today .am-dl b,.am-day.today .am-dl small{color:#E23D7A}
+ .am-dl em{margin-top:3px;padding:1px 5px;border-radius:5px;background:#E23D7A;color:#fff;font-style:normal;font-size:9.5px;font-weight:700}
+ .am-items{display:grid;gap:2px;min-width:0}
+ .am-it{display:flex;align-items:baseline;gap:8px;min-width:0;min-height:0;margin:0 -8px;padding:5px 8px;border:0;border-radius:9px;background:none;text-align:left;font-size:13.5px;color:#1E1915;transition:background-color .15s}
+ button.am-it:active{background:var(--am-hair)}
+ .am-it .am-dot{align-self:center;top:0;margin:0}
+ .am-t{flex:none;width:38px;font-size:12px;font-weight:600;color:#6F6760;font-variant-numeric:tabular-nums}
+ .am-n{min-width:0;font-weight:600}
+ .am-x{flex:none;margin-left:auto;font-size:12px;color:#A39B94}
+ .am-it.pending{opacity:.55}
+ .am-abs .am-lab{color:var(--am-ab)}
+ .am-abs .am-n{font-weight:500;color:#5E4E47;word-break:keep-all}
+ .am-nm{display:inline;min-height:0;padding:0;border:0;background:none;font:inherit;color:inherit;border-radius:4px}
+ .am-nm:active{background:#FCEFEE}
+ .am-nm.done{color:#A39B94}
+ .am-sep{color:#C9C2BB}
+ .am-memo{display:flex;align-items:flex-start;gap:7px;min-height:0;margin:0 -2px 3px;padding:6px 9px;border:0;border-radius:9px;background:#FFF6E0;color:#6B4E12;font-size:12.5px;line-height:1.45;text-align:left}
+ .am-memo svg{flex:none;width:13px;height:13px;margin-top:2px;fill:none;stroke:var(--am-mm);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+ .am-none{margin:0;padding:5px 0;font-size:12.5px;color:#A39B94}
+ /* 월간: 점 달력 */
+ .am-wk{display:grid;grid-template-columns:repeat(7,1fr);padding:0 8px;margin-bottom:4px;text-align:center;font-size:11px;color:#A39B94}
+ .am-wk span:first-child{color:#C9776F}.am-wk span:last-child{color:#6E8FC9}
+ .am-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));row-gap:2px;padding:0 8px 10px}
+ .am-c{position:relative;display:grid;justify-items:center;align-content:start;gap:4px;height:56px;min-height:0;padding:5px 0 0;border:0;border-radius:12px;background:none;transition:background-color .15s}
+ .am-c:active{background:var(--am-hair)}
+ .am-c.off{visibility:hidden}
+ .am-num{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13.5px;font-weight:500;color:#1E1915;font-variant-numeric:tabular-nums;transition:background-color .2s,color .2s}
+ .am-c.sun .am-num{color:#C9776F}.am-c.sat .am-num{color:#6E8FC9}
+ .am-c.today .am-num{color:#E23D7A;font-weight:700;box-shadow:inset 0 0 0 1.5px #E23D7A}
+ .am-c.on .am-num{background:#3D2B1F;color:#fff;box-shadow:none;font-weight:700}
+ .am-c.has-mm::after{content:"";position:absolute;top:6px;right:7px;width:5px;height:5px;border-radius:50%;background:var(--am-mm)}
+ .am-c .am-mk{display:flex;align-items:center;gap:3px;height:12px;background:none}
+ .am-c .am-mk i{display:flex;align-items:center;gap:1.5px;font-style:normal;font-size:9.5px;font-weight:700;font-variant-numeric:tabular-nums}
+ .am-c .am-mk i::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+ .am-mk-c{color:var(--am-mk)}.am-ab-c{color:var(--am-ab)}.am-cs-c{color:var(--am-cs)}
+ .am-detail{border-top:1px solid var(--am-hair);padding:12px 14px 14px;transition:opacity .16s,transform .24s cubic-bezier(.2,.8,.2,1)}
+ .am-detail.out{opacity:0;transform:translateY(6px)}
+ .am-dh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+ .am-dh b{font-size:14.5px;font-weight:700}
+ .am-dh small{margin-left:6px;font-size:12px;color:#E23D7A;font-weight:600}
+ .am-add2{height:30px;min-height:0;padding:0 10px;border:0;border-radius:9px;background:#F1ECE7;color:#3D2B1F;font-size:12px;font-weight:600}
+ body.app-mode #abs-board .card,body.app-mode #calendar-panel .card{overflow:hidden}
+}
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -2397,6 +2467,7 @@ P.todayText=()=>{const d=new Date((P.data?.date||new Date().toISOString().slice(
 P.homeMakeup=function(state){
  const upcoming=P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status==='scheduled'&&l.date>=P.data.date).sort((a,b)=>a.date.localeCompare(b.date)||P.lessonOrder(a,b)).slice(0,4);
  const side=`<section class="card hm-side"><div class="card-header"><div><h2>다가오는 보강</h2><p class="sub">오늘 이후 ${upcoming.length}건</p></div></div><div class="hm-list">${upcoming.length?upcoming.map(l=>{const inner=`<span class="hm-date">${P.dayLabel(l.date).replace(' · 오늘','')}</span><span class="hm-time">${e(l.time)}</span><strong>${e(studentName(l.studentId))}</strong><small>${e(teacherName(l.teacherId))}</small>`;return P.isMine(l)?`<button class="hm-item" data-live-action="record" data-id="${e(l.id)}">${inner}</button>`:`<div class="hm-item readonly">${inner}</div>`;}).join(''):'<p class="empty-cell">예정된 보강이 없습니다.</p>'}</div><div class="hm-foot"><button class="btn primary" data-live-action="lesson" data-kind="makeup" data-date="${e(P.data.date)}">${ic('plus')}보강 등록</button></div></section>`;
+ if(window.APP_MODE)return `<div class="home-makeup">${P.appMonthCal(state)}</div>`;
  P.compactCalendar=true;const cal=P.calendar(state,true,'makeup');P.compactCalendar=false;
  return `<div class="home-makeup"><div class="hm-cal">${cal}</div></div>`;
 };
@@ -2497,8 +2568,40 @@ P.attendanceForm=function(source,date){
 const mondayOf=d=>shiftDay(d,-((wdOf(d)+6)%7)),mdOf=d=>Number(d.slice(5,7))+'.'+Number(d.slice(8,10));
 const absInst=a=>P.ac().courses.find(c=>c.courseId===a.courseId)?.instrument||'';
 const absBadge=(a,today)=>a.status==='absent'?P.badge(a.deduct==='yes'?'확정 · 1회 차감':'확정 · 차감 안 함','red'):P.badge(a.date<today?'예정 · 출결 확인 필요':'결석 예정','orange');
+// 휴대폰 앱: 주간 보강·결석(날짜별 한 줄 목록)과 보강·결석 캘린더(점 달력 + 선택한 날) — 시안 claude.ai/artifact/AQ7wbdUTU2tsG98hmY51yz A안
+const amDot=k=>`<i class="am-dot am-${k}"></i>`;
+const amDay=d=>{const mks=P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status!=='cancelled'&&l.date===d),abs=P.ac().attendance.filter(a=>(a.status==='planned'||a.status==='absent')&&a.date===d).sort((x,y)=>nameOf(x.studentId).localeCompare(nameOf(y.studentId),'ko')),cs=P.consultsOn(d),notes=P.dayNotes(d);return {mks,abs,cs,notes};};
+P.amItems=function(d){
+ const x=amDay(d);let h=x.notes.map(n=>`<button type="button" class="am-memo" data-day-list="${d}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg><span>${e(n.text)}</span></button>`).join('');
+ const timed=[...x.cs.map(c=>({t:c.time||'',h:`<button type="button" class="am-it" data-cs-open="${e(c.id)}">${amDot('cs')}<span class="am-t">${e(c.time||'')}</span><span class="am-n">${e(c.name)}</span><span class="am-x">상담</span></button>`})),
+  ...x.mks.map(l=>({t:l.time||'',h:`<button type="button" class="am-it${l.pending?' pending':''}" data-mk-open="${e(l.id)}">${amDot('mk')}<span class="am-t">${e(l.time)}</span><span class="am-n">${e(nameOf(l.studentId))}</span><span class="am-x">보강</span></button>`}))].sort((a,b)=>a.t.localeCompare(b.t));
+ h+=timed.map(r=>r.h).join('');
+ if(x.abs.length)h+=`<div class="am-it am-abs">${amDot('ab')}<span class="am-t am-lab">결석</span><span class="am-n">${x.abs.map(a=>`<button type="button" class="am-nm${a.status==='absent'?' done':''}" data-abs-open="${e(a.id)}">${e(nameOf(a.studentId))}</button>`).join('<span class="am-sep">, </span>')}</span></div>`;
+ return h||'<p class="am-none">일정 없음</p>';
+};
+P.appWeekBoard=function(){
+ const today=P.ac().today||P.data.date,mon=P.absWeek||mondayOf(today),sat=shiftDay(mon,5),days=[0,1,2,3,4,5].map(i=>shiftDay(mon,i)),all=days.map(amDay);
+ const n=k=>all.reduce((s,x)=>s+x[k].length,0);
+ const head=`<div class="am-head"><div><h2>${mon<=today&&today<=sat?'이번 주':mdOf(mon)+' 주'} 보강·결석</h2><span class="am-rng">${mdOf(mon)} – ${mdOf(sat)}</span></div><div class="am-nav"><button type="button" class="am-nb" data-abs-week="-7" aria-label="이전 주">${ic('chevron','am-prev')}</button><button type="button" class="am-now" data-abs-week="0">이번 주</button><button type="button" class="am-nb" data-abs-week="7" aria-label="다음 주">${ic('chevron')}</button></div></div>`;
+ const sum=`<div class="am-sum"><span>${amDot('mk')}보강<b>${n('mks')}</b></span><span>${amDot('ab')}결석<b>${n('abs')}</b></span><span>${amDot('cs')}상담<b>${n('cs')}</b></span><span>${amDot('mm')}메모<b>${n('notes')}</b></span></div>`;
+ const rows=days.map(d=>`<div class="am-day${d===today?' today':''}"><button type="button" class="am-dl" data-day-list="${d}" aria-label="${P.dayLabel(d)} 일정 보기"><small>${WD[wdOf(d)]}</small><b>${Number(d.slice(8,10))}</b>${d===today?'<em>오늘</em>':''}</button><div class="am-items">${P.amItems(d)}</div></div>`).join('');
+ return `<section class="card am-card">${head}${sum}${rows}</section>`;
+};
+P.calSel=P.calSel||'';
+P.amDetail=function(d){const today=P.data.date;return `<div class="am-dh"><div><b>${Number(d.slice(5,7))}월 ${Number(d.slice(8,10))}일 ${WD[wdOf(d)]}요일</b>${d===today?'<small>오늘</small>':''}</div>${d>=today?`<button type="button" class="am-add2" data-live-action="lesson" data-kind="makeup" data-date="${d}">＋ 보강 등록</button>`:''}</div><div class="am-items">${P.amItems(d)}</div>`;};
+P.appMonthCal=function(state){
+ const y=state.calendar.year,m=state.calendar.month,today=P.data.date,first=new Date(Date.UTC(y,m,1)),days=new Date(Date.UTC(y,m+1,0)).getUTCDate(),pad=first.getUTCDay(),ym=`${y}-${String(m+1).padStart(2,'0')}`;
+ if(!P.calSel||P.calSel.slice(0,7)!==ym)P.calSel=today.slice(0,7)===ym?today:ym+'-01';
+ const cells=[];for(let i=0;i<pad;i++)cells.push('<span class="am-c off"></span>');
+ for(let i=1;i<=days;i++){const d=ym+'-'+String(i).padStart(2,'0'),x=amDay(d),w=(pad+i-1)%7;
+  cells.push(`<button type="button" class="am-c${w===0?' sun':''}${w===6?' sat':''}${d===today?' today':''}${d===P.calSel?' on':''}${x.notes.length?' has-mm':''}" data-cal-pick="${d}"><span class="am-num">${i}</span><span class="am-mk">${x.mks.length?`<i class="am-mk-c">${x.mks.length}</i>`:''}${x.abs.length?`<i class="am-ab-c">${x.abs.length}</i>`:''}${x.cs.length?`<i class="am-cs-c">${x.cs.length}</i>`:''}</span></button>`);}
+ const head=`<div class="am-head"><div class="am-nav"><button type="button" class="am-nb" data-month="-1" aria-label="이전 달">${ic('chevron','am-prev')}</button><h2 class="am-month">${y}년 ${m+1}월</h2><button type="button" class="am-nb" data-month="1" aria-label="다음 달">${ic('chevron')}</button></div><button type="button" class="am-add" data-live-action="lesson" data-kind="makeup" data-date="${P.calSel>=today?P.calSel:today}">＋ 보강 등록</button></div>`;
+ const leg=`<div class="am-sum am-leg"><span>${amDot('mk')}보강</span><span>${amDot('ab')}결석</span><span>${amDot('cs')}상담</span><span>${amDot('mm')}메모</span></div>`;
+ return `<section class="card am-card">${head}${leg}<div class="am-wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="am-grid">${cells.join('')}</div><div class="am-detail" id="am-detail">${P.amDetail(P.calSel)}</div></section>`;
+};
 P.absWeek=P.absWeek||'';
 P.absenceBoard=function(){
+ if(window.APP_MODE)return P.appWeekBoard();
  const today=P.ac().today||P.data.date,mon=P.absWeek||mondayOf(today),sat=shiftDay(mon,5);
  const list=P.ac().attendance.filter(a=>(a.status==='planned'||a.status==='absent')&&a.date>=mon&&a.date<=sat);
  const nav=`<div class="abs-nav"><button class="icon-btn" data-abs-week="-7" aria-label="이전 주">‹</button><strong>${mon.slice(0,4)}.${mdOf(mon)} ~ ${mdOf(sat)}</strong><button class="icon-btn" data-abs-week="7" aria-label="다음 주">›</button><button class="btn" data-abs-week="0">이번 주</button></div>`;
@@ -3744,6 +3847,7 @@ app.addEventListener('click',ev=>{
  const c=ev.target.closest('[data-aa-cat]');
  if(c){const sec=document.querySelector(`[data-aa-sec="${c.dataset.aaCat}"]`),pane=document.getElementById('aa-pane');if(sec&&pane){aaRailTo(c);aaSpyLock=Date.now();pane.scrollTo({top:sec.offsetTop-4,behavior:'smooth'});}}
 });
+app.addEventListener('click',ev=>{const c=ev.target.closest('[data-cal-pick]');if(!c)return;P.calSel=c.dataset.calPick;document.querySelectorAll('.am-c.on').forEach(x=>x.classList.remove('on'));c.classList.add('on');const add=document.querySelector('.am-add');if(add)add.dataset.date=P.calSel>=P.data.date?P.calSel:P.data.date;const det=document.getElementById('am-detail');if(det){det.classList.add('out');setTimeout(()=>{det.innerHTML=P.amDetail(P.calSel);det.getBoundingClientRect();det.classList.remove('out');},140);}});
 app.addEventListener('input',ev=>{if(ev.target.id==='aa-q')aaFilter(ev.target.value.trim());});
 document.addEventListener('scroll',ev=>{const pane=ev.target;if(!(pane instanceof Element)||pane.id!=='aa-pane'||Date.now()-aaSpyLock<700)return;
  const secs=[...pane.querySelectorAll('.aa-sec:not([hidden])')];if(!secs.length)return;let on=secs[0];
