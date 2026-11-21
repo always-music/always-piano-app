@@ -5,74 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#FBF9F6">
+<meta name="theme-color" content="#FAF8F5">
 <title>언제나 음악학원 · 레슨 리포트</title>
 <meta property="og:title" content="언제나 음악학원 레슨 리포트">
 <meta property="og:description" content="선생님이 보내드린 이번 주 레슨 이야기예요.">
 <meta property="og:image" content="../icon-512.png">
 <link rel="icon" href="../icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap">
 <style>
-/* 학부모 리포트 페이지 (로그인 없음). 원본: tools/report-page.html → npm run build:app → app/r/index.html */
-:root{--paper:#FBF9F6;--card:#FFFFFF;--ink:#2A1E15;--choc:#3D2B1F;--gold:#B08D57;--gold-ink:#8A6D3E;--gold-soft:#F4ECDD;--muted:#8B7B6C;--line:#EAE3D8;--staff:#D8C8A8}
+/* 학부모 리포트 페이지 (로그인 없음). 원본: tools/report-page.html → npm run build:app → app/r/index.html
+   디자인(2026-11-22 시안 확정): 작은 글자 + 굵기·색으로 순서, 얇은 테두리 편지, 포인트는 황동 하나, 둥근 노란 별. */
+:root{--paper:#FAF8F5;--sheet:#FFFFFF;--ink:#231A13;--ink2:#5B4E44;--faint:#9A8D82;--line:#E9E3DA;--choc:#3D2B1F;--brass:#A98551;--brass-soft:#F3ECE0;--ok:#2F6E49;--ok-soft:#EAF2EC}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-text-size-adjust:100%}
-.page{max-width:560px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 22px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 48px) max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:22px}
-.top{display:flex;justify-content:space-between;align-items:center}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--choc)}.brand img{height:30px;width:auto}
-.date{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold-ink)}
-.hero h1{margin:6px 0 0;font-size:34px;line-height:1.2;font-weight:800;letter-spacing:-.03em;text-wrap:balance}.hero h1 em{font-style:normal;color:var(--gold)}
-.hero p{margin:8px 0 0;color:var(--muted);font-size:14px}
-.video{position:relative;width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#1D1510}
-.vplay{display:block;width:100%;max-height:78vh;border-radius:14px;background:#1D1510}
-.vnote{margin:-14px 0 0;font-size:12.5px;color:var(--muted);text-align:center}.vnote a{color:var(--gold-ink);font-weight:700}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-text-size-adjust:100%;-webkit-font-smoothing:antialiased}
+.page{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 20px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 40px) max(20px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:20px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:600;font-size:12.5px;color:var(--ink2)}.brand img{height:24px;width:auto}
+.date{font-size:11.5px;font-weight:600;color:var(--brass);font-variant-numeric:tabular-nums}
+.hero h1{margin:0;font-size:22px;line-height:1.35;font-weight:700;letter-spacing:-.02em;text-wrap:balance}.hero h1 em{font-style:normal;color:var(--brass)}
+.hero p{margin:6px 0 0;color:var(--faint);font-size:13px}
+.vbox{display:flex;flex-direction:column;gap:8px}
+.vplay{display:block;width:100%;max-height:78vh;border-radius:12px;background:#1B1410}
+.vcap{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--faint)}.vcap a{color:var(--faint)}
+.video{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#1B1410}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.vlink{display:flex;align-items:center;gap:12px;padding:16px 18px;border-radius:14px;background:var(--choc);color:#fff;text-decoration:none;font-weight:700}
-.vlink i{width:40px;height:40px;border-radius:50%;background:#FBF9F6;display:grid;place-items:center;flex:none}.vlink i::after{content:"";border-left:13px solid var(--choc);border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
-.letter{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 22px 20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 18px 40px -32px rgba(61,43,31,.55)}
-.to{font-size:19px;font-weight:800;letter-spacing:-.01em}.to small{display:block;margin-top:2px;font-size:12.5px;font-weight:500;color:var(--muted)}
-.scene{margin:0;font-size:19px;line-height:1.6;font-weight:500;color:#3B2E24;padding-left:14px;border-left:3px solid var(--gold);text-wrap:pretty}
-.msg{margin:0;font-size:15.5px;line-height:1.85;color:#3B2E24;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
-.staffbox{position:relative;padding:18px 0 4px}
-.staffbox .lines{position:absolute;left:-22px;right:-22px;top:18px;height:73px;background:repeating-linear-gradient(transparent 0 17px,var(--staff) 17px 18.5px)}
-.songs{position:relative;display:flex;flex-direction:column;gap:2px}
-.song{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:15px}
-.song:last-child{border:0}.song .n{width:15px;height:11px;border-radius:50%;transform:rotate(-20deg);flex:none;background:var(--choc)}.song .n.ing{background:var(--gold)}.song .n.new{background:transparent;border:2.5px solid var(--gold)}
-.song b{font-size:11.5px;font-weight:700;color:var(--gold-ink);min-width:44px}
-.lab{font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--gold-ink)}
-.theory{font-size:14.5px;color:#4A3B2F}
-.sign{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:14px}
-.sign strong{display:block;font-size:16px;color:var(--choc)}.sign small{color:var(--muted);font-size:12px}
-.stars{display:flex;gap:2px;font-size:26px;line-height:1}.stars i{font-style:normal;color:#E7DCC6}.stars i.on{color:#C9A15C}
-.seal{width:64px;height:64px;border-radius:50%;border:3px solid var(--gold);outline:1px solid var(--gold);outline-offset:-9px;color:var(--gold);display:grid;place-items:center;text-align:center;font-weight:800;font-size:12px;line-height:1.2;transform:rotate(-10deg);background:rgba(176,141,87,.06)}
-.diary h2{margin:0 0 10px;font-size:17px;font-weight:800}
-.diary ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
-.diary li{position:relative;padding:0 0 16px 18px}.diary li::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2.5px solid var(--gold)}
-.diary .d{font-size:12px;font-weight:700;color:var(--gold-ink)}.diary .s{font-size:14.5px;line-height:1.55;margin-top:2px}.diary .t{font-size:12.5px;color:var(--muted);margin-top:2px}
-.vgone{margin:0;padding:14px 16px;border-radius:14px;background:var(--gold-soft);color:var(--gold-ink);font-size:14px;text-align:center}
-.foot{text-align:center;font-size:12px;color:var(--muted)}
-.react{display:flex;flex-direction:column;gap:12px;align-items:stretch;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
-.react .q{margin:0;font-size:14px;color:#4A3B2F;text-align:center}
-.react .heart{appearance:none;border:0;border-radius:12px;background:var(--choc);color:#fff;font:inherit;font-size:16px;font-weight:700;padding:14px;cursor:pointer;transition:background-color .15s,transform .08s}
-.react .heart:active{transform:scale(.98)}.react .heart:disabled{opacity:.6}
-.react textarea{width:100%;min-height:72px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);background:#FFFDFA}
-.react textarea:focus{outline:none;border-color:var(--choc);box-shadow:0 0 0 3px rgba(61,43,31,.1)}
-.react .send{appearance:none;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--choc);font:inherit;font-size:14.5px;font-weight:700;padding:11px;cursor:pointer}
-.react .ok{margin:0;text-align:center;font-size:15px;font-weight:700;color:var(--choc)}
-.react .ok small{display:block;margin-top:2px;font-size:12.5px;font-weight:500;color:var(--muted)}
+.vlink{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:12px;background:var(--choc);color:#fff;text-decoration:none;font-weight:600;font-size:14.5px}
+.vlink i{width:34px;height:34px;border-radius:50%;background:var(--paper);display:grid;place-items:center;flex:none}.vlink i::after{content:"";border-left:11px solid var(--choc);border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.vgone{margin:0;padding:12px 14px;border-radius:12px;background:var(--brass-soft);color:#7E5F30;font-size:13px;text-align:center}
+.letter{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:20px 18px 16px;display:flex;flex-direction:column;gap:18px}
+.to b{display:block;font-size:15.5px;font-weight:700}.to span{font-size:12px;color:var(--faint)}
+.lab{font-size:11px;font-weight:600;color:var(--faint);letter-spacing:.04em;margin-bottom:6px}
+.scene{margin:0;font-size:16px;line-height:1.6;font-weight:600;color:var(--ink);text-wrap:pretty;word-break:keep-all}
+.scene::before{content:"“";color:var(--brass)}.scene::after{content:"”";color:var(--brass)}
+.msg{margin:0;font-size:14.5px;line-height:1.8;color:var(--ink2);white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.songs{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.songs li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.songs li span{min-width:0;display:flex;align-items:center;gap:9px;font-size:15px;font-weight:700;color:var(--ink);letter-spacing:-.01em;overflow-wrap:anywhere}
+.songs li span::before{content:"";flex:none;width:9px;height:7px;border-radius:50%;background:var(--brass);transform:rotate(-20deg)}
+.st{flex:none;font-style:normal;font-size:11.5px;font-weight:600;height:22px;padding:0 8px;border-radius:6px;display:inline-flex;align-items:center}
+.st.done{background:var(--ok-soft);color:var(--ok)}.st.new{background:var(--brass-soft);color:#7E5F30}.st.ing{background:#F1EEEA;color:var(--ink2)}
+.hw{display:flex;gap:12px;font-size:13.5px;line-height:1.6;color:var(--ink2)}.hw b{flex:none;font-size:12px;font-weight:600;color:var(--faint);width:52px;padding-top:1px}
+.sign{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid var(--line);padding-top:14px}
+.sign strong{display:block;font-size:13.5px;font-weight:700}.sign small{color:var(--faint);font-size:11.5px}
+.stars{display:flex;align-items:center;gap:3px;padding:6px 10px;border-radius:99px;background:#FBF4E6;flex:none}
+.stars svg{width:20px;height:20px;display:block}
+.stars svg path{stroke-width:1.2;stroke-linejoin:round}
+.stars .on path{fill:#E9B44C;stroke:#D49A2E}.stars .off path{fill:#F1E7D6;stroke:#E4D6BF}
+.stars .on:nth-child(1){transform:rotate(-8deg)}.stars .on:nth-child(3){transform:rotate(6deg)}
+.react{display:flex;flex-direction:column;gap:10px}
+.react .q{margin:0;font-size:13.5px;color:var(--ink2);text-align:center}
+.react .heart,.react .send{appearance:none;border:0;border-radius:10px;height:48px;background:var(--choc);color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background-color .15s}
+.react .heart:hover,.react .send:hover{background:#2C1F16}.react .heart:disabled,.react .send:disabled{opacity:.6}
+.react .open{appearance:none;border:0;background:none;height:36px;font:inherit;font-size:13px;color:var(--ink2);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px;cursor:pointer}
+.react button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.react .ok{margin:0;padding:14px;border-radius:10px;background:var(--brass-soft);text-align:center;font-size:14px;font-weight:600;color:#6B4F2C}
+.react .ok small{display:block;margin-top:3px;font-size:12.5px;font-weight:500;color:#8A7254}
 .react .say{display:flex;flex-direction:column;gap:8px}
+.react textarea{width:100%;min-height:76px;resize:vertical;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;color:var(--ink);background:#fff}
+.react textarea:focus{outline:none;border-color:var(--choc)}
 .react [hidden]{display:none}
-.mstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.mstats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center}
-.mstats b{display:block;font-size:30px;font-weight:800;color:var(--choc);line-height:1.1}.mstats b small{font-size:14px;color:var(--gold-ink);margin-left:2px}
-.mstats span{display:block;margin-top:4px;font-size:12px;color:var(--muted);font-weight:600}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chips span{padding:6px 11px;border-radius:99px;background:var(--gold-soft);color:var(--choc);font-size:13.5px;font-weight:600}
-.goal{background:var(--choc);color:#fff;border-radius:14px;padding:16px 18px}.goal .lab{color:#E9D3A6}.goal p{margin:6px 0 0;font-size:16px;font-weight:700}
-.state{padding:80px 0;text-align:center;color:var(--muted);font-size:15px;line-height:1.7}
-.loading{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;color:var(--muted);font-size:15px;font-weight:600}
-.spin{width:36px;height:36px;border-radius:50%;border:3px solid #E8DFD2;border-top-color:var(--choc);animation:spin .8s linear infinite}
+.diary h2{margin:0 0 4px;font-size:14px;font-weight:700}
+.diary ol{list-style:none;margin:0;padding:0}
+.diary li{display:grid;grid-template-columns:66px minmax(0,1fr);gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.5}
+.diary li:last-child{border:0}
+.diary .d{font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.diary .s{min-width:0;word-break:keep-all}.diary .t{display:block;font-size:12px;color:var(--ok);margin-top:2px}
+.mstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.mstats div{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center}
+.mstats b{display:block;font-size:22px;font-weight:700;color:var(--choc);line-height:1.2;font-variant-numeric:tabular-nums}.mstats b small{font-size:12px;color:var(--brass);margin-left:2px}
+.mstats span{display:block;margin-top:2px;font-size:11.5px;color:var(--faint)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}.chips span{padding:5px 10px;border-radius:99px;background:var(--brass-soft);color:var(--choc);font-size:13px;font-weight:600}
+.goal{background:var(--choc);color:#fff;border-radius:12px;padding:14px 16px}.goal .lab{color:#E9D3A6;margin:0}.goal p{margin:4px 0 0;font-size:15px;font-weight:600}
+.foot{margin:0;text-align:center;font-size:11px;color:var(--faint)}
+.state{padding:80px 0;text-align:center;color:var(--faint);font-size:14px;line-height:1.7}
+.loading{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--faint);font-size:14px;font-weight:500}
+.spin{width:32px;height:32px;border-radius:50%;border:3px solid #E8DFD2;border-top-color:var(--choc);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:2s}}
 </style>
 </head>
 <body>
@@ -82,56 +92,70 @@ html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sa
 (function(){
 var API="https://script.google.com/macros/s/AKfycbwJKO_zbbxNoWPS_r_NzF210WglYIzk35t-wkiESwrrNHCTPoDG9udXGEl43gr6Edc/exec",page=document.getElementById('page');
 var e=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});};
-var starsHtml=function(n){n=+n||0;if(!n)return '';var o='<span class="stars" aria-label="별 '+n+'개">';for(var i=0;i<5;i++)o+='<i class="'+(i<n?'on':'')+'">★</i>';return o+'</span>';};
-var D=['일','월','화','수','목','금','토'],ST={done:'완성',new:'새 곡',ing:'연습 중'};
+// 동글동글한 노란 별(모서리 둥근 별 모양)
+var STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8c.4 0 .8.2 1 .6l2.2 4.6 5 .7c.9.1 1.3 1.3.6 1.9l-3.6 3.6.9 5c.2.9-.8 1.6-1.6 1.2L12 18l-4.5 2.4c-.8.4-1.8-.3-1.6-1.2l.9-5-3.6-3.6c-.7-.6-.3-1.8.6-1.9l5-.7L11 3.4c.2-.4.6-.6 1-.6Z"/></svg>';
+var starsHtml=function(n){n=+n||0;if(!n)return '';var o='<span class="stars" role="img" aria-label="별 '+n+'개">';for(var i=0;i<5;i++)o+='<span class="'+(i<n?'on':'off')+'">'+STAR+'</span>';return o+'</span>';};
+var ST={done:'완성',new:'새 곡',ing:'연습 중'};
 var given=function(n){n=String(n||'').trim();return /^[가-힣]{3}$/.test(n)?n.slice(1):n;};
 var callName=function(n){var g=given(n),c=g.charCodeAt(g.length-1);return g+(c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0?'이':'');};
-var dt=function(d){var x=new Date(d+'T00:00:00Z');return {m:x.getUTCMonth()+1,d:x.getUTCDate(),w:x.getUTCDay()};};
-var long=function(d){var x=dt(d);return x.m+'월 '+x.d+'일 '+D[x.w]+'요일';};
 var week=function(d){var t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)+3);return (t.getUTCMonth()+1)+'월 '+Math.ceil(t.getUTCDate()/7)+'주차';};
 var driveId=function(u){var m=/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{20,})/.exec(u||'');return m?m[1]:'';};
-function embed(u){var m=/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/.exec(u);if(m)return 'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&playsinline=1';
- m=/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]{20,})/.exec(u);if(m)return 'https://drive.google.com/file/d/'+m[1]+'/preview';return '';}
+function embed(u){var m=/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/.exec(u);if(m)return 'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&playsinline=1';return '';}
 function show(msg){page.innerHTML='<div class="state">'+msg+'</div>';}
+function top(logo,right){return '<div class="top"><span class="brand">'+(logo?'<img src="'+e(logo)+'" alt="">':'')+'언제나 음악학원</span><span class="date">'+e(right)+'</span></div>';}
+function to(r,sub){return '<div class="to"><b>'+e(given(r.name))+' '+e(r.recipient)+'께</b><span>'+e(sub)+'</span></div>';}
+function sign(r){return '<div class="sign"><span><strong>언제나 선생님들</strong><small>언제나 음악학원</small></span>'+starsHtml(r.stars)+'</div>';}
 var token=(new URLSearchParams(location.search).get('t')||'').toLowerCase();
 if(!/^[a-f0-9]{32}$/.test(token)){show('리포트 주소가 올바르지 않아요.<br>카톡으로 받은 링크를 다시 눌러 주세요.');return;}
 fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}})}).then(function(r){return r.json();}).then(function(res){
  if(!res||!res.ok){show('리포트를 찾을 수 없어요.<br>선생님께 다시 보내 달라고 말씀해 주세요.');return;}
- var r=res.data;if(r.kind==='month')return renderMonth(r);var x=dt(r.lessonDate),call=callName(r.name),logo=document.getElementById('logo').innerHTML.trim(),did=driveId(r.videoUrl),v=r.videoUrl&&!did?embed(r.videoUrl):'';
+ var r=res.data;if(r.kind==='month')return renderMonth(r);var call=callName(r.name),wk=week(r.lessonDate),logo=document.getElementById('logo').innerHTML.trim(),did=driveId(r.videoUrl),v=r.videoUrl&&!did?embed(r.videoUrl):'';
  document.title=call+'의 레슨 리포트 · 언제나 음악학원';
- var songs=(r.songs||[]).map(function(s){return '<div class="song"><span class="n '+e(s.state)+'"></span><b>'+e(ST[s.state]||'')+'</b><span>'+e(s.title)+'</span></div>';}).join('');
- var past=(r.past||[]).map(function(p){var t=(p.songs||[]).filter(function(s){return s.state==='done';}).map(function(s){return s.title;});return '<li><div class="d">'+e(long(p.lessonDate))+'</div><div class="s">'+e(p.scene)+'</div>'+(t.length?'<div class="t">완성 · '+e(t.join(', '))+'</div>':'')+'</li>';}).join('');
- page.innerHTML='<div class="top"><span class="brand">'+(logo?'<img src="'+e(logo)+'" alt="">':'')+'언제나 음악학원</span><span class="date">'+x.m+'.'+String(x.d).padStart(2,'0')+' '+['SUN','MON','TUE','WED','THU','FRI','SAT'][x.w]+'</span></div>'
- +'<header class="hero"><h1>'+e(call)+'의 <em>오늘</em> 레슨</h1><p>'+e(week(r.lessonDate))+' 레슨을 마치고 언제나 선생님들이 보내드려요</p></header>'
- +(did?'<video class="vplay" id="vplay" controls playsinline preload="metadata" src="https:'+'\/\/always-piano-video.always-piano.workers.dev/v/'+e(did)+'"></video><p class="vnote">영상이 안 나오면 <a href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer">여기를 눌러 열어 주세요</a></p>':v?'<div class="video"><iframe src="'+e(v)+'" title="연주 영상" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>':r.videoUrl&&/^https:\/\//.test(r.videoUrl)?'<a class="vlink" href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer"><i></i>'+e(call)+'의 연주 영상 보기</a>':r.videoExpired?'<p class="vgone">'+e(call)+'의 연주 영상은 보관 기간(2주)이 지나 내려갔어요.</p>':r.videoSent?'<p class="vgone">'+e(call)+'의 연주 영상은 카톡으로 따로 보내드렸어요.</p>':'')
- +'<article class="letter"><div class="to">'+e(given(r.name))+' '+e(r.recipient)+'께<small>'+e(week(r.lessonDate))+' 레슨을 마치고</small></div>'
- +(r.scene?'<p class="scene">'+e(r.scene)+'</p>':'')+(r.message?'<p class="msg">'+e(r.message)+'</p>':'')
- +(songs?'<div><div class="lab">이번 주 곡</div><div class="staffbox"><div class="songs">'+songs+'</div></div></div>':'')
- +(r.theory?'<div><div class="lab">이론·숙제</div><div class="theory">'+e(r.theory)+'</div></div>':'')
- +'<div class="sign"><span><strong>언제나 선생님들</strong><small>언제나 음악학원</small></span>'+starsHtml(r.stars)+'</div></article>'
+ var songs=(r.songs||[]).filter(function(s){return s.title;}).map(function(s){return '<li><span>'+e(s.title)+'</span>'+(ST[s.state]?'<em class="st '+e(s.state)+'">'+ST[s.state]+'</em>':'')+'</li>';}).join('');
+ var past=(r.past||[]).map(function(p){var t=(p.songs||[]).filter(function(s){return s.state==='done';}).map(function(s){return s.title;});return '<li><span class="d">'+e(week(p.lessonDate))+'</span><span class="s">'+e(p.scene)+(t.length?'<span class="t">완성 · '+e(t.join(', '))+'</span>':'')+'</span></li>';}).join('');
+ var video=did?'<div class="vbox"><video class="vplay" controls playsinline preload="metadata" src="https://always-piano-video.always-piano.workers.dev/v/'+e(did)+'"></video><div class="vcap"><span>연주 영상 · 2주 동안 볼 수 있어요</span><a href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer">안 나오면 여기</a></div></div>'
+  :v?'<div class="video"><iframe src="'+e(v)+'" title="연주 영상" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>'
+  :r.videoUrl&&/^https:\/\//.test(r.videoUrl)?'<a class="vlink" href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer"><i></i>'+e(call)+'의 연주 영상 보기</a>'
+  :r.videoExpired?'<p class="vgone">'+e(call)+'의 연주 영상은 보관 기간(2주)이 지나 내려갔어요.</p>'
+  :r.videoSent?'<p class="vgone">'+e(call)+'의 연주 영상은 카톡으로 따로 보내드렸어요.</p>':'';
+ page.innerHTML=top(logo,wk)
+ +'<header class="hero"><h1>'+e(call)+'의 <em>오늘</em> 레슨</h1><p>'+e(wk)+' 레슨을 마치고 선생님들이 보내드려요</p></header>'
+ +video
+ +'<article class="letter">'+to(r,wk+' 레슨을 마치고')
+ +(r.scene?'<div><div class="lab">오늘의 한 장면</div><p class="scene">'+e(r.scene)+'</p></div>':'')
+ +(r.message?'<p class="msg">'+e(r.message)+'</p>':'')
+ +(songs?'<div><div class="lab">이번 주 곡</div><ul class="songs">'+songs+'</ul></div>':'')
+ +(r.theory?'<div class="hw"><b>이론·숙제</b><span>'+e(r.theory)+'</span></div>':'')
+ +sign(r)+'</article>'
  +reactHtml(r)
- +(past?'<section class="diary"><h2>'+e(call)+'의 피아노 일기</h2><ol>'+past+'</ol></section>':'')
- +'<p class="foot">이 페이지는 '+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요.</p>';
+ +(past?'<section class="diary"><h2>'+e(call)+'의 피아노 기록</h2><ol>'+past+'</ol></section>':'')
+ +'<p class="foot">'+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';
  bindReact();
  }).catch(function(){show('잠시 연결이 원활하지 않아요.<br>조금 뒤 다시 열어 주세요.');});
-function reactHtml(r){return '<section class="react" id="react">'+(r.reacted?'<p class="ok">선생님께 잘 받았다고 전했어요 ♥<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>':'<p class="q">리포트 잘 받으셨나요?</p><button type="button" class="heart" data-heart>잘 받았어요 ♥</button>')+'<div class="say" '+(r.reacted?'':'hidden')+'><textarea maxlength="200" placeholder="선생님께 한 줄 남기기 (선택)" aria-label="선생님께 한 줄 남기기"></textarea><button type="button" class="send" data-say>선생님께 남기기</button></div></section>';}
-function bindReact(){var box=document.getElementById('react');if(box)box.addEventListener('click',function(ev){var t=ev.target,btn=t.closest&&t.closest('[data-heart],[data-say]');if(!btn||btn.disabled)return;var ta=box.querySelector('textarea'),text=btn.hasAttribute('data-say')?ta.value.trim():'';if(btn.hasAttribute('data-say')&&!text){ta.focus();return;}btn.disabled=true;var old=btn.textContent;btn.textContent='전하는 중…';
-  fetch(API,{method:'POST',body:JSON.stringify({fn:'reportReact',arg:{token:token,text:text}})}).then(function(x){return x.json();}).then(function(res){if(!res||!res.ok)throw new Error(res&&res.error&&res.error.message||'');
-   if(text){ta.value='';btn.disabled=false;btn.textContent=old;var ok=box.querySelector('.ok');if(!ok){box.insertAdjacentHTML('afterbegin','<p class="ok"></p>');ok=box.querySelector('.ok');}ok.innerHTML='선생님께 전했어요. 고맙습니다!<small>'+e(text)+'</small>';}
-   else{var q=box.querySelector('.q');if(q)q.remove();btn.outerHTML='<p class="ok">선생님께 잘 받았다고 전했어요 ♥<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>';box.querySelector('.say').hidden=false;}
-  }).catch(function(err){btn.disabled=false;btn.textContent=old;alert(err&&err.message||'잠시 연결이 원활하지 않아요. 조금 뒤 다시 눌러 주세요.');});});
+var OK='<p class="ok">선생님께 잘 받았다고 전했어요<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>';
+function reactHtml(r){return '<section class="react" id="react">'+(r.reacted?OK:'<p class="q">리포트 잘 받으셨나요?</p><button type="button" class="heart" data-heart>잘 받았어요</button>')
+ +'<button type="button" class="open" data-open>선생님께 한 줄 남기기</button>'
+ +'<div class="say" hidden><textarea maxlength="200" placeholder="예: 집에서도 자주 쳐요" aria-label="선생님께 한 줄 남기기"></textarea><button type="button" class="send" data-say>남기기</button></div></section>';}
+function bindReact(){var box=document.getElementById('react');if(!box)return;box.addEventListener('click',function(ev){var t=ev.target;
+ if(t.closest&&t.closest('[data-open]')){var sy=box.querySelector('.say');sy.hidden=!sy.hidden;if(!sy.hidden)box.querySelector('textarea').focus();return;}
+ var btn=t.closest&&t.closest('[data-heart],[data-say]');if(!btn||btn.disabled)return;var ta=box.querySelector('textarea'),text=btn.hasAttribute('data-say')?ta.value.trim():'';if(btn.hasAttribute('data-say')&&!text){ta.focus();return;}btn.disabled=true;var old=btn.textContent;btn.textContent='전하는 중…';
+ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportReact',arg:{token:token,text:text}})}).then(function(x){return x.json();}).then(function(res){if(!res||!res.ok)throw new Error(res&&res.error&&res.error.message||'');
+  var q=box.querySelector('.q');if(q)q.remove();var hb=box.querySelector('[data-heart]');if(hb)hb.remove();
+  var ok=box.querySelector('.ok');if(!ok){box.insertAdjacentHTML('afterbegin',OK);ok=box.querySelector('.ok');}
+  if(text){ta.value='';btn.disabled=false;btn.textContent=old;box.querySelector('.say').hidden=true;ok.innerHTML='선생님께 전했어요. 고맙습니다<small>'+e(text)+'</small>';}
+ }).catch(function(err){btn.disabled=false;btn.textContent=old;alert(err&&err.message||'잠시 연결이 원활하지 않아요. 조금 뒤 다시 눌러 주세요.');});});
 }
 function renderMonth(r){var m=+String(r.month).slice(5,7),call=callName(r.name),logo=document.getElementById('logo').innerHTML.trim();document.title=call+'의 '+m+'월 성장 기록 · 언제나 음악학원';
- page.innerHTML='<div class="top"><span class="brand">'+(logo?'<img src="'+e(logo)+'" alt="">':'')+'언제나 음악학원</span><span class="date">'+String(r.month).slice(0,4)+' · '+m+'월</span></div>'
- +'<header class="hero"><h1>'+e(call)+'의 <em>'+m+'월</em></h1><p>'+m+'월 한 달 동안 언제나 선생님들과 함께한 성장 기록이에요</p></header>'
- +'<div class="mstats"><div><b>'+r.lessons+'<small>회</small></b><span>이달 레슨</span></div><div><b>'+(r.done||[]).length+'<small>곡</small></b><span>완성한 곡</span></div><div><b>'+(r.started||[]).length+'<small>곡</small></b><span>새로 시작한 곡</span></div></div>'
- +'<article class="letter"><div class="to">'+e(given(r.name))+' '+e(r.recipient)+'께<small>'+m+'월 한 달을 마치고</small></div><p class="msg">'+e(r.note)+'</p>'
+ page.innerHTML=top(logo,String(r.month).slice(0,4)+' · '+m+'월')
+ +'<header class="hero"><h1>'+e(call)+'의 <em>'+m+'월</em> 성장 기록</h1><p>'+m+'월 한 달 동안 선생님들과 함께한 기록이에요</p></header>'
+ +'<div class="mstats"><div><b>'+(+r.lessons||0)+'<small>회</small></b><span>이달 레슨</span></div><div><b>'+(r.done||[]).length+'<small>곡</small></b><span>완성한 곡</span></div><div><b>'+(r.started||[]).length+'<small>곡</small></b><span>새로 시작한 곡</span></div></div>'
+ +'<article class="letter">'+to(r,m+'월 한 달을 마치고')+'<p class="msg">'+e(r.note)+'</p>'
  +((r.done||[]).length?'<div><div class="lab">완성한 곡</div><div class="chips">'+r.done.map(function(t){return '<span>'+e(t)+'</span>';}).join('')+'</div></div>':'')
  +((r.started||[]).length?'<div><div class="lab">새로 시작한 곡</div><div class="chips">'+r.started.map(function(t){return '<span>'+e(t)+'</span>';}).join('')+'</div></div>':'')
- +'<div class="sign"><span><strong>언제나 선생님들</strong><small>언제나 음악학원</small></span>'+starsHtml(r.stars)+'</div></article>'
- +((r.scenes||[]).length?'<section class="diary"><h2>'+m+'월의 장면들</h2><ol>'+r.scenes.map(function(x){return '<li><div class="d">'+e(long(x.date))+'</div><div class="s">'+e(x.scene)+'</div></li>';}).join('')+'</ol></section>':'')
+ +sign(r)+'</article>'
  +(r.goal?'<div class="goal"><div class="lab">다음 달 목표</div><p>'+e(r.goal)+'</p></div>':'')
- +reactHtml(r)+'<p class="foot">이 페이지는 '+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요.</p>';bindReact();}
+ +((r.scenes||[]).length?'<section class="diary"><h2>'+m+'월의 장면들</h2><ol>'+r.scenes.map(function(x){return '<li><span class="d">'+e(week(x.date))+'</span><span class="s">'+e(x.scene)+'</span></li>';}).join('')+'</ol></section>':'')
+ +reactHtml(r)+'<p class="foot">'+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';bindReact();}
 })();
 </script>
 </body>
