@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211238">
+  <meta name="app-build" content="202611211301">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1581,6 +1581,16 @@ details.att-history[open]>summary::after{background-size:12px 1.5px,1.5px 0;tran
 @media (max-width:560px){.rp2-head{padding:14px 16px!important}}
 .rp-testbtn{margin-left:auto}.rp-tools:has(.rp-testbtn) .rp-search{margin-left:0}
 
+/* ── 29. 보내기 창: 카드 다음 영상 단계 ── */
+.rp-vok{margin:0;padding:10px 12px;border-radius:10px;background:#E9F3EC;color:#2F7A4E;font-size:13px}
+.rp-vstep{display:grid;gap:10px;margin-top:12px;padding:14px;border:1px solid var(--r-line);border-radius:12px;background:#fff}
+.rp-vstep>b{font-size:15px}
+.rp-vstep p{margin:0}
+.rp-vinfo{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-radius:10px;background:#F7F4F0;font-size:13px;min-width:0}
+.rp-vinfo b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rp-vinfo span{flex:none;color:var(--r-muted);font-variant-numeric:tabular-nums}
+.rp-vinfo[hidden]{display:none}
+
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -2521,9 +2531,9 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
    <div class="rp2-body"><div class="rp2-tool"><button type="button" class="rp-chip strong" data-rp-auto>\uace1 \ub0b4\uc6a9\uc73c\ub85c \ubb38\uc7a5 \ub9cc\ub4e4\uae30</button><small>\uc644\uc131\u00b7\uc0c8 \uace1\uc744 \ub123\uc5b4 \ubb38\uc7a5\uc744 \ub9cc\ub4e4\uc5b4 \uc918\uc694</small></div>
    <textarea id="rp-msg" name="message" maxlength="1500" rows="5" placeholder="${e(given(s.name)+' '+rec)}\uaed8 \uc804\ud560 \uc774\uc57c\uae30">${e(r?r.message:'')}</textarea>
    <div class="rp-chips rp2-sugg" data-rp-target="rp-msg">${LINES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div></div></section>
-  <section class="rp2-step" data-step="media"><span class="rp2-num">4</span><h3>\uc601\uc0c1\u00b7\uc0ac\uc9c4 <small>\ub458 \ub2e4 \uc120\ud0dd\uc774\uc5d0\uc694</small></h3>
-   <div class="rp2-body"><div class="rp2-media">
-    <div class="rp2-mbox rp-video" data-rp-vbox><header><b>\uc5f0\uc8fc \uc601\uc0c1</b><small>\ubcf4\ub0b8 \ub0a0\ubd80\ud130 2\uc8fc \ubcf4\uad00 \ud6c4 \uc790\ub3d9 \uc0ad\uc81c</small></header><input type="hidden" id="rp-video" name="videoUrl" value="${e(r?r.videoUrl:'')}">
+  <section class="rp2-step" data-step="media"><span class="rp2-num">4</span><h3>\uc0ac\uc9c4 <small>\uc120\ud0dd \u00b7 \uc5f0\uc8fc \uc601\uc0c1\uc740 \ubcf4\ub0bc \ub54c \uce74\ud1a1\uc73c\ub85c \ub530\ub85c \ubcf4\ub0b4\uc694</small></h3>
+   <div class="rp2-body"><div class="rp2-media" style="grid-template-columns:minmax(0,1fr)">
+    <div class="rp2-mbox rp-video" data-rp-vbox style="display:none!important"><header><b>\uc5f0\uc8fc \uc601\uc0c1</b><small>\ubcf4\ub0b8 \ub0a0\ubd80\ud130 2\uc8fc \ubcf4\uad00 \ud6c4 \uc790\ub3d9 \uc0ad\uc81c</small></header><input type="hidden" id="rp-video" name="videoUrl" value="${e(r?r.videoUrl:'')}">
      <span class="rp-vstate">${r&&r.videoUrl?'<b>\u2713 \uc601\uc0c1\uc774 \ub4e4\uc5b4\uac00 \uc788\uc5b4\uc694</b><button type="button" class="text-link" data-rp-vclear>\ube7c\uae30</button>':'<span class="muted">\ud734\ub300\ud3f0\u00b7PC\uc5d0 \uc788\ub294 \uc601\uc0c1\uc744 \uace8\ub77c\uc694</span>'}</span>
      <div class="rp-vprog" hidden><i><b></b></i><span>0%</span></div>
      <label class="btn rp-vpick"><input type="file" accept="video/\*" data-rp-vfile hidden>\ub3d9\uc601\uc0c1 \uace0\ub974\uae30</label></div>
@@ -2548,12 +2558,12 @@ function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({
 P.rpHist=function(){const {s,g}=P.rpCur,cur=g.report&&g.report.id;const items=(g.history||[]).filter(h=>h.id!==cur);
  if(!items.length)return '<div class="rp-hist"><div class="rp-lab">'+e(callName(s.name))+'\uc758 \ub9ac\ud3ec\ud2b8 \uae30\ub85d</div><p class="muted">\uc544\uc9c1 \uc9c0\ub09c \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694.</p></div>';
  return '<div class="rp-hist"><div class="rp-lab">'+e(callName(s.name))+'\uc758 \ub9ac\ud3ec\ud2b8 \uae30\ub85d <small>'+items.length+'\uac1c</small></div><ol>'+items.map(h=>{const st=h.sentAt?(h.views?'<span class="rp-flag seen">\uc5f4\uc5b4\ubd04 '+h.views+'</span>':'<span class="rp-flag">\uc548 \uc5f4\uc5b4\ubd04</span>'):'<span class="rp-flag">\uc791\uc131\ub9cc</span>';
-  return '<li><button type="button" data-rp-hist="'+e(h.week)+'"><span class="d">'+md(h.lessonDate||h.week)+'</span><span class="s">'+e(h.scene||'\u2014')+'</span><span class="f">'+(h.reaction?'<span class="rp-flag heart">\u2665</span>':'')+st+'</span></button></li>';}).join('')+'</ol></div>';};
+  return '<li><button type="button" data-rp-hist="'+e(h.week)+'"><span class="d">'+md(h.lessonDate||h.week)+'</span><span class="s">'+e(h.scene||'\u2014')+'</span><span class="f">'+(h.reaction?'<span class="rp-flag heart">\u2665</span>':'')+(h.videoSent?'<span class="rp-flag">\uc601\uc0c1</span>':'')+st+'</span></button></li>';}).join('')+'</ol></div>';};
 // \ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669
 P.rpStats=async function(){const box=document.getElementById('rp-stats-body');if(!box||box.dataset.done)return;box.dataset.done='1';
  try{const r=await P.api('reports.stats',{});const max=Math.max(1,...r.weeks.map(w=>w.target));
   box.innerHTML='<div class="rp-statrows">'+r.weeks.map(w=>{const pct=w.target?Math.round(w.sent/w.target*100):0,vp=w.sent?Math.round(w.viewed/w.sent*100):0;
-   return '<div class="rp-statrow"><span class="w">'+e(weekLabel(w.week))+'</span><span class="bar"><i style="width:'+(w.target?Math.round(w.target/max*100):0)+'%"><b style="width:'+pct+'%"></b></i></span><span class="n"><b>'+w.sent+'</b> / '+w.target+'\uba85 \ubcf4\ub0c4</span><span class="m">\uc5f4\uc5b4\ubd04 '+vp+'% \u00b7 \u2665 '+w.reacted+'</span></div>';}).join('')+'</div><p class="muted rp-statnote">\ubcf4\ub0bc \ub300\uc0c1 = \uadf8 \uc8fc \uc2e4\uc81c\ub85c \uc218\uc5c5\ud55c \ud559\uc0dd(\uacb0\uc11d \uc81c\uc678). \ub9c9\ub300 \uae38\uc774\ub294 \ud559\uc0dd \uc218, \uc9c4\ud55c \ubd80\ubd84\uc740 \ubcf4\ub0b8 \ube44\uc728\uc774\uc5d0\uc694.</p>';}
+   return '<div class="rp-statrow"><span class="w">'+e(weekLabel(w.week))+'</span><span class="bar"><i style="width:'+(w.target?Math.round(w.target/max*100):0)+'%"><b style="width:'+pct+'%"></b></i></span><span class="n"><b>'+w.sent+'</b> / '+w.target+'\uba85 \ubcf4\ub0c4</span><span class="m">\uc5f4\uc5b4\ubd04 '+vp+'% \u00b7 \u2665 '+w.reacted+(w.video?' \u00b7 \uc601\uc0c1 '+w.video:'')+'</span></div>';}).join('')+'</div><p class="muted rp-statnote">\ubcf4\ub0bc \ub300\uc0c1 = \uadf8 \uc8fc \uc2e4\uc81c\ub85c \uc218\uc5c5\ud55c \ud559\uc0dd(\uacb0\uc11d \uc81c\uc678). \ub9c9\ub300 \uae38\uc774\ub294 \ud559\uc0dd \uc218, \uc9c4\ud55c \ubd80\ubd84\uc740 \ubcf4\ub0b8 \ube44\uc728\uc774\uc5d0\uc694.</p>';}
  catch(err){box.dataset.done='';box.innerHTML='<p class="empty-cell">'+e(err.message)+'</p>';}};
 
 // \u2500\u2500 \uc6d4\ub9d0 \uc131\uc7a5 \uce74\ub4dc \u2500\u2500
@@ -2632,7 +2642,7 @@ P.rpView=function(){
  const songs=(r.songs||[]).filter(x=>x&&x.title).map(x=>'<li><span class="rp-songst st-'+e(x.state||'ing')+'">'+e(ST[x.state]||ST.ing)+'</span>'+e(x.title)+'</li>').join('');
  const row=(k,v)=>v?'<dt>'+k+'</dt><dd>'+v+'</dd>':'';
  document.getElementById('dialog-content').innerHTML=`<div class="rp-view" data-rp-view="${e(s.id)}">
- <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span>${r.reaction?`<span class="rp-react">\u2665 ${r.reaction.text?'\u201c'+e(r.reaction.text)+'\u201d':'\uc798 \ubc1b\uc558\uc5b4\uc694'} <small>${md(String(r.reaction.at).slice(0,10))}</small></span>`:''}<span class="rp-vid ${r.videoUrl?'on':''}">${r.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \ud3ec\ud568':'\uc5f0\uc8fc \uc601\uc0c1 \uc5c6\uc74c'}</span></div>
+ <div class="rp-sentbar"><span>${ic('check')}<b>${md(r.sentAt.slice(0,10))} \ubcf4\ub0c4</b> \u00b7 ${r.views?`\ud559\ubd80\ubaa8\ub2d8\uc774 ${r.views}\ubc88 \uc5f4\uc5b4\ubd24\uc5b4\uc694`:'\uc544\uc9c1 \uc548 \uc5f4\uc5b4\ubd24\uc5b4\uc694'}</span>${r.reaction?`<span class="rp-react">\u2665 ${r.reaction.text?'\u201c'+e(r.reaction.text)+'\u201d':'\uc798 \ubc1b\uc558\uc5b4\uc694'} <small>${md(String(r.reaction.at).slice(0,10))}</small></span>`:''}<span class="rp-vid ${r.videoUrl||r.video?'on':''}">${r.video?'\u25b6 \uc601\uc0c1 \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0c4 \u00b7 '+md(String(r.video.at).slice(0,10))+(r.video.seconds?' \u00b7 '+P.rpDur(r.video.seconds):''):r.videoUrl?'\u25b6 \uc5f0\uc8fc \uc601\uc0c1 \ud3ec\ud568':'\uc5f0\uc8fc \uc601\uc0c1 \uc5c6\uc74c'}</span></div>
  <div class="rp-grid"><div class="rp-fields"><dl class="rp-dl">
   ${row('\ub808\uc2a8\uc77c',e(dl(r.lessonDate)))}${row('\ubc1b\ub294 \ubd84',e(given(s.name)+' '+r.recipient))}${row('\ubcc4\uc810',r.stars?'<span class="rp-starv">'+starTxt(r.stars)+'</span>':'')}
   ${row('\uc774\ubc88 \uc8fc \uace1',songs?'<ul class="rp-songlist">'+songs+'</ul>':'')}${row('\uc774\ub860\u00b7\uc219\uc81c',e(r.theory||''))}
@@ -2679,6 +2689,17 @@ const loadKakao=()=>window.Kakao?Promise.resolve(window.Kakao):Promise.reject(ne
 P.rpKkBox=function(sid,edit){const v=(P.rp.kakao||{})[sid]||'';
  if(v&&!edit)return '<div class="rp-kkname" data-rp-kkbox><span class="k">\uce74\ud1a1\uc5d0\uc11c \ucc3e\uc744 \uc774\ub984</span><b>'+e(v)+'</b><button type="button" class="btn" data-rp-kkcopy>\ubcf5\uc0ac</button><button type="button" class="text-link" data-rp-kkedit>\ubc14\uafb8\uae30</button></div>';
  return '<div class="rp-kkname" data-rp-kkbox><span class="k">\uce74\ud1a1\uc5d0\uc11c \ucc3e\uc744 \uc774\ub984</span><input class="rp-kkin" maxlength="60" value="'+e(v)+'" placeholder="\uc608: \uac15\uc9c0\ud638,\uac15\uc9c0\uc548(\uac1c\uc77c3)" aria-label="\uce74\ud1a1 \ub300\ud654\ubc29 \uc774\ub984"><button type="button" class="btn" data-rp-kksave>\uae30\uc5b5\ud558\uae30</button></div>';};
+P.rpDur=n=>Math.floor(n/60)+':'+String(n%60).padStart(2,'0');
+P.rpCanVideo=()=>{try{return !!(navigator.canShare&&navigator.canShare({files:[new File(['x'],'v.mp4',{type:'video/mp4'})]}));}catch(_e){return false;}};
+P.rpVideoStep=function(){const sb=document.querySelector('#rp-sendbox .rp-sendb');if(!sb)return P.rpFinish(false);P.rpVid=null;const ok=P.rpCanVideo();
+ sb.innerHTML='<p class="rp-vok"><b>\u2713 \uce74\ub4dc\ub97c \ubcf4\ub0c8\uc5b4\uc694</b> \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694</p><div class="rp-vstep"><b>\uc774\uc5b4\uc11c \uc5f0\uc8fc \uc601\uc0c1 \ubcf4\ub0b4\uae30</b><p class="muted" data-rp-vhint>'+(ok?'\uc601\uc0c1\uc744 \uace0\ub974\uba74 \uce74\ud1a1\uc73c\ub85c \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694. \uc601\uc0c1\uc774 \uc5c6\uc73c\uba74 [\uc601\uc0c1 \uc5c6\uc774 \ub05d\ub0b4\uae30]\ub97c \ub20c\ub7ec\uc694.':'\uc601\uc0c1\uc740 \ud734\ub300\ud3f0 \uc571\uc5d0\uc11c \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694. \ud734\ub300\ud3f0 \uce74\ud1a1\uc73c\ub85c \ub530\ub85c \ubcf4\ub0c8\ub2e4\uba74 [\ub530\ub85c \ubcf4\ub0c8\uc5b4\uc694]\ub85c \uae30\ub85d\ud574 \ub450\uc138\uc694.')+'</p><div class="rp-vinfo" data-rp-vinfo hidden></div><div class="rp-sendbtns" data-rp-vbtns>'+(ok?'<label class="btn primary"><input type="file" accept="video/\*" data-rp-vsendfile hidden>\uc601\uc0c1 \uace0\ub974\uae30</label><button type="button" class="btn" data-rp-vskip>\uc601\uc0c1 \uc5c6\uc774 \ub05d\ub0b4\uae30</button>':'<button type="button" class="btn" data-rp-vmanual>\ub530\ub85c \ubcf4\ub0c8\uc5b4\uc694</button><button type="button" class="btn primary" data-rp-vskip>\uc601\uc0c1 \uc5c6\uc774 \ub05d\ub0b4\uae30</button>')+'</div></div>';};
+document.addEventListener('change',async ev=>{const inp=ev.target;if(!inp.matches||!inp.matches('[data-rp-vsendfile]'))return;const file=inp.files&&inp.files[0];inp.value='';if(!file)return;const P=window.Piano;
+ if(!/^video[/]/.test(file.type||'')){P.saving('\ub3d9\uc601\uc0c1 \ud30c\uc77c\ub9cc \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694','error');return;}
+ const secs=await new Promise(ok=>{const v=document.createElement('video'),url=URL.createObjectURL(file);let fin=0;const end=x=>{if(fin)return;fin=1;URL.revokeObjectURL(url);ok(x);};v.preload='metadata';v.muted=true;v.onloadedmetadata=()=>end(isFinite(v.duration)?Math.round(v.duration):0);v.onerror=()=>end(0);setTimeout(()=>end(0),4000);v.src=url;});
+ P.rpVid={file,secs};const info=document.querySelector('#rp-sendbox [data-rp-vinfo]'),bt=document.querySelector('#rp-sendbox [data-rp-vbtns]'),hint=document.querySelector('#rp-sendbox [data-rp-vhint]');
+ if(info){info.hidden=false;info.innerHTML='<b>'+P.escape(file.name)+'</b><span>'+(secs?P.rpDur(secs)+' \u00b7 ':'')+Math.max(1,Math.round(file.size/1048576))+'MB</span>';}
+ if(hint)hint.textContent='[\uce74\ud1a1\uc73c\ub85c \uc601\uc0c1 \ubcf4\ub0b4\uae30]\ub97c \ub204\ub974\uace0, \ubc29\uae08 \uce74\ub4dc\ub97c \ubcf4\ub0b8 \ub300\ud654\ubc29\uc744 \uace8\ub77c\uc694.';
+ if(bt)bt.innerHTML='<button type="button" class="btn kakao" data-rp-vshare>\uce74\ud1a1\uc73c\ub85c \uc601\uc0c1 \ubcf4\ub0b4\uae30</button><label class="btn"><input type="file" accept="video/\*" data-rp-vsendfile hidden>\ub2e4\ub978 \uc601\uc0c1</label><button type="button" class="btn" data-rp-vskip>\uc601\uc0c1 \uc5c6\uc774 \ub05d\ub0b4\uae30</button>';});
 P.rpPrepareSend=async function(){
  const {s,g}=P.rpCur,r=g.report,box=document.getElementById('rp-sendbox'),link=P.reportLink(r.token),call=callName(s.name);
  const head='<div class="rp-sendh"><span class="k">SEND</span><b>'+e(given(s.name))+' '+e(r.recipient)+'\uaed8 \ubcf4\ub0b4\uae30</b><button type="button" class="del-x" data-rp-sendclose aria-label="\ub2eb\uae30"></button></div>';
@@ -2686,7 +2707,8 @@ P.rpPrepareSend=async function(){
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p><span class="r-run" style="width:100%"></span></div></div>`;
  if(!P.rpCur.month)await P.rpLoadPhoto(s.id);const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name,summary:P.rpCur.g.summary}),P.rpPhoto[s.id]);
  const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
- P.rpDone=async()=>{await P.rpMark({sent:true,videoSent:!!r.videoUrl},true);box.innerHTML='';if(P.rp.chain){P.loadReports();return P.rpNext(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694');}P.requestDialogClose?.(true);P.saving(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694 \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
+ P.rpFinish=v=>{box.innerHTML='';const who=given(s.name)+' '+r.recipient+'\uaed8 '+(v?'\uce74\ub4dc\uc640 \uc601\uc0c1\uc744 ':'')+'\ubcf4\ub0c8\uc5b4\uc694';if(P.rp.chain){P.loadReports();return P.rpNext(who);}P.requestDialogClose?.(true);P.saving(who+' \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
+ P.rpDone=async()=>{await P.rpMark({sent:true,videoSent:!!r.videoUrl},true);P.rpFinish(false);};
  let html='',kakaoOk=false;
  if(window.APP_MODE&&window.KAKAO_KEY){try{const K=await loadKakao();if(!K.isInitialized())K.init(window.KAKAO_KEY);const up=await K.Share.uploadImage({file:[file]});const img=String(up.infos.original.url).replace(/^http:/,'https:');P.rpKakao={K,img,title,desc,link,call};P.rpMark({imageUrl:img}).catch(()=>{});kakaoOk=true;
    html=`<p><b>\uce74\ub4dc\uac00 \uc900\ube44\ub410\uc5b4\uc694.</b> \ubc84\ud2bc\uc744 \ub204\ub974\uba74 \uce74\ud1a1\uc774 \uc5f4\ub824\uc694. ${e(given(s.name))} ${e(r.recipient)} \ub300\ud654\ubc29\uc744 \uace8\ub77c \uc8fc\uc138\uc694.</p><div class="rp-sendbtns"><button type="button" class="btn kakao" data-rp-kakao>\uce74\ud1a1\uc73c\ub85c \ubcf4\ub0b4\uae30</button></div>`;}catch(err){html=`<p class="muted">${e(err.message||'\uce74\uce74\uc624 \uce74\ub4dc\ub97c \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694.')} \uc544\ub798 \ubc29\ubc95\uc73c\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</p>`;}}
@@ -2706,7 +2728,11 @@ document.addEventListener('click',async ev=>{const t=ev.target;
  if(t.closest('[data-rp-share]')){try{await navigator.share({files:[P.rpFile.file],text:P.rpFile.text});await P.rpDone();}catch(err){if(err?.name!=='AbortError')P.saving('\uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. \ub9c1\ud06c \ubcf5\uc0ac\ub85c \ubcf4\ub0b4 \uc8fc\uc138\uc694.','error');}return;}
  if(t.closest('[data-rp-copyimg]')){try{await navigator.clipboard.write([new ClipboardItem({'image/png':P.rpFile.png})]);P.saving('\uce74\ub4dc \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694. \uce74\ud1a1 \ub300\ud654\ubc29\uc5d0 \ubd99\uc5ec\ub123\uc5b4 \uc8fc\uc138\uc694','done');}catch{const fb=document.querySelector('.rp-imgfallback');if(fb)fb.hidden=false;P.saving('\uc624\ub978\ucabd \ud074\ub9ad\uc73c\ub85c \uc774\ubbf8\uc9c0\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
  if(t.closest('[data-rp-copy]')){try{await navigator.clipboard.writeText(P.rpFile.link);P.saving('\ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud588\uc5b4\uc694','done');}catch{const l=document.querySelector('.rp-linkline');if(l){const rg=document.createRange();rg.selectNodeContents(l);getSelection().removeAllRanges();getSelection().addRange(rg);}P.saving('\uc120\ud0dd\ub41c \ub9c1\ud06c\ub97c \ubcf5\uc0ac\ud574 \uc8fc\uc138\uc694','info');}return;}
- if(t.closest('[data-rp-mark]')){const done=P.btnBusy(t.closest('[data-rp-mark]'),'\ud45c\uc2dc \uc911');try{await P.rpDone();}catch(err){done();}return;}
+ if(t.closest('[data-rp-mark]')){const done=P.btnBusy(t.closest('[data-rp-mark]'),'\ud45c\uc2dc \uc911');try{if(P.rpCur.month||P.rpCur.g.report.videoUrl)await P.rpDone();else{await P.rpMark({sent:true},true);done();P.rpVideoStep();}}catch(err){done();}return;}
+ if(t.closest('[data-rp-vskip]')){P.rpFinish(false);return;}
+ if(t.closest('[data-rp-vshare]')){const v=P.rpVid;if(!v)return;const kv=(P.rp.kakao||{})[P.rpCur.s.id];if(kv)navigator.clipboard?.writeText(kv).catch(()=>{});try{await navigator.share({files:[v.file]});}catch(err){if(err?.name!=='AbortError')P.saving('\uc601\uc0c1\uc744 \uacf5\uc720\ud558\uc9c0 \ubabb\ud588\uc5b4\uc694. '+(err.message||''),'error');return;}
+  const bt=document.querySelector('#rp-sendbox [data-rp-vbtns]'),hint=document.querySelector('#rp-sendbox [data-rp-vhint]');if(hint)hint.innerHTML='<b>\uce74\ud1a1\uc5d0\uc11c \ubc29\uae08 \uce74\ub4dc\ub97c \ubcf4\ub0b8 \ub300\ud654\ubc29\uc744 \uace8\ub77c \ubcf4\ub0b4 \uc8fc\uc138\uc694.</b> \ubcf4\ub0b8 \ub4a4 [\uc601\uc0c1 \ubcf4\ub0c8\uc5b4\uc694]\ub97c \ub204\ub974\uba74 \uae30\ub85d\ub3fc\uc694.';if(bt)bt.innerHTML='<button type="button" class="btn" data-rp-vshare>\uce74\ud1a1 \ub2e4\uc2dc \uc5f4\uae30</button><button type="button" class="btn primary" data-rp-vmark>\uc601\uc0c1 \ubcf4\ub0c8\uc5b4\uc694</button>';return;}
+ if(t.closest('[data-rp-vmark],[data-rp-vmanual]')){const b=t.closest('[data-rp-vmark],[data-rp-vmanual]'),done=P.btnBusy(b,'\uae30\ub85d \uc911'),v=b.hasAttribute('data-rp-vmark')?P.rpVid:null,r=P.rpCur.g.report;try{const x=await P.api('reports.videoSent',{id:r.id,version:r.version,name:v?v.file.name:'',size:v?v.file.size:0,seconds:v?v.secs:0},crypto.randomUUID());r.version=x.version;r.videoSent=true;r.video=x.video;P.rpVid=null;P.rpFinish(true);}catch(err){done();P.saving(err.message,'error');}return;}
  if(t.closest('[data-rp-next]')){const order=[...document.querySelectorAll('[data-rp-open]')].map(b=>b.dataset.rpOpen).filter(id=>id!==P.rpCur.s.id);const next=order.find(id=>!(P.rp.list||[]).some(r=>r.studentId===id&&r.sentAt));if(next)P.rpOpen(next);else document.getElementById('detail-dialog').close();}
 });
 
@@ -2787,7 +2813,7 @@ window.Piano.rpCheck=function(){const P=window.Piano,f=document.querySelector('f
  const set=(k,on)=>{const st=f.querySelector('[data-step="'+k+'"]');if(st)st.classList.toggle('done',!!on);};set('songs',songs);set('scene',scene.trim());set('msg',msg);set('media',vid||photo);
  const c=f.querySelector('[data-count="rp-scene"]');if(c)c.textContent=scene.length+' / 200';
  const li=(cls,txt,side)=>'<li class="'+cls+'"><i>'+(cls==='y'?'\u2713':cls==='need'?'!':'')+'</i>'+txt+(side?'<span>'+side+'</span>':'')+'</li>';
- const box=f.querySelector('#rp-check');if(box)box.innerHTML=li(scene.trim()?'y':'need','\uc624\ub298\uc758 \ud55c \uc7a5\uba74',scene.trim()?'':'\uaf2d \uc368 \uc8fc\uc138\uc694')+li(songs?'y':'n','\uc774\ubc88 \uc8fc \uace1',songs?songs+'\uace1':'\uc120\ud0dd')+li(msg?'y':'n','\ud3b8\uc9c0',msg?'':'\uc120\ud0dd')+(up?li('w','\uc601\uc0c1 \uc62c\ub9ac\ub294 \uc911',(pg.querySelector('span')||{}).textContent||''):li(vid?'y':'n','\uc5f0\uc8fc \uc601\uc0c1',vid?'2\uc8fc \ubcf4\uad00':'\uc120\ud0dd'))+li(stars?'y':'n','\ubcc4\uc810',stars?'\u2605'.repeat(stars):'\uc5c6\uc74c');
+ const box=f.querySelector('#rp-check');if(box)box.innerHTML=li(scene.trim()?'y':'need','\uc624\ub298\uc758 \ud55c \uc7a5\uba74',scene.trim()?'':'\uaf2d \uc368 \uc8fc\uc138\uc694')+li(songs?'y':'n','\uc774\ubc88 \uc8fc \uace1',songs?songs+'\uace1':'\uc120\ud0dd')+li(msg?'y':'n','\ud3b8\uc9c0',msg?'':'\uc120\ud0dd')+(up?li('w','\uc601\uc0c1 \uc62c\ub9ac\ub294 \uc911',(pg.querySelector('span')||{}).textContent||''):li(vid?'y':'n','\uc5f0\uc8fc \uc601\uc0c1',vid?'2\uc8fc \ubcf4\uad00':'\ubcf4\ub0bc \ub54c \uce74\ud1a1\uc73c\ub85c'))+li(stars?'y':'n','\ubcc4\uc810',stars?'\u2605'.repeat(stars):'\uc5c6\uc74c');
  const send=f.querySelector('button[value=send]');if(send){send.disabled=!!up;send.title=up?'\uc601\uc0c1\uc774 \ub2e4 \uc62c\ub77c\uac00\uba74 \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694':'';}
  if(up){clearTimeout(f._ck);f._ck=setTimeout(window.Piano.rpCheck,400);}};
 ['input','change'].forEach(t=>document.addEventListener(t,ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);}));
