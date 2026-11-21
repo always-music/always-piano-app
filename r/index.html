@@ -25,7 +25,16 @@ html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sa
 .date{font-size:11.5px;font-weight:600;color:var(--brass);font-variant-numeric:tabular-nums}
 .hero h1{margin:0;font-size:22px;line-height:1.35;font-weight:700;letter-spacing:-.02em;text-wrap:balance}.hero h1 em{font-style:normal;color:var(--brass)}
 .hero p{margin:6px 0 0;color:var(--faint);font-size:13px}
+body{position:relative}
+body::before{content:"";position:absolute;left:0;right:0;top:0;height:320px;z-index:-1;background:url(../card-piano.jpg) center 40%/cover no-repeat;opacity:.2;filter:saturate(.85);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.55) 45%,transparent 100%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.55) 45%,transparent 100%);pointer-events:none}
 .vbox{display:flex;flex-direction:column;gap:8px}
+.mtabs{display:flex;gap:4px;padding:3px;border-radius:10px;background:#EFEBE5}
+.mtabs button{flex:1;appearance:none;border:0;border-radius:8px;height:34px;background:none;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer}
+.mtabs button[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(35,26,19,.1)}
+.mtabs button:focus-visible{outline:2px solid var(--brass);outline-offset:1px}
+.mview[hidden]{display:none}
+.photo{display:block;border-radius:12px;overflow:hidden;background:#EFEBE5}
+.photo img{display:block;width:100%;max-height:78vh;object-fit:contain;background:#EFEBE5}
 .vplay{display:block;width:100%;max-height:78vh;border-radius:12px;background:#1B1410}
 .vcap{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--faint)}.vcap a{color:var(--faint)}
 .video{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#1B1410}
@@ -113,7 +122,9 @@ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}}
  document.title=call+'의 레슨 리포트 · 언제나 음악학원';
  var songs=(r.songs||[]).filter(function(s){return s.title;}).map(function(s){return '<li><span>'+e(s.title)+'</span>'+(ST[s.state]?'<em class="st '+e(s.state)+'">'+ST[s.state]+'</em>':'')+'</li>';}).join('');
  var past=(r.past||[]).map(function(p){var t=(p.songs||[]).filter(function(s){return s.state==='done';}).map(function(s){return s.title;});return '<li><span class="d">'+e(week(p.lessonDate))+'</span><span class="s">'+e(p.scene)+(t.length?'<span class="t">완성 · '+e(t.join(', '))+'</span>':'')+'</span></li>';}).join('');
- var video=did?'<div class="vbox"><video class="vplay" controls playsinline preload="metadata" src="https://always-piano-video.always-piano.workers.dev/v/'+e(did)+'"></video><div class="vcap"><span>연주 영상 · 2주 동안 볼 수 있어요</span><a href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer">안 나오면 여기</a></div></div>'
+ var RELAY='https://always-piano-video.always-piano.workers.dev/v/',pid=/^[\w-]{20,}$/.test(r.photoId||'')?r.photoId:'';
+ var vH=did?'<video class="vplay" controls playsinline preload="metadata" src="'+RELAY+e(did)+'"></video>':'',pH=pid?'<a class="photo" href="'+RELAY+e(pid)+'" target="_blank" rel="noopener noreferrer"><img src="'+RELAY+e(pid)+'" alt="이번 주 사진"></a>':'';
+ var video=(vH||pH)?'<section class="vbox" aria-label="이번 주 영상과 사진">'+(vH&&pH?'<div class="mtabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-m="v">연주 영상</button><button type="button" role="tab" aria-selected="false" data-m="p">이번 주 사진</button></div>':'')+(vH?'<div class="mview" data-v="v">'+vH+'</div>':'')+(pH?'<div class="mview" data-v="p"'+(vH?' hidden':'')+'>'+pH+'</div>':'')+'<div class="vcap"><span>'+(vH&&pH?'영상과 사진은':vH?'연주 영상은':'사진은')+' 2주 동안 볼 수 있어요</span>'+(vH?'<a href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer">영상이 안 나오면</a>':'')+'</div></section>'
   :v?'<div class="video"><iframe src="'+e(v)+'" title="연주 영상" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>'
   :r.videoUrl&&/^https:\/\//.test(r.videoUrl)?'<a class="vlink" href="'+e(r.videoUrl)+'" target="_blank" rel="noopener noreferrer"><i></i>'+e(call)+'의 연주 영상 보기</a>'
   :r.videoExpired?'<p class="vgone">'+e(call)+'의 연주 영상은 보관 기간(2주)이 지나 내려갔어요.</p>'
@@ -131,6 +142,7 @@ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}}
  +(past?'<section class="diary"><h2>'+e(call)+'의 피아노 기록</h2><ol>'+past+'</ol></section>':'')
  +'<p class="foot">'+e(callName(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';
  bindReact();
+ var mt=page.querySelector('.mtabs');if(mt)mt.addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;mt.querySelectorAll('button').forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false');});page.querySelectorAll('.mview').forEach(function(v){v.hidden=v.getAttribute('data-v')!==b.getAttribute('data-m');});var vp=page.querySelector('.vplay');if(vp&&b.getAttribute('data-m')!=='v')vp.pause();});
  }).catch(function(){show('잠시 연결이 원활하지 않아요.<br>조금 뒤 다시 열어 주세요.');});
 var OK='<p class="ok">선생님께 잘 받았다고 전했어요<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>';
 function reactHtml(r){return '<section class="react" id="react">'+(r.reacted?OK:'<p class="q">리포트 잘 받으셨나요?</p><button type="button" class="heart" data-heart>잘 받았어요</button>')
