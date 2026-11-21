@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211130">
+  <meta name="app-build" content="202611211134">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1947,10 +1947,12 @@ Piano.navigation=[
 ];
 // Pages wired to live data; others show a "준비" badge in the sidebar.
 Piano.readyPages=['memo/board','reports/weekly','lessons/regular','lessons/makeup','lessons/attendance','lessons/history','students/list','teachers/list','operations/notices','settings/accounts'];
+// 휴대폰 앱 화면(아래 탭·전체·메모 탭·주간/월간 A안)은 앱이면서 좁은 화면(900px 이하)일 때만. PC에서 앱을 열면 원래 넓은 화면.
+Piano.appUI=()=>!!globalThis.APP_MODE&&!!globalThis.matchMedia?.('(max-width:900px)').matches;
 Piano.honor=()=>Piano.user?.vice?'부원장님':Piano.user?.role==='director'?'원장님':'선생님';
 Piano.canVisit=function(role,groupId,pageId){
  const group=Piano.navigation.find(g=>g.id===groupId);
- return !!(group&&!(group.app&&!globalThis.APP_MODE)&&!(groupId==='reports'&&Piano.user?.vice)&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
+ return !!(group&&!(group.app&&!Piano.appUI())&&!(groupId==='reports'&&Piano.user?.vice)&&(group.roles.includes(role)||role==='teacher'&&groupId==='students'&&!!Piano.user?.vice)&&group.pages.some(p=>p[0]===pageId&&(!p[2]||p[2]===role)));
 };
 Piano.escape=value=>String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 Piano.icon=function(name,cls=''){
@@ -2213,7 +2215,7 @@ P.mobileHero=function(todayCount){
   const step=t=>{const k=Math.min((t-t0)/dur,1);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(step);};el.textContent='0';requestAnimationFrame(step);}),380);
  const stat=(label,n,i)=>`<div class="mh-stat" style="--i:${i}"><span>${label}</span><b data-count="${n}">${n}</b></div>`;
  const _n='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M9 18V5l11-2v13"/><ellipse cx="6" cy="18" rx="3" ry="2.2"/><ellipse cx="17" cy="16" rx="3" ry="2.2"/></svg>';
- if(window.APP_MODE){
+ if(P.appUI()){
   const cs=P.consultsOn?P.consultsOn(today):[],due=P.data.reportDue?.count||0,canCs=P.user.role==='director'||P.user.vice;
   const tile=(label,n,unit,i)=>`<div class="ah-tile" style="--i:${i}"><small>${label}</small><b><span data-count="${n}">${n}</span><em>${unit}</em></b></div>`;
   const qi={absent:'<path d="M8 3v4m8-4v4M3 10h18m-11 3 4 4m0-4-4 4"/><rect x="3" y="5" width="18" height="16" rx="3"/>',makeup:'<path d="M8 3v4m8-4v4M3 10h18m-9 3v5m-2.5-2.5h5"/><rect x="3" y="5" width="18" height="16" rx="3"/>',consult:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',memo:'<path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/>'};
@@ -2280,7 +2282,7 @@ P.weeklySummary=function(){
  const pills=`<span class="title-pills"><span class="pill outline">주 1회 ${tally[0]}명</span><span class="pill outline">주 2회 ${tally[1]}명</span><span class="pill outline">주 3회 이상 ${tally[2]}명</span></span>`;
  return P.card(`학생별 수업 요일 · ${rows.length}명${pills}`,P.table(['학생','주 횟수','요일 · 시간'],rows.map(r=>row([`<strong>${e(r.name)}</strong>`,`<span class="freq freq-${Math.min(r.ws.length,3)}">주 ${r.ws.length}회</span>`,r.ws.map(w=>`<button class="slot-pill" data-weekly-edit="${e(w.id)}" title="${w.duration}분">${WD[w.weekday]} ${w.time}</button>`).join(' ')])),'등록된 수업이 없습니다.'));
 };
-P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar wk-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div>${window.APP_MODE?`<div class="home-wkm app-wkm" id="wkm-panel">${P.weeklyMobile()}</div>`:''}<div id="calendar-panel"${window.APP_MODE?' class="app-wkgrid"':''}>${P.weeklyGrid()}</div>${window.APP_MODE?'':`<div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`}`;};
+P.weeklyPage=()=>{P.lessonFilter.q='';return `<div class="toolbar lesson-toolbar wk-toolbar"><div class="quick-actions" style="margin-left:auto"><button class="btn primary" data-weekly-new>${ic('plus')}수업 추가</button></div></div>${P.appUI()?`<div class="home-wkm app-wkm" id="wkm-panel">${P.weeklyMobile()}</div>`:''}<div id="calendar-panel"${P.appUI()?' class="app-wkgrid"':''}>${P.weeklyGrid()}</div>${P.appUI()?'':`<div class="section-spacer"></div><div id="lesson-list-panel">${P.weeklySummary()}</div>`}`;};
 // Add (several weekdays at once) or edit one entry; edit also offers delete.
 P.weeklyForm=function(w){
  const roster=(P.data.roster||[]).slice().sort((a,b)=>a.name.localeCompare(b.name,'ko')),sid=w?.studentId||'',durs=P.data.durations||[40,50],time=w?.time||P.presetTime||'15:00';
@@ -2467,7 +2469,7 @@ P.todayText=()=>{const d=new Date((P.data?.date||new Date().toISOString().slice(
 P.homeMakeup=function(state){
  const upcoming=P.scheduleLessons().filter(l=>l.kind==='makeup'&&l.status==='scheduled'&&l.date>=P.data.date).sort((a,b)=>a.date.localeCompare(b.date)||P.lessonOrder(a,b)).slice(0,4);
  const side=`<section class="card hm-side"><div class="card-header"><div><h2>다가오는 보강</h2><p class="sub">오늘 이후 ${upcoming.length}건</p></div></div><div class="hm-list">${upcoming.length?upcoming.map(l=>{const inner=`<span class="hm-date">${P.dayLabel(l.date).replace(' · 오늘','')}</span><span class="hm-time">${e(l.time)}</span><strong>${e(studentName(l.studentId))}</strong><small>${e(teacherName(l.teacherId))}</small>`;return P.isMine(l)?`<button class="hm-item" data-live-action="record" data-id="${e(l.id)}">${inner}</button>`:`<div class="hm-item readonly">${inner}</div>`;}).join(''):'<p class="empty-cell">예정된 보강이 없습니다.</p>'}</div><div class="hm-foot"><button class="btn primary" data-live-action="lesson" data-kind="makeup" data-date="${e(P.data.date)}">${ic('plus')}보강 등록</button></div></section>`;
- if(window.APP_MODE)return `<div class="home-makeup">${P.appMonthCal(state)}</div>`;
+ if(P.appUI())return `<div class="home-makeup">${P.appMonthCal(state)}</div>`;
  P.compactCalendar=true;const cal=P.calendar(state,true,'makeup');P.compactCalendar=false;
  return `<div class="home-makeup"><div class="hm-cal">${cal}</div></div>`;
 };
@@ -2479,7 +2481,7 @@ P.liveDashboard=function(state){
  const active=P.data.students.filter(s=>s.status==='active').length;
  // Home: greeting lives in the sidebar; top row = two narrow metric cards · 할 일 (with alerts + 등록) · 메모, all on one top line.
  const alerts=P.taskAlert()+(P.user.role==='director'?P.payAlert():'');
- return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side">${window.APP_MODE?'':`<div class="home-memo">${P.memoCard()}</div>`}<div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
+ return `<h1 class="sr-only">${e(P.user.name)}${' '+P.honor()}, 반가워요</h1>${P.mobileHero(todayCount)}<div class="home-row2"><div class="home-left"><div class="metrics two home-metrics">${P.user.role==='director'?P.homeStat('재원 학생',(P.data.roster||[]).length,'students',''):''}${P.homeStat('오늘 수업',todayCount,'calendar',`<span>정규 <b>${todayWeekly}</b></span><span>보강 <b>${todayMakeup}</b></span>`)}</div><div class="home-tasks">${P.card('할 일',(alerts?`<div class="home-alerts">${alerts}</div>`:'')+P.liveTasks(),'<button class="btn home-task-add" data-task-new>+ 할 일 등록</button>')}</div></div></div><div class="home-board"><div class="home-weekly">${P.weeklyGrid()}</div><div class="home-wkm" id="wkm-panel">${P.weeklyMobile()}</div><div class="home-side">${P.appUI()?'':`<div class="home-memo">${P.memoCard()}</div>`}<div id="calendar-panel" data-swipe="month">${P.homeMakeup(state)}</div></div></div><div id="abs-board" data-swipe="week">${P.absenceBoard()}</div>`;
 };
 P.page=function(state){
  if(!P.live)return oldPage(state);
@@ -2601,7 +2603,7 @@ P.appMonthCal=function(state){
 };
 P.absWeek=P.absWeek||'';
 P.absenceBoard=function(){
- if(window.APP_MODE)return P.appWeekBoard();
+ if(P.appUI())return P.appWeekBoard();
  const today=P.ac().today||P.data.date,mon=P.absWeek||mondayOf(today),sat=shiftDay(mon,5);
  const list=P.ac().attendance.filter(a=>(a.status==='planned'||a.status==='absent')&&a.date>=mon&&a.date<=sat);
  const nav=`<div class="abs-nav"><button class="icon-btn" data-abs-week="-7" aria-label="이전 주">‹</button><strong>${mon.slice(0,4)}.${mdOf(mon)} ~ ${mdOf(sat)}</strong><button class="icon-btn" data-abs-week="7" aria-label="다음 주">›</button><button class="btn" data-abs-week="0">이번 주</button></div>`;
@@ -3957,7 +3959,7 @@ document.addEventListener('keydown',event=>{
   else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
  }
 });
-matchMedia('(max-width:900px)').addEventListener('change',()=>{state.drawer=false;updateDrawer();});
+matchMedia('(max-width:900px)').addEventListener('change',()=>{state.drawer=false;updateDrawer();if(window.APP_MODE&&(!P.live||P.user))route();});
 window.addEventListener('hashchange',route);
 // 뒤로가기(휴대폰 포함): 화면 이동·창·팝업·메뉴를 열 때마다 기록을 남기고, 뒤로가기는 맨 위의 팝업 → 창 → 메뉴를 먼저 닫은 뒤 이전 화면으로.
 // Apps Script 웹앱은 google.script.history로 바깥 주소창 기록을 다루고, 미리보기·테스트에서는 일반 history를 씁니다.
