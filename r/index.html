@@ -103,7 +103,7 @@ var driveId=function(u){var m=/drive\.google\.com\/(?:file\/d\/|open\?id=)([\w-]
 function embed(u){var m=/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/))([\w-]{11})/.exec(u);if(m)return 'https://www.youtube-nocookie.com/embed/'+m[1]+'?rel=0&playsinline=1';return '';}
 function show(msg){page.innerHTML='<div class="state">'+msg+'</div>';}
 function top(logo,right){return '<div class="top"><span class="brand">'+(logo?'<img src="'+e(logo)+'" alt="">':'')+'언제나 음악학원</span><span class="date">'+e(right)+'</span></div>';}
-function to(r,sub){return '<div class="to"><b>'+e(given(r.name))+' '+e(r.recipient)+'께</b><span>'+e(sub)+'</span></div>';}
+function to(r,sub){return '<div class="to"><b>'+e(callName(r.name))+' '+e(r.recipient)+'께</b><span>'+e(sub)+'</span></div>';}
 function sign(r){return '<div class="sign"><span><strong>언제나 선생님들</strong><small>언제나 음악학원</small></span>'+starsHtml(r.stars)+'</div>';}
 var token=(new URLSearchParams(location.search).get('t')||'').toLowerCase();
 if(!/^[a-f0-9]{32}$/.test(token)){show('리포트 주소가 올바르지 않아요.<br>카톡으로 받은 링크를 다시 눌러 주세요.');return;}
@@ -129,7 +129,7 @@ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}}
  +sign(r)+'</article>'
  +reactHtml(r)
  +(past?'<section class="diary"><h2>'+e(call)+'의 피아노 기록</h2><ol>'+past+'</ol></section>':'')
- +'<p class="foot">'+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';
+ +'<p class="foot">'+e(callName(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';
  bindReact();
  }).catch(function(){show('잠시 연결이 원활하지 않아요.<br>조금 뒤 다시 열어 주세요.');});
 var OK='<p class="ok">선생님께 잘 받았다고 전했어요<small>더 하실 말씀이 있으면 한 줄 남겨 주세요</small></p>';
@@ -155,7 +155,7 @@ function renderMonth(r){var m=+String(r.month).slice(5,7),call=callName(r.name),
  +sign(r)+'</article>'
  +(r.goal?'<div class="goal"><div class="lab">다음 달 목표</div><p>'+e(r.goal)+'</p></div>':'')
  +((r.scenes||[]).length?'<section class="diary"><h2>'+m+'월의 장면들</h2><ol>'+r.scenes.map(function(x){return '<li><span class="d">'+e(week(x.date))+'</span><span class="s">'+e(x.scene)+'</span></li>';}).join('')+'</ol></section>':'')
- +reactHtml(r)+'<p class="foot">'+e(given(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';bindReact();}
+ +reactHtml(r)+'<p class="foot">'+e(callName(r.name))+' '+e(r.recipient)+'께만 보내드린 링크예요</p>';bindReact();}
 })();
 </script>
 </body>
