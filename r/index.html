@@ -25,7 +25,7 @@ html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sa
 .date{font-size:11.5px;font-weight:600;color:var(--brass);font-variant-numeric:tabular-nums}
 .hero h1{margin:0;font-size:22px;line-height:1.35;font-weight:700;letter-spacing:-.02em;text-wrap:balance}.hero h1 em{font-style:normal;color:var(--brass)}
 .hero p{margin:6px 0 0;color:var(--faint);font-size:13px}
-body{position:relative}
+body{position:relative;background:transparent} /* 바탕색은 html에만: body가 칠하면 뒤 그림이 가려져요 */
 body::before{content:"";position:absolute;left:0;right:0;top:0;height:320px;z-index:-1;background:url(../card-piano.jpg) center 40%/cover no-repeat;opacity:.2;filter:saturate(.85);-webkit-mask-image:linear-gradient(#000 0%,rgba(0,0,0,.55) 45%,transparent 100%);mask-image:linear-gradient(#000 0%,rgba(0,0,0,.55) 45%,transparent 100%);pointer-events:none}
 .vbox{display:flex;flex-direction:column;gap:8px}
 .mtabs{display:flex;gap:4px;padding:3px;border-radius:10px;background:#EFEBE5}
