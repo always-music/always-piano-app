@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211229">
+  <meta name="app-build" content="202611211238">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2432,7 +2432,8 @@ const obj=(s,a,b)=>s+(batchim(s.replace(/['\u2019)\s]+$/,''))?a:b);
 const weekLabel=m=>{const t=new Date(add(m,3)+'T00:00:00Z');return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
 const weekOf=d=>{const t=new Date(d+'T00:00:00Z');t.setUTCDate(t.getUTCDate()-((t.getUTCDay()+6)%7)+3);return `${t.getUTCMonth()+1}\uc6d4 ${Math.ceil(t.getUTCDate()/7)}\uc8fc\ucc28`;};
 const longDate=d=>{const x=new Date(d+'T00:00:00Z');return `${x.getUTCMonth()+1}\uc6d4 ${x.getUTCDate()}\uc77c ${DAYS[x.getUTCDay()]}\uc694\uc77c`;};
-P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null,mode:'week',month:null,mlist:null,mfilter:'todo'};P.rpPhoto=P.rpPhoto||{};
+P.rp=P.rp||{week:null,filter:'todo',day:0,q:'',list:null,mode:'week',month:null,mlist:null,mfilter:'todo'};P.rpPhoto=P.rpPhoto||{};P.rpPhotoAsked=P.rpPhotoAsked||{};
+P.rpLoadPhoto=function(sid){if(P.rpPhoto[sid])return Promise.resolve(P.rpPhoto[sid]);const k=sid+'|'+P.rp.week;if(P.rpPhotoAsked[k])return Promise.resolve(null);P.rpPhotoAsked[k]=1;return P.api('reports.photoGet',{studentId:sid,week:P.rp.week}).then(d=>d&&d.data?new Promise(ok=>{const img=new Image();img.onload=()=>{P.rpPhoto[sid]=img;ok(img);};img.onerror=()=>ok(null);img.src=d.data;}):null).catch(()=>{delete P.rpPhotoAsked[k];return null;});};
 P.reportLink=t=>(window.REPORT_BASE||'https:\/\/always-music.github.io/always-piano-app/r/')+'?t='+t;
 const days=sid=>[...new Set((P.data.weekly||[]).filter(w=>w.studentId===sid).map(w=>w.weekday))].sort();
 const students=()=>(P.data.students||[]).filter(s=>s.status==='active');
@@ -2535,7 +2536,7 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
  <div class="rp-actions rp2-foot"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
  <div id="rp-sendbox"></div></form>`;P.rpCheck&&P.rpCheck();
  const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
- if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';
+ if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';else P.rpLoadPhoto(s.id).then(im=>{if(!im)return;const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc800\uc7a5\ub41c \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();});
  P.rpPreview();
 };
 function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({title:row.querySelector('[name=songTitle]').value.trim(),state:row.querySelector('input[type=radio]:checked')?.value||'ing'})).filter(x=>x.title);
@@ -2642,12 +2643,12 @@ P.rpView=function(){
  <div class="rp-actions"><button type="button" class="btn danger-link" data-rp-unsend>\ubcf4\ub0c4 \ucde8\uc18c</button><span class="muted rp-msgline" role="status"></span><a class="btn" href="${e(link)}" target="_blank" rel="noopener">\ub9ac\ud3ec\ud2b8 \ubcf4\uae30 \u2197</a><button type="button" class="btn primary" data-rp-resend>\ub2e4\uc2dc \ubcf4\ub0b4\uae30</button></div>
  <div id="rp-sendbox"></div></div>`;
  const d=document.getElementById('detail-dialog');d._initial=null;
- P.rpDraw(document.getElementById('rp-canvas'),Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);
+ {const dr=()=>{const cv=document.getElementById('rp-canvas');if(cv)P.rpDraw(cv,Object.assign({},r,{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);};dr();if(!P.rpPhoto[s.id])P.rpLoadPhoto(s.id).then(im=>{if(im)dr();});}
 };
 let pvTimer=0;P.rpPreview=function(){if(P.rpCur&&P.rpCur.month)return P.rpMonthPreview();clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
 document.addEventListener('input',ev=>{if(ev.target.closest('form[data-rp-form]'))P.rpPreview();});
 document.addEventListener('change',ev=>{const t=ev.target;
- if(t.id==='rp-photo'&&t.files[0]){const img=new Image();img.onload=()=>{P.rpPhoto[P.rpCur.s.id]=img;document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();};img.src=URL.createObjectURL(t.files[0]);}
+ if(t.id==='rp-photo'&&t.files[0]){const sid=P.rpCur.s.id,wk=P.rp.week,src=new Image();src.onload=()=>{const k=Math.min(1,1280/Math.max(src.width,src.height)),cv=document.createElement('canvas');cv.width=Math.round(src.width*k);cv.height=Math.round(src.height*k);cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);const url=cv.toDataURL('image/jpeg',.85),img=new Image();img.onload=()=>{P.rpPhoto[sid]=img;const kk=document.querySelector('.rp-kk');if(kk)kk.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc911\u2026';P.rpPreview();P.api('reports.photoSave',{studentId:sid,week:wk,data:url},crypto.randomUUID()).then(()=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc0ac\uc9c4\uc774 \uc800\uc7a5\ub410\uc5b4\uc694. \ub2e4\uc2dc \uc5f4\uc5b4\ub3c4 \uce74\ub4dc\uc5d0 \ub4e4\uc5b4\uac00\uc694.';}).catch(err=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc2e4\ud328: '+(err&&err.message||'');});};img.src=url;};src.src=URL.createObjectURL(t.files[0]);}
  else if(t.closest('form[data-rp-form]'))P.rpPreview();
  if(t.matches('[data-rp-video]'))P.rpMark({videoSent:t.checked});
 });
@@ -2683,7 +2684,7 @@ P.rpPrepareSend=async function(){
  const head='<div class="rp-sendh"><span class="k">SEND</span><b>'+e(given(s.name))+' '+e(r.recipient)+'\uaed8 \ubcf4\ub0b4\uae30</b><button type="button" class="del-x" data-rp-sendclose aria-label="\ub2eb\uae30"></button></div>';
  const title=P.rpCur.month?`${given(s.name)} ${r.recipient}, ${call}\uc758 ${mNum(P.rpCur.month)}\uc6d4 \uc131\uc7a5 \uae30\ub85d\uc774\uc5d0\uc694`:`${given(s.name)} ${r.recipient}, \uc624\ub298 ${call} \uc774\uc57c\uae30\uc608\uc694`,desc=`\u201c${r.scene}\u201d \u2014 \uc5b8\uc81c\ub098 \uc120\uc0dd\ub2d8\ub4e4`;
  box.innerHTML=`<div class="rp-send" role="dialog" aria-modal="true">${head}<div class="rp-sendb"><p class="muted">\uce74\ub4dc\ub97c \uc900\ube44\ud558\uace0 \uc788\uc5b4\uc694\u2026</p><span class="r-run" style="width:100%"></span></div></div>`;
- const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name,summary:P.rpCur.g.summary}),P.rpPhoto[s.id]);
+ if(!P.rpCur.month)await P.rpLoadPhoto(s.id);const c=document.getElementById('rp-canvas');P.rpDraw(c,Object.assign({},r,{name:s.name,teacher:P.user.name,summary:P.rpCur.g.summary}),P.rpPhoto[s.id]);
  const blob=await new Promise(ok=>c.toBlob(ok,'image/jpeg',.92)),file=new File([blob],`${given(s.name)}-\ub9ac\ud3ec\ud2b8.jpg`,{type:'image/jpeg'});
  P.rpDone=async()=>{await P.rpMark({sent:true,videoSent:!!r.videoUrl},true);box.innerHTML='';if(P.rp.chain){P.loadReports();return P.rpNext(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694');}P.requestDialogClose?.(true);P.saving(given(s.name)+' '+r.recipient+'\uaed8 \ubcf4\ub0c8\uc5b4\uc694 \u00b7 \ubcf4\ub0c4\uc73c\ub85c \ud45c\uc2dc\ud588\uc5b4\uc694','done');P.loadReports();};
  let html='',kakaoOk=false;
@@ -2744,7 +2745,7 @@ P.rpDraw=function(c,d,photo){P._stars=d?+d.stars||0:0;if(d&&d.kind==='month')ret
  if(!n){ctx.textAlign='center';ctx.textBaseline='alphabetic';ctx.fillStyle='#B8A88F';ctx.font=F(500,20);ctx.fillText('\uc774\ubc88 \uc8fc \uace1\uc744 \ub123\uc73c\uba74 \uc74c\ud45c\ub85c \ubcf4\uc5ec\uc694',W/2,top+gap*4+50);}
  ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.font=F(500,30);const ql=wrap(ctx,quote,W-2*X,3),signTop=W-160,qTop=signTop-36-ql.length*46,hBase=qTop-22;
  ctx.fillStyle='#4A3B2F';ql.forEach((l,i)=>ctx.fillText(l,X,qTop+i*46+32));
- ctx.font=F(800,62);ctx.fillStyle='#2A1E15';ctx.fillText(`${call}\uc758`,X,hBase-74);ctx.fillStyle='#B08D57';ctx.fillText('\uc624\ub298',X,hBase);ctx.fillStyle='#2A1E15';ctx.fillText(' \ub808\uc2a8',X+ctx.measureText('\uc624\ub298').width,hBase);
+ {const h1=`${call}\uc758 `,h2='\uc624\ub298',h3=' \ub808\uc2a8';let fz=62;ctx.font=F(800,fz);while(fz>36&&ctx.measureText(h1+h2+h3).width>W-2*X){fz-=2;ctx.font=F(800,fz);}let x=X;ctx.fillStyle='#2A1E15';ctx.fillText(h1,x,hBase);x+=ctx.measureText(h1).width;ctx.fillStyle='#B08D57';ctx.fillText(h2,x,hBase);x+=ctx.measureText(h2).width;ctx.fillStyle='#2A1E15';ctx.fillText(h3,x,hBase);}
  sign(ctx,X,signTop,d.teacher,sub,48);
 };
 document.fonts?.load?.(F(800,40)).then(()=>P.rpPreview?.()).catch(()=>{});

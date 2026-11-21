@@ -6,6 +6,7 @@ async function refreshShell(c){try{const r=await fetch('index.html',{cache:'no-c
  if(build(t)>old){await c.put('index.html',r);(await self.clients.matchAll()).forEach(x=>x.postMessage('app-updated'));}}catch(_e){}}
 self.addEventListener('fetch',e=>{const u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==location.origin)return;
  if(e.request.mode==='navigate'&&!u.pathname.includes('/r/')){e.respondWith(caches.open(CACHE).then(c=>c.match('index.html').then(hit=>{if(hit){e.waitUntil(refreshShell(c));return hit;}return fetch(e.request).then(r=>{if(r.ok)c.put('index.html',r.clone());return r;});})));return;}
+ if(u.pathname.includes('/r/')){e.respondWith(fetch(e.request,{cache:'no-cache'}).catch(()=>caches.match(e.request)));return;}
  e.respondWith(caches.open(CACHE).then(c=>c.match(e.request).then(hit=>hit||fetch(e.request).then(r=>{if(r.ok)c.put(e.request,r.clone());return r;}))));});
 self.addEventListener('message',e=>{if(e.data==='check')e.waitUntil(caches.open(CACHE).then(refreshShell));});
 self.addEventListener('push',e=>{let d={};try{d=e.data?e.data.json():{};}catch(_e){d={body:e.data&&e.data.text()};}
