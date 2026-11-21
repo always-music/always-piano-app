@@ -119,10 +119,10 @@ fetch(API,{method:'POST',body:JSON.stringify({fn:'reportView',arg:{token:token}}
   :r.videoExpired?'<p class="vgone">'+e(call)+'의 연주 영상은 보관 기간(2주)이 지나 내려갔어요.</p>'
   :r.videoSent?'<p class="vgone">'+e(call)+'의 연주 영상은 카톡으로 따로 보내드렸어요.</p>':'';
  page.innerHTML=top(logo,wk)
- +'<header class="hero"><h1>'+e(call)+'의 <em>오늘</em> 레슨</h1><p>'+e(wk)+' 레슨을 마치고 선생님들이 보내드려요</p></header>'
+ +'<header class="hero"><h1>'+e(call)+'의 <em>이번 주</em> 레슨</h1><p>'+e(wk)+' 레슨을 마치고 선생님들이 보내드려요</p></header>'
  +video
  +'<article class="letter">'+to(r,wk+' 레슨을 마치고')
- +(r.scene?'<div><div class="lab">오늘의 한 장면</div><p class="scene">'+e(r.scene)+'</p></div>':'')
+ +(r.scene?'<div><div class="lab">이번 주 한 장면</div><p class="scene">'+e(r.scene)+'</p></div>':'')
  +(r.message?'<p class="msg">'+e(r.message)+'</p>':'')
  +(songs?'<div><div class="lab">이번 주 곡</div><ul class="songs">'+songs+'</ul></div>':'')
  +(r.theory?'<div class="hw"><b>이론·숙제</b><span>'+e(r.theory)+'</span></div>':'')
