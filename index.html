@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611221312">
+  <meta name="app-build" content="202611221315">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1943,13 +1943,14 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  body.app-mode .dq-sheet .wq-act .primary em{display:inline;font-style:normal;color:#E8CFA0}
  body.app-mode .wq-pop.dq-sheet{border-top:0!important}
  .dqd{margin:0;padding:0;border:1px solid #ECE8E4;border-radius:16px;overflow:hidden;font-size:inherit}
- .dqd-top{display:flex;align-items:center;gap:4px;padding:8px 6px 8px 14px}
- .dqd-lab{flex:1;min-width:0;min-height:0;display:flex;align-items:center;gap:8px;padding:0;border:0;background:none;text-align:left;color:#1E1915}
+ .dqd-top{display:flex;align-items:flex-end;gap:4px;padding:8px 6px 12px 14px}
+ .dqd-top>.dqd-nb{margin-bottom:-4px}.dqd-top>.dqd-today{margin-bottom:-3px}
+ .dqd-lab{flex:1;min-width:0;min-height:0;display:flex;align-items:flex-end;gap:8px;padding:0;border:0;background:none;text-align:left;color:#1E1915}
  .dqd-lab small{display:block;font-size:11px;color:#A39B94;font-weight:500;line-height:1.3}
- .dqd-lab b{display:block;font-size:16px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
- .dqd-lab em{flex:none;font-style:normal;font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:6px;background:#E23D7A;color:#fff}
+ .dqd-lab b{display:block;font-size:16px;line-height:24px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
+ .dqd-lab em{flex:none;font-style:normal;font-size:10.5px;line-height:14px;font-weight:700;margin-bottom:4px;padding:1px 6px;border-radius:6px;background:#E23D7A;color:#fff}
  .dqd-lab em.off{background:#F3F0ED;color:#6F6760}
- .dqd-lab .dqd-chev{flex:none;width:14px;height:14px;color:#A39B94;transform:rotate(90deg);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+ .dqd-lab .dqd-chev{flex:none;width:14px;height:14px;margin-bottom:5px;color:#A39B94;transform:rotate(90deg);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
  .dqd.open .dqd-chev{transform:rotate(-90deg)}
  .dqd-nb{flex:none;width:32px;height:32px;min-height:0;padding:0;border:0;border-radius:10px;background:none;display:grid;place-items:center;color:#6F6760}
  .dqd-nb:active{background:#F3F0ED}
