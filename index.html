@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611211612">
+  <meta name="app-build" content="202611221312">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1928,6 +1928,70 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .rp-vbusy .r-run{width:60px}
 .rp2-mbox .rp-lvstate{margin:0;min-height:40px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:#F7F4F0;font-size:12.5px}
 .rp2-mbox .rp-lvstate b{color:#2F7A4E;overflow-wrap:anywhere}
+/* ===== 휴대폰 앱: 빠른 등록 아래 시트 + 날짜 띠·달력 (2026-11-22) ===== */
+@media (max-width:900px){
+ body.app-mode .wq-pop.dq-sheet{left:0!important;right:0;top:auto!important;bottom:var(--kb,0px);width:auto!important;max-height:88vh;overflow-y:auto;overscroll-behavior:contain;padding:8px 16px calc(14px + env(safe-area-inset-bottom,0px));border:0;border-radius:24px 24px 0 0;box-shadow:0 0 0 100vmax rgba(20,14,10,.42),0 -8px 30px rgba(0,0,0,.12);animation:dqUp .38s cubic-bezier(.2,.8,.2,1);display:grid;gap:12px;align-content:start}
+ body.app-mode .wq-pop.dq-sheet::before{content:"";order:-2;justify-self:center;width:38px;height:4px;border-radius:4px;background:#DDD7D1}
+ body.app-mode .wq-pop.dq-sheet.closing{animation:dqDown .17s ease-in forwards}
+ @keyframes dqUp{from{transform:translateY(48px);opacity:.4}}
+ @keyframes dqDown{to{transform:translateY(40px);opacity:0}}
+ body.app-mode .dq-sheet .dq-seg{order:-1;margin:0}
+ body.app-mode .dq-sheet input,body.app-mode .dq-sheet select,body.app-mode .dq-sheet textarea{width:100%;box-sizing:border-box;min-height:44px;font-size:15px;border-radius:12px}
+ body.app-mode .dq-sheet .wq-act{display:grid;grid-template-columns:84px minmax(0,1fr);gap:8px;margin-top:2px}
+ body.app-mode .dq-sheet .wq-act .btn{height:50px;border-radius:14px;font-size:14.5px;font-weight:700;min-width:0}
+ body.app-mode .dq-sheet .wq-act .primary{background:#3D2B1F;border-color:#3D2B1F;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body.app-mode .dq-sheet .wq-act .primary em{display:inline;font-style:normal;color:#E8CFA0}
+ body.app-mode .wq-pop.dq-sheet{border-top:0!important}
+ .dqd{margin:0;padding:0;border:1px solid #ECE8E4;border-radius:16px;overflow:hidden;font-size:inherit}
+ .dqd-top{display:flex;align-items:center;gap:4px;padding:8px 6px 8px 14px}
+ .dqd-lab{flex:1;min-width:0;min-height:0;display:flex;align-items:center;gap:8px;padding:0;border:0;background:none;text-align:left;color:#1E1915}
+ .dqd-lab small{display:block;font-size:11px;color:#A39B94;font-weight:500;line-height:1.3}
+ .dqd-lab b{display:block;font-size:16px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;font-variant-numeric:tabular-nums}
+ .dqd-lab em{flex:none;font-style:normal;font-size:10.5px;font-weight:700;padding:2px 6px;border-radius:6px;background:#E23D7A;color:#fff}
+ .dqd-lab em.off{background:#F3F0ED;color:#6F6760}
+ .dqd-lab .dqd-chev{flex:none;width:14px;height:14px;color:#A39B94;transform:rotate(90deg);transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+ .dqd.open .dqd-chev{transform:rotate(-90deg)}
+ .dqd-nb{flex:none;width:32px;height:32px;min-height:0;padding:0;border:0;border-radius:10px;background:none;display:grid;place-items:center;color:#6F6760}
+ .dqd-nb:active{background:#F3F0ED}
+ .dqd-nb .icon{width:16px;height:16px}
+ .dqd-prev{transform:rotate(180deg)}
+ .dqd-today{flex:none;height:30px;min-height:0;padding:0 10px;border:1px solid #ECE8E4;border-radius:9px;background:#fff;font-size:12px;font-weight:600;color:#6F6760}
+ .dqd-strip{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 24px)/7);gap:4px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 8px 10px;scrollbar-width:none}
+ .dqd-strip::-webkit-scrollbar{display:none}
+ .dqd-d{scroll-snap-align:start;display:grid;justify-items:center;gap:3px;min-height:0;padding:6px 0 7px;border:0;border-radius:12px;background:none;transition:background-color .2s}
+ .dqd-d:nth-child(7n+1){scroll-snap-align:start}
+ .dqd-d small{font-size:11px;color:#A39B94;line-height:1.2}
+ .dqd-d b{font-size:15px;font-weight:600;line-height:1.2;color:#1E1915;font-variant-numeric:tabular-nums}
+ .dqd-d i{width:4px;height:4px;border-radius:50%}
+ .dqd-d.has i{background:#B08D57}
+ .dqd-d.sun small,.dqd-d.sun b,.dqd-c.sun span{color:#C9776F}
+ .dqd-d.sat small,.dqd-d.sat b,.dqd-c.sat span{color:#6E8FC9}
+ .dqd-d.now b{color:#E23D7A;font-weight:800}
+ .dqd-d.on{background:#3D2B1F}
+ .dqd-d.on small,.dqd-d.on b{color:#fff!important}
+ .dqd-d.on.has i{background:#E8CFA0}
+ .dqd-d.past,.dqd-c.past span{opacity:.35}
+ .dqd-cal{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.8,.2,1)}
+ .dqd-cal>div{overflow:hidden;min-height:0}
+ .dqd.open .dqd-cal{grid-template-rows:1fr}
+ .dqd.open .dqd-strip{display:none}
+ .dqd-ch{display:flex;align-items:center;justify-content:center;gap:10px;padding:0 8px 4px}
+ .dqd-ch b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+ .dqd-wk,.dqd-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:0 8px;text-align:center}
+ .dqd-wk{font-size:11px;color:#A39B94;margin-bottom:2px}
+ .dqd-grid{padding-bottom:10px;row-gap:2px}
+ .dqd-c{height:38px;min-height:0;padding:0;border:0;background:none;display:grid;place-items:center}
+ .dqd-c.off{visibility:hidden}
+ .dqd-c span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-size:13.5px;color:#1E1915;font-variant-numeric:tabular-nums;transition:background-color .2s,color .2s}
+ .dqd-c.now span{color:#E23D7A;font-weight:800;box-shadow:inset 0 0 0 1.5px #E23D7A}
+ .dqd-c.on span{background:#3D2B1F;color:#fff!important;box-shadow:none;font-weight:700}
+ /* 주간 보강·결석: 날짜 아래 + */
+ .am-plus{justify-self:center;width:28px;height:28px;min-height:0;margin-top:6px;padding:0;border:1px dashed #DCD4CC;border-radius:9px;background:#fff;display:grid;place-items:center;color:#8A7F76;transition:transform .15s,background-color .15s}
+ .am-plus:active{transform:scale(.92);background:#F3F0ED}
+ .am-plus .icon{width:14px;height:14px;stroke-width:2.2}
+ .am-day{grid-template-rows:auto 1fr}
+ .am-day>.am-dl{grid-row:1}.am-day>.am-plus{grid-column:1;grid-row:2;align-self:start}.am-day>.am-items{grid-column:2;grid-row:1/3}
+}
 </style>
 
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous" defer></script>
@@ -2600,7 +2664,7 @@ P.appWeekBoard=function(){
  const n=k=>all.reduce((s,x)=>s+x[k].length,0);
  const head=`<div class="am-head"><div><h2>${mon<=today&&today<=sat?'이번 주':mdOf(mon)+' 주'} 보강·결석</h2><span class="am-rng">${mdOf(mon)} – ${mdOf(sat)}</span></div><div class="am-nav"><button type="button" class="am-nb" data-abs-week="-7" aria-label="이전 주">${ic('chevron','am-prev')}</button><button type="button" class="am-now" data-abs-week="0">이번 주</button><button type="button" class="am-nb" data-abs-week="7" aria-label="다음 주">${ic('chevron')}</button></div></div>`;
  const sum=`<div class="am-sum"><span>${amDot('mk')}보강<b>${n('mks')}</b></span><span>${amDot('ab')}결석<b>${n('abs')}</b></span><span>${amDot('cs')}상담<b>${n('cs')}</b></span><span>${amDot('mm')}메모<b>${n('notes')}</b></span></div>`;
- const rows=days.map(d=>`<div class="am-day${d===today?' today':''}"><button type="button" class="am-dl" data-day-list="${d}" aria-label="${P.dayLabel(d)} 일정 보기"><small>${WD[wdOf(d)]}</small><b>${Number(d.slice(8,10))}</b>${d===today?'<em>오늘</em>':''}</button><div class="am-items">${P.amItems(d)}</div></div>`).join('');
+ const rows=days.map(d=>`<div class="am-day${d===today?' today':''}"><button type="button" class="am-dl" data-day-list="${d}" aria-label="${P.dayLabel(d)} 일정 보기"><small>${WD[wdOf(d)]}</small><b>${Number(d.slice(8,10))}</b>${d===today?'<em>오늘</em>':''}</button><button type="button" class="am-plus" data-app-quick="absent" data-date="${d}" aria-label="${P.dayLabel(d)} 등록">${ic('plus')}</button><div class="am-items">${P.amItems(d)}</div></div>`).join('');
  return `<section class="card am-card">${head}${sum}${rows}</section>`;
 };
 P.calSel=P.calSel||'';
@@ -2615,6 +2679,33 @@ P.appMonthCal=function(state){
  const leg=`<div class="am-sum am-leg"><span>${amDot('mk')}보강</span><span>${amDot('ab')}결석</span><span>${amDot('cs')}상담</span><span>${amDot('mm')}메모</span></div>`;
  return `<section class="card am-card">${head}${leg}<div class="am-wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="am-grid">${cells.join('')}</div><div class="am-detail" id="am-detail">${P.amDetail(P.calSel)}</div></section>`;
 };
+// 휴대폰 앱 빠른 등록 시트: 맨 위 날짜 띠(3주) + 펼치는 한 달 달력 — 시안 claude.ai/artifact/ERKRch9u5CXjgnRMRiNtBq
+const dqLim=m=>m==='makeup'||m==='consult';
+const dqLong=d=>`${Number(d.slice(5,7))}월 ${Number(d.slice(8,10))}일 ${WD[wdOf(d)]}요일`;
+const dqHas=d=>{const x=amDay(d);return x.mks.length+x.abs.length+x.cs.length+x.notes.length>0;};
+P.dqDate=function(pop){
+ const d=pop.dataset.absDate,mode=pop.dataset.mode,t=P.data.date,lim=dqLim(mode),open=pop.dataset.open==='1',ym=pop.dataset.calYm||d.slice(0,7);
+ const n=Math.round((Date.parse(d)-Date.parse(t))/864e5),tag=n===0?'오늘':n===1?'내일':n===-1?'어제':n>0?`${n}일 뒤`:`${-n}일 전`;
+ const cls=(x,w)=>`${w===0?' sun':''}${w===6?' sat':''}${x===t?' now':''}${x===d?' on':''}${lim&&x<t?' past':''}`;
+ const s0=shiftDay(d,-wdOf(d)-7);let st='';
+ for(let i=0;i<21;i++){const x=shiftDay(s0,i),w=wdOf(x);st+=`<button type="button" class="dqd-d${cls(x,w)}${dqHas(x)?' has':''}" data-dq-date="${x}"${lim&&x<t?' disabled':''}><small>${WD[w]}</small><b>${Number(x.slice(8))}</b><i></i></button>`;}
+ const first=ym+'-01',pad=wdOf(first),days=new Date(Date.UTC(Number(ym.slice(0,4)),Number(ym.slice(5,7)),0)).getUTCDate();let g='';
+ for(let i=0;i<pad;i++)g+='<span class="dqd-c off"></span>';
+ for(let i=1;i<=days;i++){const x=ym+'-'+String(i).padStart(2,'0'),w=wdOf(x);g+=`<button type="button" class="dqd-c${cls(x,w)}" data-dq-date="${x}"${lim&&x<t?' disabled':''}><span>${i}</span></button>`;}
+ return `<div class="wq-title dqd${open?' open':''}"><div class="dqd-top"><button type="button" class="dqd-lab" data-dq-open aria-expanded="${open}"><span><small>날짜</small><b>${dqLong(d)}</b></span><em class="${n?'off':''}">${tag}</em>${ic('chevron','dqd-chev')}</button>${n?`<button type="button" class="dqd-today" data-dq-date="${t}">오늘</button>`:''}<button type="button" class="dqd-nb" data-dq-step="-1" aria-label="전날">${ic('chevron','dqd-prev')}</button><button type="button" class="dqd-nb" data-dq-step="1" aria-label="다음 날">${ic('chevron')}</button></div><div class="dqd-strip">${st}</div><div class="dqd-cal"><div><div class="dqd-ch"><button type="button" class="dqd-nb" data-dq-month="-1" aria-label="이전 달">${ic('chevron','dqd-prev')}</button><b>${ym.slice(0,4)}년 ${Number(ym.slice(5,7))}월</b><button type="button" class="dqd-nb" data-dq-month="1" aria-label="다음 달">${ic('chevron')}</button></div><div class="dqd-wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="dqd-grid">${g}</div></div></div></div>`;
+};
+P.dqClamp=pop=>{if(pop.classList.contains('dq-sheet')&&dqLim(pop.dataset.mode)&&pop.dataset.absDate<P.data.date){pop.dataset.absDate=pop.dataset.date=P.data.date;pop.dataset.calYm='';}};
+P.dqSync=function(pop){if(!pop.classList.contains('dq-sheet'))return;const old=pop.querySelector('.dqd');if(old){const tmp=document.createElement('div');tmp.innerHTML=P.dqDate(pop);old.replaceWith(tmp.firstElementChild);}
+ const b=pop.querySelector('.wq-act .primary');if(b)b.innerHTML=`<em>${dqLong(pop.dataset.absDate)}</em>에 ${({absent:'결석 등록',makeup:'보강 등록',consult:'상담 등록',memo:'메모 저장'})[pop.dataset.mode]||'등록'}`;
+ const on=pop.querySelector('.dqd-d.on');if(on){const s=on.parentElement;s.scrollLeft=on.offsetLeft-s.clientWidth/2+on.offsetWidth/2;}};
+document.addEventListener('click',ev=>{const pop=ev.target.closest('.wq-pop.dq-sheet');if(!pop)return;const b=ev.target.closest('[data-dq-date],[data-dq-step],[data-dq-open],[data-dq-month]');if(!b||b.disabled)return;ev.stopPropagation();
+ if(b.hasAttribute('data-dq-open')){pop.dataset.open=pop.dataset.open==='1'?'':'1';pop.dataset.calYm='';return P.dqSync(pop);}
+ if(b.dataset.dqMonth){const ym=pop.dataset.calYm||pop.dataset.absDate.slice(0,7),dt=new Date(Date.UTC(Number(ym.slice(0,4)),Number(ym.slice(5,7))-1+Number(b.dataset.dqMonth),1));pop.dataset.calYm=dt.toISOString().slice(0,7);return P.dqSync(pop);}
+ let d=b.dataset.dqDate||shiftDay(pop.dataset.absDate,Number(b.dataset.dqStep));if(dqLim(pop.dataset.mode)&&d<P.data.date)return;
+ const keep=[...pop.querySelectorAll('input[name],textarea[name],select[name]')].map(x=>[x.name,x.value]);
+ pop.dataset.absDate=pop.dataset.date=d;pop.dataset.open='';pop.dataset.calYm='';P.swapDayForm(pop);
+ keep.forEach(([n,v])=>{const x=pop.querySelector(`[name="${n}"]`);if(x&&v)x.value=v;});
+},true);
 P.absWeek=P.absWeek||'';
 P.absenceBoard=function(){
  if(P.appUI())return P.appWeekBoard();
@@ -2680,7 +2771,7 @@ P.consultDetail=function(id){const c=(P.data.consults||[]).find(x=>x.id===id);if
 // 날짜 칸 팝업 (월간 캘린더·주간 보드 공용): 결석 / 보강 선택. 보강은 시작 시간과 (원장은) 강사를 고름.
 P.dayForm=function(date,mode){const ss=P.absDaySessions(date),absNames=[...new Set(ss.map(s=>nameOf(s.studentId)))].sort((a,b)=>a.localeCompare(b,'ko')),all=[...new Set((P.data.roster||[]).map(s=>s.name))].sort((a,b)=>a.localeCompare(b,'ko'));
  const slots=P.slotTimes(date)||[],teachers=(P.data.teachers||[]).filter(t=>t.status==='active');
- return `<p class="wq-title">${e(P.dayLabel(date))}</p><div class="dq-seg" role="tablist" style="--n:${P.user.role==='director'?4:3};--i:${({absent:0,makeup:1,consult:2,memo:P.user.role==='director'?3:2})[mode]||0}"><button type="button" class="dq-opt abs${mode==='absent'?' on':''}" data-dq-mode="absent" aria-pressed="${mode==='absent'}">결석</button><button type="button" class="dq-opt mk${mode==='makeup'?' on':''}" data-dq-mode="makeup" aria-pressed="${mode==='makeup'}">보강</button>${P.user.role==='director'?`<button type="button" class="dq-opt cs${mode==='consult'?' on':''}" data-dq-mode="consult" aria-pressed="${mode==='consult'}">상담</button>`:''}<button type="button" class="dq-opt memo${mode==='memo'?' on':''}" data-dq-mode="memo" aria-pressed="${mode==='memo'}">메모</button><span class="dq-thumb"></span></div>
+ return `${P.appUI()?P.dqDate({dataset:{absDate:date,mode}}):`<p class="wq-title">${e(P.dayLabel(date))}</p>`}<div class="dq-seg" role="tablist" style="--n:${P.user.role==='director'?4:3};--i:${({absent:0,makeup:1,consult:2,memo:P.user.role==='director'?3:2})[mode]||0}"><button type="button" class="dq-opt abs${mode==='absent'?' on':''}" data-dq-mode="absent" aria-pressed="${mode==='absent'}">결석</button><button type="button" class="dq-opt mk${mode==='makeup'?' on':''}" data-dq-mode="makeup" aria-pressed="${mode==='makeup'}">보강</button>${P.user.role==='director'?`<button type="button" class="dq-opt cs${mode==='consult'?' on':''}" data-dq-mode="consult" aria-pressed="${mode==='consult'}">상담</button>`:''}<button type="button" class="dq-opt memo${mode==='memo'?' on':''}" data-dq-mode="memo" aria-pressed="${mode==='memo'}">메모</button><span class="dq-thumb"></span></div>
  ${mode==='memo'?`${(ns=>ns.length?`<p class="dq-note-has">이날 메모 ${ns.length}개 · 날짜를 누르면 모두 보여요</p>`:'')(P.dayNotes(date))}<textarea name="daymemo" maxlength="300" rows="3" placeholder="새 메모 (예: 휴원, 발표회 리허설 · 모두에게 보여요)"></textarea><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`:mode==='consult'?`<input name="csname" maxlength="80" autocomplete="off" placeholder="상담 대상 (예: 김하린 어머님, 신규 문의)"><div class="dq-row"><select name="time" class="wq-time" aria-label="상담 시간"><option value="">시간 미정</option>${P.csTimes().map(t=>`<option ${t==='15:00'?'selected':''}>${t}</option>`).join('')}</select></div><textarea name="memo" maxlength="500" rows="2" placeholder="메모 (선택)"></textarea><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`:`<input name="names" list="dq-names" autocomplete="off" placeholder="${mode==='absent'?'결석할 학생 (예: 김하린, 이서준)':'보강할 학생 (예: 김하린)'}" data-abs-names><datalist id="dq-names">${(mode==='absent'?absNames:all).map(n=>`<option value="${e(n)}">`).join('')}</datalist>
  ${mode==='makeup'?`<div class="dq-row"><select name="time" class="wq-time" aria-label="보강 시작 시간">${slots.map(t=>`<option>${t}</option>`).join('')}</select></div>`:''}
  <div class="wq-hint"></div><p class="form-error" role="alert"></p><div class="wq-act"><button type="button" class="btn" data-wq-close>취소</button><button type="submit" class="btn primary">추가</button></div>`}`;};
@@ -3371,7 +3462,8 @@ P.bgSave=function(action,values,form){
 // 주간 결석 예정: 요일 칸 → 이름 입력 팝업 → 화면에 먼저 표시하고 뒤에서 저장.
 // 팝업 닫기 애니메이션 + 날짜 팝업 탭 전환(선택 표시는 그대로 두고 움직이게, 아래 내용만 바꾸며 높이 부드럽게).
 P.popClose=p=>{if(!p||p.classList.contains('closing'))return;p.classList.add('closing');setTimeout(()=>p.remove(),170);};
-P.swapDayForm=function(pop){const tmp=document.createElement('div');tmp.innerHTML=P.dayForm(pop.dataset.absDate,pop.dataset.mode);
+P.swapDayForm=function(pop){P.dqClamp?.(pop);const r=P._swapDay(pop);P.dqSync?.(pop);return r;};
+P._swapDay=function(pop){const tmp=document.createElement('div');tmp.innerHTML=P.dayForm(pop.dataset.absDate,pop.dataset.mode);
  const seg=pop.querySelector('.dq-seg'),nseg=tmp.querySelector('.dq-seg');if(!seg||!nseg){pop.innerHTML=tmp.innerHTML;return;}
  seg.setAttribute('style',nseg.getAttribute('style')||'');seg.querySelectorAll('.dq-opt').forEach(b=>{const on=b.dataset.dqMode===pop.dataset.mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);});
  const h0=pop.offsetHeight;[...pop.children].forEach(c=>{if(c!==seg&&!c.classList.contains('wq-title'))c.remove();});
@@ -3381,6 +3473,7 @@ P.swapDayForm=function(pop){const tmp=document.createElement('div');tmp.innerHTM
  pop.style.height=h0+'px';pop.style.overflow='hidden';pop.offsetHeight;pop.style.transition='height .26s cubic-bezier(.2,.75,.25,1),top .26s cubic-bezier(.2,.75,.25,1)';pop.style.height=h1+'px';
  clearTimeout(pop._ht);pop._ht=setTimeout(()=>{pop.style.height='';pop.style.overflow='';pop.style.transition='';},280);};
 P.absQuick=function(anchor,date,noFocus){document.querySelector('.wq-pop')?.remove();const r=anchor.getBoundingClientRect(),pop=document.createElement('form');pop.className='wq-pop';pop.dataset.absDate=date;pop.dataset.date=date;pop.dataset.mode='absent';pop.innerHTML=P.dayForm(date,'absent');document.body.appendChild(pop);P.histPush?.('pop');
+ if(P.appUI?.()){pop.classList.add('dq-sheet');P.dqSync(pop);return;}
  const w=Math.min(300,innerWidth-24);pop.style.width=w+'px';pop.style.left=Math.max(12,Math.min(r.left,innerWidth-w-12))+'px';const h=pop.offsetHeight;pop.style.top=(r.bottom+6+h>innerHeight-8?Math.max(8,r.top-h-6):Math.min(r.top+34,innerHeight-h-8))+'px';if(!noFocus)P.popFocus(pop.querySelector('input'));};
 P.absQuickSave=async function(pop){if(pop.dataset.mode==='makeup')return P.makeupQuickSave(pop);if(pop.dataset.mode==='consult')return P.consultQuickSave(pop);if(pop.dataset.mode==='memo'){const t=pop.querySelector('[name=daymemo]').value.trim(),d=pop.dataset.absDate;if(!t){pop.querySelector('.form-error').textContent='메모를 입력해 주세요.';return;}P.popClose(pop);return P.dateNoteSave({date:d,text:t});}const date=pop.dataset.absDate,err=pop.querySelector('.form-error'),names=[...new Set(pop.querySelector('[data-abs-names]').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean))];
  if(!names.length){err.textContent='학생 이름을 입력해 주세요.';return;}const ss=P.absDaySessions(date),nm=id=>P.rosterName(id),bad=names.filter(n=>!ss.some(s=>nm(s.studentId)===n));
@@ -3864,7 +3957,7 @@ addEventListener('scroll',()=>{document.getElementById('app-brand')?.classList.t
 // 홈 빠른 버튼: 오늘 날짜로 결석·보강·상담·날짜 메모 팝업을 바로 열기
 app.addEventListener('click',ev=>{
  const q=ev.target.closest('[data-app-quick]');
- if(q){const mode=q.dataset.appQuick;P.absQuick(q,P.data.date,true);const pop=document.querySelector('.wq-pop');if(pop&&mode!=='absent'){pop.dataset.mode=mode;P.swapDayForm(pop);}return;}
+ if(q){const mode=q.dataset.appQuick;P.absQuick(q,q.dataset.date||P.data.date,true);const pop=document.querySelector('.wq-pop');if(pop&&mode!=='absent'){pop.dataset.mode=mode;P.swapDayForm(pop);}return;}
  if(ev.target.closest('[data-app-all]')&&!state.drawer){P.histPush('drawer');state.drawer=true;updateDrawer();}
 });
 function aaMarkTabs(){const bar=document.getElementById('app-tabs');if(!bar)return;const cur=state.drawer?'all':APP_TABS.some(t=>t[3]&&t[0]===state.group)?state.group:'all';bar.querySelectorAll('.at-tab').forEach(t=>{const on=t.dataset.tab===cur;t.classList.toggle('on',on);if(on)t.setAttribute('aria-current','page');else t.removeAttribute('aria-current');});}
