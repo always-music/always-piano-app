@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611221351">
+  <meta name="app-build" content="202611221356">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2006,7 +2006,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 #calendar-panel .mc-day .big-day-head{display:flex;align-items:center;gap:4px;min-height:0;height:20px;padding:0 0 0 2px;border:0;background:none;width:auto;align-self:flex-start}
 #calendar-panel .mc-day .big-day-num{font-size:12px;font-weight:600;color:#6F6760;font-variant-numeric:tabular-nums;width:auto;height:auto;background:none;box-shadow:none}
 #calendar-panel .big-day:nth-child(7n+1) .big-day-num{color:#C9776F}#calendar-panel .big-day:nth-child(7n) .big-day-num{color:#6E8FC9}
-#calendar-panel .mc-day.today{background:linear-gradient(180deg,#FFEAF2,#FFF7FA 60%,#fff);box-shadow:inset 0 3px 0 #E23D7A,inset 0 0 0 1px #F6C6D8;outline:0}
+#calendar-panel .mc-day.today,#calendar-panel .mc-day.today:hover{background:linear-gradient(180deg,#FFEAF2,#FFF7FA 60%,#fff)!important;box-shadow:inset 0 3px 0 #E23D7A,inset 0 0 0 1px #F6C6D8!important;outline:0}
 #calendar-panel .mc-day.today .big-day-num{color:#E23D7A!important;font-weight:800;font-size:13px}
 .mc-today{font-style:normal;font-size:9.5px;font-weight:700;color:#fff;background:#E23D7A;padding:0 5px;border-radius:5px;line-height:15px}
 .mc-memo{display:flex;align-items:center;gap:3px;min-width:0;min-height:0;width:100%;padding:0 2px;border:0;background:none;border-radius:5px;font-size:10.5px;font-weight:600;line-height:16px;color:#6B4E12;text-align:left}
@@ -2742,9 +2742,9 @@ P.amItems=function(d){
  return h||'<p class="am-none">일정 없음</p>';
 };
 P.appWeekBoard=function(){
- const today=P.ac().today||P.data.date,mon=P.absWeek||mondayOf(today),sat=shiftDay(mon,5),days=[0,1,2,3,4,5].map(i=>shiftDay(mon,i)),all=days.map(amDay);
+ const today=P.ac().today||P.data.date,mon=P.absWeek||P.thisMon(today),sat=shiftDay(mon,5),days=[0,1,2,3,4,5].map(i=>shiftDay(mon,i)),all=days.map(amDay);
  const n=k=>all.reduce((s,x)=>s+x[k].length,0);
- const head=`<div class="am-head"><div><h2>${mon<=today&&today<=sat?'이번 주':mdOf(mon)+' 주'} 보강·결석</h2><span class="am-rng">${mdOf(mon)} – ${mdOf(sat)}</span></div><div class="am-nav"><button type="button" class="am-nb" data-abs-week="-7" aria-label="이전 주">${ic('chevron','am-prev')}</button><button type="button" class="am-now" data-abs-week="0">이번 주</button><button type="button" class="am-nb" data-abs-week="7" aria-label="다음 주">${ic('chevron')}</button></div></div>`;
+ const head=`<div class="am-head"><div><h2>${mon===P.thisMon(today)?'이번 주':mdOf(mon)+' 주'} 보강·결석</h2><span class="am-rng">${mdOf(mon)} – ${mdOf(sat)}</span></div><div class="am-nav"><button type="button" class="am-nb" data-abs-week="-7" aria-label="이전 주">${ic('chevron','am-prev')}</button><button type="button" class="am-now" data-abs-week="0">이번 주</button><button type="button" class="am-nb" data-abs-week="7" aria-label="다음 주">${ic('chevron')}</button></div></div>`;
  const sum=`<div class="am-sum"><span>${amDot('mk')}보강<b>${n('mks')}</b></span><span>${amDot('ab')}결석<b>${n('abs')}</b></span><span>${amDot('cs')}상담<b>${n('cs')}</b></span><span>${amDot('mm')}메모<b>${n('notes')}</b></span></div>`;
  const rows=days.map(d=>`<div class="am-day${d===today?' today':''}"><button type="button" class="am-dl" data-day-list="${d}" aria-label="${P.dayLabel(d)} 일정 보기"><small>${WD[wdOf(d)]}</small><b>${Number(d.slice(8,10))}</b>${d===today?'<em>오늘</em>':''}</button><button type="button" class="am-plus" data-app-quick="absent" data-date="${d}" aria-label="${P.dayLabel(d)} 등록">${ic('plus')}</button><div class="am-items">${P.amItems(d)}</div></div>`).join('');
  return `<section class="card am-card">${head}${sum}${rows}</section>`;
@@ -2789,15 +2789,17 @@ document.addEventListener('click',ev=>{const pop=ev.target.closest('.wq-pop.dq-s
  keep.forEach(([n,v])=>{const x=pop.querySelector(`[name="${n}"]`);if(x&&v)x.value=v;});
 },true);
 P.absWeek=P.absWeek||'';
+// 일요일엔 학원이 쉬니 '이번 주'를 다음 주 월~토로.
+P.thisMon=t=>wdOf(t)===0?shiftDay(t,1):mondayOf(t);
 P.absenceBoard=function(){
  if(P.appUI())return P.appWeekBoard();
- const today=P.ac().today||P.data.date,mon=P.absWeek||mondayOf(today),sat=shiftDay(mon,5);
+ const today=P.ac().today||P.data.date,mon=P.absWeek||P.thisMon(today),sat=shiftDay(mon,5);
  const list=P.ac().attendance.filter(a=>(a.status==='planned'||a.status==='absent')&&a.date>=mon&&a.date<=sat);
  const all=[0,1,2,3,4,5].map(i=>amDay(shiftDay(mon,i))),cnt=key=>all.reduce((n,x)=>n+x[key].length,0);
  const nav=`<div class="abs-nav"><button class="icon-btn wb-prev" data-abs-week="-7" aria-label="이전 주">${ic('chevron')}</button><strong>${mdOf(mon)} – ${mdOf(sat)}</strong><button class="icon-btn" data-abs-week="7" aria-label="다음 주">${ic('chevron')}</button><button class="btn" data-abs-week="0">이번 주</button></div>`;
  const cols=[0,1,2,3,4,5].map(i=>{const d=shiftDay(mon,i);return `<div class="abs-col wb-col${d===today?' today':''}${d>=today?' can-add':''}" data-abs-add="${d}"><div class="wb-head"><small>${WD[wdOf(d)]}</small><b>${Number(d.slice(8,10))}</b>${d===today?'<em>오늘</em>':''}<button type="button" class="wb-plus" data-day-quick="${d}" aria-label="${e(P.dayLabel(d))} 등록">${ic('plus')}</button></div><div class="am-items">${P.amItems(d)}</div></div>`;}).join('');
  const sum=`<span class="wb-sum"><span>${amDot('mk')}보강<b>${cnt('mks')}</b></span><span>${amDot('ab')}결석<b>${cnt('abs')}</b></span><span>${amDot('cs')}상담<b>${cnt('cs')}</b></span><span>${amDot('mm')}메모<b>${cnt('notes')}</b></span></span>`;
- return P.card(`${mon<=today&&today<=shiftDay(sat,1)?'이번 주':mdOf(mon)+' 주'} 일정 ${sum}`,`<div class="abs-grid wb-grid">${cols}</div>`,nav);
+ return P.card(`${mon===P.thisMon(today)?'이번 주':mdOf(mon)+' 주'} 일정 ${sum}`,`<div class="abs-grid wb-grid">${cols}</div>`,nav);
 };
 P.absenceDetail=function(id){
  const a=P.ac().attendance.find(x=>x.id===id),today=P.ac().today||P.data.date;if(!a)return '<p class="empty-cell">결석 기록을 찾을 수 없습니다.</p>';
@@ -3745,7 +3747,7 @@ app().addEventListener('click',async event=>{
 app().addEventListener('click',async event=>{
  const st=event.target.closest('[data-att-step]');if(st){const n=Number(st.dataset.attStep),base=P.attDate||P.ac().today||P.data.date;P.attDate=n?P.shiftDay(base,n):(P.ac().today||P.data.date);P.refreshApp();return;}
  const wkd=event.target.closest('[data-wk-day]');if(wkd){const from=Number(document.querySelector('.wkm-tab.on')?.dataset.wkDay||0);P.wkDay=Number(wkd.dataset.wkDay);const p=document.getElementById('wkm-panel');if(p){p.innerHTML=P.weeklyMobile();P.slide(p.querySelector('.wkm-list'),P.wkDay-from);}return;}
- const aw=event.target.closest('[data-abs-week]');if(aw){const n=Number(aw.dataset.absWeek),today=P.ac().today||P.data.date,base=P.absWeek||P.shiftDay(today,-((new Date(today+'T12:00:00Z').getUTCDay()+6)%7));const before=P.absWeek||P.shiftDay(today,-((new Date(today+'T12:00:00Z').getUTCDay()+6)%7));P.absWeek=n?P.shiftDay(base,n):'';const b=document.getElementById('abs-board');if(b){b.innerHTML=P.absenceBoard();const after=P.absWeek||P.shiftDay(today,-((new Date(today+'T12:00:00Z').getUTCDay()+6)%7));P.slide(b.querySelector('.abs-grid'),after.localeCompare(before));}return;}
+ const aw=event.target.closest('[data-abs-week]');if(aw){const n=Number(aw.dataset.absWeek),today=P.ac().today||P.data.date,base=P.absWeek||P.thisMon(today);const before=P.absWeek||P.thisMon(today);P.absWeek=n?P.shiftDay(base,n):'';const b=document.getElementById('abs-board');if(b){b.innerHTML=P.absenceBoard();const after=P.absWeek||P.thisMon(today);P.slide(b.querySelector('.abs-grid'),after.localeCompare(before));}return;}
  const an=event.target.closest('[data-abs-new]');if(an){P.modal('결석 예정 등록',P.absenceForm(an.dataset.absNew));return;}
  const ap=event.target.closest('[data-abs-pick]');if(ap){P.absToggle(ap.dataset.absPick);return;}
  const am=event.target.closest('[data-abs-month]');if(am){const [y,m]=P.absMonth.split('-').map(Number),d=new Date(Date.UTC(y,m-1+Number(am.dataset.absMonth),1));P.absMonth=d.toISOString().slice(0,7);document.getElementById('abs-cal').innerHTML=P.absCal();return;}
