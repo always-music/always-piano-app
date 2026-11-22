@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611221356">
+  <meta name="app-build" content="202611221403">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2750,14 +2750,14 @@ P.appWeekBoard=function(){
  return `<section class="card am-card">${head}${sum}${rows}</section>`;
 };
 P.calSel=P.calSel||'';
-P.amDetail=function(d){const today=P.data.date;return `<div class="am-dh"><div><b>${Number(d.slice(5,7))}월 ${Number(d.slice(8,10))}일 ${WD[wdOf(d)]}요일</b>${d===today?'<small>오늘</small>':''}</div>${d>=today?`<button type="button" class="am-add2" data-live-action="lesson" data-kind="makeup" data-date="${d}">＋ 보강 등록</button>`:''}</div><div class="am-items">${P.amItems(d)}</div>`;};
+P.amDetail=function(d){const today=P.data.date;return `<div class="am-dh"><div><b>${Number(d.slice(5,7))}월 ${Number(d.slice(8,10))}일 ${WD[wdOf(d)]}요일</b>${d===today?'<small>오늘</small>':''}</div><button type="button" class="am-add2" data-app-quick="absent" data-date="${d}">＋ 등록</button></div><div class="am-items">${P.amItems(d)}</div>`;};
 P.appMonthCal=function(state){
  const y=state.calendar.year,m=state.calendar.month,today=P.data.date,first=new Date(Date.UTC(y,m,1)),days=new Date(Date.UTC(y,m+1,0)).getUTCDate(),pad=first.getUTCDay(),ym=`${y}-${String(m+1).padStart(2,'0')}`;
  if(!P.calSel||P.calSel.slice(0,7)!==ym)P.calSel=today.slice(0,7)===ym?today:ym+'-01';
  const cells=[];for(let i=0;i<pad;i++)cells.push('<span class="am-c off"></span>');
  for(let i=1;i<=days;i++){const d=ym+'-'+String(i).padStart(2,'0'),x=amDay(d),w=(pad+i-1)%7;
   cells.push(`<button type="button" class="am-c${w===0?' sun':''}${w===6?' sat':''}${d===today?' today':''}${d===P.calSel?' on':''}${x.notes.length?' has-mm':''}" data-cal-pick="${d}"><span class="am-num">${i}</span><span class="am-mk">${x.mks.length?`<i class="am-mk-c">${x.mks.length}</i>`:''}${x.abs.length?`<i class="am-ab-c">${x.abs.length}</i>`:''}${x.cs.length?`<i class="am-cs-c">${x.cs.length}</i>`:''}</span></button>`);}
- const head=`<div class="am-head"><div class="am-nav"><button type="button" class="am-nb" data-month="-1" aria-label="이전 달">${ic('chevron','am-prev')}</button><h2 class="am-month">${y}년 ${m+1}월</h2><button type="button" class="am-nb" data-month="1" aria-label="다음 달">${ic('chevron')}</button></div><button type="button" class="am-add" data-live-action="lesson" data-kind="makeup" data-date="${P.calSel>=today?P.calSel:today}">＋ 보강 등록</button></div>`;
+ const head=`<div class="am-head"><div class="am-nav"><button type="button" class="am-nb" data-month="-1" aria-label="이전 달">${ic('chevron','am-prev')}</button><h2 class="am-month">${y}년 ${m+1}월</h2><button type="button" class="am-nb" data-month="1" aria-label="다음 달">${ic('chevron')}</button></div><button type="button" class="am-add" data-app-quick="absent" data-date="${P.calSel}">＋ 등록</button></div>`;
  const leg=`<div class="am-sum am-leg"><span>${amDot('mk')}보강</span><span>${amDot('ab')}결석</span><span>${amDot('cs')}상담</span><span>${amDot('mm')}메모</span></div>`;
  return `<section class="card am-card">${head}${leg}<div class="am-wk"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="am-grid">${cells.join('')}</div><div class="am-detail" id="am-detail">${P.amDetail(P.calSel)}</div></section>`;
 };
@@ -4083,7 +4083,7 @@ app.addEventListener('click',ev=>{
  const c=ev.target.closest('[data-aa-cat]');
  if(c){const sec=document.querySelector(`[data-aa-sec="${c.dataset.aaCat}"]`),pane=document.getElementById('aa-pane');if(sec&&pane){aaRailTo(c);aaSpyLock=Date.now();pane.scrollTo({top:sec.offsetTop-4,behavior:'smooth'});}}
 });
-app.addEventListener('click',ev=>{const c=ev.target.closest('[data-cal-pick]');if(!c)return;P.calSel=c.dataset.calPick;document.querySelectorAll('.am-c.on').forEach(x=>x.classList.remove('on'));c.classList.add('on');const add=document.querySelector('.am-add');if(add)add.dataset.date=P.calSel>=P.data.date?P.calSel:P.data.date;const det=document.getElementById('am-detail');if(det){det.classList.add('out');setTimeout(()=>{det.innerHTML=P.amDetail(P.calSel);det.getBoundingClientRect();det.classList.remove('out');},140);}});
+app.addEventListener('click',ev=>{const c=ev.target.closest('[data-cal-pick]');if(!c)return;P.calSel=c.dataset.calPick;document.querySelectorAll('.am-c.on').forEach(x=>x.classList.remove('on'));c.classList.add('on');const add=document.querySelector('.am-add');if(add)add.dataset.date=P.calSel;const det=document.getElementById('am-detail');if(det){det.classList.add('out');setTimeout(()=>{det.innerHTML=P.amDetail(P.calSel);det.getBoundingClientRect();det.classList.remove('out');},140);}});
 app.addEventListener('input',ev=>{if(ev.target.id==='aa-q')aaFilter(ev.target.value.trim());});
 document.addEventListener('scroll',ev=>{const pane=ev.target;if(!(pane instanceof Element)||pane.id!=='aa-pane'||Date.now()-aaSpyLock<700)return;
  const secs=[...pane.querySelectorAll('.aa-sec:not([hidden])')];if(!secs.length)return;let on=secs[0];
