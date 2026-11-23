@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611231529">
+  <meta name="app-build" content="202611231537">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2976,7 +2976,7 @@ P.rpRender=function(){if(P.rp.mode==='month')return P.rpRenderMonth();
  const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0,late:0,heart:0};rows.forEach(x=>{cnt[x.k]++;if(late(x))cnt.late++;if(x.r&&x.r.reaction)cnt.heart++;});
  const target=cnt.due+cnt.draft+cnt.upcoming+cnt.sent,todo=cnt.due+cnt.draft,seen=list.filter(r=>r.sentAt&&r.views).length;
  const inTab=x=>P.rp.filter==='all'||(P.rp.filter==='todo'?(x.k==='due'||x.k==='draft'):P.rp.filter==='late'?late(x):P.rp.filter===x.k);
- const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x)&&(!q||x.s.name.includes(q)));P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
+ const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x));P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
  if(thisWeek&&P.data.reportDue){P.data.reportDue.count=cnt.due+cnt.draft;const c=document.querySelector('.tb-due');if(c){c.hidden=!(cnt.due+cnt.draft);const n=c.querySelector('b');if(n)n.textContent=cnt.due+cnt.draft;}}
  const pct=target?Math.round(cnt.sent/target*100):0;
  const tab=(k,lab,n)=>`<button type="button" class="seg-tab ${P.rp.filter===k?'active':''}" data-rp-filter="${k}" aria-pressed="${P.rp.filter===k}">${lab} <b>${n}</b></button>`;
@@ -3011,9 +3011,9 @@ document.addEventListener('click',ev=>{const t=ev.target;
  
  const o=t.closest('[data-rp-open]');if(o){P.rpOpen(o.dataset.rpOpen);return;}
 });
-P.rpSearchRender=()=>{const i0=document.getElementById('rp-search'),pos=i0?i0.selectionStart:0;(P.rp.mode==='month'?P.rpRenderMonth:P.rpRender)();const i=document.getElementById('rp-search');if(i){i.focus();i.setSelectionRange(pos,pos);}};
-document.addEventListener('input',ev=>{if(ev.target.id!=='rp-search')return;P.rp.q=ev.target.value;if(ev.isComposing)return;P.rpSearchRender();});
-document.addEventListener('compositionend',ev=>{if(ev.target.id!=='rp-search')return;P.rp.q=ev.target.value;P.rpSearchRender();});
+P.rpApplyQ=()=>{const q=String(P.rp.q||'').trim(),list=document.querySelector('#rp-root .rp-list');if(!list)return;let n=0;const rows=list.querySelectorAll('.rp-row');rows.forEach(r=>{const nm=(r.querySelector('.rp-who strong')||r).textContent;const ok=!q||nm.includes(q);r.style.display=ok?'':'none';if(ok)n++;});
+ let em=list.querySelector('.rp-noq');if(q&&rows.length&&!n){if(!em){em=document.createElement('p');em.className='empty-cell rp-noq';list.appendChild(em);}em.textContent='\u201c'+q+'\u201d \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694';}else if(em)em.remove();};
+document.addEventListener('input',ev=>{if(ev.target.id!=='rp-search')return;P.rp.q=ev.target.value;P.rpApplyQ();});
 
 // \u2500\u2500 \uc791\uc131\ucc3d \u2500\u2500
 const SCENES=['\uc0c8 \uace1 \uc545\ubcf4\ub97c \ubc1b\uc790\ub9c8\uc790 \uccab \uc904\uc744 \ubc14\ub85c \uccd0\ubd24\uc5b4\uc694','\ud2c0\ub824\ub3c4 \uba48\ucd94\uc9c0 \uc54a\uace0 \ub05d\uae4c\uc9c0 \ucce4\uc5b4\uc694','\uc190 \ubaa8\uc591\uc774 \uc9c0\ub09c\uc8fc\ubcf4\ub2e4 \ud6e8\uc52c \ub3d9\uae00\ub3d9\uae00\ud574\uc84c\uc5b4\uc694','\ub9ac\ub4ec\uc744 \uc815\ud655\ud558\uac8c \uc138\uba74\uc11c \ucce4\uc5b4\uc694','\uc624\ub298 \ub808\uc2a8 \ub0b4\ub0b4 \uc9d1\uc911\uc744 \uc815\ub9d0 \uc798\ud588\uc5b4\uc694','\uc5f0\uc2b5\uc744 \uafb8\uc900\ud788 \ud574 \uc628 \uac8c \uc18c\ub9ac\ub85c \ub4e4\ub838\uc5b4\uc694'];
@@ -3090,7 +3090,7 @@ P.rpRenderMonth=function(){
  const rows=P.rp.mlist.filter(x=>by[x.studentId]).map(x=>Object.assign({},x,{s:by[x.studentId],k:x.card?(x.card.sentAt?'sent':'draft'):'none'})).sort((a,b)=>({none:0,draft:1,sent:2}[a.k]-{none:0,draft:1,sent:2}[b.k])||a.s.name.localeCompare(b.s.name,'ko'));
  const cnt={none:0,draft:0,sent:0};rows.forEach(x=>cnt[x.k]++);const todo=cnt.none+cnt.draft,pct=rows.length?Math.round(cnt.sent/rows.length*100):0,thisM=m===ym(P.data.date);
  const inTab=x=>P.rp.mfilter==='all'||(P.rp.mfilter==='todo'?x.k!=='sent':x.k==='sent');
- const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x)&&(!q||x.s.name.includes(q)));P.rp.morder=rows.filter(x=>x.k!=='sent').map(x=>x.s.id);
+ const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x));P.rp.morder=rows.filter(x=>x.k!=='sent').map(x=>x.s.id);
  const tab=(k,lab,n)=>`<button type="button" class="seg-tab ${P.rp.mfilter===k?'active':''}" data-rp-mfilter="${k}">${lab} <b>${n}</b></button>`;
  const tag=x=>x.k==='sent'?`${x.card.reaction?'<span class="rp-flag heart">\u2665 '+(x.card.reaction.text?'\ub2f5\uc7a5':'\uc798 \ubc1b\uc74c')+'</span>':''}<span class="rp-flag ${x.card.views?'seen':''}">${x.card.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rp-state sent">\ubcf4\ub0c4 ${md(x.card.sentAt.slice(0,10))}</span>`:x.k==='draft'?'<span class="rp-state draft">\uc791\uc131\ub428 \u00b7 \uc548 \ubcf4\ub0c4</span>':'<span class="rp-state due">\ubcf4\ub0bc \ucc28\ub840</span>';
  const row=x=>`<button type="button" class="rp-row k-${x.k==='none'?'due':x.k}" data-rp-mopen="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small><span class="rp-when">\uc8fc\uac04 ${x.weeklySent}\ubc88</span><span class="rp-when">\ub808\uc2a8 ${x.lessons}\ud68c</span></small></span><span class="rp-scene">${x.card&&x.card.note?e(x.card.note):'<i>\uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>'}</span><span class="rp-flags">${tag(x)}</span><span class="rp-chev">${ic('chevron')}</span></button>`;
@@ -3356,6 +3356,7 @@ window.Piano.rpCheck=function(){const P=window.Piano,f=document.querySelector('f
  if(up){clearTimeout(f._ck);f._ck=setTimeout(window.Piano.rpCheck,400);}};
 ['input','change'].forEach(t=>document.addEventListener(t,ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);}));
 document.addEventListener('click',ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);});
+(function(){const P=window.Piano;if(!P||!P.rpRender||P.rpRender._q)return;const w=f=>{const g=function(){const r=f.apply(this,arguments);P.rpApplyQ&&P.rpApplyQ();return r;};g._q=1;return g;};P.rpRender=w(P.rpRender);if(P.rpRenderMonth)P.rpRenderMonth=w(P.rpRenderMonth);})();
 </script>
 
   <script>
