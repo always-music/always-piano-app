@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611221556">
+  <meta name="app-build" content="202611231529">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3011,7 +3011,9 @@ document.addEventListener('click',ev=>{const t=ev.target;
  
  const o=t.closest('[data-rp-open]');if(o){P.rpOpen(o.dataset.rpOpen);return;}
 });
-document.addEventListener('input',ev=>{if(ev.target.id==='rp-search'){P.rp.q=ev.target.value;const pos=ev.target.selectionStart;P.rpRender();const i=document.getElementById('rp-search');i.focus();i.setSelectionRange(pos,pos);}});
+P.rpSearchRender=()=>{const i0=document.getElementById('rp-search'),pos=i0?i0.selectionStart:0;(P.rp.mode==='month'?P.rpRenderMonth:P.rpRender)();const i=document.getElementById('rp-search');if(i){i.focus();i.setSelectionRange(pos,pos);}};
+document.addEventListener('input',ev=>{if(ev.target.id!=='rp-search')return;P.rp.q=ev.target.value;if(ev.isComposing)return;P.rpSearchRender();});
+document.addEventListener('compositionend',ev=>{if(ev.target.id!=='rp-search')return;P.rp.q=ev.target.value;P.rpSearchRender();});
 
 // \u2500\u2500 \uc791\uc131\ucc3d \u2500\u2500
 const SCENES=['\uc0c8 \uace1 \uc545\ubcf4\ub97c \ubc1b\uc790\ub9c8\uc790 \uccab \uc904\uc744 \ubc14\ub85c \uccd0\ubd24\uc5b4\uc694','\ud2c0\ub824\ub3c4 \uba48\ucd94\uc9c0 \uc54a\uace0 \ub05d\uae4c\uc9c0 \ucce4\uc5b4\uc694','\uc190 \ubaa8\uc591\uc774 \uc9c0\ub09c\uc8fc\ubcf4\ub2e4 \ud6e8\uc52c \ub3d9\uae00\ub3d9\uae00\ud574\uc84c\uc5b4\uc694','\ub9ac\ub4ec\uc744 \uc815\ud655\ud558\uac8c \uc138\uba74\uc11c \ucce4\uc5b4\uc694','\uc624\ub298 \ub808\uc2a8 \ub0b4\ub0b4 \uc9d1\uc911\uc744 \uc815\ub9d0 \uc798\ud588\uc5b4\uc694','\uc5f0\uc2b5\uc744 \uafb8\uc900\ud788 \ud574 \uc628 \uac8c \uc18c\ub9ac\ub85c \ub4e4\ub838\uc5b4\uc694'];
@@ -3050,8 +3052,8 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
      <span class="rp-vstate">${r&&r.videoUrl?'<b>\u2713 \uc601\uc0c1\uc774 \ub4e4\uc5b4\uac00 \uc788\uc5b4\uc694</b><button type="button" class="text-link" data-rp-vclear>\ube7c\uae30</button>':'<span class="muted">\ud734\ub300\ud3f0\u00b7PC\uc5d0 \uc788\ub294 \uc601\uc0c1\uc744 \uace8\ub77c\uc694</span>'}</span>
      <div class="rp-vprog" hidden><i><b></b></i><span>0%</span></div>
      <label class="btn rp-vpick"><input type="file" accept="video/\*" data-rp-vfile hidden>\ub3d9\uc601\uc0c1 \uace0\ub974\uae30</label></div>
-    <div class="rp2-mbox rp2-photo"><header><b>\uc774\ubc88 \uc8fc \uc0ac\uc9c4</b><small>\ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ub4e4\uc5b4\uac00\uc694 \u00b7 2\uc8fc \ubcf4\uad00</small></header>
-     <p class="muted rp-kk">${P.rpPhoto[s.id]?'\u2713 \uace0\ub978 \uc0ac\uc9c4\uc774 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ub4e4\uc5b4\uac00\uc694':'\uc0ac\uc9c4\uc744 \ub123\uc73c\uba74 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0\uc11c \uc601\uc0c1\uacfc \ud568\uaed8 \ubcfc \uc218 \uc788\uc5b4\uc694'}</p>
+    <div class="rp2-mbox rp2-photo"><header><b>\uc774\ubc88 \uc8fc \uc0ac\uc9c4</b><small>\uce74\ud1a1 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694 \u00b7 2\uc8fc \ubcf4\uad00</small></header>
+     <p class="muted rp-kk">${P.rpPhoto[s.id]?'\u2713 \uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694':'\uc0ac\uc9c4\uc744 \ub123\uc73c\uba74 \uce74\ud1a1 \uce74\ub4dc \uc704\ucabd\uacfc \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694(\uc5c6\uc73c\uba74 \ud53c\uc544\ub178 \uadf8\ub9bc)'}</p>
      <label class="btn rp-ppick"><input id="rp-photo" type="file" accept="image/\*" hidden>\uc0ac\uc9c4 \uace0\ub974\uae30</label></div>
    </div></div></section>
  </div><div class="rp-previewcol rp2-side"><div class="rp2-sticky"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc <small>\uc4f0\ub294 \ub300\ub85c \ubc14\ub00c\uc5b4\uc694</small></div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas>
@@ -3059,7 +3061,7 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
  <div class="rp-actions rp2-foot"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
  <div id="rp-sendbox"></div></form>`;P.rpCheck&&P.rpCheck();
  const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
- if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ub4e4\uc5b4\uac00\uc694.';else P.rpLoadPhoto(s.id).then(im=>{if(!im)return;const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc800\uc7a5\ub41c \uc0ac\uc9c4\uc774 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();});
+ if(P.rpPhoto[s.id])document.querySelector('.rp-kk').textContent='\uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694.';else P.rpLoadPhoto(s.id).then(im=>{if(!im)return;const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc800\uc7a5\ub41c \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694.';P.rpPreview();});
  P.rpPreview();
 };
 function formData(f){const songs=[...f.querySelectorAll('.rp-song')].map(row=>({title:row.querySelector('[name=songTitle]').value.trim(),state:row.querySelector('input[type=radio]:checked')?.value||'ing'})).filter(x=>x.title);
@@ -3171,7 +3173,7 @@ P.rpView=function(){
 let pvTimer=0;P.rpPreview=function(){if(P.rpCur&&P.rpCur.month)return P.rpMonthPreview();clearTimeout(pvTimer);pvTimer=setTimeout(()=>{const f=document.querySelector('form[data-rp-form]'),c=document.getElementById('rp-canvas');if(!f||!c||!P.rpCur)return;const {s}=P.rpCur;P.rpDraw(c,Object.assign(formData(f),{name:s.name,teacher:P.user.name}),P.rpPhoto[s.id]);},120);};
 document.addEventListener('input',ev=>{if(ev.target.closest('form[data-rp-form]'))P.rpPreview();});
 document.addEventListener('change',ev=>{const t=ev.target;
- if(t.id==='rp-photo'&&t.files[0]){const sid=P.rpCur.s.id,wk=P.rp.week,src=new Image();src.onload=()=>{const k=Math.min(1,1280/Math.max(src.width,src.height)),cv=document.createElement('canvas');cv.width=Math.round(src.width*k);cv.height=Math.round(src.height*k);cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);const url=cv.toDataURL('image/jpeg',.85),img=new Image();img.onload=()=>{P.rpPhoto[sid]=img;const kk=document.querySelector('.rp-kk');if(kk)kk.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc911\u2026';P.rpPreview();P.api('reports.photoSave',{studentId:sid,week:wk,data:url},crypto.randomUUID()).then(()=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc0ac\uc9c4\uc774 \uc800\uc7a5\ub410\uc5b4\uc694. \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0 \ub4e4\uc5b4\uac00\uc694.';}).catch(err=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc2e4\ud328: '+(err&&err.message||'');});};img.src=url;};src.src=URL.createObjectURL(t.files[0]);}
+ if(t.id==='rp-photo'&&t.files[0]){const sid=P.rpCur.s.id,wk=P.rp.week,src=new Image();src.onload=()=>{const k=Math.min(1,1280/Math.max(src.width,src.height)),cv=document.createElement('canvas');cv.width=Math.round(src.width*k);cv.height=Math.round(src.height*k);cv.getContext('2d').drawImage(src,0,0,cv.width,cv.height);const url=cv.toDataURL('image/jpeg',.85),img=new Image();img.onload=()=>{P.rpPhoto[sid]=img;const kk=document.querySelector('.rp-kk');if(kk)kk.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc911\u2026';P.rpPreview();P.api('reports.photoSave',{studentId:sid,week:wk,data:url},crypto.randomUUID()).then(()=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\u2713 \uc0ac\uc9c4\uc774 \uc800\uc7a5\ub410\uc5b4\uc694. \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694.';}).catch(err=>{const q=document.querySelector('.rp-kk');if(q)q.textContent='\uc0ac\uc9c4 \uc800\uc7a5 \uc2e4\ud328: '+(err&&err.message||'');});};img.src=url;};src.src=URL.createObjectURL(t.files[0]);}
  else if(t.closest('form[data-rp-form]'))P.rpPreview();
  if(t.matches('[data-rp-video]'))P.rpMark({videoSent:t.checked});
 });
@@ -3285,7 +3287,7 @@ function sign(ctx,x,yTop,teacher,sub,r){ctx.strokeStyle='#E6DCCB';ctx.lineWidth=
  ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#3D2B1F';ctx.font=F(700,28);ctx.fillText('\uc5b8\uc81c\ub098 \uc120\uc0dd\ub2d8\ub4e4\uc774',x,yTop+56);ctx.fillStyle='#8B7B6C';ctx.font=F(500,20);ctx.fillText(sub,x,yTop+90);stars(ctx,800-x,yTop+58,P._stars||0);}
 P.rpArtLoad=()=>P._art||(P._art=new Promise(ok=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>{P.rpArt=i;ok(i);};i.onerror=()=>{P._art=null;ok(null);};i.src='https:'+'\/\/always-music.github.io/always-piano-app/card-piano.jpg';}));
 P.rpDraw=function(c,d,photo){P._stars=d?+d.stars||0:0;if(d&&d.kind==='month')return P.rpDrawMonth(c,d);
- photo=P.rpArt||null;if(!photo)P.rpArtLoad().then(im=>{if(im&&c.isConnected)P.rpDraw(c,d,null);});
+ if(!photo){if(P.rpArt)photo=P.rpArt;else P.rpArtLoad().then(im=>{if(im&&c.isConnected)P.rpDraw(c,d,null);});}
  const ctx=c.getContext('2d'),W=800,X=64,call=callName(d.name),date=d.lessonDate||P.data.date,dt=new Date(date+'T00:00:00Z');
  ctx.clearRect(0,0,W,W);ctx.fillStyle='#FBF9F6';ctx.fillRect(0,0,W,W);const songs=(d.songs||[]).filter(s=>s.title);
  const sub=`${callName(d.name)} ${d.recipient||'\uc5b4\uba38\ub2d8'}\uaed8`,quote=d.scene?`\u201c${d.scene}\u201d`:'\u201c\uc774\ubc88 \uc8fc \ud55c \uc7a5\uba74\uc744 \uc368 \uc8fc\uc138\uc694\u201d';
