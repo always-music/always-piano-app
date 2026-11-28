@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611231537">
+  <meta name="app-build" content="202611280843">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1924,6 +1924,22 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .rp-vinfo b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 .rp-vinfo span{flex:none;color:var(--r-muted);font-variant-numeric:tabular-nums}
 .rp-vinfo[hidden]{display:none}
+/* 주간 리포트 명단(2026-11-28): 이름 · 마지막 보낸 날 · 열어봄 · 반응 · 코멘트 */
+.rp-head2{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.rp-head2 .rp-tools{display:flex;align-items:center;gap:8px;margin:0}
+.rp-head2 .rp-search{width:220px}
+.rp-row.rp-simple{grid-template-columns:200px 110px 110px minmax(0,1fr) 16px!important}
+/* 열 맞춤: 열어봄 칸은 왼쪽 끝을 맞추고 같은 폭, ♥는 그 뒤 같은 자리 */
+.rp-simple .rp-flags{justify-self:start!important;justify-content:flex-start!important}
+.rp-simple .rp-read{display:inline-flex;justify-content:center;min-width:68px}
+.rp-simple .rp-last{font-size:13px;color:var(--r-muted);font-variant-numeric:tabular-nums}.rp-simple .rp-last b{color:var(--r-ink);font-weight:700}.rp-simple .rp-last i{font-style:normal;color:#A39A92}
+.rp-simple .rp-flags{display:flex;gap:6px;justify-content:flex-start}
+.rp-simple .rp-cmt{min-width:0;font-size:13px;color:#5E5650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:760px){.rp-head2 .rp-tools{width:100%}.rp-head2 .rp-search{flex:1;width:auto}
+ .rp-row.rp-simple{grid-template-columns:minmax(0,1fr) auto 14px!important;gap:6px 10px}
+ .rp-simple .rp-who{grid-column:1;grid-row:1}.rp-simple .rp-last{grid-column:2;grid-row:1;text-align:right}.rp-simple .rp-chev{grid-column:3;grid-row:1}
+ .rp-simple .rp-flags{grid-column:1/-1;grid-row:2}.rp-simple .rp-flags:empty{display:none}
+ .rp-simple .rp-cmt{grid-column:1/-1;grid-row:3;white-space:normal}.rp-simple .rp-cmt:empty{display:none}}
 .rp-vbusy{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:#F7F4F0;font-size:13px;font-weight:600}
 .rp-vbusy .r-run{width:60px}
 .rp2-mbox .rp-lvstate{margin:0;min-height:40px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:#F7F4F0;font-size:12.5px}
@@ -2966,32 +2982,21 @@ P.reportsPage=function(){
  if(!P.rp.week)P.rp.week=mon(P.data.date);
  return `<div id="rp-root"><p class="empty-cell">\ub9ac\ud3ec\ud2b8\ub97c \ubd88\ub7ec\uc624\ub294 \uc911\uc785\ub2c8\ub2e4\u2026</p></div>`;
 };
-P.loadReports=async function(){if(P.rp.mode==='month')return P.loadMonth();if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rp.targets=r.targets||{};P.rp.kakao=r.kakao||{};P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
+P.loadReports=async function(){if(P.rp.mode==='month')return P.loadMonth();if(!P.rp.week)P.rp.week=mon(P.data.date);const week=P.rp.week;try{const r=await P.api('reports.week',{week});if(r.week===P.rp.week){P.rp.list=r.reports;P.rp.targets=r.targets||{};P.rp.last=r.last||{};P.rp.kakao=r.kakao||{};P.rpRender();}}catch(err){const el=document.getElementById('rp-root');if(el)el.innerHTML=`<p class="empty-cell">${e(err.message)}</p>`;}};
 P.rpRender=function(){if(P.rp.mode==='month')return P.rpRenderMonth();
  const root=document.getElementById('rp-root');if(!root||!P.rp.list)return;const w=P.rp.week,list=P.rp.list,by={},T=P.rp.targets||{};list.forEach(r=>by[r.studentId]=r);
  const thisWeek=w===mon(P.data.date);
  const st=x=>x.r?(x.r.sentAt?'sent':'draft'):(x.t?(x.t.state==='due'?'due':x.t.state==='upcoming'?'upcoming':'absent'):'off');
  const ORDER={due:0,draft:1,upcoming:2,sent:3,absent:4,off:5};const ago=d=>Math.floor((new Date(P.data.date+'T00:00:00Z')-new Date(String(d).slice(0,10)+'T00:00:00Z'))/864e5);const late=x=>x.k==='sent'&&!x.r.views&&ago(x.r.sentAt)>=3;
- const rows=students().map(s=>({s,r:by[s.id],t:T[s.id],d:days(s.id)})).map(x=>Object.assign(x,{k:st(x)})).sort((p,q)=>(ORDER[p.k]-ORDER[q.k])||String((p.t&&(p.t.last||p.t.next))||'9').localeCompare(String((q.t&&(q.t.last||q.t.next))||'9'))||p.s.name.localeCompare(q.s.name,'ko'));
- const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0,late:0,heart:0};rows.forEach(x=>{cnt[x.k]++;if(late(x))cnt.late++;if(x.r&&x.r.reaction)cnt.heart++;});
- const target=cnt.due+cnt.draft+cnt.upcoming+cnt.sent,todo=cnt.due+cnt.draft,seen=list.filter(r=>r.sentAt&&r.views).length;
- const inTab=x=>P.rp.filter==='all'||(P.rp.filter==='todo'?(x.k==='due'||x.k==='draft'):P.rp.filter==='late'?late(x):P.rp.filter===x.k);
- const q=P.rp.q.trim(),shown=rows.filter(x=>inTab(x));P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
+ const LS=P.rp.last||{};
+ const rows=students().map(s=>({s,r:by[s.id],t:T[s.id],l:LS[s.id]||null})).map(x=>Object.assign(x,{k:st(x)})).sort((p,q)=>String(p.l?p.l.sentAt:'').localeCompare(String(q.l?q.l.sentAt:''))||p.s.name.localeCompare(q.s.name,'ko'));
+ const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0};rows.forEach(x=>{cnt[x.k]++;});P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
  if(thisWeek&&P.data.reportDue){P.data.reportDue.count=cnt.due+cnt.draft;const c=document.querySelector('.tb-due');if(c){c.hidden=!(cnt.due+cnt.draft);const n=c.querySelector('b');if(n)n.textContent=cnt.due+cnt.draft;}}
- const pct=target?Math.round(cnt.sent/target*100):0;
- const tab=(k,lab,n)=>`<button type="button" class="seg-tab ${P.rp.filter===k?'active':''}" data-rp-filter="${k}" aria-pressed="${P.rp.filter===k}">${lab} <b>${n}</b></button>`;
- const dayOf=d=>DAYS[new Date(d+'T00:00:00Z').getUTCDay()];
- const when=x=>x.t?x.t.dates.map(d=>`<span class="rp-when ${d.absent?'off':''}">${dayOf(d.date)} ${e(String(d.time).slice(0,5))}${d.absent?' \uacb0\uc11d':''}</span>`).join(''):'<span class="rp-when off">\uc774\ubc88 \uc8fc \uc218\uc5c5 \uc5c6\uc74c</span>';
- const tag=x=>{const r=x.r;switch(x.k){case 'sent':return `${r.reaction?`<span class="rp-flag heart" title="${e(r.reaction.text||'\uc798 \ubc1b\uc558\uc5b4\uc694')}">\u2665 ${r.reaction.text?'\ub2f5\uc7a5':'\uc798 \ubc1b\uc74c'}</span>`:''}${r.videoSent?'<span class="rp-flag">\uc601\uc0c1</span>':''}<span class="rp-flag ${r.views?'seen':late(x)?'late':''}">${r.views?'\uc5f4\uc5b4\ubd04':late(x)?'\uc548 \uc5f4\uc5b4\ubd04 '+ago(r.sentAt)+'\uc77c':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rp-state sent">\ubcf4\ub0c4 ${md(r.sentAt.slice(0,10))}</span>`;
-  case 'draft':return '<span class="rp-state draft">\uc791\uc131\ub428 \u00b7 \uc548 \ubcf4\ub0c4</span>';case 'due':return '<span class="rp-state due">\ubcf4\ub0bc \ucc28\ub840</span>';
-  case 'upcoming':return `<span class="rp-state wait">${dayOf(x.t.next)}\uc694\uc77c \uc218\uc5c5 \uc608\uc815</span>`;case 'absent':return '<span class="rp-state wait">\uc774\ubc88 \uc8fc \uacb0\uc11d</span>';default:return '<span class="rp-state wait">\uc218\uc5c5 \uc5c6\uc74c</span>';}};
- const row=x=>`<button type="button" class="rp-row k-${x.k}" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong><small>${when(x)}${P.user.role==='director'&&teacherOf(x.s)?'<span class="rp-when t">'+e(teacherOf(x.s))+'</span>':''}</small></span><span class="rp-scene">${x.r?e(x.r.scene):x.k==='due'?'<i>\uc218\uc5c5\ud588\uc5b4\uc694 \u00b7 \uc544\uc9c1 \uc548 \uc37c\uc5b4\uc694</i>':'<i>\u2014</i>'}</span><span class="rp-flags">${tag(x)}</span><span class="rp-chev">${ic('chevron')}</span></button>`;
- const empty=P.rp.filter==='late'?'3\uc77c \ub118\uac8c \uc548 \uc5f4\uc5b4\ubcf8 \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694.':P.rp.filter==='todo'?(target?'\uc774\ubc88 \uc8fc \ubcf4\ub0bc \ucc28\ub840\uc778 \ub9ac\ud3ec\ud2b8\ub97c \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694.':'\uc774\ubc88 \uc8fc\uc5d0\ub294 \uc544\uc9c1 \uc218\uc5c5\ud55c \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.'):P.rp.filter==='upcoming'?'\ub0a8\uc740 \uc218\uc5c5\uc774 \uc5c6\uc5b4\uc694.':'\uc870\uac74\uc5d0 \ub9de\ub294 \ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.';
- root.innerHTML=P.rpModeBar()+`<section class="card rp-head"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
- <div class="rp-progress"><div class="rp-nums"><span><b>${cnt.sent}</b> / ${target}\uba85 \ubcf4\ub0c4</span><span class="muted">\ubcf4\ub0bc \ucc28\ub840 ${cnt.due} \u00b7 \uc791\uc131\ub428 ${cnt.draft} \u00b7 \uc218\uc5c5 \uc608\uc815 ${cnt.upcoming}${cnt.absent?' \u00b7 \uacb0\uc11d '+cnt.absent:''} \u00b7 \uc5f4\uc5b4\ubd04 ${seen}${cnt.heart?' \u00b7 \u2665 \ubc18\uc751 '+cnt.heart:''}</span></div><div class="rp-bar" role="progressbar" aria-label="\ubcf4\ub0b8 \ube44\uc728" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div></div>
- ${todo?`<button type="button" class="btn primary rp-chain" data-rp-chain>\ubcf4\ub0bc \ucc28\ub840 \uc774\uc5b4\uc11c \uc4f0\uae30 <b>${todo}</b></button>`:''}
- <div class="rp-tools"><div class="seg-tabs" role="group" aria-label="\ubcf4\uae30">${tab('todo','\ubcf4\ub0bc \ucc28\ub840',todo)}${tab('upcoming','\uc218\uc5c5 \uc608\uc815',cnt.upcoming)}${tab('sent','\ubcf4\ub0c4',cnt.sent)}${cnt.late||P.rp.filter==='late'?tab('late','\uc548 \uc5f4\uc5b4\ubd04 3\uc77c+',cnt.late):''}${tab('all','\uc804\uccb4',rows.length)}</div>${P.user.role==='director'?'<button type="button" class="btn sm rp-testbtn" data-rp-test title="\ub0b4 \uc774\ub984\uc73c\ub85c \ub9cc\ub4e0 \ud14c\uc2a4\ud2b8 \ud559\uc0dd\uc5d0\uac8c \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ub098\uc5d0\uac8c \ubcf4\ub0b4 \ubd10\uc694">\ub098\uc5d0\uac8c \ud14c\uc2a4\ud2b8\ub85c \ubcf4\ub0b4\uae30</button>':''}<input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
- <section class="card rp-list">${shown.length?shown.map(row).join(''):`<p class="empty-cell">${empty}</p>`}</section><details class="card rp-stats" data-rp-stats><summary><b>\ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669</b><small>\ubcf4\ub0b8 \ube44\uc728 \u00b7 \uc5f4\uc5b4\ubd04 \u00b7 \ud559\ubd80\ubaa8 \ubc18\uc751</small></summary><div id="rp-stats-body"><p class="empty-cell">\ud604\ud669\uc744 \ubd88\ub7ec\uc624\ub294 \uc911\u2026</p></div></details>`;
+ // \uc774\ub984 \u00b7 \ub9c8\uc9c0\ub9c9\uc73c\ub85c \ubcf4\ub0b8 \ub0a0 \u00b7 \uc5f4\uc5b4\ubd24\ub294\uc9c0 \u00b7 \ubc18\uc751 \u00b7 \ucf54\uba58\ud2b8\ub9cc (\uc624\ub798 \uc548 \ubcf4\ub0b8 \uc544\uc774\uac00 \uc704\ub85c)
+ const row=x=>{const l=x.l,rc=l&&l.reaction;return `<button type="button" class="rp-row rp-simple" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong>${P.user.role==='director'&&teacherOf(x.s)?'<small><span class="rp-when t">'+e(teacherOf(x.s))+'</span></small>':''}</span><span class="rp-last">${l?'<b>'+md(String(l.sentAt).slice(0,10))+'</b> \ubcf4\ub0c4':'<i>\uc544\uc9c1 \uc548 \ubcf4\ub0c4</i>'}</span><span class="rp-flags">${l?'<span class="rp-flag rp-read '+(l.views?'seen':'')+'">'+(l.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04')+'</span>'+(rc?'<span class="rp-flag heart">\u2665</span>':''):''}</span><span class="rp-cmt">${rc&&rc.text?'\u201c'+e(rc.text)+'\u201d':''}</span><span class="rp-chev">${ic('chevron')}</span></button>`;};
+ root.innerHTML=P.rpModeBar()+`<section class="card rp-head rp-head2"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
+ <div class="rp-tools">${P.user.role==='director'?'<button type="button" class="btn sm rp-testbtn" data-rp-test title="\ub0b4 \uc774\ub984\uc73c\ub85c \ub9cc\ub4e0 \ud14c\uc2a4\ud2b8 \ud559\uc0dd\uc5d0\uac8c \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ub098\uc5d0\uac8c \ubcf4\ub0b4 \ubd10\uc694">\ub098\uc5d0\uac8c \ud14c\uc2a4\ud2b8\ub85c \ubcf4\ub0b4\uae30</button>':''}<input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984 \uac80\uc0c9" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
+ <section class="card rp-list">${rows.length?rows.map(row).join(''):'<p class="empty-cell">\ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.</p>'}</section><details class="card rp-stats" data-rp-stats><summary><b>\ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669</b><small>\ubcf4\ub0b8 \ube44\uc728 \u00b7 \uc5f4\uc5b4\ubd04 \u00b7 \ud559\ubd80\ubaa8 \ubc18\uc751</small></summary><div id="rp-stats-body"><p class="empty-cell">\ud604\ud669\uc744 \ubd88\ub7ec\uc624\ub294 \uc911\u2026</p></div></details>`;
 };
 // \uc774\uc5b4\uc11c \uc4f0\uae30: \ubcf4\ub0bc \ucc28\ub840 \ud559\uc0dd\uc744 \uc21c\uc11c\ub300\ub85c \u2014 \ubcf4\ub0b4\uac70\ub098 \uc800\uc7a5\ud558\uba74 \ub2e4\uc74c \ud559\uc0dd \ucc3d\uc774 \ubc14\ub85c \uc5f4\ub9bc. \ucc3d\uc744 \ub2eb\uc73c\uba74 \uba48\ucda4
 P.rpNext=function(done){const order=((P.rp.mode==='month'?P.rp.morder:P.rp.order)||[]).filter(id=>id!==(P.rpCur&&P.rpCur.s.id));const next=order[0];
@@ -3048,16 +3053,16 @@ P.rpForm=function(){if(P.rpCur&&P.rpCur.month)return P.rpCur.g.report&&P.rpCur.g
    <div class="rp-chips rp2-sugg" data-rp-target="rp-msg">${LINES.map(x=>`<button type="button" class="rp-chip" data-rp-chip="${e(x)}">${e(x)}</button>`).join('')}</div></div></section>
   <section class="rp2-step" data-step="media"><span class="rp2-num">4</span><h3>\uc601\uc0c1\u00b7\uc0ac\uc9c4 <small>\ub458 \ub2e4 \uc120\ud0dd \u00b7 \uc601\uc0c1\uc740 \ub9ac\ud3ec\ud2b8 \ud398\uc774\uc9c0\uc5d0\uc11c \ubc14\ub85c \uc7ac\uc0dd\ub3fc\uc694</small></h3>
    <div class="rp2-body"><div class="rp2-media">
-    <div class="rp2-mbox rp-video" data-rp-vbox><header><b>\uc5f0\uc8fc \uc601\uc0c1</b><small>\ubcf4\ub0b8 \ub0a0\ubd80\ud130 2\uc8fc \ubcf4\uad00 \ud6c4 \uc790\ub3d9 \uc0ad\uc81c</small></header><input type="hidden" id="rp-video" name="videoUrl" value="${e(r?r.videoUrl:'')}">
+    <div class="rp2-mbox rp-video" data-rp-vbox><header><b>\uc5f0\uc8fc \uc601\uc0c1</b><small>\ubcf4\ub0b8 \ub0a0\ubd80\ud130 \ud55c \ub2ec \ubcf4\uad00 \ud6c4 \uc790\ub3d9 \uc0ad\uc81c</small></header><input type="hidden" id="rp-video" name="videoUrl" value="${e(r?r.videoUrl:'')}">
      <span class="rp-vstate">${r&&r.videoUrl?'<b>\u2713 \uc601\uc0c1\uc774 \ub4e4\uc5b4\uac00 \uc788\uc5b4\uc694</b><button type="button" class="text-link" data-rp-vclear>\ube7c\uae30</button>':'<span class="muted">\ud734\ub300\ud3f0\u00b7PC\uc5d0 \uc788\ub294 \uc601\uc0c1\uc744 \uace8\ub77c\uc694</span>'}</span>
      <div class="rp-vprog" hidden><i><b></b></i><span>0%</span></div>
      <label class="btn rp-vpick"><input type="file" accept="video/\*" data-rp-vfile hidden>\ub3d9\uc601\uc0c1 \uace0\ub974\uae30</label></div>
-    <div class="rp2-mbox rp2-photo"><header><b>\uc774\ubc88 \uc8fc \uc0ac\uc9c4</b><small>\uce74\ud1a1 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694 \u00b7 2\uc8fc \ubcf4\uad00</small></header>
+    <div class="rp2-mbox rp2-photo"><header><b>\uc774\ubc88 \uc8fc \uc0ac\uc9c4</b><small>\uce74\ud1a1 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694 \u00b7 \ud55c \ub2ec \ubcf4\uad00</small></header>
      <p class="muted rp-kk">${P.rpPhoto[s.id]?'\u2713 \uace0\ub978 \uc0ac\uc9c4\uc774 \uce74\ub4dc\uc640 \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694':'\uc0ac\uc9c4\uc744 \ub123\uc73c\uba74 \uce74\ud1a1 \uce74\ub4dc \uc704\ucabd\uacfc \ub9ac\ud3ec\ud2b8\uc5d0 \ub4e4\uc5b4\uac00\uc694(\uc5c6\uc73c\uba74 \ud53c\uc544\ub178 \uadf8\ub9bc)'}</p>
      <label class="btn rp-ppick"><input id="rp-photo" type="file" accept="image/\*" hidden>\uc0ac\uc9c4 \uace0\ub974\uae30</label></div>
    </div></div></section>
  </div><div class="rp-previewcol rp2-side"><div class="rp2-sticky"><div class="rp-lab">\uce74\ud1a1\uc5d0 \ubcf4\uc774\ub294 \uce74\ub4dc <small>\uc4f0\ub294 \ub300\ub85c \ubc14\ub00c\uc5b4\uc694</small></div><canvas id="rp-canvas" width="800" height="800" role="img" aria-label="\uce74\ub4dc \ubbf8\ub9ac\ubcf4\uae30"></canvas>
-  ${P.rpStarPick(r?r.stars:(last&&last.stars)||5)}<ul class="rp2-check" id="rp-check" aria-label="\ubcf4\ub0b4\uae30 \uc804 \ud655\uc778"></ul>${P.rpHist()}</div></div></div>
+  ${P.rpStarPick(r?r.stars:0)}<ul class="rp2-check" id="rp-check" aria-label="\ubcf4\ub0b4\uae30 \uc804 \ud655\uc778"></ul>${P.rpHist()}</div></div></div>
  <div class="rp-actions rp2-foot"><button type="button" class="btn danger-link rp-del" data-rp-delete ${r?'':'hidden'}>\uc0ad\uc81c</button><span class="muted rp-msgline" role="status"></span><button type="submit" class="btn" name="go" value="save">\uc800\uc7a5</button><button type="submit" class="btn primary" name="go" value="send">${sent?'\uc800\uc7a5\ud558\uace0 \ub2e4\uc2dc \ubcf4\ub0b4\uae30':'\uc800\uc7a5\ud558\uace0 \ubcf4\ub0b4\uae30'}</button></div>
  <div id="rp-sendbox"></div></form>`;P.rpCheck&&P.rpCheck();
  const d=document.getElementById('detail-dialog');d._initial=JSON.stringify([...new FormData(d.querySelector('form'))]);
@@ -3189,6 +3194,7 @@ document.addEventListener('click',async ev=>{const t=ev.target,f=t.closest('form
 P.rpMark=async function(change,quiet){const r=P.rpCur?.g.report;if(!r)return;try{const x=await P.api(P.rpCur.month?'reports.monthSent':'reports.sent',Object.assign({id:r.id,version:r.version},change),crypto.randomUUID());r.version=x.version;r.sentAt=x.sentAt;if(change.videoSent!==undefined)r.videoSent=change.videoSent;P.loadReports();if(change.imageUrl===undefined&&!quiet)P.saving(change.sent===false?'\ubcf4\ub0c4 \ud45c\uc2dc\ub97c \uc9c0\uc6e0\uc5b4\uc694':'\uc800\uc7a5\ud588\uc5b4\uc694','done');}catch(err){P.saving(err.message,'error');throw err;}};
 document.addEventListener('submit',async ev=>{const f=ev.target.closest('form[data-rp-form]');if(!f)return;ev.preventDefault();ev.stopPropagation();if(f.getAttribute('aria-busy')==='true')return;
  const go=ev.submitter?.value||'save',x=formData(f),line=f.querySelector('.rp-msgline'),cur=P.rpCur,r=cur.g.report;
+ if(x.scene&&!x.stars&&!cur.month){line.textContent='\ubcc4\uc810\uc744 \uace8\ub77c \uc8fc\uc138\uc694. \ud559\ubd80\ubaa8\ub2d8 \uce74\ub4dc\uc5d0 \ubcc4\ub85c \ub4e4\uc5b4\uac00\uc694.';f.querySelector('[name=stars]')?.focus();return;}
  if(!x.scene){line.textContent='"\uc774\ubc88 \uc8fc \ud55c \uc7a5\uba74"\uc744 \ud55c \uc904 \uc368 \uc8fc\uc138\uc694.';f.querySelector('#rp-scene').focus();return;}
  f.setAttribute('aria-busy','true');line.textContent='\uc800\uc7a5 \uc911\u2026';
  try{const res=await P.api('reports.save',Object.assign({},x,{studentId:cur.s.id},r?{id:r.id,version:r.version}:{}),crypto.randomUUID());
@@ -3351,7 +3357,7 @@ window.Piano.rpCheck=function(){const P=window.Piano,f=document.querySelector('f
  const set=(k,on)=>{const st=f.querySelector('[data-step="'+k+'"]');if(st)st.classList.toggle('done',!!on);};set('songs',songs);set('scene',scene.trim());set('msg',msg);set('media',vid||photo);
  const c=f.querySelector('[data-count="rp-scene"]');if(c)c.textContent=scene.length+' / 200';
  const li=(cls,txt,side)=>'<li class="'+cls+'"><i>'+(cls==='y'?'\u2713':cls==='need'?'!':'')+'</i>'+txt+(side?'<span>'+side+'</span>':'')+'</li>';
- const box=f.querySelector('#rp-check');if(box)box.innerHTML=li(scene.trim()?'y':'need','\uc774\ubc88 \uc8fc \ud55c \uc7a5\uba74',scene.trim()?'':'\uaf2d \uc368 \uc8fc\uc138\uc694')+li(songs?'y':'n','\uc774\ubc88 \uc8fc \uace1',songs?songs+'\uace1':'\uc120\ud0dd')+li(msg?'y':'n','\ud3b8\uc9c0',msg?'':'\uc120\ud0dd')+(up?li('w','\uc601\uc0c1 \uc62c\ub9ac\ub294 \uc911',(pg.querySelector('span')||{}).textContent||''):li(vid?'y':'n','\uc5f0\uc8fc \uc601\uc0c1',vid?'2\uc8fc \ubcf4\uad00':'\uc120\ud0dd'))+li(stars?'y':'n','\ubcc4\uc810',stars?'\u2605'.repeat(stars):'\uc5c6\uc74c');
+ const box=f.querySelector('#rp-check');if(box)box.innerHTML=li(scene.trim()?'y':'need','\uc774\ubc88 \uc8fc \ud55c \uc7a5\uba74',scene.trim()?'':'\uaf2d \uc368 \uc8fc\uc138\uc694')+li(songs?'y':'n','\uc774\ubc88 \uc8fc \uace1',songs?songs+'\uace1':'\uc120\ud0dd')+li(msg?'y':'n','\ud3b8\uc9c0',msg?'':'\uc120\ud0dd')+(up?li('w','\uc601\uc0c1 \uc62c\ub9ac\ub294 \uc911',(pg.querySelector('span')||{}).textContent||''):li(vid?'y':'n','\uc5f0\uc8fc \uc601\uc0c1',vid?'\ud55c \ub2ec \ubcf4\uad00':'\uc120\ud0dd'))+li(stars?'y':'need','\ubcc4\uc810',stars?'\u2605'.repeat(stars):'\uaf2d \uace8\ub77c \uc8fc\uc138\uc694');
  const send=f.querySelector('button[value=send]');if(send){send.disabled=!!up;send.title=up?'\uc601\uc0c1\uc774 \ub2e4 \uc62c\ub77c\uac00\uba74 \ubcf4\ub0bc \uc218 \uc788\uc5b4\uc694':'';}
  if(up){clearTimeout(f._ck);f._ck=setTimeout(window.Piano.rpCheck,400);}};
 ['input','change'].forEach(t=>document.addEventListener(t,ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);}));
