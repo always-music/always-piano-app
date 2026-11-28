@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611280921">
+  <meta name="app-build" content="202611281047">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1991,6 +1991,37 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
  .rpb .rp-row.rpb-row,.rpb-col .rp-row.rpb-row{padding:0 16px!important}
  .rpb-col.done .rp-row.rpb-row{grid-template-columns:minmax(0,1fr) auto auto 16px!important;height:auto;min-height:46px;padding:10px 16px!important;row-gap:4px!important}
  .rpb-col.done .rpb-cmt{grid-column:1/-1;white-space:normal;color:#5E5650}.rpb-col.done .rpb-cmt:empty{display:none}}
+/* 휴대폰 앱(app-mode) 주간 리포트·작성창 글자 한 단계 작게(2026-11-28): 굵기도 800→700으로 낮춰 덜 투박하게 */
+body.app-mode .rpb-bar .rp-week strong{font-size:16px!important;font-weight:700!important}
+body.app-mode .rpb-bar .rp-week small{font-size:11.5px!important}
+body.app-mode .rpb-tools .rp-search{height:34px!important;min-height:34px!important;font-size:13px!important}
+body.app-mode .rpb-tools .rp-testbtn{height:34px!important;min-height:34px!important;font-size:12px!important;padding:0 10px!important}
+body.app-mode .rpb-side button{height:36px;font-size:13px}
+body.app-mode .rpb-h{min-height:42px!important;font-size:13px!important}
+body.app-mode .rpb-h em{font-size:12px!important}body.app-mode .rpb-h small{font-size:11px!important}
+body.app-mode .rpb-chips span{height:25px;padding:0 9px;font-size:11.5px}body.app-mode .rpb-chips b{font-size:13px}
+body.app-mode .rpb-colhd{height:30px!important;font-size:11px!important}
+body.app-mode .rpb-col .rp-row.rpb-row{height:auto!important;min-height:42px!important}
+body.app-mode .rpb-row .rp-who strong{font-size:13.5px!important;font-weight:600!important}
+body.app-mode .rpb-row .rp-who small{font-size:11px!important}
+body.app-mode .rpb-meta,body.app-mode .rpb-date,body.app-mode .rpb-read{font-size:12px!important}
+body.app-mode .rpb-cmt{font-size:12.5px!important}
+body.app-mode .rp2-who b{font-size:16px!important;font-weight:700!important}
+body.app-mode .rp2-who small{font-size:11.5px!important}
+body.app-mode .rp2-av{width:34px!important;height:34px!important;font-size:14px!important;border-radius:10px!important}
+body.app-mode .rp2-step h3{font-size:14px!important}body.app-mode .rp2-step h3 small{font-size:11.5px!important}
+body.app-mode .rp2-num{width:22px!important;height:22px!important;font-size:11px!important}
+body.app-mode .rp2 input[name=songTitle]{font-size:14px!important}
+body.app-mode .rp2 textarea{font-size:14px!important;line-height:1.65!important}
+body.app-mode .rp2 textarea.rp2-scene,body.app-mode #rp-scene{font-size:15px!important}
+body.app-mode .rp2 .rp-chip{height:30px!important;font-size:12px!important;padding:0 11px!important}
+body.app-mode .rp2-sticky .rp-lab{font-size:11.5px!important}
+body.app-mode .rp-stars label span{font-size:22px!important}
+body.app-mode .rp2-check li{font-size:12.5px!important;padding:8px 12px!important}
+body.app-mode .rp2-seg label span{font-size:12.5px!important}
+body.app-mode .rp2-date input,body.app-mode #rp-date{font-size:13px!important}
+body.app-mode .rp2-mbox header b{font-size:13px!important}body.app-mode .rp2-mbox header small{font-size:11px!important}
+body.app-mode .rp2-foot .btn{font-size:13px!important}
 /* 안 보냄 · 보냄 두 칸: PC는 나란히(각자 스크롤), 좁은 화면은 위 버튼으로 하나씩 */
 .rp-split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);gap:16px;align-items:start;padding:0!important}
 .rp-col .rp-group.done{border-top:0}
