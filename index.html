@@ -12,7 +12,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="언제나 음악학원">
-  <meta name="app-build" content="202611280843">
+  <meta name="app-build" content="202611280921">
   <title>언제나 음악학원</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1932,6 +1932,83 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 /* 열 맞춤: 열어봄 칸은 왼쪽 끝을 맞추고 같은 폭, ♥는 그 뒤 같은 자리 */
 .rp-simple .rp-flags{justify-self:start!important;justify-content:flex-start!important}
 .rp-simple .rp-read{display:inline-flex;justify-content:center;min-width:68px}
+/* 이번 주에 보냈는지로 두 덩어리 */
+.rp-group{display:flex;align-items:baseline;gap:8px;padding:12px 18px 10px;border-bottom:1px solid var(--line);background:#F7F4F0;font-size:13px}
+.rp-group b{font-weight:700;color:var(--r-ink)}.rp-group span{font-size:12px;color:var(--r-muted);font-variant-numeric:tabular-nums}
+.rp-group.done{border-top:1px solid var(--line)}
+.rp-group.todo b::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#C0392B;margin-right:7px;vertical-align:2px}
+.rp-group.done b::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:#2F7A4E;margin-right:7px;vertical-align:2px}
+.rp-simple .rp-last em{font-style:normal;font-weight:700;color:#B23A2E}
+.rp-simple .rp-last small{display:block;margin-top:2px;font-size:12.5px;font-weight:600;color:#6E625A;font-variant-numeric:tabular-nums}
+@media (max-width:760px){.rp-group{padding:10px 14px 8px}.rp-simple .rp-last small{display:inline;margin-left:6px}}
+/* ── 주간 리포트(2026-11-28): 위 줄 + 두 카드 나란히(안 보냄 | 보냄). 두 카드는 제목줄 52 · 열 이름줄 34 · 행 46으로 같아 행이 나란히 맞음 ── */
+.rpb-bar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 20px!important;margin-bottom:16px!important}
+.rpb-bar .rp-week{margin:0}
+.rpb-tools{display:flex;align-items:center;gap:8px;min-width:0}.rpb-tools .rp-search{width:220px;margin:0}
+.rpb-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.75fr);gap:16px;align-items:stretch;padding:0!important;--todo-cols:minmax(0,1fr) 96px;--done-cols:minmax(0,1fr) 56px 72px 20px minmax(0,2.2fr)}
+.rpb-col{display:flex!important;flex-direction:column;min-height:0;margin:0!important;border-top-width:3px!important;border-top-style:solid!important}
+.rpb-col.todo{border-top-color:#C8463A!important}.rpb-col.done{border-top-color:#2F7A4E!important}
+.rpb-h{flex:none;height:52px;display:flex;align-items:center;gap:8px;padding:0 20px;border-bottom:1px solid var(--line);font-size:14px;white-space:nowrap}
+.rpb-col.todo .rpb-h{background:#FCF5F3}.rpb-col.done .rpb-h{background:#F2F7F3}
+.rpb-h b{font-weight:700;color:var(--r-ink)}
+.rpb-h em{font-style:normal;font-size:13px;font-weight:600;color:var(--r-muted);font-variant-numeric:tabular-nums}
+.rpb-h small{margin-left:auto;font-size:11.5px;color:var(--r-faint)}
+.rpb-h .dot{width:8px;height:8px;border-radius:50%;flex:none;background:#C8463A}.rpb-col.done .rpb-h .dot{background:#2F7A4E}
+.rpb-chips{margin-left:auto;display:flex;gap:6px}
+.rpb-chips span{display:inline-flex;align-items:center;gap:5px;height:28px;padding:0 11px;border-radius:99px;background:#fff;border:1px solid #D6E6DB;font-size:12px;font-weight:600;color:#4D5E53}
+.rpb-chips b{font-size:14px;font-weight:700;color:#1F5A38;font-variant-numeric:tabular-nums}
+.rpb-colhd{flex:none;height:34px;display:grid;align-items:center;gap:14px;padding:0 20px;border-bottom:1px solid var(--line);font-size:11.5px;font-weight:600;color:var(--r-faint);background:#fff}
+.rpb-col.todo .rpb-colhd{grid-template-columns:var(--todo-cols)}.rpb-col.done .rpb-colhd{grid-template-columns:var(--done-cols)}
+.rpb-col.todo .rpb-colhd span:last-child,.rpb-col.todo .rpb-meta{text-align:right}
+.rpb-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
+.rpb .rp-row.rpb-row,.rpb-col .rp-row.rpb-row{display:grid!important;align-items:center;gap:14px!important;height:46px;min-height:46px;padding:0 20px!important;border-bottom:1px solid #F1EDE8;box-sizing:border-box}
+.rpb-col.todo .rp-row.rpb-row{grid-template-columns:var(--todo-cols)!important}
+.rpb-col.done .rp-row.rpb-row{grid-template-columns:var(--done-cols)!important}
+.rpb-row .rp-who{display:flex;align-items:baseline;gap:8px;min-width:0}
+.rpb-row .rp-who strong{font-size:14px;font-weight:700;color:var(--r-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rpb-row .rp-who small{font-size:11.5px;color:var(--r-faint);white-space:nowrap}
+.rpb-meta{font-size:13px;font-weight:600;color:#5E5650;font-variant-numeric:tabular-nums;white-space:nowrap}.rpb-meta i{font-style:normal;font-weight:500;color:var(--r-faint)}.rpb-meta .rpb-draft{color:#9A6418;font-weight:600}
+.rpb-date{font-size:13px;font-weight:600;color:var(--r-ink);font-variant-numeric:tabular-nums}
+.rpb-read{font-size:12.5px;font-weight:600;color:var(--r-faint);white-space:nowrap}.rpb-read.on{color:#2F7A4E}
+.rpb-heart{color:#C2185B;font-size:13px;text-align:center}
+.rpb-cmt{min-width:0;font-size:13px;color:#4A403A;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rpb-empty{margin:0;padding:36px 20px;text-align:center;font-size:13px;color:var(--r-faint)}
+.rpb-side{display:none}
+@media (max-width:980px){
+ .rpb-bar{flex-wrap:wrap;padding:12px 16px!important;margin-bottom:12px!important}
+ .rpb-tools{width:100%}.rpb-tools .rp-search{flex:1;width:auto;min-width:0!important}.rpb-tools .rp-testbtn{flex:none}
+ .rpb-side{display:flex;gap:4px;margin:0 0 12px;padding:3px;border-radius:10px;background:#EFEBE5}
+ .rpb-side button{flex:1;appearance:none;border:0;border-radius:8px;height:40px;background:none;font:inherit;font-size:14px;font-weight:600;color:#5E5650;cursor:pointer}
+ .rpb-side button b{margin-left:4px;font-variant-numeric:tabular-nums}.rpb-side button[data-rp-side="todo"] b{color:#B23A2E}.rpb-side button[data-rp-side="done"] b{color:#2F7A4E}
+ .rpb-side button[aria-pressed="true"]{background:#fff;color:var(--r-ink);box-shadow:0 1px 2px rgba(35,26,19,.1)}
+ .rpb-cols{grid-template-columns:minmax(0,1fr)}
+ .rpb-cols[data-side="todo"] .rpb-col.done,.rpb-cols[data-side="done"] .rpb-col.todo{display:none!important}
+ .rpb-body{overflow:visible}
+ .rpb-h{height:auto;min-height:48px;flex-wrap:wrap;padding:10px 16px;row-gap:8px}
+ .rpb-chips{margin-left:0;width:100%}
+ .rpb-col.done .rpb-colhd{display:none}
+ .rpb-colhd{padding:0 16px}
+ .rpb .rp-row.rpb-row,.rpb-col .rp-row.rpb-row{padding:0 16px!important}
+ .rpb-col.done .rp-row.rpb-row{grid-template-columns:minmax(0,1fr) auto auto 16px!important;height:auto;min-height:46px;padding:10px 16px!important;row-gap:4px!important}
+ .rpb-col.done .rpb-cmt{grid-column:1/-1;white-space:normal;color:#5E5650}.rpb-col.done .rpb-cmt:empty{display:none}}
+/* 안 보냄 · 보냄 두 칸: PC는 나란히(각자 스크롤), 좁은 화면은 위 버튼으로 하나씩 */
+.rp-split{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.35fr);gap:16px;align-items:start;padding:0!important}
+.rp-col .rp-group.done{border-top:0}
+.rp-colbody{max-height:calc(100vh - 230px);overflow:auto;overscroll-behavior:contain}
+.rp-side{display:none}
+@media (min-width:761px){
+ .rp-col.todo .rp-row.rp-simple{grid-template-columns:minmax(0,1fr) 120px 16px!important}
+ .rp-col.todo .rp-flags,.rp-col.todo .rp-cmt{display:none}
+ .rp-col.done .rp-row.rp-simple{grid-template-columns:130px 84px 104px minmax(0,1fr) 16px!important}}
+@media (max-width:1099px){
+ .rp-split{grid-template-columns:minmax(0,1fr)}
+ .rp-split[data-side="todo"] .rp-col.done,.rp-split[data-side="done"] .rp-col.todo{display:none}
+ .rp-colbody{max-height:none;overflow:visible}
+ .rp-side{display:flex;gap:4px;padding:3px;border-radius:10px;background:#EFEBE5;margin:0 0 10px}
+ .rp-side button{flex:1;appearance:none;border:0;border-radius:8px;height:38px;background:none;font:inherit;font-size:14px;font-weight:600;color:#5E5650;cursor:pointer}
+ .rp-side button b{margin-left:4px;font-variant-numeric:tabular-nums}
+ .rp-side button[aria-pressed="true"]{background:#fff;color:var(--r-ink);box-shadow:0 1px 2px rgba(35,26,19,.1)}
+ .rp-side button[data-rp-side="todo"] b{color:#B23A2E}.rp-side button[data-rp-side="done"] b{color:#2F7A4E}}
 .rp-simple .rp-last{font-size:13px;color:var(--r-muted);font-variant-numeric:tabular-nums}.rp-simple .rp-last b{color:var(--r-ink);font-weight:700}.rp-simple .rp-last i{font-style:normal;color:#A39A92}
 .rp-simple .rp-flags{display:flex;gap:6px;justify-content:flex-start}
 .rp-simple .rp-cmt{min-width:0;font-size:13px;color:#5E5650;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -2989,14 +3066,25 @@ P.rpRender=function(){if(P.rp.mode==='month')return P.rpRenderMonth();
  const st=x=>x.r?(x.r.sentAt?'sent':'draft'):(x.t?(x.t.state==='due'?'due':x.t.state==='upcoming'?'upcoming':'absent'):'off');
  const ORDER={due:0,draft:1,upcoming:2,sent:3,absent:4,off:5};const ago=d=>Math.floor((new Date(P.data.date+'T00:00:00Z')-new Date(String(d).slice(0,10)+'T00:00:00Z'))/864e5);const late=x=>x.k==='sent'&&!x.r.views&&ago(x.r.sentAt)>=3;
  const LS=P.rp.last||{};
- const rows=students().map(s=>({s,r:by[s.id],t:T[s.id],l:LS[s.id]||null})).map(x=>Object.assign(x,{k:st(x)})).sort((p,q)=>String(p.l?p.l.sentAt:'').localeCompare(String(q.l?q.l.sentAt:''))||p.s.name.localeCompare(q.s.name,'ko'));
+ const done=x=>!!(x.r&&x.r.sentAt);
+ const rows=students().map(s=>({s,r:by[s.id],t:T[s.id],l:LS[s.id]||null})).map(x=>Object.assign(x,{k:st(x)})).sort((p,q)=>(done(p)-done(q))||(done(p)?String(p.r.sentAt).localeCompare(String(q.r.sentAt)):String(p.l?p.l.sentAt:'').localeCompare(String(q.l?q.l.sentAt:'')))||p.s.name.localeCompare(q.s.name,'ko'));
  const cnt={due:0,draft:0,upcoming:0,sent:0,absent:0,off:0};rows.forEach(x=>{cnt[x.k]++;});P.rp.order=rows.filter(x=>x.k==='due'||x.k==='draft').map(x=>x.s.id);
  if(thisWeek&&P.data.reportDue){P.data.reportDue.count=cnt.due+cnt.draft;const c=document.querySelector('.tb-due');if(c){c.hidden=!(cnt.due+cnt.draft);const n=c.querySelector('b');if(n)n.textContent=cnt.due+cnt.draft;}}
- // \uc774\ub984 \u00b7 \ub9c8\uc9c0\ub9c9\uc73c\ub85c \ubcf4\ub0b8 \ub0a0 \u00b7 \uc5f4\uc5b4\ubd24\ub294\uc9c0 \u00b7 \ubc18\uc751 \u00b7 \ucf54\uba58\ud2b8\ub9cc (\uc624\ub798 \uc548 \ubcf4\ub0b8 \uc544\uc774\uac00 \uc704\ub85c)
- const row=x=>{const l=x.l,rc=l&&l.reaction;return `<button type="button" class="rp-row rp-simple" data-rp-open="${e(x.s.id)}"><span class="rp-who"><strong>${e(x.s.name)}</strong>${P.user.role==='director'&&teacherOf(x.s)?'<small><span class="rp-when t">'+e(teacherOf(x.s))+'</span></small>':''}</span><span class="rp-last">${l?'<b>'+md(String(l.sentAt).slice(0,10))+'</b> \ubcf4\ub0c4':'<i>\uc544\uc9c1 \uc548 \ubcf4\ub0c4</i>'}</span><span class="rp-flags">${l?'<span class="rp-flag rp-read '+(l.views?'seen':'')+'">'+(l.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04')+'</span>'+(rc?'<span class="rp-flag heart">\u2665</span>':''):''}</span><span class="rp-cmt">${rc&&rc.text?'\u201c'+e(rc.text)+'\u201d':''}</span><span class="rp-chev">${ic('chevron')}</span></button>`;};
- root.innerHTML=P.rpModeBar()+`<section class="card rp-head rp-head2"><div class="rp-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div>
- <div class="rp-tools">${P.user.role==='director'?'<button type="button" class="btn sm rp-testbtn" data-rp-test title="\ub0b4 \uc774\ub984\uc73c\ub85c \ub9cc\ub4e0 \ud14c\uc2a4\ud2b8 \ud559\uc0dd\uc5d0\uac8c \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ub098\uc5d0\uac8c \ubcf4\ub0b4 \ubd10\uc694">\ub098\uc5d0\uac8c \ud14c\uc2a4\ud2b8\ub85c \ubcf4\ub0b4\uae30</button>':''}<input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984 \uac80\uc0c9" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30"></div></section>
- <section class="card rp-list">${rows.length?rows.map(row).join(''):'<p class="empty-cell">\ud559\uc0dd\uc774 \uc5c6\uc5b4\uc694.</p>'}</section><details class="card rp-stats" data-rp-stats><summary><b>\ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669</b><small>\ubcf4\ub0b8 \ube44\uc728 \u00b7 \uc5f4\uc5b4\ubd04 \u00b7 \ud559\ubd80\ubaa8 \ubc18\uc751</small></summary><div id="rp-stats-body"><p class="empty-cell">\ud604\ud669\uc744 \ubd88\ub7ec\uc624\ub294 \uc911\u2026</p></div></details>`;
+ // \uc8fc\uac04 \ub9ac\ud3ec\ud2b8: \uc704 \uc904(\uc8fc \u00b7 \uac80\uc0c9) + \ub450 \uce74\ub4dc \ub098\ub780\ud788(\uc67c\ucabd \uc774\ubc88 \uc8fc \uc548 \ubcf4\ub0c4 \u00b7 \uc624\ub978\ucabd \uc774\ubc88 \uc8fc \ubcf4\ub0c4 + \uc5f4\uc5b4\ubd04\u00b7\ubc18\uc751\u00b7\ucf54\uba58\ud2b8 \uc218).
+ // PC\ub294 \ub450 \uce74\ub4dc\uac00 \ud654\uba74 \ub192\uc774\uc5d0 \ub9de\uace0 \uac01\uc790 \uc2a4\ud06c\ub864(\uc548 \ubcf4\ub0b8 \uc544\uc774\uac00 \ub9ce\uc544\ub3c4 \ubcf4\ub0c4 \uce74\ub4dc\ub294 \ub298 \ubcf4\uc784). \ub450 \uce74\ub4dc\ub294 \uc81c\ubaa9\uc904\u00b7\uc5f4 \uc774\ub984\uc904\u00b7\uc904 \ub192\uc774\uac00 \uac19\uc544 \ud589\uc774 \ub098\ub780\ud788 \ub9de\uc74c
+ const todoRows=rows.filter(x=>!done(x)),doneRows=rows.filter(done),wk=thisWeek?'\uc774\ubc88 \uc8fc':weekLabel(w),side=P.rp.side||'todo';
+ const seenN=doneRows.filter(x=>x.r.views).length,heartN=doneRows.filter(x=>x.r.reaction).length,cmtN=doneRows.filter(x=>x.r.reaction&&x.r.reaction.text).length;
+ const tch=x=>P.user.role==='director'&&teacherOf(x.s)?'<small>'+e(teacherOf(x.s))+'</small>':'';
+ const who=x=>'<span class="rp-who"><strong>'+e(x.s.name)+'</strong>'+tch(x)+'</span>';
+ const rowTodo=x=>`<button type="button" class="rp-row rpb-row" data-rp-open="${e(x.s.id)}">${who(x)}<span class="rpb-meta">${x.r?'<i class="rpb-draft">\uc800\uc7a5\ub9cc \ud568</i>':x.l?md(String(x.l.sentAt).slice(0,10)):'<i>\ucc98\uc74c</i>'}</span></button>`;
+ const rowDone=x=>{const r=x.r,rc=r.reaction;return `<button type="button" class="rp-row rpb-row" data-rp-open="${e(x.s.id)}">${who(x)}<span class="rpb-date">${md(String(r.sentAt).slice(0,10))}</span><span class="rpb-read ${r.views?'on':''}">${r.views?'\uc5f4\uc5b4\ubd04':'\uc548 \uc5f4\uc5b4\ubd04'}</span><span class="rpb-heart" aria-label="${rc?'\ubc18\uc751 \uc788\uc74c':'\ubc18\uc751 \uc5c6\uc74c'}">${rc?'\u2665':''}</span><span class="rpb-cmt">${rc&&rc.text?e(rc.text):''}</span></button>`;};
+ root.innerHTML=P.rpModeBar()+`<section class="card rpb-bar"><div class="rp-week rpb-week"><button type="button" class="icon-btn rp-prev" data-rp-week="-7" aria-label="\uc9c0\ub09c\uc8fc">${ic('chevron')}</button><div><strong>${weekLabel(w)}</strong><small>${md(w)} \u2013 ${md(add(w,5))}${thisWeek?' \u00b7 \uc774\ubc88 \uc8fc':''}</small></div><button type="button" class="icon-btn" data-rp-week="7" aria-label="\ub2e4\uc74c \uc8fc" ${thisWeek?'disabled':''}>${ic('chevron')}</button></div><div class="rpb-tools"><input class="rp-search" id="rp-search" type="search" placeholder="\ud559\uc0dd \uc774\ub984 \uac80\uc0c9" value="${e(P.rp.q)}" aria-label="\ud559\uc0dd \uc774\ub984 \ucc3e\uae30">${P.user.role==='director'?'<button type="button" class="btn sm rp-testbtn" data-rp-test title="\ub0b4 \uc774\ub984\uc73c\ub85c \ub9cc\ub4e0 \ud14c\uc2a4\ud2b8 \ud559\uc0dd\uc5d0\uac8c \uc368\uc11c \uce74\ud1a1\uc73c\ub85c \ub098\uc5d0\uac8c \ubcf4\ub0b4 \ubd10\uc694">\ub098\uc5d0\uac8c \ud14c\uc2a4\ud2b8\ub85c \ubcf4\ub0b4\uae30</button>':''}</div></section>
+ <div class="rpb-side" role="group" aria-label="\ubcf4\uae30"><button type="button" data-rp-side="todo" aria-pressed="${side==='todo'}">\uc548 \ubcf4\ub0c4 <b>${todoRows.length}</b></button><button type="button" data-rp-side="done" aria-pressed="${side==='done'}">\ubcf4\ub0c4 <b>${doneRows.length}</b></button></div>
+ <div class="rpb-cols rp-list" data-side="${side}">
+ <section class="card rpb-col todo" aria-label="${wk} \uc548 \ubcf4\ub0c4"><header class="rpb-h"><span class="dot"></span><b>${wk} \uc548 \ubcf4\ub0c4</b><em>${todoRows.length}\uba85</em><small>\uc624\ub798 \uc548 \ubcf4\ub0b8 \uc21c</small></header><div class="rpb-colhd" aria-hidden="true"><span>\uc774\ub984</span><span>\uc9c0\ub09c\ubc88 \ubcf4\ub0b8 \ub0a0</span></div><div class="rpb-body">${todoRows.map(rowTodo).join('')||'<p class="rpb-empty">'+wk+' \ubaa8\ub450 \ubcf4\ub0c8\uc5b4\uc694</p>'}</div></section>
+ <section class="card rpb-col done" aria-label="${wk} \ubcf4\ub0c4"><header class="rpb-h"><span class="dot"></span><b>${wk} \ubcf4\ub0c4</b><em>${doneRows.length} / ${rows.length}\uba85</em><span class="rpb-chips"><span>\uc5f4\uc5b4\ubd04 <b>${seenN}</b></span><span>\u2665 \ubc18\uc751 <b>${heartN}</b></span><span>\ucf54\uba58\ud2b8 <b>${cmtN}</b></span></span></header><div class="rpb-colhd" aria-hidden="true"><span>\uc774\ub984</span><span>\ubcf4\ub0b8 \ub0a0</span><span>\uc5f4\uc5b4\ubd04</span><span>\u2665</span><span>\ud559\ubd80\ubaa8 \ucf54\uba58\ud2b8</span></div><div class="rpb-body">${doneRows.map(rowDone).join('')||'<p class="rpb-empty">\uc544\uc9c1 \ubcf4\ub0b8 \ub9ac\ud3ec\ud2b8\uac00 \uc5c6\uc5b4\uc694</p>'}</div></section></div>
+ <details class="card rp-stats" data-rp-stats><summary><b>\ucd5c\uadfc 8\uc8fc \ubc1c\uc1a1 \ud604\ud669</b><small>\ubcf4\ub0b8 \ube44\uc728 \u00b7 \uc5f4\uc5b4\ubd04 \u00b7 \ud559\ubd80\ubaa8 \ubc18\uc751</small></summary><div id="rp-stats-body"><p class="empty-cell">\ud604\ud669\uc744 \ubd88\ub7ec\uc624\ub294 \uc911\u2026</p></div></details>`;
+ P.rpFit&&P.rpFit();
 };
 // \uc774\uc5b4\uc11c \uc4f0\uae30: \ubcf4\ub0bc \ucc28\ub840 \ud559\uc0dd\uc744 \uc21c\uc11c\ub300\ub85c \u2014 \ubcf4\ub0b4\uac70\ub098 \uc800\uc7a5\ud558\uba74 \ub2e4\uc74c \ud559\uc0dd \ucc3d\uc774 \ubc14\ub85c \uc5f4\ub9bc. \ucc3d\uc744 \ub2eb\uc73c\uba74 \uba48\ucda4
 P.rpNext=function(done){const order=((P.rp.mode==='month'?P.rp.morder:P.rp.order)||[]).filter(id=>id!==(P.rpCur&&P.rpCur.s.id));const next=order[0];
@@ -3363,6 +3451,9 @@ window.Piano.rpCheck=function(){const P=window.Piano,f=document.querySelector('f
 ['input','change'].forEach(t=>document.addEventListener(t,ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);}));
 document.addEventListener('click',ev=>{if(ev.target.closest&&ev.target.closest('form.rp2'))setTimeout(window.Piano.rpCheck,0);});
 (function(){const P=window.Piano;if(!P||!P.rpRender||P.rpRender._q)return;const w=f=>{const g=function(){const r=f.apply(this,arguments);P.rpApplyQ&&P.rpApplyQ();return r;};g._q=1;return g;};P.rpRender=w(P.rpRender);if(P.rpRenderMonth)P.rpRenderMonth=w(P.rpRenderMonth);})();
+document.addEventListener('click',ev=>{const b=ev.target.closest&&ev.target.closest('[data-rp-side]');if(!b)return;const P=window.Piano;P.rp.side=b.getAttribute('data-rp-side');const sp=document.querySelector('#rp-root .rpb-cols');if(sp)sp.setAttribute('data-side',P.rp.side);document.querySelectorAll('[data-rp-side]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
+window.Piano.rpFit=function(){const c=document.querySelector('#rp-root .rpb-cols');if(!c)return;if(innerWidth<=980){c.style.height='';return;}const top=c.getBoundingClientRect().top+(window.scrollY||0);c.style.height=Math.max(440,innerHeight-top-24)+'px';};
+addEventListener('resize',()=>{window.Piano.rpFit&&window.Piano.rpFit();});
 </script>
 
   <script>
